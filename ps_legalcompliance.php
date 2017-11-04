@@ -1024,7 +1024,7 @@ class Ps_LegalCompliance extends Module
 
     private function dumpHookDisplayProductPriceBlock(array $smartyVars, $hook_type, $additional_cache_param = false)
     {
-        $cache_id = sha1($hook_type.$additional_cache_param);
+        $cache_id = sha1($hook_type.$additional_cache_param.$this->context->language->id);
         $this->context->smarty->assign(array('smartyVars' => $smartyVars));
         $this->context->controller->addJS($this->_path.'views/js/fo_aeuc_tnc.js', true);
         $template = 'hookDisplayProductPriceBlock_'.$hook_type.'.tpl';
