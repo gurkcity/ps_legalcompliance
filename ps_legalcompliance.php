@@ -821,7 +821,7 @@ class Ps_LegalCompliance extends Module
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
-        if (sizeof($returned_terms_and_conditions) > 0) {
+        if (count($returned_terms_and_conditions) > 0) {
             return $returned_terms_and_conditions;
         } else {
             return false;
