@@ -33,8 +33,8 @@ use PrestaShop\PrestaShop\Tests\Helper\Module;
 use PrestaShop\PrestaShop\Tests\TestCase\UnitTestCase;
 use RepositoryManager;
 
-require_once(_PS_MODULE_DIR_.'advancedeucompliance/advancedeucompliance.php');
-require_once(_PS_ROOT_DIR_.'/tests/TestCase/UnitTestCase.php');
+require_once _PS_MODULE_DIR_.'advancedeucompliance/advancedeucompliance.php';
+require_once _PS_ROOT_DIR_.'/tests/TestCase/UnitTestCase.php';
 
 class AdvancedEUComplianceTest extends UnitTestCase
 {
