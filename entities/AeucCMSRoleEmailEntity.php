@@ -64,7 +64,7 @@ class AeucCMSRoleEmailEntity extends ObjectModel
 		$sql = '
 		SELECT `id_mail`
 		FROM `'._DB_PREFIX_.AeucCMSRoleEmailEntity::$definition['table'].'`
-		WHERE `id_cms_role` = '.(int)$id_cms_role;
+		WHERE `id_cms_role` = '.(int) $id_cms_role;
 
 		return Db::getInstance()->executeS($sql);
 	}
@@ -89,7 +89,7 @@ class AeucCMSRoleEmailEntity extends ObjectModel
 		$sql = '
 		SELECT DISTINCT(`id_cms_role`)
 		FROM `'._DB_PREFIX_.AeucCMSRoleEmailEntity::$definition['table'].'`
-		WHERE `id_mail` = '.(int)$id_mail;
+		WHERE `id_mail` = '.(int) $id_mail;
 
 		return Db::getInstance()->executeS($sql);
 	}
