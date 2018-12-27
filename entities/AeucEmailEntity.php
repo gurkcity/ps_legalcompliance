@@ -40,9 +40,9 @@ class AeucEmailEntity extends ObjectModel
 		'table' => 'aeuc_email',
 		'primary' => 'id',
 		'fields' => array(
-			'id_mail'		=> 	array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
-			'filename' 		=> 	array('type' => self::TYPE_STRING, 'required' => true, 'size' => 64),
-			'display_name' 	=> 	array('type' => self::TYPE_STRING, 'required' => true, 'size' => 64),
+			'id_mail' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
+			'filename' => array('type' => self::TYPE_STRING, 'required' => true, 'size' => 64),
+			'display_name' => array('type' => self::TYPE_STRING, 'required' => true, 'size' => 64),
 		),
 	);
 

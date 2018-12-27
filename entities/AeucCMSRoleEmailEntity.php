@@ -38,8 +38,8 @@ class AeucCMSRoleEmailEntity extends ObjectModel
 		'table' => 'aeuc_cmsrole_email',
 		'primary' => 'id',
 		'fields' => array(
-			'id_mail'	=> 	array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
-			'id_cms_role' 	=> 	array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
+			'id_mail' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
+			'id_cms_role' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
 		),
 	);
 
