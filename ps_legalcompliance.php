@@ -35,8 +35,8 @@ use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
 use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
 /* Include required entities */
-include_once dirname(__FILE__).'/entities/AeucCMSRoleEmailEntity.php';
-include_once dirname(__FILE__).'/entities/AeucEmailEntity.php';
+include_once __DIR__.'/entities/AeucCMSRoleEmailEntity.php';
+include_once __DIR__.'/entities/AeucEmailEntity.php';
 
 class Ps_LegalCompliance extends Module
 {
@@ -406,7 +406,7 @@ class Ps_LegalCompliance extends Module
     public function unloadTables()
     {
         $state = true;
-        $sql = require dirname(__FILE__).'/install/sql_install.php';
+        $sql = require __DIR__.'/install/sql_install.php';
         foreach ($sql as $name => $v) {
             $state &= Db::getInstance()->execute('DROP TABLE IF EXISTS '.$name);
         }
@@ -419,7 +419,7 @@ class Ps_LegalCompliance extends Module
         $state = true;
 
         // Create module's table
-        $sql = require dirname(__FILE__).'/install/sql_install.php';
+        $sql = require __DIR__.'/install/sql_install.php';
         foreach ($sql as $s) {
             $state &= Db::getInstance()->execute($s);
         }
