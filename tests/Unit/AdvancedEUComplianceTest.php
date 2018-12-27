@@ -26,12 +26,7 @@
 
 namespace PrestaShop\PrestaShop\Tests\Unit;
 
-use Advancedeucompliance;
-use Hook;
-use PHPUnit_Framework_TestCase;
-use PrestaShop\PrestaShop\Tests\Helper\Module;
 use PrestaShop\PrestaShop\Tests\TestCase\UnitTestCase;
-use RepositoryManager;
 
 require_once(_PS_MODULE_DIR_.'advancedeucompliance/advancedeucompliance.php');
 require_once(_PS_ROOT_DIR_.'/tests/TestCase/UnitTestCase.php');
