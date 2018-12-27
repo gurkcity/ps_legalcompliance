@@ -860,7 +860,7 @@ class Ps_LegalCompliance extends Module
         $product = $param['product'];
         $hook_type = $param['type'];
 
-        if (! $product instanceof Product) {
+        if (!$product instanceof Product) {
             $product_repository = $this->entity_manager->getRepository('Product');
             $product = $product_repository->findOne((int) $product['id_product']);
         }
