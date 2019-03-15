@@ -39,6 +39,6 @@ function upgrade_module_1_5_1($module)
     $new_hook->description = 'Hook to display payment options';
     $new_hook->position = true;
 
-    return (bool)$new_hook->add() &&
-           (bool)$module->registerModulesBackwardCompatHook();
+    return (bool) $new_hook->add() &&
+           (bool) $module->registerModulesBackwardCompatHook();
 }

@@ -395,8 +395,8 @@ class Ps_LegalCompliance extends Module
         if ($role_id_legal_notice) {
             foreach ($account_email_ids_to_set as $email_id) {
                 $assoc_obj = new AeucCMSRoleEmailEntity();
-                $assoc_obj->id_mail = (int)$email_id;
-                $assoc_obj->id_cms_role = (int)$role_id_legal_notice;
+                $assoc_obj->id_mail = (int) $email_id;
+                $assoc_obj->id_cms_role = (int) $role_id_legal_notice;
                 $assoc_obj->save();
             }
         }
@@ -832,11 +832,11 @@ class Ps_LegalCompliance extends Module
             $this->context->smarty->assign('directPrint', Tools::getValue('content_only') != '1');
 
             $cms_repository = $this->entity_manager->getRepository('CMS');
-            $cms_current = $cms_repository->i10nFindOneById((int)Tools::getValue('id_cms'),
-                                                            (int)$this->context->language->id,
-                                                            (int)$this->context->shop->id);
+            $cms_current = $cms_repository->i10nFindOneById((int) Tools::getValue('id_cms'),
+                                                            (int) $this->context->language->id,
+                                                            (int) $this->context->shop->id);
             $cms_current_link =
-            $this->context->link->getCMSLink($cms_current, $cms_current->link_rewrite, (bool)Configuration::get('PS_SSL_ENABLED'));
+            $this->context->link->getCMSLink($cms_current, $cms_current->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
 
             if (!strpos($cms_current_link, '?')) {
                 $cms_current_link .= '?direct_print=1';
@@ -990,7 +990,7 @@ class Ps_LegalCompliance extends Module
         if ('shipping' === $param['subtotal']['type'] && 0 === $param['subtotal']['amount']) {
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
             $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
-            $link = $this->context->link->getCMSLink((int)$cms_page_shipping_and_payment->id_cms);
+            $link = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
 
             $this->context->smarty->assign(array('link' => $link));
             return $this->display(__FILE__, 'hookDisplayCartPriceBlock_shipping_details.tpl');
