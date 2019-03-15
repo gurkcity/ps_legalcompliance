@@ -795,8 +795,7 @@ class Ps_LegalCompliance extends Module
                     $link_conditions,
                     $link_revocation
                 )
-                ->setIdentifier('terms-and-conditions')
-            ;
+                ->setIdentifier('terms-and-conditions');
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
@@ -815,8 +814,7 @@ class Ps_LegalCompliance extends Module
                         'Modules.Legalcompliance.Shop'
                     )
                 )
-                ->setIdentifier('virtual-products')
-            ;
+                ->setIdentifier('virtual-products');
 
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
