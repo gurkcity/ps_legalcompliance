@@ -937,8 +937,12 @@ class Ps_LegalCompliance extends Module
             $smartyVars['after_price'] = array();
 
             $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $context_id_lang);
-            if (trim($delivery_addtional_info) != '') {
-                $smartyVars['after_price']['delivery_str_i18n'] .= '*';
+            if (trim($delivery_addtional_info) !== '') {
+                if (array_key_exists('delivery_str_i18n', $smartyVars['after_price'])) {
+                    $smartyVars['after_price']['delivery_str_i18n'] .= '*';
+                } else {
+                    $smartyVars['after_price']['delivery_str_i18n'] = '*';
+                }
             }
 
             return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type);
