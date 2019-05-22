@@ -35,8 +35,8 @@ use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
 use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
 /* Include required entities */
-include_once dirname(__FILE__).'/entities/AeucCMSRoleEmailEntity.php';
-include_once dirname(__FILE__).'/entities/AeucEmailEntity.php';
+include_once __DIR__.'/entities/AeucCMSRoleEmailEntity.php';
+include_once __DIR__.'/entities/AeucEmailEntity.php';
 
 class Ps_LegalCompliance extends Module
 {
@@ -64,7 +64,7 @@ class Ps_LegalCompliance extends Module
     {
         $this->name = 'ps_legalcompliance';
         $this->tab = 'administration';
-        $this->version = '3.0.1';
+        $this->version = '3.0.2';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -395,8 +395,8 @@ class Ps_LegalCompliance extends Module
         if ($role_id_legal_notice) {
             foreach ($account_email_ids_to_set as $email_id) {
                 $assoc_obj = new AeucCMSRoleEmailEntity();
-                $assoc_obj->id_mail = (int)$email_id;
-                $assoc_obj->id_cms_role = (int)$role_id_legal_notice;
+                $assoc_obj->id_mail = (int) $email_id;
+                $assoc_obj->id_cms_role = (int) $role_id_legal_notice;
                 $assoc_obj->save();
             }
         }
@@ -406,7 +406,7 @@ class Ps_LegalCompliance extends Module
     public function unloadTables()
     {
         $state = true;
-        $sql = require dirname(__FILE__).'/install/sql_install.php';
+        $sql = require __DIR__.'/install/sql_install.php';
         foreach ($sql as $name => $v) {
             $state &= Db::getInstance()->execute('DROP TABLE IF EXISTS '.$name);
         }
@@ -419,7 +419,7 @@ class Ps_LegalCompliance extends Module
         $state = true;
 
         // Create module's table
-        $sql = require dirname(__FILE__).'/install/sql_install.php';
+        $sql = require __DIR__.'/install/sql_install.php';
         foreach ($sql as $s) {
             $state &= Db::getInstance()->execute($s);
         }
@@ -795,8 +795,7 @@ class Ps_LegalCompliance extends Module
                     $link_conditions,
                     $link_revocation
                 )
-                ->setIdentifier('terms-and-conditions')
-            ;
+                ->setIdentifier('terms-and-conditions');
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
@@ -815,13 +814,12 @@ class Ps_LegalCompliance extends Module
                         'Modules.Legalcompliance.Shop'
                     )
                 )
-                ->setIdentifier('virtual-products')
-            ;
+                ->setIdentifier('virtual-products');
 
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
-        if (sizeof($returned_terms_and_conditions) > 0) {
+        if (count($returned_terms_and_conditions) > 0) {
             return $returned_terms_and_conditions;
         } else {
             return false;
@@ -834,11 +832,11 @@ class Ps_LegalCompliance extends Module
             $this->context->smarty->assign('directPrint', Tools::getValue('content_only') != '1');
 
             $cms_repository = $this->entity_manager->getRepository('CMS');
-            $cms_current = $cms_repository->i10nFindOneById((int)Tools::getValue('id_cms'),
-                                                            (int)$this->context->language->id,
-                                                            (int)$this->context->shop->id);
+            $cms_current = $cms_repository->i10nFindOneById((int) Tools::getValue('id_cms'),
+                                                            (int) $this->context->language->id,
+                                                            (int) $this->context->shop->id);
             $cms_current_link =
-            $this->context->link->getCMSLink($cms_current, $cms_current->link_rewrite, (bool)Configuration::get('PS_SSL_ENABLED'));
+            $this->context->link->getCMSLink($cms_current, $cms_current->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
 
             if (!strpos($cms_current_link, '?')) {
                 $cms_current_link .= '?direct_print=1';
@@ -860,7 +858,7 @@ class Ps_LegalCompliance extends Module
         $product = $param['product'];
         $hook_type = $param['type'];
 
-        if (! $product instanceof Product) {
+        if (!$product instanceof Product) {
             $product_repository = $this->entity_manager->getRepository('Product');
             $product = $product_repository->findOne((int) $product['id_product']);
         }
@@ -939,8 +937,12 @@ class Ps_LegalCompliance extends Module
             $smartyVars['after_price'] = array();
 
             $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $context_id_lang);
-            if (trim($delivery_addtional_info) != '') {
-                $smartyVars['after_price']['delivery_str_i18n'] .= '*';
+            if (trim($delivery_addtional_info) !== '') {
+                if (array_key_exists('delivery_str_i18n', $smartyVars['after_price'])) {
+                    $smartyVars['after_price']['delivery_str_i18n'] .= '*';
+                } else {
+                    $smartyVars['after_price']['delivery_str_i18n'] = '*';
+                }
             }
 
             return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type);
@@ -992,7 +994,7 @@ class Ps_LegalCompliance extends Module
         if ('shipping' === $param['subtotal']['type'] && 0 === $param['subtotal']['amount']) {
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
             $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
-            $link = $this->context->link->getCMSLink((int)$cms_page_shipping_and_payment->id_cms);
+            $link = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
 
             $this->context->smarty->assign(array('link' => $link));
             return $this->display(__FILE__, 'hookDisplayCartPriceBlock_shipping_details.tpl');
@@ -1007,7 +1009,7 @@ class Ps_LegalCompliance extends Module
 
     private function dumpHookDisplayProductPriceBlock(array $smartyVars, $hook_type, $additional_cache_param = false)
     {
-        $cache_id = sha1($hook_type.$additional_cache_param);
+        $cache_id = sha1($hook_type.$additional_cache_param.$this->context->language->id);
         $this->context->smarty->assign(array('smartyVars' => $smartyVars));
         $this->context->controller->addJS($this->_path.'views/js/fo_aeuc_tnc.js', true);
         $template = 'hookDisplayProductPriceBlock_'.$hook_type.'.tpl';

@@ -9,8 +9,8 @@ use PHPUnit_Framework_TestCase;
 class DummyTest extends PHPUnit_Framework_TestCase
 {
 
-    public function test_Dummy()
+    public function testDummy()
     {
-        $this->assertTrue(true, "Everything works fine");
+        $this->assertTrue(true, 'Everything works fine');
     }
 }

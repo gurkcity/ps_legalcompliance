@@ -25,6 +25,6 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 $mainDir = dirname(__DIR__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
-require_once($mainDir.'config/defines.inc.php');
-require_once(_PS_CONFIG_DIR_.'autoload.php');
-require($mainDir.'tests/vendor/autoload.php');
+require_once $mainDir.'config/defines.inc.php';
+require_once _PS_CONFIG_DIR_.'autoload.php';
+require $mainDir.'tests/vendor/autoload.php';
