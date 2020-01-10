@@ -2,7 +2,7 @@
   "name": "prestashop/ps_legalcompliance",
   "description": "PrestaShop module ps_legalcompliance",
   "homepage": "https://github.com/PrestaShop/advancedeucompliance",
-  "license": "AFL - Academic Free License (AFL 3.0)",
+  "license": "AFL-3.0",
   "authors": [
     {
       "name": "PrestaShop SA",
