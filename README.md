@@ -2,7 +2,7 @@
 
 ## About
 
-This module helps merchants in getting compliant with applicable e-commerce law.
+Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.
 
 ## Multistore compatibility
 
