@@ -77,7 +77,7 @@ class Ps_LegalCompliance extends Module
         $this->emails = $email;
 
         $this->displayName = $this->trans('Legal Compliance', array(), 'Modules.Legalcompliance.Admin');
-        $this->description = $this->trans('This module helps merchants comply with applicable e-commerce laws.', array(), 'Modules.Legalcompliance.Admin');
+        $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', array(), 'Modules.Legalcompliance.Admin');
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', array(), 'Modules.Legalcompliance.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.7.3.0', 'max' => _PS_VERSION_);
