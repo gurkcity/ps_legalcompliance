@@ -1,5 +1,7 @@
 # Legal Compliance
 
+**This module has been archived, it’s no longer maintained but you still can fork it if you need it for your shop.**
+
 ## About
 
 Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.
