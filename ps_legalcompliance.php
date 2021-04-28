@@ -37,6 +37,7 @@ use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 /* Include required entities */
 include_once __DIR__.'/entities/AeucCMSRoleEmailEntity.php';
 include_once __DIR__.'/entities/AeucEmailEntity.php';
+include_once __DIR__.'/classes/LegalcomplianceException.php';
 
 class Ps_LegalCompliance extends Module
 {
@@ -439,6 +440,12 @@ class Ps_LegalCompliance extends Module
         }
 
         $default_path_email = _PS_MAIL_DIR_.'en'.DIRECTORY_SEPARATOR;
+
+        if (!is_dir($default_path_email)) {
+            $isoDefault = $this->getIsoFromDefaultLanguage();
+            $default_path_email = _PS_MAIL_DIR_.$isoDefault.DIRECTORY_SEPARATOR;
+        }
+
         // Fill-in aeuc_mail table
         foreach ($this->emails->getAvailableMails($default_path_email) as $mail) {
             $new_email = new AeucEmailEntity();
@@ -1017,11 +1024,85 @@ class Ps_LegalCompliance extends Module
         return $this->display(__FILE__, $template, $cache_id);
     }
 
+    private function postProcess()
+    {
+        if (Tools::isSubmit('submitCheckForNewTemplates')) {
+            $this->processCheckForNewTemplates();
+        }
+    }
+
+    private function processCheckForNewTemplates(): bool
+    {
+        $default_email_template_path = $this->getDefaultEmailTemplatePath();
+        $all_available_email_templates = $this->getAllAvailableEmailTemplates($default_email_template_path);
+
+        $new_email_templates = $this->filterNewEmailTemplates($all_available_email_templates);
+
+        $this->insertEmailTemplates($new_email_templates);
+
+        return true;
+    }
+
+    private function getDefaultEmailTemplatePath(): string
+    {
+        $default_path_email = _PS_MAIL_DIR_.'en';
+
+        if (!is_dir($default_path_email)) {
+            $lang_iso = $this->getIsoFromDefaultLanguage();
+            $default_path_email = _PS_MAIL_DIR_.$lang_iso;
+        }
+
+        if (!is_dir($default_path_email)) {
+            return '';
+        }
+
+        return $default_path_email;
+    }
+
+    private function getAllAvailableEmailTemplates(string $email_path): array
+    {
+        if (!is_dir($email_path)) {
+            throw new LegalcomplianceException(sprintf('Email template path %s is not vaild', $email_path));
+        }
+
+        return $this->emails->getAvailableMails($email_path);
+    }
+
+    private function filterNewEmailTemplates(array $email_templates): array
+    {
+        $current_email_templates = $this->getStoredEmailTemplates();
+
+        return array_diff($email_templates, $current_email_templates);
+    }
+
+    private function getStoredEmailTemplates(): array
+    {
+        $all_email_templates = AeucEmailEntity::getAll();
+
+        return array_map(function ( $email_template) {
+            return $email_template['filename'];
+        }, $all_email_templates);
+    }
+
+    private function insertEmailTemplates(array $email_templates)
+    {
+        foreach ($email_templates as $mail) {
+            $new_email = new AeucEmailEntity();
+            $new_email->filename = (string) $mail;
+            $new_email->display_name = $this->emails->getCleanedMailName($mail);
+            $new_email->save();
+
+            unset($new_email);
+        }
+    }
+
     /**
      * Load the configuration form.
      */
     public function getContent()
     {
+        $this->postProcess();
+
         $theme_warning = null;
         $success_band = $this->_postProcess();
 
@@ -1683,11 +1764,25 @@ class Ps_LegalCompliance extends Module
                                            'mails_available' => $cleaned_mails_names,
                                            'legal_options' => $legal_options,
                                            'form_action' => $this->context->link->getAdminLink('AdminModules').'&configure='.$this->name,
+                                           'check_new_templates_link' => $this->context->link->getAdminLink(
+                                                'AdminModules',
+                                                true,
+                                                [],
+                                                [
+                                                    'configure' => $this->name,
+                                                    'submitCheckForNewTemplates' => '1'
+                                                ]
+                                            ),
                                        ));
 
         // Insert JS in the page
         $this->context->controller->addJS(($this->_path).'views/js/email_attachement.js');
 
         return $this->display(__FILE__, 'views/templates/admin/email_attachments_form.tpl');
+    }
+
+    private function getIsoFromDefaultLanguage(): string
+    {
+        return Language::getIsoById((int) Configuration::get('PS_LANG_DEFAULT'));
     }
 }

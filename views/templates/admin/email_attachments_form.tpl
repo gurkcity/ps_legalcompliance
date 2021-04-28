@@ -30,12 +30,19 @@
             <i class="icon-envelope"></i>
             {l s='Email content inclusion' d='Modules.Legalcompliance.Admin'}
         </div>
-        <p>
-            {l s='This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop\'s emails.' d='Modules.Legalcompliance.Admin'}
-        </p>
-        <p>
-            {l s='For each type of email, you can define which content you would like to include.' d='Modules.Legalcompliance.Admin'}
-        </p>
+        <div class="row">
+            <div class="col-sm-8">
+                <p>
+                    {l s='This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop\'s emails.' d='Modules.Legalcompliance.Admin'}
+                </p>
+                <p>
+                    {l s='For each type of email, you can define which content you would like to include.' d='Modules.Legalcompliance.Admin'}
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <a href="{$check_new_templates_link}" class="btn btn-default pull-right">{l s='Check for new email templates' d='Modules.Legalcompliance.Admin'}</a>
+            </div>
+        </div>
         <br/>
         <div class="form-wrapper">
             <table class="table accesses">
