@@ -1,0 +1,6 @@
+Changelog PrestaShop Modul Rechtssicherheit (ps_legalcompliance)
+
+Version	Datum     	Bemerkung
+3.0.3	26.04.2021	Fork by Onlineshop-Module / Gurkcity
+3.0.4	05.05.2021	Feature: Add button and logic to insert missing templates into db table
+
