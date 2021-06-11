@@ -1702,11 +1702,14 @@ class Ps_LegalCompliance extends Module
         $id_shop = Context::getContext()->shop->id;
 
         foreach ($cms_roles as $cms_role) {
+            $assoc_cms_name = $this->trans('-- Select associated page --', array(), 'Modules.Legalcompliance.Admin');
+
             if ((int) $cms_role->id_cms > 0) {
                 $cms_entity = $cms_repository->findOne((int) $cms_role->id_cms);
-                $assoc_cms_name = $cms_entity->meta_title[(int) $id_lang];
-            } else {
-                $assoc_cms_name = $this->trans('-- Select associated page --', array(), 'Modules.Legalcompliance.Admin');
+
+                if (Validate::isLoadedObject($cms_entity)) {
+                    $assoc_cms_name = $cms_entity->meta_title[(int) $id_lang] ?? '';
+                }
             }
 
             $cms_roles_assoc[(int) $cms_role->id] = array('id_cms' => (int) $cms_role->id_cms,
