@@ -1134,9 +1134,10 @@ class Ps_LegalCompliance extends Module
         $formFeaturesManager = $this->renderFormFeaturesManager();
         $formLegalContentManager = $this->renderFormLegalContentManager();
         $formEmailAttachmentsManager = $this->renderFormEmailAttachmentsManager();
+        $formLegalMailFooter = $this->renderFormLegalMailFooter();
 
         return $theme_warning.$this->adminDisplayInformation($infoMsg).$success_band.$formLabelsManager.$formFeaturesManager.$formLegalContentManager.
-               $formEmailAttachmentsManager;
+               $formEmailAttachmentsManager.$formLegalMailFooter;
     }
 
     /**
@@ -1152,6 +1153,7 @@ class Ps_LegalCompliance extends Module
         $post_keys_complex = array('AEUC_legalContentManager',
                                    'AEUC_emailAttachmentsManager',
                                    'discard_tpl_warn',
+                                   'submitLegalMailFooter'
         );
 
         $i10n_inputs_received = array();
@@ -1377,6 +1379,18 @@ class Ps_LegalCompliance extends Module
             Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true);
         } else {
             Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', false);
+        }
+    }
+
+    protected function processSubmitlegalmailfooter()
+    {
+        if (Tools::isSubmit('submitLegalMailFooter')) {
+            $LEGAL_MAIL_FOOTER = array();
+            $languages = $this->context->controller->getLanguages();
+            foreach ($languages as $lang) {
+                $LEGAL_MAIL_FOOTER[$lang['id_lang']] = Tools::getValue('LEGAL_MAIL_FOOTER_' . $lang['id_lang'], null);
+            }
+            Configuration::updateValue('LEGAL_MAIL_FOOTER', $LEGAL_MAIL_FOOTER, true);
         }
     }
 
@@ -1840,6 +1854,63 @@ class Ps_LegalCompliance extends Module
         $this->context->controller->addJS(($this->_path).'views/js/email_attachement.js');
 
         return $this->display(__FILE__, 'views/templates/admin/email_attachments_form.tpl');
+    }
+
+    protected function renderFormLegalMailFooter()
+    {
+        $helper = new HelperForm();
+
+        $helper->show_toolbar = false;
+        $helper->table = 'configuration';
+        $helper->module = $this;
+        $helper->default_form_language = $this->context->language->id;
+        $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
+
+        $helper->identifier = $this->identifier;
+        $helper->submit_action = 'submitLegalMailFooter';
+        $helper->currentIndex =
+            $this->context->link->getAdminLink('AdminModules', false).'&configure='.$this->name.'&tab_module='.
+            $this->tab.'&module_name='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules');
+        $helper->token = Tools::getAdminTokenLite('AdminModules');
+
+        $fields_value = array(
+            'LEGAL_MAIL_FOOTER' => array()
+        );
+        $languages = $this->context->controller->getLanguages();
+        foreach ($languages as $lang) {
+            $fields_value['LEGAL_MAIL_FOOTER'][$lang['id_lang']] = Tools::getValue(
+                'LEGAL_MAIL_FOOTER_' . $lang['id_lang'],
+                Configuration::get('LEGAL_MAIL_FOOTER', $lang['id_lang'])
+            );
+        }
+
+        $helper->tpl_vars = array(
+            'fields_value' => $fields_value,
+            'languages' => $languages,
+            'id_language' => $this->context->language->id
+        );
+
+        return $helper->generateForm(array(array(
+            'form' => array(
+                'legend' => array(
+                    'title' => $this->trans('Legal Mail Footer', array(), 'Modules.Legalcompliance.Admin'),
+                    'icon' => 'icon-envelope'
+                ),
+                'input' => array(
+                    array(
+                        'type' => 'textarea',
+                        'autoload_rte' => true,
+                        'lang' => true,
+                        'label' => $this->trans('Additional HTML in Mail-Templates', array(), 'Modules.Legalcompliance.Admin'),
+                        'name' => 'LEGAL_MAIL_FOOTER',
+                        'desc' => $this->trans('You can add additional legal informations and links to other legal ressources into this text editor.', array(), 'Modules.Legalcompliance.Admin')
+                    )
+                ),
+                'submit' => array(
+                    'title' => $this->trans('Save', array(), 'Admin.Actions')
+                )
+            )
+        )));
     }
 
     private function getIsoFromDefaultLanguage(): string
