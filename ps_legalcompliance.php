@@ -711,7 +711,10 @@ class Ps_LegalCompliance extends Module
             $param['template_txt'] .= strip_tags($cms_page->content, true);
         }
 
-        $this->context->smarty->assign(array('cms_contents' => $cms_contents));
+        $this->context->smarty->assign(array(
+            'cms_contents' => $cms_contents,
+            'legal_mail_footer' => Configuration::get('LEGAL_MAIL_FOOTER', $id_lang)
+        ));
         $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
     }
 

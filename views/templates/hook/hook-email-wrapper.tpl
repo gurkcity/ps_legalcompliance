@@ -38,3 +38,19 @@
         </tbody>
     </table>
 </div>
+
+{if trim($legal_mail_footer) !== ''}
+    <div style="background-color:#fff;width:650px;font-family:Open-sans,sans-serif;color:#555454;font-size:13px;line-height:18px;margin:auto">
+        <table style="width:100%;margin-top:10px">
+            <tbody>
+                <tr>
+                    <td style="width:20px;padding:7px 0">&nbsp;</td>
+                    <td style="padding:7px 0">
+                        {$legal_mail_footer nofilter}
+                    </td>
+                    <td style="width:20px;padding:7px 0">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{/if}
