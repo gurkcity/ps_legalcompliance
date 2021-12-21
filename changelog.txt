@@ -3,4 +3,9 @@ Changelog PrestaShop Modul Rechtssicherheit (ps_legalcompliance)
 Version	Datum     	Bemerkung
 3.0.3	26.04.2021	Fork by Onlineshop-Module / Gurkcity
 3.0.4	05.05.2021	Feature: Add button and logic to insert missing templates into db table
+3.1.0	21.12.2021	Feature: added panel 'Mail Footer' on the configuration page
+					Feature: Display tax in footer
+					Bug: Notice on installation missing array index cms entity meta_title id_lang
+
+
 
