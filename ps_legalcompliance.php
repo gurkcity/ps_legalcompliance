@@ -599,6 +599,9 @@ class Ps_LegalCompliance extends Module
                     $cms_shipping_pay = $cms_repository->i10nFindOneById((int) $cms_page_shipping_pay->id_cms,
                         (int) $this->context->language->id,
                         (int) $this->context->shop->id);
+                    if (!$cms_shipping_pay) {
+                        return false;
+                    }
                     $link_shipping =
                         $this->context->link->getCMSLink($cms_shipping_pay, $cms_shipping_pay->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
                 }
