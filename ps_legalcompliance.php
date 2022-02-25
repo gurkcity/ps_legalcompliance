@@ -718,7 +718,31 @@ class Ps_LegalCompliance extends Module
             'cms_contents' => $cms_contents,
             'legal_mail_footer' => Configuration::get('LEGAL_MAIL_FOOTER', $id_lang)
         ));
-        $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
+        $str = $param['template_html'];
+
+        try {
+            $doc = new DOMDocument();
+            $doc->loadHTML($str);
+            $table_wraper = $doc->getElementsByTagName('table')->item(0);
+
+            $footer_doc = new DOMDocument();
+            $footer_doc->loadHTML($this->display(__FILE__, 'hook-email-wrapper.tpl'));
+            $tbody = $table_wraper->getElementsByTagName('tbody')->item(0);
+            for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
+                $clone_node = $doc->importNode(
+                    $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
+                    true
+                );
+                $tr = $doc->createElement("tr");
+                $td = $doc->createElement("td");
+                $tr->appendChild($td);
+                $tbody->appendChild($tr);
+                $td->appendChild($clone_node);
+            }
+            $param['template_html'] = $doc->saveHTML();
+        } catch (Exception $e) {
+            $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
+        }
     }
 
     public function hookSendMailAlterTemplateVars($param)
