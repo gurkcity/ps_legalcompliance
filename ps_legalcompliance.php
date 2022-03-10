@@ -65,7 +65,7 @@ class Ps_LegalCompliance extends Module
     {
         $this->name = 'ps_legalcompliance';
         $this->tab = 'administration';
-        $this->version = '3.1.1';
+        $this->version = '3.1.2';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -726,7 +726,10 @@ class Ps_LegalCompliance extends Module
             $table_wraper = $doc->getElementsByTagName('table')->item(0);
 
             $footer_doc = new DOMDocument();
-            $footer_doc->loadHTML($this->display(__FILE__, 'hook-email-wrapper.tpl'));
+            $footer_doc->loadHTML('<!DOCTYPE html>
+                <html lang="' . (new Language($id_lang))->iso_code .'">
+                    <head><meta charset="utf-8"></head><body>' . 
+                $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
             $tbody = $table_wraper->getElementsByTagName('tbody')->item(0);
             for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
                 $clone_node = $doc->importNode(
