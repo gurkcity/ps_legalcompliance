@@ -685,9 +685,6 @@ class Ps_LegalCompliance extends Module
 
         $mail_id = (int) $mail_id['id_mail'];
         $cms_role_ids = AeucCMSRoleEmailEntity::getCMSRoleIdsFromIdMail($mail_id);
-        if (!$cms_role_ids) {
-            return;
-        }
 
         $tmp_cms_role_list = array();
         foreach ($cms_role_ids as $cms_role_id) {
@@ -695,10 +692,9 @@ class Ps_LegalCompliance extends Module
         }
 
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_roles = $cms_role_repository->findByIdCmsRole($tmp_cms_role_list);
-        if (!$cms_roles) {
-            return;
-        }
+        $cms_roles = $tmp_cms_role_list
+            ? $cms_role_repository->findByIdCmsRole($tmp_cms_role_list)
+            : array();
 
         $cms_repo = $this->entity_manager->getRepository('CMS');
         $cms_contents = array();
