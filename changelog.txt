@@ -7,6 +7,8 @@ Version	Datum     	Bemerkung
 					Feature: Display tax in footer
 					Bug: Notice on installation missing array index cms entity meta_title id_lang
 3.1.1	21.02.2022	Fix: hook display footer after
+3.1.2	14.03.2022	Fix: additional html in mail-templates
+					Update: display additional HTML in mails. Fix: display UTF-8 chars
 
 
 
