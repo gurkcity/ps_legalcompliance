@@ -724,7 +724,7 @@ class Ps_LegalCompliance extends Module
             $footer_doc = new DOMDocument();
             $footer_doc->loadHTML('<!DOCTYPE html>
                 <html lang="' . (new Language($id_lang))->iso_code .'">
-                    <head><meta charset="utf-8"></head><body>' . 
+                    <head><meta charset="utf-8"></head><body>' .
                 $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
             $tbody = $table_wraper->getElementsByTagName('tbody')->item(0);
             for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
@@ -1945,5 +1945,10 @@ class Ps_LegalCompliance extends Module
     private function getIsoFromDefaultLanguage(): string
     {
         return Language::getIsoById((int) Configuration::get('PS_LANG_DEFAULT'));
+    }
+
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
     }
 }
