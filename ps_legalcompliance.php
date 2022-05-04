@@ -726,7 +726,6 @@ class Ps_LegalCompliance extends Module
                 <html lang="' . (new Language($id_lang))->iso_code .'">
                     <head><meta charset="utf-8"></head><body>' .
                 $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
-            $tbody = $table_wraper->getElementsByTagName('tbody')->item(0);
             for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
                 $clone_node = $doc->importNode(
                     $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
@@ -735,7 +734,7 @@ class Ps_LegalCompliance extends Module
                 $tr = $doc->createElement("tr");
                 $td = $doc->createElement("td");
                 $tr->appendChild($td);
-                $tbody->appendChild($tr);
+                $table_wraper->appendChild($tr);
                 $td->appendChild($clone_node);
             }
             $param['template_html'] = $doc->saveHTML();
