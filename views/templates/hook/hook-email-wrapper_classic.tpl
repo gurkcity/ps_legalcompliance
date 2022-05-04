@@ -23,30 +23,22 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-<div id="ps_legalcompliance_cms_content">
-    <table style="width:100%;margin-top:10px">
-        <tbody>
-            {foreach from=$cms_contents item=content}
-            <tr>
-                <td style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; direction: ltr;  padding: 0 50px 20px; text-align: left; font-size: 13px;">
-                    {$content nofilter}
-                </td>
-            </tr>
-            {/foreach}
-        </tbody>
-    </table>
-</div>
+{foreach from=$cms_contents item=content}
+    <tr>
+        <td style="width:20px;padding:7px 0">&nbsp;</td>
+        <td style="padding:7px 0">
+            {$content nofilter}
+        </td>
+        <td style="width:20px;padding:7px 0">&nbsp;</td>
+    </tr>
+{/foreach}
 
 {if trim($legal_mail_footer) !== ''}
-    <div id="ps_legalcompliance_extra_html_footer">
-        <table style="width:100%;margin-top:10px">
-            <tbody>
-                <tr>
-                    <td style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; direction: ltr;  padding: 0 50px 20px; text-align: left;">
-                        {$legal_mail_footer nofilter}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <tr>
+        <td style="width:20px;padding:7px 0">&nbsp;</td>
+        <td style="padding:7px 0">
+            {$legal_mail_footer nofilter}
+        </td>
+        <td style="width:20px;padding:7px 0">&nbsp;</td>
+    </tr>
 {/if}

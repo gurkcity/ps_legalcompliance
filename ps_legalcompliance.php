@@ -308,7 +308,7 @@ class Ps_LegalCompliance extends Module
             $cms_page_conditions_associated = $cms_role_repository->findOneByName(self::LEGAL_CONDITIONS);
 
             $sql = 'SELECT id_link_block, content
-    				FROM '._DB_PREFIX_.'link_block';
+                    FROM '._DB_PREFIX_.'link_block';
             $link_blocks = Db::getInstance()->executeS($sql);
             foreach ($link_blocks as $link_block) {
                 $conditions_found = false;
@@ -719,24 +719,46 @@ class Ps_LegalCompliance extends Module
         try {
             $doc = new DOMDocument();
             $doc->loadHTML($str);
-            $table_wraper = $doc->getElementsByTagName('table')->item(0);
-
             $footer_doc = new DOMDocument();
-            $footer_doc->loadHTML('<!DOCTYPE html>
-                <html lang="' . (new Language($id_lang))->iso_code .'">
-                    <head><meta charset="utf-8"></head><body>' .
-                $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
-            for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
-                $clone_node = $doc->importNode(
-                    $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
-                    true
-                );
-                $tr = $doc->createElement("tr");
-                $td = $doc->createElement("td");
-                $tr->appendChild($td);
-                $table_wraper->appendChild($tr);
-                $td->appendChild($clone_node);
+
+            if (Configuration::get('PS_MAIL_THEME') == 'classic') {
+                $wrapper = $doc->getElementsByTagName('table')->item(0); //selects tbody
+                $footer_doc->loadHTML('<!DOCTYPE html>
+                    <html lang="' . (new Language($id_lang))->iso_code .'">
+                        <head><meta charset="utf-8"></head><body>' .
+                    $this->display(__FILE__, 'hook-email-wrapper_classic.tpl') . '</body></html>');                
+                $wrapper->appendChild($footer_doc);
+
+            } else {
+                $divs = $doc->getElementsByTagName('div'); //selects first wrapping div
+                $k = 0;
+                foreach ($divs as $div) {
+                    $div_class_attribute = $divs->item($k)->getAttribute('class');
+                    if ($div_class_attribute == 'shadow wrapper-container') {
+                        $wrapper = $divs->item($k);
+                    }
+                
+                    $k++;
+                }
+
+                $footer_doc->loadHTML('<!DOCTYPE html>
+                    <html lang="' . (new Language($id_lang))->iso_code .'">
+                        <head><meta charset="utf-8"></head><body>' .
+                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');                
+                for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
+                    $clone_node = $doc->importNode(
+                        $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
+                        true
+                    );
+                    $tr = $doc->createElement("tr");
+                    $td = $doc->createElement("td");
+                    $tr->appendChild($td);
+                    $wrapper->appendChild($tr);
+                    $td->appendChild($clone_node);
+                }
             }
+            
+            
             $param['template_html'] = $doc->saveHTML();
         } catch (Exception $e) {
             $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
@@ -811,7 +833,7 @@ class Ps_LegalCompliance extends Module
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
         $cms_page_conditions_associated = $cms_role_repository->findOneByName(self::LEGAL_CONDITIONS);
         $cms_page_revocation_associated = $cms_role_repository->findOneByName(self::LEGAL_REVOCATION);
-		$cms_page_privacy_associated = $cms_role_repository->findOneByName(self::LEGAL_PRIVACY);
+        $cms_page_privacy_associated = $cms_role_repository->findOneByName(self::LEGAL_PRIVACY);
 
         if (Configuration::get('PS_CONDITIONS') && (int) $cms_page_conditions_associated->id_cms > 0 && (int) $cms_page_revocation_associated->id_cms > 0) {
             $cms_conditions = $cms_repository->i10nFindOneById((int) $cms_page_conditions_associated->id_cms,
@@ -829,7 +851,7 @@ class Ps_LegalCompliance extends Module
             $cms_privacy = $cms_repository->i10nFindOneById((int) $cms_page_privacy_associated->id_cms,
                                                                (int) $this->context->language->id,
                                                                (int) $this->context->shop->id);
-			$link_privacy =
+            $link_privacy =
                 $this->context->link->getCMSLink($cms_privacy, $cms_privacy->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
 
             $termsAndConditions = new TermsAndConditions();
@@ -838,7 +860,7 @@ class Ps_LegalCompliance extends Module
                     $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
                     $link_conditions,
                     $link_revocation,
-					$link_privacy
+                    $link_privacy
                 )
                 ->setIdentifier('terms-and-conditions');
             $returned_terms_and_conditions[] = $termsAndConditions;
