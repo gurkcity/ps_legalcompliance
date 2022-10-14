@@ -726,7 +726,7 @@ class Ps_LegalCompliance extends Module
                 $footer_doc->loadHTML('<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
                         <head><meta charset="utf-8"></head><body>' .
-                    $this->display(__FILE__, 'hook-email-wrapper_classic.tpl') . '</body></html>');                
+                    $this->display(__FILE__, 'hook-email-wrapper_classic.tpl') . '</body></html>');
                 $wrapper->appendChild($footer_doc);
 
             } else {
@@ -737,14 +737,14 @@ class Ps_LegalCompliance extends Module
                     if ($div_class_attribute == 'shadow wrapper-container') {
                         $wrapper = $divs->item($k);
                     }
-                
+
                     $k++;
                 }
 
                 $footer_doc->loadHTML('<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
                         <head><meta charset="utf-8"></head><body>' .
-                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');                
+                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
                 for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
                     $clone_node = $doc->importNode(
                         $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
@@ -757,8 +757,8 @@ class Ps_LegalCompliance extends Module
                     $td->appendChild($clone_node);
                 }
             }
-            
-            
+
+
             $param['template_html'] = $doc->saveHTML();
         } catch (Exception $e) {
             $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
@@ -1296,7 +1296,7 @@ class Ps_LegalCompliance extends Module
 
     protected function processAeucEmailAttachmentsManager()
     {
-        $json_attach_assoc = Tools::jsonDecode(Tools::getValue('emails_attach_assoc'));
+        $json_attach_assoc = json_decode(Tools::getValue('emails_attach_assoc'));
 
         if (!$json_attach_assoc) {
             return;
