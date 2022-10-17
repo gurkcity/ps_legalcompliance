@@ -760,7 +760,7 @@ class Ps_LegalCompliance extends Module
             
             
             $param['template_html'] = $doc->saveHTML();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
         }
     }
