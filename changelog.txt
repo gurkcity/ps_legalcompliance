@@ -14,4 +14,9 @@ Version	Datum     	Bemerkung
 					fix: classic mail template footer
 3.1.4	21.05.2022	fix: translation test 2
 3.1.5	25.05.2022	fix: add modal container in footer template
+8.0.0	28.10.2022	New module version for PS8
+					fix: tools json decode for PS 8.0
+					fix: empty unit_price_full
+					fix: Eception for missing wrapper in emails
+
 					
