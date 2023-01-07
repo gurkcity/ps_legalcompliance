@@ -983,14 +983,30 @@ class Ps_LegalCompliance extends Module
 
                     if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
                         $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
-                        $cms_revocations = $cms_repository->i10nFindOneById($cms_ship_pay_id, $this->context->language->id,
+                        $cms_ship_pay = $cms_repository->i10nFindOneById($cms_ship_pay_id, $this->context->language->id,
                                                                             $this->context->shop->id);
                         $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
-                        $link_ship_pay = $this->context->link->getCMSLink($cms_revocations, $cms_revocations->link_rewrite, $is_ssl_enabled);
+                        $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
 
                         $smartyVars['ship'] = array();
                         $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
                         $smartyVars['ship']['ship_str_i18n'] = $this->trans('Shipping excluded', array(), 'Modules.Legalcompliance.Shop');
+                    }
+                } else {
+                    $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+                    $cms_repository = $this->entity_manager->getRepository('CMS');
+                    $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+
+                    if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
+                        $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
+                        $cms_ship_pay = $cms_repository->i10nFindOneById($cms_ship_pay_id, $this->context->language->id,
+                                                                            $this->context->shop->id);
+                        $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
+                        $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
+
+                        $smartyVars['ship'] = array();
+                        $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
+                        $smartyVars['ship']['ship_str_i18n'] = $this->trans('Download Info', array(), 'Modules.Legalcompliance.Shop');
                     }
                 }
             }
@@ -999,7 +1015,7 @@ class Ps_LegalCompliance extends Module
         }
 
         /* Handle Delivery time label */
-        if ($param['type'] == 'after_price' && !$product->is_virtual) {
+        if ($param['type'] == 'after_price') {
             $context_id_lang = $this->context->language->id;
             $smartyVars['after_price'] = array();
 
