@@ -992,6 +992,22 @@ class Ps_LegalCompliance extends Module
                         $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
                         $smartyVars['ship']['ship_str_i18n'] = $this->trans('Shipping excluded', array(), 'Modules.Legalcompliance.Shop');
                     }
+                } elseif ($product->is_virtual && (bool) Configuration::get('AEUC_VP_ACTIVE') === true) {
+                    $cms_ship_pay_id = (int) Configuration::get('AEUC_VP_CMS_ID');
+                    if ($cms_ship_pay_id) {
+                        $cms_ship_pay = $this->entity_manager
+                            ->getRepository('CMS')
+                            ->i10nFindOneById($cms_ship_pay_id, $this->context->language->id, $this->context->shop->id);
+
+                        $smartyVars['ship'] = array(
+                            'link_ship_pay' => $this->context->link->getCMSLink(
+                                    $cms_ship_pay,
+                                    $cms_ship_pay->link_rewrite,
+                                    (bool) Configuration::get('PS_SSL_ENABLED')
+                                ),
+                            'ship_str_i18n' => Configuration::get('AEUC_VP_LABEL_TEXT', $this->context->language->id)
+                        );
+                    }
                 } else {
                     $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
                     $cms_repository = $this->entity_manager->getRepository('CMS');
@@ -1197,12 +1213,13 @@ class Ps_LegalCompliance extends Module
         $this->context->controller->addCSS($this->_path.'views/css/configure.css', 'all');
         // Render all required form for each 'part'
         $formLabelsManager = $this->renderFormLabelsManager();
+        $formVirtualProductsManager = $this->renderFormVirtualProductsManager();
         $formFeaturesManager = $this->renderFormFeaturesManager();
         $formLegalContentManager = $this->renderFormLegalContentManager();
         $formEmailAttachmentsManager = $this->renderFormEmailAttachmentsManager();
         $formLegalMailFooter = $this->renderFormLegalMailFooter();
 
-        return $theme_warning.$this->adminDisplayInformation($infoMsg).$success_band.$formLabelsManager.$formFeaturesManager.$formLegalContentManager.
+        return $theme_warning.$this->adminDisplayInformation($infoMsg).$success_band.$formLabelsManager.$formVirtualProductsManager.$formFeaturesManager.$formLegalContentManager.
                $formEmailAttachmentsManager.$formLegalMailFooter;
     }
 
@@ -1214,7 +1231,7 @@ class Ps_LegalCompliance extends Module
         $has_processed_something = false;
 
         $post_keys_switchable =
-            array_keys(array_merge($this->getConfigFormLabelsManagerValues(), $this->getConfigFormFeaturesManagerValues()));
+            array_keys(array_merge($this->getConfigFormLabelsManagerValues(), $this->getConfigFormVirtualProductsManagerValues(), $this->getConfigFormFeaturesManagerValues()));
 
         $post_keys_complex = array('AEUC_legalContentManager',
                                    'AEUC_emailAttachmentsManager',
@@ -1263,10 +1280,17 @@ class Ps_LegalCompliance extends Module
                 $id_lang = (int) $exploded[$count - 1];
                 $i10n_inputs_received['AEUC_LABEL_DELIVERY_ADDITIONAL'][$id_lang] = $received_values[$key_received];
             }
+            if (strripos($key_received, 'AEUC_VP_LABEL_TEXT') !== false) {
+                $exploded = explode('_', $key_received);
+                $count = count($exploded);
+                $id_lang = (int) $exploded[$count - 1];
+                $i10n_inputs_received['AEUC_VP_LABEL_TEXT'][$id_lang] = $received_values[$key_received];
+            }
         }
 
         if (count($i10n_inputs_received) > 0) {
             $this->processAeucLabelMultiLang($i10n_inputs_received);
+            $this->processAeucVirtualProductsMultiLang($i10n_inputs_received);
             $has_processed_something = true;
         }
 
@@ -1289,6 +1313,13 @@ class Ps_LegalCompliance extends Module
         }
         if (isset($i10n_inputs['AEUC_LABEL_CUSTOM_CART_TEXT'])) {
             Configuration::updateValue('AEUC_LABEL_CUSTOM_CART_TEXT', $i10n_inputs['AEUC_LABEL_CUSTOM_CART_TEXT']);
+        }
+    }
+
+    protected function processAeucVirtualProductsMultiLang(array $i10n_inputs)
+    {
+        if (isset($i10n_inputs['AEUC_VP_LABEL_TEXT'])) {
+            Configuration::updateValue('AEUC_VP_LABEL_TEXT', $i10n_inputs['AEUC_VP_LABEL_TEXT']);
         }
     }
 
@@ -1358,6 +1389,15 @@ class Ps_LegalCompliance extends Module
         }
     }
 
+    protected function processaeucVpActive($is_option_active)
+    {
+        if ((bool) $is_option_active) {
+            Configuration::updateValue('AEUC_VP_ACTIVE', true);
+        } else {
+            Configuration::updateValue('AEUC_VP_ACTIVE', false);
+        }
+    }
+
     protected function processAeucLabelRevocationVP($is_option_active)
     {
         if ((bool) $is_option_active) {
@@ -1365,6 +1405,11 @@ class Ps_LegalCompliance extends Module
         } else {
             Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', false);
         }
+    }
+
+    protected function processaeucVpCmsId($id_cms)
+    {
+        Configuration::updateValue('AEUC_VP_CMS_ID', (int)$id_cms);
     }
 
     protected function processAeucLabelShippingIncExc($is_option_active)
@@ -1621,27 +1666,6 @@ class Ps_LegalCompliance extends Module
                     ),
                     array(
                         'type' => 'switch',
-                        'label' => $this->trans('Revocation for virtual products', array(), 'Modules.Legalcompliance.Admin'),
-                        'name' => 'AEUC_LABEL_REVOCATION_VP',
-                        'is_bool' => true,
-                        'desc' => $this->trans('Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('Require customers to renounce their revocation right when purchasing virtual products (digital goods or services).', array(), 'Modules.Legalcompliance.Admin'),
-                        'disable' => true,
-                        'values' => array(
-                            array(
-                                'id' => 'active_on',
-                                'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
-                                'id' => 'active_off',
-                                'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
-                        'type' => 'switch',
                         'label' => $this->trans('\'From\' price label (when combinations)', array(), 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_COMBINATION_FROM',
                         'is_bool' => true,
@@ -1718,11 +1742,139 @@ class Ps_LegalCompliance extends Module
             'AEUC_LABEL_SPECIFIC_PRICE' => Configuration::get('AEUC_LABEL_SPECIFIC_PRICE'),
             'AEUC_LABEL_UNIT_PRICE' => Configuration::get('AEUC_LABEL_UNIT_PRICE'),
             'AEUC_LABEL_TAX_INC_EXC' => Configuration::get('AEUC_LABEL_TAX_INC_EXC'),
-            'AEUC_LABEL_REVOCATION_TOS' => Configuration::get('AEUC_LABEL_REVOCATION_TOS'),
-            'AEUC_LABEL_REVOCATION_VP' => Configuration::get('AEUC_LABEL_REVOCATION_VP'),
+            'AEUC_LABEL_REVOCATION_TOS' => Configuration::get('AEUC_LABEL_REVOCATION_TOS'),            
             'AEUC_LABEL_SHIPPING_INC_EXC' => Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'),
             'AEUC_LABEL_COMBINATION_FROM' => Configuration::get('AEUC_LABEL_COMBINATION_FROM'),
             'AEUC_LABEL_TAX_FOOTER' => Configuration::get('AEUC_LABEL_TAX_FOOTER'),
+        );
+    }
+
+    public function renderFormVirtualProductsManager()
+    {
+        $helper = new HelperForm();
+
+        $helper->show_toolbar = false;
+        $helper->table = $this->table;
+        $helper->module = $this;
+        $helper->default_form_language = $this->context->language->id;
+        $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
+
+        $helper->identifier = $this->identifier;
+        $helper->submit_action = 'submitAEUC_virtualProductsManager';
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
+                                .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+        $helper->token = Tools::getAdminTokenLite('AdminModules');
+
+        $helper->tpl_vars = array(
+            'fields_value' => $this->getConfigFormVirtualProductsManagerValues(),
+            /* Add values for your inputs */
+            'languages' => $this->context->controller->getLanguages(),
+            'id_language' => $this->context->language->id,
+        );
+
+        return $helper->generateForm(array($this->getConfigFormVirtualProductsManager()));
+    }
+
+    /**
+     * Create the structure of your form.
+     */
+    protected function getConfigFormVirtualProductsManager()
+    {
+        return array(
+            'form' => array(
+                'legend' => array(
+                    'title' => $this->trans('Virtual Products', array(), 'Modules.Legalcompliance.Admin'),
+                    'icon' => 'icon-cogs',
+                ),
+                'input' => array(
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->trans('Label "Vritual Product"', array(), 'Modules.Legalcompliance.Admin'),
+                        'hint' => false,
+                        'name' => 'AEUC_VP_ACTIVE',
+                        'is_bool' => true,
+                        'desc' => $this->trans('Show a label placed next to the product-tax and links to the virtual products CMS-Infopage', array(), 'Modules.Legalcompliance.Admin'),
+                        'values' => array(
+                            array(
+                                'id' => 'AEUC_VP_ACTIVE_on',
+                                'value' => true,
+                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
+                            ),
+                            array(
+                                'id' => 'AEUC_VP_ACTIVE_off',
+                                'value' => false,
+                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
+                            ),
+                        ),
+                    ),
+                    array(
+                        'type' => 'select',
+                        'label' => $this->trans('Virtual Products CMS-Infopage', array(), 'Modules.Legalcompliance.Admin'),
+                        'name' => 'AEUC_VP_CMS_ID',                        
+                        'default_value' => Configuration::getGlobalValue('AEUC_VP_CMS_ID'),
+                        'options' => array(
+                            'query' => CMS::getCMSPages($this->context->language->id),
+                            'id' => 'id_cms',
+                            'name' => 'meta_title',
+                            'default' => array(
+                                'value' => 0,
+                                'label' => $this->trans('-- Select associated page --', array(), 'Modules.Legalcompliance.Admin')
+                            ),
+                        ),
+                    ),
+                    array(
+                        'type' => 'text',
+                        'lang' => true,
+                        'label' => $this->trans('Labeltext "Virtual Product"', array(), 'Modules.Legalcompliance.Admin'),
+                        'name' => 'AEUC_VP_LABEL_TEXT',
+                        'desc' => $this->trans('Text for the label linked to the virtual products CMS-Infopage', array(), 'Modules.Legalcompliance.Admin')
+                    ),
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->trans('Revocation for virtual products', array(), 'Modules.Legalcompliance.Admin'),
+                        'name' => 'AEUC_LABEL_REVOCATION_VP',
+                        'is_bool' => true,
+                        'desc' => $this->trans('Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.', array(), 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('Require customers to renounce their revocation right when purchasing virtual products (digital goods or services).', array(), 'Modules.Legalcompliance.Admin'),
+                        'disable' => true,
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => true,
+                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => false,
+                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
+                            ),
+                        ),
+                    ),
+                ),
+                'submit' => array(
+                    'title' => $this->trans('Save', array(), 'Admin.Actions'),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Set values for the inputs.
+     */
+    protected function getConfigFormVirtualProductsManagerValues()
+    {
+        $langs = Language::getLanguages(false, false);
+
+        $label_text = array();
+        foreach ($langs as $lang) {
+            $label_text[(int) $lang['id_lang']] = Configuration::get('AEUC_VP_LABEL_TEXT', (int) $lang['id_lang']);
+        }
+
+        return array(
+            'AEUC_VP_ACTIVE' => Configuration::get('AEUC_VP_ACTIVE'),
+            'AEUC_VP_CMS_ID' => Configuration::get('AEUC_VP_CMS_ID'),
+            'AEUC_VP_LABEL_TEXT' => $label_text,
+            'AEUC_LABEL_REVOCATION_VP' => Configuration::get('AEUC_LABEL_REVOCATION_VP'),
         );
     }
 
