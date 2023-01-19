@@ -4,37 +4,37 @@
     <body>
       <trans-unit id="94c54865aaec96e3a4e6a2d6f7331c8a">
         <source>You can add additional legal informations and links to other legal ressources into this text editor.</source>
-        <target>You can add additional legal informations and links to other legal ressources into this text editor.</target>
+        <target>Sie können diesem Texteditor zusätzliche rechtliche Informationen und Links zu anderen rechtlichen Quellen hinzufügen.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a2410748e3bc571307a8a8fcc3aa121b">
         <source>Additional HTML in Mail-Templates</source>
-        <target>Additional HTML in Mail-Templates</target>
+        <target>Zusätzlicher HTML-Code in Mail-Templates</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f7c6db776fa123bd10235f0ddb365230">
         <source>Legal Mail Footer</source>
-        <target>Legal Mail Footer</target>
+        <target>Mail Footer für Rechtsinformationen</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eb64e5149bb0ff0af3655aa8ba8d38f0">
         <source>Displays the tax informations in the footer.</source>
-        <target>Displays the tax informations in the footer.</target>
+        <target>Zeigt die Steuerinformationen im Footer-Bereich an.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1603225cfa44756ab586b211e0fd8a71">
         <source>Display tax in footer</source>
-        <target>Display tax in footer</target>
+        <target>Steuer im Footer anzeigen</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="472b0d002b98940cdd7a36062ef1d457">
         <source> 'Our previous price' label</source>
-        <target> 'Our previous price' label</target>
+        <target> 'Vorheriger Preis' Label</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fb7371d3a9751d20d1e07fe514a5c4ec">
         <source>Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.</source>
-        <target>Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.</target>
+        <target>Schützen Sie sich vor Abmahnungen, verkaufen Sie in ganz Europa und halten Sie sich dabei an die geltenden E-Commerce-Gesetze.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="de2cd9f1dfad85516edd95679af377fd">
@@ -184,7 +184,7 @@
       </trans-unit>
       <trans-unit id="68efcb6dada7227cc184a87a6405532e">
         <source>'Shipping fees excl.' label</source>
-        <target>Label 'zzgl. Versandkosten'</target>
+        <target>Label 'zzgl. Versand'</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="979516139081495e903a48ed1489415c">

@@ -49,7 +49,7 @@
       </trans-unit>
       <trans-unit id="89bea8045e50a337d8ce9849a4e1633c">
         <source>Shipping excluded</source>
-        <target>ohne Versandkosten</target>
+        <target>zzgl. Versand</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6af90b162bd8ab1c547c76492d8a2380">
@@ -69,7 +69,7 @@
       </trans-unit>
       <trans-unit id="29bd9770285cd28ad9e55714db33e8bd">
         <source>The European Commission gives consumers the opportunity to resolve online disputes pursuant to Art. 14 Para. 1 of the ODR on one of their platforms. The platform ([1]http://ec.europa.eu/consumers/odr[/1]) serves as a site where consumers can try to reach out-of-court settlements of disputes arising from online purchases and contracts for services.</source>
-        <target>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie hier finden: ([1]http://ec.europa.eu/consumers/odr[/1]. Verbraucher haben die Möglichkeit, diese Plattform für die Beilegung von Streitigkeiten über online getätigte Käufe oder abgeschlossene Dienstleistungsverträge zu nutzen.</target>
+        <target>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie hier finden: ([1]https://ec.europa.eu/consumers/odr[/1]. Verbraucher haben die Möglichkeit, diese Plattform für die Beilegung von Streitigkeiten über online getätigte Käufe oder abgeschlossene Dienstleistungsverträge zu nutzen.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="427e29628d9f5d9bfde0e58b32569619">
@@ -104,7 +104,7 @@
       </trans-unit>
       <trans-unit id="53ae8b43aace8a1d1349d659c150d99f">
         <source>shipping excluded</source>
-        <target>zzgl. Versandkosten</target>
+        <target>zzgl. Versand</target>
         <note>Line: </note>
       </trans-unit>
     </body>
