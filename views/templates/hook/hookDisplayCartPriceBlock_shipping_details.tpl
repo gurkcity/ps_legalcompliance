@@ -23,8 +23,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-<div class="aeuc_hook_display_checkout_subtotal_details">
+<span class="aeuc_hook_display_checkout_subtotal_details">
  <a href="{$link}" target="_blank">
     {l s='(Under conditions)' d='Modules.Legalcompliance.Shop'}
  </a>
-</div>
+</span>
