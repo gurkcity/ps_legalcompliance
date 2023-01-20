@@ -65,7 +65,7 @@ class Ps_LegalCompliance extends Module
     {
         $this->name = 'ps_legalcompliance';
         $this->tab = 'administration';
-        $this->version = '8.0.0';
+        $this->version = '8.0.1';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -102,6 +102,7 @@ class Ps_LegalCompliance extends Module
             $this->registerHook('displayCheckoutSubtotalDetails') &&
             $this->registerHook('displayFooter') &&
             $this->registerHook('displayFooterAfter') &&
+            $this->registerHook('actionEmailSendBefore') &&
             $this->registerHook('actionEmailAddAfterContent') &&
             $this->registerHook('advancedPaymentOptions') &&
             $this->registerHook('displayCartTotalPriceLabel') &&
@@ -665,19 +666,13 @@ class Ps_LegalCompliance extends Module
         return $newOptions;
     }
 
-    public function hookActionEmailAddAfterContent($param)
+    private function getCmsRolesForMailtemplate($tpl_name, $id_lang)
     {
-        if (!isset($param['template']) || !isset($param['template_html']) || !isset($param['template_txt'])) {
-            return;
-        }
-
-        $tpl_name = (string) $param['template'];
         $tpl_name_exploded = explode('.', $tpl_name);
         if (is_array($tpl_name_exploded)) {
             $tpl_name = (string) $tpl_name_exploded[0];
         }
 
-        $id_lang = (int) $param['id_lang'];
         $mail_id = AeucEmailEntity::getMailIdFromTplFilename($tpl_name);
         if (!isset($mail_id['id_mail'])) {
             return;
@@ -692,14 +687,80 @@ class Ps_LegalCompliance extends Module
         }
 
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_roles = $tmp_cms_role_list
+        return $tmp_cms_role_list
             ? $cms_role_repository->findByIdCmsRole($tmp_cms_role_list)
             : array();
+    }
+
+    public function hookActionEmailSendBefore($params)
+    {
+        if (!isset($params['template'])) {
+            return;
+        }
+
+        $iso_code = (new Language((int) $params['idLang']))->iso_code;
+        $cms_roles = $this->getCmsRolesForMailTemplate((string) $params['template'], (int) $params['idLang']);
+        $cms_repo = $this->entity_manager->getRepository('CMS');
+        $pdf_attachment = $this->getPDFAttachmentOptionsArray();
+        foreach ($cms_roles as $cms_role) {
+            if (!in_array($cms_role->id, $pdf_attachment)) {
+                continue;
+            }
+
+            $cms_page = $cms_repo->i10nFindOneById((int) $cms_role->id_cms, (int) $params['idLang'], $this->context->shop->id);
+
+            if (!isset($cms_page->content)) {
+                continue;
+            }
+
+            $pdf = new PDFGenerator;
+            $pdf->startPageGroup();
+            $pdf->SetHeaderMargin(0);
+            $pdf->SetFooterMargin(0);
+            $pdf->SetMargins(7, 5, 7);
+            $pdf->setPrintFooter(false);
+            $pdf->SetAutoPageBreak(false, 0);
+            $pdf->createHeader('');
+            $pdf->createPagination('');
+            $pdf->AddPage();
+            $pdf->writeHTML(
+                '<!DOCTYPE html>
+                    <html lang="' . $iso_code .'">
+                        <head><meta charset="utf-8"></head><body>' . $cms_page->content . '</body></html>',
+                true, // ln
+                false, // fill
+                true, // reset
+                false, // cell
+                '' // align
+            );
+
+            $params['fileAttachment']['cms_' . $cms_page->id] = [
+                'content' => $pdf->Output('', 'S'),
+                'name' => $cms_page->meta_title . '.pdf',
+                'mime' => 'application/pdf'
+            ];
+        }
+    }
+
+    public function hookActionEmailAddAfterContent($param)
+    {
+        if (!isset($param['template']) || !isset($param['template_html']) || !isset($param['template_txt'])) {
+            return;
+        }
+
+        $id_lang = (int) $param['id_lang'];
+        $cms_roles = $this->getCmsRolesForMailTemplate((string) $param['template'], (int) $param['id_lang']);
 
         $cms_repo = $this->entity_manager->getRepository('CMS');
         $cms_contents = array();
+        $pdf_attachment = $this->getPDFAttachmentOptionsArray();
 
         foreach ($cms_roles as $cms_role) {
+            // exclude the CMS content from the mail if the PDF Attachment is enabled for the cms role
+            if (in_array($cms_role->id, $pdf_attachment)) {
+                continue;
+            }
+
             $cms_page = $cms_repo->i10nFindOneById((int) $cms_role->id_cms, $id_lang, $this->context->shop->id);
 
             if (!isset($cms_page->content)) {
@@ -1351,8 +1412,12 @@ class Ps_LegalCompliance extends Module
 
         // Empty previous assoc to make new ones
         AeucCMSRoleEmailEntity::truncate();
-
+        $pdf_attachment = [];
         foreach ($json_attach_assoc as $assoc) {
+            if ($assoc->id_mail == 'pdf') {
+                $pdf_attachment[] = (int)$assoc->id_cms_role;
+                continue;
+            }
             $assoc_obj = new AeucCMSRoleEmailEntity();
             $assoc_obj->id_mail = $assoc->id_mail;
             $assoc_obj->id_cms_role = $assoc->id_cms_role;
@@ -1361,6 +1426,9 @@ class Ps_LegalCompliance extends Module
                 $this->_errors[] = $this->trans('Failed to associate legal content with an email template.', array(), 'Modules.Legalcompliance.Admin');
             }
         }
+
+        // save PDF Attachment
+        Configuration::updateValue('AEUC_PDF_ATTACHMENT', serialize($pdf_attachment));
     }
 
     protected function processAeucLabelRevocationTOS($is_option_active)
@@ -2066,6 +2134,7 @@ class Ps_LegalCompliance extends Module
                                                     'submitCheckForNewTemplates' => '1'
                                                 ]
                                             ),
+                                           'pdf_attachment' => $this->getPDFAttachmentOptionsArray()
                                        ));
 
         // Insert JS in the page
@@ -2139,5 +2208,14 @@ class Ps_LegalCompliance extends Module
     public function isUsingNewTranslationSystem()
     {
         return true;
+    }
+
+    private function getPDFAttachmentOptionsArray()
+    {
+        $pdf_attachment = unserialize(Configuration::get('AEUC_PDF_ATTACHMENT'));
+        if (!is_array($pdf_attachment)) {
+            $pdf_attachment = [];
+        }
+        return $pdf_attachment;
     }
 }
