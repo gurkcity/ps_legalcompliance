@@ -869,16 +869,16 @@ class Ps_LegalCompliance extends Module
         if ((bool) Configuration::get('AEUC_LABEL_REVOCATION_VP') && $this->hasCartVirtualProduct($this->context->cart)) {
             $termsAndConditions = new TermsAndConditions();
 
+            $translation =  $this->trans(
+                '[1]For digital goods:[/1] I want immediate access to the digital content and I acknowledge that thereby I lose my right to cancel once the service has begun.[2][1]For services:[/1] I agree to the starting of the service and I acknowledge that I lose my right to cancel once the service has been fully performed.', [], 'Modules.Legalcompliance.Shop'
+            );
+
             $termsAndConditions
                 ->setText(
-                    $this->trans(
-                        '[1]For digital goods:[/1] I want immediate access to the digital content and I acknowledge that thereby I lose my right to cancel once the service has begun.[2][1]For services:[/1] I agree to the starting of the service and I acknowledge that I lose my right to cancel once the service has been fully performed.',
-                        array(
-                            '[1]' => '<strong>',
-                            '[/1]' => '</strong>',
-                            '[2]' => '<br>',
-                        ),
-                        'Modules.Legalcompliance.Shop'
+                    str_replace(
+                        ['[1]', '[/1]', '[2]'],
+                        ['<strong>', '</strong>', '<br>'],
+                        $translation
                     )
                 )
                 ->setIdentifier('virtual-products');
