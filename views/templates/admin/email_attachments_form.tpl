@@ -79,8 +79,15 @@
                             </td>
                         {/foreach}
                     </tr>
-
                 {/foreach}
+                <tr>
+                    <td class="td-primary-top"><input id="mail_pdf" class="select-all-for-mail" type="checkbox"/>&nbsp;{l s='PDF Attachment'}</td>
+                    {foreach from=$legal_options item=option}
+                        <td class="center td-primary-top">
+                            <input name="pdf_attachment[{$option.id|intval}]" id="attach_pdf_{$option.id|intval}" type="checkbox" {if in_array($option.id, $pdf_attachment)}checked="checked"{/if}/>
+                        </td>
+                    {/foreach}
+                </tr>
                 </tbody>
             </table>
         </div>
