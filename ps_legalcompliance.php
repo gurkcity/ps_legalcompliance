@@ -713,29 +713,14 @@ class Ps_LegalCompliance extends Module
                 continue;
             }
 
-            $pdf = new PDFGenerator;
-            $pdf->startPageGroup();
-            $pdf->SetHeaderMargin(0);
-            $pdf->SetFooterMargin(0);
-            $pdf->SetMargins(7, 5, 7);
-            $pdf->setPrintFooter(false);
-            $pdf->SetAutoPageBreak(false, 0);
-            $pdf->createHeader('');
-            $pdf->createPagination('');
-            $pdf->AddPage();
-            $pdf->writeHTML(
-                '<!DOCTYPE html>
-                    <html lang="' . $iso_code .'">
-                        <head><meta charset="utf-8"></head><body>' . $cms_page->content . '</body></html>',
-                true, // ln
-                false, // fill
-                true, // reset
-                false, // cell
-                '' // align
-            );
+            if (class_exists('HTMLTemplateCMSContent') == false) {
+                require_once _PS_MODULE_DIR_ . $this->name . '/classes/HTMLTemplateCMSContent.php';
+            }
+
+            $pdf = new PDF($cms_page, 'CMSContent', $this->context->smarty);
 
             $params['fileAttachment']['cms_' . $cms_page->id] = [
-                'content' => $pdf->Output('', 'S'),
+                'content' => $pdf->render('S'),
                 'name' => $cms_page->meta_title . '.pdf',
                 'mime' => 'application/pdf'
             ];
