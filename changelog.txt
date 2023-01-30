@@ -18,5 +18,14 @@ Version	Datum     	Bemerkung
 					fix: tools json decode for PS 8.0
 					fix: empty unit_price_full
 					fix: Eception for missing wrapper in emails
+8.1.0	30.01.2023	add label for virtual products
+					Improve german translations
+					Virtual Products Settings
+					add classname for hookDisplayCheckoutSubtotalDetails
+					switch from div to span element for keeping inline style
+					legal cms content as pdf file attachments in mails
+					fix: trans terms and conditions without htmlspecialchars replacements
+					Update ps_legalcompliance.php
+					Update: legal cms content as pdf file attachments in mails
 
 					
