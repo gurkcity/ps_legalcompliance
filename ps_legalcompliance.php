@@ -1866,7 +1866,18 @@ class Ps_LegalCompliance extends Module
                         'name' => 'AEUC_VP_CMS_ID',                        
                         'default_value' => Configuration::getGlobalValue('AEUC_VP_CMS_ID'),
                         'options' => array(
-                            'query' => CMS::getCMSPages($this->context->language->id),
+                            'query' => array_map(
+                                            function ($cms) {
+                                                return [
+                                                    'id_cms' => $cms->id,
+                                                    'meta_title' => $cms->meta_title
+                                                ];
+                                            },
+                                            $this->entity_manager->getRepository('CMS')->i10nFindAll(
+                                                $this->context->language->id,
+                                                $this->context->shop->id
+                                            )
+                                        ),
                             'id' => 'id_cms',
                             'name' => 'meta_title',
                             'default' => array(
