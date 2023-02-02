@@ -120,6 +120,7 @@ class Ps_LegalCompliance extends Module
             $this->hideWirePaymentInviteAtOrderConfirmation();
 
         $this->emptyTemplatesCache();
+        $this->installTranslations();
 
         return (bool) $return;
     }
@@ -2213,5 +2214,55 @@ class Ps_LegalCompliance extends Module
             $pdf_attachment = [];
         }
         return $pdf_attachment;
+    }
+
+    private function installTranslations()
+    {
+        $id_lang = Language::getIdByIso('de');
+        if (!$id_lang) {
+            return;
+        }
+
+        $translations = [
+            [
+                'key' => 'Place order',
+                'translation' => 'Zahlungspflichtig bestellen',
+                'domain' => 'ShopThemeCheckout'
+            ],
+            [
+                'key' => 'Tax included',
+                'translation' => 'Bruttopreis inkl. MwSt.',
+                'domain' => 'ShopThemeCheckout'
+            ],
+            [
+                'key' => 'Tax included',
+                'translation' => 'Bruttopreis inkl. MwSt.',
+                'domain' => 'ShopThemeGlobal'
+            ],
+        ];
+
+        foreach ($translations as $translate) {
+            // search if the translation already exists
+            $id_translation = (int)Db::getInstance()->getValue("
+                SELECT id_translation FROM " . _DB_PREFIX_ . "translation
+                WHERE
+                    `id_lang` = " . (int)$id_lang . " AND
+                    `key` = '" . pSQL($translate['key']) . "' AND
+                    `domain` = '" . pSQL($translate['domain']) . "'
+            ");
+
+            // insert new translation if missing
+            if (!$id_translation) {
+                Db::getInstance()->insert(
+                    'translation',
+                    [
+                        'id_lang' => (int)$id_lang,
+                        'key' => pSQL($translate['key']),
+                        'translation' => pSQL($translate['translation']),
+                        'domain' => pSQL($translate['domain']),
+                    ]
+                );
+            }
+        }
     }
 }
