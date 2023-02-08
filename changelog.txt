@@ -27,5 +27,8 @@ Version	Datum     	Bemerkung
 					fix: trans terms and conditions without htmlspecialchars replacements
 					Update ps_legalcompliance.php
 					Update: legal cms content as pdf file attachments in mails
+8.1.1	08.02.2023	Fix: cms list for virtual products
+					Add translation on Installation
+
 
 					
