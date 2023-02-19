@@ -1120,11 +1120,13 @@ class Ps_LegalCompliance extends Module
                     if (!(isset($this->context->controller->php_self) && ($this->context->controller->php_self == 'product'))) {
                         $priceDisplay = Product::getTaxCalculationMethod((int) $this->context->cookie->id_customer);
                         if (!$priceDisplay || $priceDisplay == 2) {
-                            $productPrice = $product->getPrice(true, null, 6);
+                            $unit_price = $param['product']['unit_price_tax_included'] ?? '';
                         } else {
-                            $productPrice = $product->getPrice(false, null, 6);
+                            $unit_price = $param['product']['unit_price_tax_excluded'] ?? '';
                         }
-                        $smartyVars['unit_price']['unit_price'] = $param['product']['unit_price_full'] ?? '';
+                        $unit_price = (new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter)
+                            ->format($unit_price);
+                        $smartyVars['unit_price']['unit_price'] = $unit_price;
                         $smartyVars['unit_price']['unity'] = $product->unity;
                     }
                 }

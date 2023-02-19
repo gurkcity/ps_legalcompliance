@@ -27,7 +27,7 @@
     {* "Unit Price" Price Hook templating *}
     {if isset($smartyVars.unit_price) && isset($smartyVars.unit_price.unit_price)}
         <div class="aeuc_unit_price_label">
-            {$smartyVars.unit_price.unit_price}
+            {$smartyVars.unit_price.unit_price} {$smartyVars.unit_price.unity}
         </div>
     {/if}
 {/if}
