@@ -29,6 +29,7 @@ Version	Datum     	Bemerkung
 					Update: legal cms content as pdf file attachments in mails
 8.1.1	08.02.2023	Fix: cms list for virtual products
 					Add translation on Installation
+8.1.2	23.02.2023	Fix: unitprice net instead gros on category page / Grundpreis Netto statt Brutto auf Kategorieseite
 
 
 					
