@@ -1845,7 +1845,7 @@ class Ps_LegalCompliance extends Module
                 'input' => array(
                     array(
                         'type' => 'switch',
-                        'label' => $this->trans('Label "Vritual Product"', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Label "Virtual Product"', array(), 'Modules.Legalcompliance.Admin'),
                         'hint' => false,
                         'name' => 'AEUC_VP_ACTIVE',
                         'is_bool' => true,
