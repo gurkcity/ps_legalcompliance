@@ -177,6 +177,7 @@ class Ps_LegalCompliance extends Module
 
         foreach ($module_to_check as $module_name) {
             if (($module = Module::getInstanceByName($module_name)) !== false &&
+                (method_exists($module, 'hookDisplayPaymentEU') || method_exists($module, 'hookDisplayPaymentEu')) &&
                 Module::isInstalled($module_name) &&
                 $module->active &&
                 !in_array($module->id, $already_hooked_modules_ids) &&
