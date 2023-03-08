@@ -30,6 +30,7 @@ Version	Datum     	Bemerkung
 8.1.1	08.02.2023	Fix: cms list for virtual products
 					Add translation on Installation
 8.1.2	23.02.2023	Fix: unitprice net instead gros on category page / Grundpreis Netto statt Brutto auf Kategorieseite
+8.1.3	08.03.2023	fix: typo vritual product
 
 
 					
