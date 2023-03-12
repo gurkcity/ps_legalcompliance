@@ -27,7 +27,7 @@
 if (!defined('_PS_VERSION_'))
     exit;
 
-function upgrade_module_8_1_3($module)
+function upgrade_module_8_1_4($module)
 {
     $module->unregisterHook('advancedPaymentOptions');
 
