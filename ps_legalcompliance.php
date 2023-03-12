@@ -96,7 +96,6 @@ class Ps_LegalCompliance extends Module
         $return = parent::install() &&
             $this->loadTables() &&
             $this->installHooks() &&
-            $this->registerModulesBackwardCompatHook() &&
             $this->registerHook('header') &&
             $this->registerHook('displayProductPriceBlock') &&
             $this->registerHook('displayCheckoutSubtotalDetails') &&
@@ -104,7 +103,6 @@ class Ps_LegalCompliance extends Module
             $this->registerHook('displayFooterAfter') &&
             $this->registerHook('actionEmailSendBefore') &&
             $this->registerHook('actionEmailAddAfterContent') &&
-            $this->registerHook('advancedPaymentOptions') &&
             $this->registerHook('displayCartTotalPriceLabel') &&
             $this->registerHook('displayCMSPrintButton') &&
             $this->registerHook('displayCMSDisputeInformation') &&
@@ -163,40 +161,9 @@ class Ps_LegalCompliance extends Module
         return parent::disable() && $is_adv_api_disabled;
     }
 
-    public function registerModulesBackwardCompatHook()
-    {
-        $return = true;
-        $module_to_check = array(
-            'bankwire', 'cheque', 'paypal',
-            'adyen', 'hipay', 'cashondelivery', 'sofortbanking',
-            'pigmbhpaymill', 'ogone', 'moneybookers',
-            'syspay',
-        );
-        $display_payment_eu_hook_id = (int) Hook::getIdByName('displayPaymentEu');
-        $already_hooked_modules_ids = array_keys(Hook::getModulesFromHook($display_payment_eu_hook_id));
-
-        foreach ($module_to_check as $module_name) {
-            if (($module = Module::getInstanceByName($module_name)) !== false &&
-                (method_exists($module, 'hookDisplayPaymentEU') || method_exists($module, 'hookDisplayPaymentEu')) &&
-                Module::isInstalled($module_name) &&
-                $module->active &&
-                !in_array($module->id, $already_hooked_modules_ids) &&
-                !$module->isRegisteredInHook('displayPaymentEu')) {
-                $return &= $module->registerHook('displayPaymentEu');
-            }
-        }
-
-        return $return;
-    }
-
     public function installHooks()
     {
-        $hooks = array(
-            'displayPaymentEu' => array(
-                'name' => 'Display EU payment options (helper)',
-                'description' => 'Hook to display payment options',
-            ),
-        );
+        $hooks = [];
 
         $return = true;
 
@@ -635,37 +602,6 @@ class Ps_LegalCompliance extends Module
                 return $this->display(__FILE__, 'hookDisplayFooterAfter.tpl');
             }
         }
-    }
-
-    /* This hook is present to maintain backward compatibility */
-    public function hookAdvancedPaymentOptions($param)
-    {
-        $legacyOptions = Hook::exec('displayPaymentEU', array(), null, true);
-        $newOptions = array();
-
-        Media::addJsDef(array('aeuc_tos_err_str' => Tools::htmlentitiesUTF8($this->trans('You must agree to our Terms of Service before going any further!', array(), 'Modules.Legalcompliance.Shop'))));
-        Media::addJsDef(array('aeuc_submit_err_str' => Tools::htmlentitiesUTF8($this->trans('Something went wrong. If the problem persists, please contact us.', array(), 'Modules.Legalcompliance.Shop'))));
-        Media::addJsDef(array('aeuc_no_pay_err_str' => Tools::htmlentitiesUTF8($this->trans('Select a payment option first.', array(), 'Modules.Legalcompliance.Shop'))));
-        Media::addJsDef(array('aeuc_virt_prod_err_str' => Tools::htmlentitiesUTF8($this->trans('Please check the "Revocation of virtual products" box first!', array(), 'Modules.Legalcompliance.Shop'))));
-        if ($legacyOptions) {
-            foreach ($legacyOptions as $module_name => $legacyOption) {
-                if (!$legacyOption) {
-                    continue;
-                }
-
-                foreach (PaymentOption::convertLegacyOption($legacyOption) as $option) {
-                    $option->setModuleName($module_name);
-                    $to_be_cleaned = $option->getForm();
-                    if ($to_be_cleaned) {
-                        $cleaned = str_replace('@hiddenSubmit', '', $to_be_cleaned);
-                        $option->setForm($cleaned);
-                    }
-                    $newOptions[] = $option;
-                }
-            }
-        }
-
-        return $newOptions;
     }
 
     private function getCmsRolesForMailtemplate($tpl_name, $id_lang)

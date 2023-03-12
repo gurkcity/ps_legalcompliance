@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>ps_legalcompliance</name>
+    <displayName><![CDATA[Legal Compliance]]></displayName>
+    <version><![CDATA[8.1.3]]></version>
+    <description><![CDATA[Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.]]></description>
+    <author><![CDATA[PrestaShop]]></author>
+    <tab><![CDATA[administration]]></tab>
+	<confirmUninstall><![CDATA[Are you sure you want to uninstall this module?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+</module>
