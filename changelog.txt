@@ -31,6 +31,9 @@ Version	Datum     	Bemerkung
 					Add translation on Installation
 8.1.2	23.02.2023	Fix: unitprice net instead gros on category page / Grundpreis Netto statt Brutto auf Kategorieseite
 8.1.3	08.03.2023	fix: typo vritual product
+8.1.4	15.03.2023	Fix: register hook hookDisplayPaymentEU for the payment modules
+					Delete: backward compatibility with the hook paymentEU
+					Update: version 8.1.4
 
 
 					
