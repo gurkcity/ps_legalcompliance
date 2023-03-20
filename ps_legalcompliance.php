@@ -2170,12 +2170,12 @@ class Ps_LegalCompliance extends Module
             ],
             [
                 'key' => 'Tax included',
-                'translation' => 'Bruttopreis inkl. MwSt.',
+                'translation' => 'inkl. MwSt.',
                 'domain' => 'ShopThemeCheckout'
             ],
             [
                 'key' => 'Tax included',
-                'translation' => 'Bruttopreis inkl. MwSt.',
+                'translation' => 'inkl. MwSt.',
                 'domain' => 'ShopThemeGlobal'
             ],
         ];
