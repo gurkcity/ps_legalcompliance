@@ -703,6 +703,7 @@ class Ps_LegalCompliance extends Module
         $cms_roles = $this->getCmsRolesForMailTemplate((string) $params['template'], (int) $params['idLang']);
         $cms_repo = $this->entity_manager->getRepository('CMS');
         $pdf_attachment = $this->getPDFAttachmentOptionsArray();
+        if(empty($cms_roles)) return;
         foreach ($cms_roles as $cms_role) {
             if (!in_array($cms_role->id, $pdf_attachment)) {
                 continue;
@@ -764,6 +765,8 @@ class Ps_LegalCompliance extends Module
         $str = $param['template_html'];
 
         try {
+            $var_matches = preg_match_all('~\{(.+?)\}~', $str, $matches);
+            foreach($matches[0] as $i=>$varname) $str = str_replace($varname, "__var_{$i}__", $str);
             $doc = new DOMDocument();
             $doc->loadHTML($str);
             $footer_doc = new DOMDocument();
@@ -805,8 +808,9 @@ class Ps_LegalCompliance extends Module
                 }
             }
 
-
-            $param['template_html'] = $doc->saveHTML();
+            $html = $doc->saveHTML();
+            foreach($matches[0] as $i=>$varname) $html = str_replace("__var_{$i}__",$varname,  $html);
+            $param['template_html'] = $html;
         } catch (Throwable $e) {
             $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
         }
