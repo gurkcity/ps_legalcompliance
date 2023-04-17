@@ -640,6 +640,11 @@ class Ps_LegalCompliance extends Module
         $cms_roles = $this->getCmsRolesForMailTemplate((string) $params['template'], (int) $params['idLang']);
         $cms_repo = $this->entity_manager->getRepository('CMS');
         $pdf_attachment = $this->getPDFAttachmentOptionsArray();
+
+        if (empty($cms_roles)) {
+            return;
+        }
+
         foreach ($cms_roles as $cms_role) {
             if (!in_array($cms_role->id, $pdf_attachment)) {
                 continue;
@@ -701,6 +706,14 @@ class Ps_LegalCompliance extends Module
         $str = $param['template_html'];
 
         try {
+            $var_matches = preg_match_all('~\{(.+?)\}~', $str, $matches);
+
+            if ($var_matches && !empty($matches[0])) {
+                foreach ($matches[0] as $i => $varname) {
+                    $str = str_replace($varname, "__var_{$i}__", $str);
+                }
+            }
+
             $doc = new DOMDocument();
             $doc->loadHTML($str);
             $footer_doc = new DOMDocument();
@@ -742,8 +755,15 @@ class Ps_LegalCompliance extends Module
                 }
             }
 
+            $html = $doc->saveHTML();
 
-            $param['template_html'] = $doc->saveHTML();
+            if ($var_matches && !empty($matches[0])) {
+                foreach ($matches[0] as $i => $varname) {
+                    $html = str_replace("__var_{$i}__", $varname, $html);
+                }
+            }
+
+            $param['template_html'] = $html;
         } catch (Throwable $e) {
             $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
         }
@@ -1735,7 +1755,7 @@ class Ps_LegalCompliance extends Module
             'AEUC_LABEL_SPECIFIC_PRICE' => Configuration::get('AEUC_LABEL_SPECIFIC_PRICE'),
             'AEUC_LABEL_UNIT_PRICE' => Configuration::get('AEUC_LABEL_UNIT_PRICE'),
             'AEUC_LABEL_TAX_INC_EXC' => Configuration::get('AEUC_LABEL_TAX_INC_EXC'),
-            'AEUC_LABEL_REVOCATION_TOS' => Configuration::get('AEUC_LABEL_REVOCATION_TOS'),            
+            'AEUC_LABEL_REVOCATION_TOS' => Configuration::get('AEUC_LABEL_REVOCATION_TOS'),
             'AEUC_LABEL_SHIPPING_INC_EXC' => Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'),
             'AEUC_LABEL_COMBINATION_FROM' => Configuration::get('AEUC_LABEL_COMBINATION_FROM'),
             'AEUC_LABEL_TAX_FOOTER' => Configuration::get('AEUC_LABEL_TAX_FOOTER'),
@@ -1803,7 +1823,7 @@ class Ps_LegalCompliance extends Module
                     array(
                         'type' => 'select',
                         'label' => $this->trans('Virtual Products CMS-Infopage', array(), 'Modules.Legalcompliance.Admin'),
-                        'name' => 'AEUC_VP_CMS_ID',                        
+                        'name' => 'AEUC_VP_CMS_ID',
                         'default_value' => Configuration::getGlobalValue('AEUC_VP_CMS_ID'),
                         'options' => array(
                             'query' => array_map(
