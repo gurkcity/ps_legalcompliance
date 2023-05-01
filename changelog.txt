@@ -34,6 +34,10 @@ Version	Datum     	Bemerkung
 8.1.4	15.03.2023	Fix: register hook hookDisplayPaymentEU for the payment modules
 					Delete: backward compatibility with the hook paymentEU
 					Update: version 8.1.4
+8.1.5	01.05.2023	improve Translations
+					Delete config.xml
+					Fix: escaping special chars in cms roles within mails
+					code formatting
 
 
 					
