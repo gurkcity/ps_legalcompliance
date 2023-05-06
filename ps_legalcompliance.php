@@ -861,7 +861,7 @@ class Ps_LegalCompliance extends Module
             if ((bool) Configuration::get('AEUC_LABEL_COND_PRIVACY') === false) {
                 $tpl = $this->context->smarty->createTemplate(
                     _PS_MODULE_DIR_ . $this->name . '/views/templates/front/terms_and_condition_revocation.tpl',
-                    $this->context->smarty,
+                    $this->context->smarty
                 );
                 // hide the checkbox is the option is disabled
                 $tpl->assign([
