@@ -243,7 +243,7 @@ class Ps_LegalCompliance extends Module
                Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false) &&
                Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true) &&
                Configuration::updateValue('AEUC_LABEL_TAX_INC_EXC', true) &&
-               Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false) &&
+               Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true) &&
                Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true) &&
                Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false) &&
                Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true) &&
@@ -465,7 +465,7 @@ class Ps_LegalCompliance extends Module
                Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE') &&
                Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE') &&
                Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC') &&
-               Configuration::deleteByName('AEUC_LABEL_REVOCATION_TOS') &&
+               Configuration::deleteByName('AEUC_LABEL_COND_PRIVACY') &&
                Configuration::deleteByName('AEUC_LABEL_REVOCATION_VP') &&
                Configuration::deleteByName('AEUC_LABEL_SHIPPING_INC_EXC') &&
                Configuration::deleteByName('AEUC_LABEL_COMBINATION_FROM') &&
@@ -832,6 +832,7 @@ class Ps_LegalCompliance extends Module
         $cms_repository = $this->entity_manager->getRepository('CMS');
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
         $cms_page_conditions_associated = $cms_role_repository->findOneByName(self::LEGAL_CONDITIONS);
+        $cms_page_terms_and_conditions = $cms_role_repository->findOneByName(self::LEGAL_NOTICE);
         $cms_page_revocation_associated = $cms_role_repository->findOneByName(self::LEGAL_REVOCATION);
         $cms_page_privacy_associated = $cms_role_repository->findOneByName(self::LEGAL_PRIVACY);
 
@@ -855,14 +856,38 @@ class Ps_LegalCompliance extends Module
                 $this->context->link->getCMSLink($cms_privacy, $cms_privacy->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
 
             $termsAndConditions = new TermsAndConditions();
-            $termsAndConditions
-                ->setText(
-                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
+            $termsAndConditions->setIdentifier('terms-and-conditions');
+
+            if ((bool) Configuration::get('AEUC_LABEL_COND_PRIVACY') === false) {
+                $tpl = $this->context->smarty->createTemplate(
+                    _PS_MODULE_DIR_ . $this->name . '/views/templates/front/terms_and_condition_revocation.tpl',
+                    $this->context->smarty,
+                );
+                // hide the checkbox is the option is disabled
+                $tpl->assign([
+                    'checkbox_identifier' => 'terms-and-conditions',
+                ]);
+                $termsAndConditions->setText(
+                    $this->trans(
+                        'Please note our [%terms_and_conditions%] and [%revocation%]',
+                        [
+                            '%revocation%' => $cms_revocation->meta_title,
+                            '%terms_and_conditions%' => $cms_conditions->meta_title,
+                        ],
+                        'Modules.Legalcompliance.Shop'
+                    ) . $tpl->fetch(),
+                    $link_conditions,
+                    $link_revocation
+                );
+            } else {
+                $termsAndConditions->setText(
+                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') ,
                     $link_conditions,
                     $link_revocation,
                     $link_privacy
-                )
-                ->setIdentifier('terms-and-conditions');
+                );
+            }
+            
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
@@ -1316,29 +1341,12 @@ class Ps_LegalCompliance extends Module
         }
     }
 
-    protected function processAeucLabelRevocationTOS($is_option_active)
+    protected function processAeucLabelCondPrivacy($is_option_active)
     {
-        // Check first if LEGAL_REVOCATION CMS Role has been set before doing anything here
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_REVOCATION);
-        $cms_roles = $this->getCMSRoles();
-
         if ((bool) $is_option_active) {
-            if (!$cms_page_associated instanceof CMSRole || (int) $cms_page_associated->id_cms == 0) {
-                $this->_errors[] =
-                    $this->trans(
-                        '\'Revocation Terms within ToS\' label cannot be activated unless you associate "%s" role with a Page.',
-                        array(
-                            '%s' => (string) $cms_roles[self::LEGAL_REVOCATION],
-                        ),
-                        'Modules.Legalcompliance.Admin'
-                    );
-
-                return;
-            }
-            Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', true);
+            Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true);
         } else {
-            Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false);
+            Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', false);
         }
     }
 
@@ -1584,12 +1592,11 @@ class Ps_LegalCompliance extends Module
                     ),
                     array(
                         'type' => 'switch',
-                        'label' => $this->trans('Revocation Terms within ToS', array(), 'Modules.Legalcompliance.Admin'),
-                        'name' => 'AEUC_LABEL_REVOCATION_TOS',
+                        'label' => $this->trans('Show Conditions Checkbox', array(), 'Modules.Legalcompliance.Admin'),
+                        'name' => 'AEUC_LABEL_COND_PRIVACY',
                         'is_bool' => true,
-                        'desc' => $this->trans('Includes content from the Revocation Terms page within the Terms of Services (ToS).', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('If enabled, make sure the Revocation Terms are associated with a page below (Legal Content Management).', array(), 'Modules.Legalcompliance.Admin'),
-                        'disable' => true,
+                        'desc' => $this->trans('Shows a checkbox to confirm conditions privacy and revocation (default: Yes)', array(), 'Modules.Legalcompliance.Admin'),
+                        'disable' => false,
                         'values' => array(
                             array(
                                 'id' => 'active_on',
@@ -1702,7 +1709,7 @@ class Ps_LegalCompliance extends Module
             'AEUC_LABEL_SPECIFIC_PRICE' => Configuration::get('AEUC_LABEL_SPECIFIC_PRICE'),
             'AEUC_LABEL_UNIT_PRICE' => Configuration::get('AEUC_LABEL_UNIT_PRICE'),
             'AEUC_LABEL_TAX_INC_EXC' => Configuration::get('AEUC_LABEL_TAX_INC_EXC'),
-            'AEUC_LABEL_REVOCATION_TOS' => Configuration::get('AEUC_LABEL_REVOCATION_TOS'),
+            'AEUC_LABEL_COND_PRIVACY' => Configuration::get('AEUC_LABEL_COND_PRIVACY'),
             'AEUC_LABEL_REVOCATION_VP' => Configuration::get('AEUC_LABEL_REVOCATION_VP'),
             'AEUC_LABEL_SHIPPING_INC_EXC' => Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'),
             'AEUC_LABEL_COMBINATION_FROM' => Configuration::get('AEUC_LABEL_COMBINATION_FROM'),
