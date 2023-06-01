@@ -1099,9 +1099,9 @@ class Ps_LegalCompliance extends Module
         if ('shipping' === $param['subtotal']['type'] && 0 === $param['subtotal']['amount']) {
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
             $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
-            $link = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
+            $link_shipping_payment = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
 
-            $this->context->smarty->assign(array('link' => $link));
+            $this->context->smarty->assign(array('link_shipping_payment' => $link_shipping_payment));
             return $this->display(__FILE__, 'hookDisplayCartPriceBlock_shipping_details.tpl');
         }
     }

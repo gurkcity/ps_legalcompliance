@@ -24,7 +24,7 @@
  *}
 
 <span class="aeuc_hook_display_checkout_subtotal_details">
- <a href="{$link}" target="_blank">
+ <a href="{$link_shipping_payment}" target="_blank">
     {l s='(Under conditions)' d='Modules.Legalcompliance.Shop'}
  </a>
 </span>
