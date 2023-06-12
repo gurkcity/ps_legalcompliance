@@ -38,6 +38,8 @@ Version	Datum     	Bemerkung
 					Delete config.xml
 					Fix: escaping special chars in cms roles within mails
 					code formatting
+8.1.6	12.06.2023	fix: rename link variable
+
 
 
 					
