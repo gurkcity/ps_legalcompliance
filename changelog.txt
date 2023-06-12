@@ -16,4 +16,6 @@ Version	Datum     	Bemerkung
 3.1.5	25.05.2022	fix: add modal container in footer template
 3.1.6   17.10.2022	fix: empty unit_price_full
 					fix: Eception for missing wrapper in emails
-					
+3.2.0	12.06.2023	Feature extension. display/hide the checkbox for the term and conditions on the checkout page
+					Fix: syntax error
+					fix: rename link variable
