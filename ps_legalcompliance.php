@@ -750,7 +750,9 @@ class Ps_LegalCompliance extends Module
                     $tr = $doc->createElement("tr");
                     $td = $doc->createElement("td");
                     $tr->appendChild($td);
-                    $wrapper->appendChild($tr);
+                    if (isset($wrapper)) {
+                        $wrapper->appendChild($tr);
+                    }
                     $td->appendChild($clone_node);
                 }
             }
