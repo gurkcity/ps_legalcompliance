@@ -39,6 +39,7 @@ Version	Datum     	Bemerkung
 					Fix: escaping special chars in cms roles within mails
 					code formatting
 8.1.6	12.06.2023	fix: rename link variable
+8.1.7	05.07.2023	Fix: undefined variable wrapper
 
 
 
