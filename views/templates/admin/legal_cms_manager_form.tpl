@@ -59,6 +59,21 @@
                         </div>
                     </div>
                 {/foreach}
+
+                <div class="form-group">
+                    <label class="control-label col-lg-3">{l s='Display Information block in footer' d='Modules.Legalcompliance.Admin'}</span>
+                    </label>
+                    <div class="col-lg-8">
+                        <span class="switch prestashop-switch fixed-width-lg">
+                            <input type="radio" name="AEUC_LINKBLOCK_FOOTER" id="AEUC_LINKBLOCK_FOOTER_on" value="1" {if $AEUC_LINKBLOCK_FOOTER == 1}checked="checked"{/if}>
+                            <label for="AEUC_LINKBLOCK_FOOTER_on">{l s='Enabled' d='Admin.Global'}</label>
+                            <input type="radio" name="AEUC_LINKBLOCK_FOOTER" id="AEUC_LINKBLOCK_FOOTER_off" value="0" {if $AEUC_LINKBLOCK_FOOTER == 0}checked="checked"{/if}>
+                            <label for="AEUC_LINKBLOCK_FOOTER_off">{l s='Disabled' d='Admin.Global'}</label>
+                            <a class="slide-button btn"></a>
+                        </span>
+                        <p class="help-block">{l s='Displays the legal cms-pages links as a separate block in the footer (hook displayFooter). If you switch to no, please keep in mind to add your legal text in your own link blocks on every page.' d='Modules.Legalcompliance.Admin'}</p>
+                    </div>
+                </div>
         </div>
         <div class="panel-footer">
             <button type="submit" class="btn btn-default pull-right">

@@ -65,7 +65,7 @@ class Ps_LegalCompliance extends Module
     {
         $this->name = 'ps_legalcompliance';
         $this->tab = 'administration';
-        $this->version = '8.1.7';
+        $this->version = '8.1.8';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -219,7 +219,8 @@ class Ps_LegalCompliance extends Module
                Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true) &&
                Configuration::updateValue('PS_TAX_DISPLAY', true) &&
                Configuration::updateValue('PS_FINAL_SUMMARY_ENABLED', true) &&
-               Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true);
+               Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true) &&
+               Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', 1);
     }
 
     public function generateAndLinkCMSPages()
@@ -530,6 +531,11 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayFooter($param)
     {
+        if (Configuration::get('AEUC_LINKBLOCK_FOOTER') == 0) {
+            // do not display block in footer
+            return;
+        }
+
         $cms_roles_to_be_displayed = array(self::LEGAL_NOTICE,
             self::LEGAL_CONDITIONS,
             self::LEGAL_REVOCATION,
@@ -1497,6 +1503,8 @@ class Ps_LegalCompliance extends Module
             }
         }
         unset($cms_role);
+
+        Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', (int) Tools::getValue('AEUC_LINKBLOCK_FOOTER'));
     }
 
     protected function processAeucLabelTaxFooter($is_option_active)
@@ -2042,11 +2050,12 @@ class Ps_LegalCompliance extends Module
         unset($fake_object);
 
         $this->context->smarty->assign(array(
-                                           'cms_roles_assoc' => $cms_roles_assoc,
-                                           'cms_pages' => $cms_pages,
-                                           'form_action' => $this->context->link->getAdminLink('AdminModules').'&configure='.$this->name,
-                                           'add_cms_link' => $this->context->link->getAdminLink('AdminCMS'),
-                                       ));
+           'cms_roles_assoc' => $cms_roles_assoc,
+           'cms_pages' => $cms_pages,
+           'form_action' => $this->context->link->getAdminLink('AdminModules').'&configure='.$this->name,
+           'add_cms_link' => $this->context->link->getAdminLink('AdminCMS'),
+           'AEUC_LINKBLOCK_FOOTER' => (int) Configuration::get('AEUC_LINKBLOCK_FOOTER')
+        ));
 
         return $this->display(__FILE__, 'views/templates/admin/legal_cms_manager_form.tpl');
     }
