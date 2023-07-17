@@ -605,6 +605,9 @@ class Ps_LegalCompliance extends Module
                     $this->context->smarty->assign('tax_included', $tax_included);
                 }
 
+                $this->context->smarty->assign([
+                    'display_tax_information' => (int) Configuration::get('AEUC_LABEL_TAX_FOOTER') == 1,
+                ]);
                 return $this->display(__FILE__, 'hookDisplayFooterAfter.tpl');
             }
         }
