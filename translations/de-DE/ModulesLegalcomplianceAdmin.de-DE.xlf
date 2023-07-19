@@ -2,44 +2,14 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="admin-dev" source-language="de-DE" target-language="de-DE" datatype="plaintext">
     <body>
-      <trans-unit id="94c54865aaec96e3a4e6a2d6f7331c8a">
-        <source>You can add additional legal informations and links to other legal ressources into this text editor.</source>
-        <target>Sie können diesem Texteditor zusätzliche rechtliche Informationen und Links zu anderen rechtlichen Quellen hinzufügen.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="a2410748e3bc571307a8a8fcc3aa121b">
-        <source>Additional HTML in Mail-Templates</source>
-        <target>Zusätzlicher HTML-Code in Mail-Templates</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="f7c6db776fa123bd10235f0ddb365230">
-        <source>Legal Mail Footer</source>
-        <target>Mail Footer für Rechtsinformationen</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="eb64e5149bb0ff0af3655aa8ba8d38f0">
-        <source>Displays the tax informations in the footer.</source>
-        <target>Zeigt die Steuerinformationen im Footer-Bereich an.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="1603225cfa44756ab586b211e0fd8a71">
-        <source>Display tax in footer</source>
-        <target>Steuer im Footer anzeigen</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="472b0d002b98940cdd7a36062ef1d457">
-        <source> 'Our previous price' label</source>
-        <target> 'Vorheriger Preis' Label</target>
+      <trans-unit id="de2cd9f1dfad85516edd95679af377fd">
+        <source>Legal Compliance</source>
+        <target>Rechtssicherheit</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fb7371d3a9751d20d1e07fe514a5c4ec">
         <source>Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.</source>
         <target>Schützen Sie sich vor Abmahnungen, verkaufen Sie in ganz Europa und halten Sie sich dabei an die geltenden E-Commerce-Gesetze.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="de2cd9f1dfad85516edd95679af377fd">
-        <source>Legal Compliance</source>
-        <target>Rechtssicherheit</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bb8956c67b82c7444a80c6b2433dd8b4">
@@ -157,6 +127,11 @@
         <target>Zeigt an, für welche Länder Ihre Lieferzeit gilt.</target>
         <note>Line: </note>
       </trans-unit>
+      <trans-unit id="472b0d002b98940cdd7a36062ef1d457">
+        <source> 'Our previous price' label</source>
+        <target> 'Vorheriger Preis' Label</target>
+        <note>Line: </note>
+      </trans-unit>
       <trans-unit id="cf4e7929f6a8cafcba348d0889f7a452">
         <source>When a product is on sale, displays a 'Our previous price' label before the original price crossed out, next to the price on the product page.</source>
         <target>Beim reduzierten Artikeln, zeigt das Label 'Unser bisheriger Preis' vor den ursprünglichen Streichpreis an, welcher sich in der Nähe des aktuellen Preise auf der Artikelseite befindet.</target>
@@ -212,21 +187,6 @@
         <target>Falls aktiviert, muss die Widerrufsbelehrung mit einer Seite weiter unten (Verwaltung rechtskonformer Inhalte) verknüpft sein.</target>
         <note>Line: </note>
       </trans-unit>
-      <trans-unit id="f4ced086e850fc06ff4267366382f5d6">
-        <source>Revocation for virtual products</source>
-        <target>Widerrufsrecht für virtuelle Artikel</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="4a45c80a18900618e6c2f690f08b58ec">
-        <source>Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.</source>
-        <target>Pflicht-Checkbox einfügen, falls der Warenkorb virtuelle Artikel enthält. Stellen Sie so sicher, dass der Kunde weiß, dass ein virtueller Artikel nicht zurückgenommen wird.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="776f2e85270c935a226d11cd45c4487a">
-        <source>Require customers to renounce their revocation right when purchasing virtual products (digital goods or services).</source>
-        <target>Fordert Kunden dazu auf, den Verzicht auf Ihr Widerrufsrecht zu bestätigen, wenn sie virtuelle Artikel (digitale Inhalt oder Dienstleistungen) kaufen.</target>
-        <note>Line: </note>
-      </trans-unit>
       <trans-unit id="1c37d3c4d123c1b8332711a1c14ac232">
         <source>'From' price label (when combinations)</source>
         <target>"Ab Preis"-Anzeige (falls Varianten vorhanden)</target>
@@ -255,6 +215,66 @@
       <trans-unit id="428bb092722a6c1c41d308ec4e9f15aa">
         <source>Please inform your customers about how the order is legally confirmed.</source>
         <target>Bitte informieren Sie Ihre Kunden darüber, wie die Bestellung rechtlich bestätigt wird.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="1603225cfa44756ab586b211e0fd8a71">
+        <source>Display tax in footer</source>
+        <target>Steuer im Footer anzeigen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="eb64e5149bb0ff0af3655aa8ba8d38f0">
+        <source>Displays the tax informations in the footer.</source>
+        <target>Zeigt die Steuerinformationen im Footer-Bereich an.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4e4ad3bce81c7707fa899441c859245a">
+        <source>Virtual Products</source>
+        <target>Virtuelle Produkte</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5220edd36a6fc0fbdea5b7852f48879e">
+        <source>Label "Virtual Product"</source>
+        <target>Label „Virtuelles Produkt“</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9481e79bbb4bb1db3626055a14522326">
+        <source>Show a label placed next to the product-tax and links to the virtual products CMS-Infopage</source>
+        <target>Zeigt eine Beschriftung neben der Produktsteuer und Links zur CMS-Infoseite der virtuellen Produkte an</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="526460c0c8660cdd679b6a2721452c0b">
+        <source>Virtual Products CMS-Infopage</source>
+        <target>Virtual Products CMS-Infoseite</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9896806b3fb40a73bdda4781f61052bf">
+        <source>-- Select associated page --</source>
+        <target>-- Zugehörige Seite wählen --</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="63e23474e2c348ba5125d9d2cd7c8e00">
+        <source>Labeltext "Virtual Product"</source>
+        <target>Beschriftungstext „Virtuelles Produkt“</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4fe4fee0d822d01f7d0b7b998f7c6573">
+        <source>Text for the label linked to the virtual products CMS-Infopage</source>
+        <target>Text für das Label, das mit der CMS-Infoseite der virtuellen Produkte verknüpft ist</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f4ced086e850fc06ff4267366382f5d6">
+        <source>Revocation for virtual products</source>
+        <target>Widerrufsrecht für virtuelle Artikel</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4a45c80a18900618e6c2f690f08b58ec">
+        <source>Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.</source>
+        <target>Pflicht-Checkbox einfügen, falls der Warenkorb virtuelle Artikel enthält. Stellen Sie so sicher, dass der Kunde weiß, dass ein virtueller Artikel nicht zurückgenommen wird.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="776f2e85270c935a226d11cd45c4487a">
+        <source>Require customers to renounce their revocation right when purchasing virtual products (digital goods or services).</source>
+        <target>Fordert Kunden dazu auf, den Verzicht auf Ihr Widerrufsrecht zu bestätigen, wenn sie virtuelle Artikel (digitale Inhalt oder Dienstleistungen) kaufen.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="98f770b0af18ca763421bac22b4b6805">
@@ -292,9 +312,55 @@
         <target>Bei Aktivierung wird erwartet, dasss Sie die Versandkosten brutto erfasst haben! Sie sollten das ggf. in den Versandeinstellungen noch einmal überprüfen.</target>
         <note>Line: </note>
       </trans-unit>
-      <trans-unit id="9896806b3fb40a73bdda4781f61052bf">
-        <source>-- Select associated page --</source>
-        <target>-- Zugehörige Seite wählen --</target>
+      <trans-unit id="f7c6db776fa123bd10235f0ddb365230">
+        <source>Legal Mail Footer</source>
+        <target>Mail Footer für Rechtsinformationen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a2410748e3bc571307a8a8fcc3aa121b">
+        <source>Additional HTML in Mail-Templates</source>
+        <target>Zusätzlicher HTML-Code in Mail-Templates</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="94c54865aaec96e3a4e6a2d6f7331c8a">
+        <source>You can add additional legal informations and links to other legal ressources into this text editor.</source>
+        <target>Sie können diesem Texteditor zusätzliche rechtliche Informationen und Links zu anderen rechtlichen Quellen hinzufügen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c47ab33401eaded8f1cb361a05f20e14">
+        <source>Legal content management</source>
+        <target>Verwaltung rechtskonformer Inhalte</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="d7045651974bcdbcec6b44c6d7e7ffd4">
+        <source>Your country's legislation may require you to communicate some specific legal information to your customers.</source>
+        <target>Die Rechtslage in Ihrem Land verpflichtet Sie unter Umständen zur Angabe besonderer rechtlicher Informationen gegenüber Ihren Kunden.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="56a98e3806ba49b60a534872eb19d01a">
+        <source>The Legal Compliance module provides the means to indicate legally required informations to your customer, using static pages (some created on purpose by the module). It is your responsibility to fill in the corresponding pages with the required content.</source>
+        <target>Das Modul Rechtssicherheit ermöglicht es Ihnen, ihren Shop rechtskonform abzusichern, indem Sie hier die entsprechenden Information in Form von zusätzlichen Seiten Ihrem Shop hinzufügen (einige davon direkt von diesem Modul erstellt).
+Es liegt aber allein in der Verantwortung des Shopbetreibers, diese Seiten mit dem erforderlichen rechtskonformen Inhalt zu füllen. Unterstützung bei der Formulierung erhalten Sie beispielsweise von den Firmen IT-Recht Kanzlei München, Händlerbund, Protected Shops oder Trusted Shops.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e087a70de5566015c0b9d3f54318a606">
+        <source>For each of the topics below, first indicate which of your Pages contains the required information:</source>
+        <target>Bitte ordnen Sie jedem der folgenden Templaten - soweit erforderlich - die Seite zu, die die benötigten Informationen enthält:</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f1d5c4f212e4e7b6fb264d35adc1e9ac">
+        <source>Display Information block in footer</source>
+        <target>Informationsblock in der Fußzeile anzeigen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5aac2cfef2db67f28a2e3fa15a8b4932">
+        <source>Displays the legal cms-pages links as a separate block in the footer (hook displayFooter). If you switch to no, please keep in mind to add your legal text in your own link blocks on every page.</source>
+        <target>Zeigt die rechtlichen CMS-Seiten-Links als separaten Block in der Fußzeile an (Hook displayFooter). Wenn Sie auf „Nein“ umstellen, denken Sie bitte daran, Ihren Rechtstext auf jeder Seite in eigene Linkblöcke einzufügen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="dc4cd8f87379d05d6a67eb1fe4ae162d">
+        <source>Add new Page</source>
+        <target>Neue Seite erstellen</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c49b8914d58716ebb70e35e5a08db6dd">
@@ -320,32 +386,6 @@
       <trans-unit id="e29252902fd4eaee6279ea5b60bc9092">
         <source>Email templates</source>
         <target>Alle E-Mail-Vorlagen</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="c47ab33401eaded8f1cb361a05f20e14">
-        <source>Legal content management</source>
-        <target>Verwaltung rechtskonformer Inhalte</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="d7045651974bcdbcec6b44c6d7e7ffd4">
-        <source>Your country's legislation may require you to communicate some specific legal information to your customers.</source>
-        <target>Die Rechtslage in Ihrem Land verpflichtet Sie unter Umständen zur Angabe besonderer rechtlicher Informationen gegenüber Ihren Kunden.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="56a98e3806ba49b60a534872eb19d01a">
-        <source>The Legal Compliance module provides the means to indicate legally required informations to your customer, using static pages (some created on purpose by the module). It is your responsibility to fill in the corresponding pages with the required content.</source>
-        <target>Das Modul Rechtssicherheit ermöglicht es Ihnen, ihren Shop rechtskonform abzusichern, indem Sie hier die entsprechenden Information in Form von zusätzlichen Seiten Ihrem Shop hinzufügen (einige davon direkt von diesem Modul erstellt).
-Es liegt aber allein in der Verantwortung des Shopbetreibers, diese Seiten mit dem erforderlichen rechtskonformen Inhalt zu füllen. Unterstützung bei der Formulierung erhalten Sie beispielsweise von den Firmen IT-Recht Kanzlei München, Händlerbund, Protected Shops oder Trusted Shops.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="e087a70de5566015c0b9d3f54318a606">
-        <source>For each of the topics below, first indicate which of your Pages contains the required information:</source>
-        <target>Bitte ordnen Sie jedem der folgenden Templaten - soweit erforderlich - die Seite zu, die die benötigten Informationen enthält:</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="dc4cd8f87379d05d6a67eb1fe4ae162d">
-        <source>Add new Page</source>
-        <target>Neue Seite erstellen</target>
         <note>Line: </note>
       </trans-unit>
     </body>
