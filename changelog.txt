@@ -40,6 +40,8 @@ Version	Datum     	Bemerkung
 					code formatting
 8.1.6	12.06.2023	fix: rename link variable
 8.1.7	05.07.2023	Fix: undefined variable wrapper
+8.2.0	19.07.2023	Display links in Footer
+					Fix: display tax in footer issue
 
 
 
