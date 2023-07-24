@@ -1082,25 +1082,20 @@ class Ps_LegalCompliance extends Module
 
         /* Handle Unit prices */
         if ($param['type'] == 'unit_price') {
-            if ((!empty($product->unity) && $product->unit_price_ratio > 0.000000)) {
-                $smartyVars['unit_price'] = array();
-                if ((bool) Configuration::get('AEUC_LABEL_UNIT_PRICE') === true) {
-                    if (!(isset($this->context->controller->php_self) && ($this->context->controller->php_self == 'product'))) {
-                        $priceDisplay = Product::getTaxCalculationMethod((int) $this->context->cookie->id_customer);
-                        if (!$priceDisplay || $priceDisplay == 2) {
-                            $unit_price = $param['product']['unit_price_tax_included'] ?? '';
-                        } else {
-                            $unit_price = $param['product']['unit_price_tax_excluded'] ?? '';
-                        }
-                        $unit_price = (new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter)
-                            ->format($unit_price);
-                        $smartyVars['unit_price']['unit_price'] = $unit_price;
-                        $smartyVars['unit_price']['unity'] = $product->unity;
-                    }
-                }
+            $unit_price = $param['product']['unit_price_tax_included'] ?? 0;
 
-                return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type, $product->id);
+            if (Configuration::get('AEUC_LABEL_UNIT_PRICE') && $unit_price > 0) {
+                $smartyVars['unit_price'] = (new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter)
+                ->format($unit_price);
+
+                if (Module::isEnabled('gc_unitprice')) {
+                    /** @var GC_Unitprice $gc_unitprice */
+                    $gc_unitprice = Module::getInstanceByName('gc_unitprice');
+                    $smartyVars['unit_price'] = $gc_unitprice->getFullUnitPrice($smartyVars['unit_price'], $product->unity);
+                }
             }
+
+            return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type, $product->id);
         }
     }
 

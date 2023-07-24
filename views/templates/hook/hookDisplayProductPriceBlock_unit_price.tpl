@@ -23,11 +23,9 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if isset($smartyVars)}
-    {* "Unit Price" Price Hook templating *}
-    {if isset($smartyVars.unit_price) && isset($smartyVars.unit_price.unit_price)}
-        <div class="aeuc_unit_price_label">
-            {$smartyVars.unit_price.unit_price} {$smartyVars.unit_price.unity}
-        </div>
-    {/if}
+{* "Unit Price" Price Hook templating *}
+{if !empty($smartyVars.unit_price)}
+    <div class="aeuc_unit_price_label">
+        {$smartyVars.unit_price}
+    </div>
 {/if}
