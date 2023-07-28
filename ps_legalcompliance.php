@@ -622,7 +622,7 @@ class Ps_LegalCompliance extends Module
 
         $mail_id = AeucEmailEntity::getMailIdFromTplFilename($tpl_name);
         if (!isset($mail_id['id_mail'])) {
-            return;
+            return array();
         }
 
         $mail_id = (int) $mail_id['id_mail'];
