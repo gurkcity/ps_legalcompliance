@@ -42,6 +42,8 @@ Version	Datum     	Bemerkung
 8.1.7	05.07.2023	Fix: undefined variable wrapper
 8.2.0	19.07.2023	Display links in Footer
 					Fix: display tax in footer issue
+8.2.1	28.07.2023	add module gc_unitprice to modify unit price display
+					complete translations
 
 
 
