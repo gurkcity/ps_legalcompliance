@@ -1086,7 +1086,7 @@ class Ps_LegalCompliance extends Module
 
             if (Configuration::get('AEUC_LABEL_UNIT_PRICE') && $unit_price > 0) {
                 $smartyVars['unit_price'] = (new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter)
-                ->format($unit_price);
+                ->format($unit_price) . ' ' . $param['product']['unity'];
 
                 if (Module::isEnabled('gc_unitprice')) {
                     /** @var GC_Unitprice $gc_unitprice */
