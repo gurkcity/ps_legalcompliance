@@ -44,6 +44,8 @@ Version	Datum     	Bemerkung
 					Fix: display tax in footer issue
 8.2.1	28.07.2023	add module gc_unitprice to modify unit price display
 					complete translations
+8.2.2	02.08.2023	Fix: foreach() argument mist be of type array|object
+					fix: add unity to unit price on product listing page
 
 
 
