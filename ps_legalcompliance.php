@@ -213,6 +213,7 @@ class Ps_LegalCompliance extends Module
                Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false) &&
                Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true) &&
                Configuration::updateValue('AEUC_LABEL_TAX_INC_EXC', true) &&
+               Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true) &&
                Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false) &&
                Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true) &&
                Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false) &&
@@ -436,6 +437,7 @@ class Ps_LegalCompliance extends Module
                Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE') &&
                Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE') &&
                Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC') &&
+               Configuration::deleteByName('AEUC_LABEL_COND_PRIVACY') &&
                Configuration::deleteByName('AEUC_LABEL_REVOCATION_TOS') &&
                Configuration::deleteByName('AEUC_LABEL_REVOCATION_VP') &&
                Configuration::deleteByName('AEUC_LABEL_SHIPPING_INC_EXC') &&
@@ -870,14 +872,38 @@ class Ps_LegalCompliance extends Module
                 $this->context->link->getCMSLink($cms_privacy, $cms_privacy->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
 
             $termsAndConditions = new TermsAndConditions();
-            $termsAndConditions
-                ->setText(
-                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
+            $termsAndConditions->setIdentifier('terms-and-conditions');
+
+            if ((bool) Configuration::get('AEUC_LABEL_COND_PRIVACY') === false) {
+                $tpl = $this->context->smarty->createTemplate(
+                    _PS_MODULE_DIR_ . $this->name . '/views/templates/front/terms_and_condition_revocation.tpl',
+                    $this->context->smarty
+                );
+                // hide the checkbox is the option is disabled
+                $tpl->assign([
+                    'checkbox_identifier' => 'terms-and-conditions',
+                ]);
+                $termsAndConditions->setText(
+                    $this->trans(
+                        'Please note our [%terms_and_conditions%] and [%revocation%]',
+                        [
+                            '%revocation%' => $cms_revocation->meta_title,
+                            '%terms_and_conditions%' => $cms_conditions->meta_title,
+                        ],
+                        'Modules.Legalcompliance.Shop'
+                    ) . $tpl->fetch(),
+                    $link_conditions,
+                    $link_revocation
+                );
+            } else {
+                $termsAndConditions->setText(
+                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') ,
                     $link_conditions,
                     $link_revocation,
                     $link_privacy
-                )
-                ->setIdentifier('terms-and-conditions');
+                );
+            }
+
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
@@ -1417,6 +1443,15 @@ class Ps_LegalCompliance extends Module
         }
     }
 
+    protected function processAeucLabelCondPrivacy($is_option_active)
+    {
+        if ((bool) $is_option_active) {
+            Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true);
+        } else {
+            Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', false);
+        }
+    }
+
     protected function processAeucLabelRevocationVP($is_option_active)
     {
         if ((bool) $is_option_active) {
@@ -1666,6 +1701,26 @@ class Ps_LegalCompliance extends Module
                     ),
                     array(
                         'type' => 'switch',
+                        'label' => $this->trans('Show Conditions Checkbox', array(), 'Modules.Legalcompliance.Admin'),
+                        'name' => 'AEUC_LABEL_COND_PRIVACY',
+                        'is_bool' => true,
+                        'desc' => $this->trans('Shows a checkbox to confirm conditions privacy and revocation (default: Yes)', array(), 'Modules.Legalcompliance.Admin'),
+                        'disable' => false,
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => true,
+                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => false,
+                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
+                            ),
+                        ),
+                    ),
+                    array(
+                        'type' => 'switch',
                         'label' => $this->trans('Revocation Terms within ToS', array(), 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_REVOCATION_TOS',
                         'is_bool' => true,
@@ -1763,6 +1818,7 @@ class Ps_LegalCompliance extends Module
             'AEUC_LABEL_SPECIFIC_PRICE' => Configuration::get('AEUC_LABEL_SPECIFIC_PRICE'),
             'AEUC_LABEL_UNIT_PRICE' => Configuration::get('AEUC_LABEL_UNIT_PRICE'),
             'AEUC_LABEL_TAX_INC_EXC' => Configuration::get('AEUC_LABEL_TAX_INC_EXC'),
+            'AEUC_LABEL_COND_PRIVACY' => Configuration::get('AEUC_LABEL_COND_PRIVACY'),
             'AEUC_LABEL_REVOCATION_TOS' => Configuration::get('AEUC_LABEL_REVOCATION_TOS'),
             'AEUC_LABEL_SHIPPING_INC_EXC' => Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'),
             'AEUC_LABEL_COMBINATION_FROM' => Configuration::get('AEUC_LABEL_COMBINATION_FROM'),
