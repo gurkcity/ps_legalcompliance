@@ -83,7 +83,7 @@
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f9227a2ab59639e217bd44ec47f35fcc">
-        <source>This module helps European merchants to comply with legal requirements. Learn how to configure the module and other shop parameters so that you're in compliance with the law.[1][2]PrestaShop 8 legal compliance documentation[/2]</source>
+        <source>This module helps European merchants to comply with legal requirements. Learn how to configure the module and other shop parameters so that you're in compliance with the law.[1][2]PrestaShop 1.7 legal compliance documentation[/2]</source>
         <target>Das Modul hilft europäischen Händlern, ihren Shop rechtssicher zu machen. Die [1][2]PrestaShop 8 Rechtssicherheit Dokumentation[/2] hilft Ihnen dabei, die Moduleinstellungen und weitere Shopeinstellungen so vorzunehmen, dass sie rechtskonform sind.</target>
         <note>Line: </note>
       </trans-unit>
@@ -170,6 +170,16 @@
       <trans-unit id="f3b604ff05c70406fc2f1b68c1a9c658">
         <source>If enabled, make sure the Shipping terms are associated with a page below (Legal Content Management). The label will link to this content.</source>
         <target>Falls aktiviert, müssen die Versandkosten mit einer Seite weiter unten (Verwaltung rechtskonformer Inhalte) verknüpft werden. Das Label wird auf diesen Inhalt verlinken.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="49187bdfe5658bf32e8d67a5e2f39e7d">
+        <source>Show Conditions Checkbox</source>
+        <target>Checkbox anzeigen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="285530fabf7aee0849eeda72657bc48f">
+        <source>Shows a checkbox to confirm conditions privacy and revocation (default: Yes)</source>
+        <target>Zeigt ein Kontrollkästchen zur Bestätigung der Datenschutz- und Widerrufsbedingungen an (Standard: Ja)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="36351ad1d80323e91bdc6f69caee6775">

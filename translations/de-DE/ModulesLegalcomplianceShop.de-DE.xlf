@@ -12,6 +12,11 @@
         <target>Ihre Bestellung muss durch Mausklick auf den Button "Kaufen" bestätigt werden!</target>
         <note>Line: </note>
       </trans-unit>
+      <trans-unit id="6a91d7d52c586b57ca8f2a425434b5c6">
+        <source>Please note our [%terms_and_conditions%] and [%revocation%]</source>
+        <target>Bitte beachten Sie unsere [%terms_and_conditions%] und [%revocation%]</target>
+        <note>Line: </note>
+      </trans-unit>
       <trans-unit id="cd18220ba24e07df2d859c30cb5809a9">
         <source>I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.</source>
         <target>Ich habe die [Allgemeinen Geschäftsbedingungen], mein [Widerrufsrecht] und die [Datenschutzerklärung] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
