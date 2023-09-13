@@ -46,7 +46,5 @@ Version	Datum     	Bemerkung
 					complete translations
 8.2.2	02.08.2023	Fix: foreach() argument mist be of type array|object
 					fix: add unity to unit price on product listing page
-
-
-
+8.3.0	12.09.2023	New: added Show conditions checkbox
 					
