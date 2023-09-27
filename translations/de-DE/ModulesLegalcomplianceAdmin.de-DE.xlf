@@ -84,7 +84,7 @@
       </trans-unit>
       <trans-unit id="f9227a2ab59639e217bd44ec47f35fcc">
         <source>This module helps European merchants to comply with legal requirements. Learn how to configure the module and other shop parameters so that you're in compliance with the law.[1][2]PrestaShop 1.7 legal compliance documentation[/2]</source>
-        <target>Das Modul hilft europäischen Händlern, ihren Shop rechtssicher zu machen. Die [1][2]PrestaShop 8 Rechtssicherheit Dokumentation[/2] hilft Ihnen dabei, die Moduleinstellungen und weitere Shopeinstellungen so vorzunehmen, dass sie rechtskonform sind.</target>
+        <target>Das Modul hilft europäischen Händlern, ihren Shop rechtssicher zu machen.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2ad348b570305efbdb00791eab07ccea">
@@ -174,7 +174,7 @@
       </trans-unit>
       <trans-unit id="49187bdfe5658bf32e8d67a5e2f39e7d">
         <source>Show Conditions Checkbox</source>
-        <target>Checkbox anzeigen</target>
+        <target>AGB-Checkbox anzeigen</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="285530fabf7aee0849eeda72657bc48f">
@@ -184,7 +184,7 @@
       </trans-unit>
       <trans-unit id="36351ad1d80323e91bdc6f69caee6775">
         <source>Revocation Terms within ToS</source>
-        <target>Widerrufsbelehrung zu AGB-Checkbox</target>
+        <target>Link Widerrufsbelehrung (AGB-Checkbox)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bdf4cbf3cdbf8a0e03aad7f4910c1b57">
