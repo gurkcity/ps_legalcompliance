@@ -19,3 +19,4 @@ Version	Datum     	Bemerkung
 3.2.0	12.06.2023	Feature extension. display/hide the checkbox for the term and conditions on the checkout page
 					Fix: syntax error
 					fix: rename link variable
+3.2.1	05.10.2023	Fix: escaping special chars in cms roles within mails
