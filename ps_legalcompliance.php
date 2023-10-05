@@ -717,6 +717,14 @@ class Ps_LegalCompliance extends Module
         $str = $param['template_html'];
 
         try {
+            $var_matches = preg_match_all('~\{(.+?)\}~', $str, $matches);
+
+            if ($var_matches && !empty($matches[0])) {
+                foreach ($matches[0] as $i => $varname) {
+                    $str = str_replace($varname, "__var_{$i}__", $str);
+                }
+            }
+
             $doc = new DOMDocument();
             $doc->loadHTML($str);
             $footer_doc = new DOMDocument();
@@ -726,7 +734,7 @@ class Ps_LegalCompliance extends Module
                 $footer_doc->loadHTML('<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
                         <head><meta charset="utf-8"></head><body>' .
-                    $this->display(__FILE__, 'hook-email-wrapper_classic.tpl') . '</body></html>');                
+                    $this->display(__FILE__, 'hook-email-wrapper_classic.tpl') . '</body></html>');
                 $wrapper->appendChild($footer_doc);
 
             } else {
@@ -737,14 +745,14 @@ class Ps_LegalCompliance extends Module
                     if ($div_class_attribute == 'shadow wrapper-container') {
                         $wrapper = $divs->item($k);
                     }
-                
+
                     $k++;
                 }
 
                 $footer_doc->loadHTML('<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
                         <head><meta charset="utf-8"></head><body>' .
-                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');                
+                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
                 for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
                     $clone_node = $doc->importNode(
                         $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
@@ -753,13 +761,22 @@ class Ps_LegalCompliance extends Module
                     $tr = $doc->createElement("tr");
                     $td = $doc->createElement("td");
                     $tr->appendChild($td);
-                    $wrapper->appendChild($tr);
+                    if (isset($wrapper)) {
+                        $wrapper->appendChild($tr);
+                    }
                     $td->appendChild($clone_node);
                 }
             }
-            
-            
-            $param['template_html'] = $doc->saveHTML();
+
+            $html = $doc->saveHTML();
+
+            if ($var_matches && !empty($matches[0])) {
+                foreach ($matches[0] as $i => $varname) {
+                    $html = str_replace("__var_{$i}__", $varname, $html);
+                }
+            }
+
+            $param['template_html'] = $html;
         } catch (Throwable $e) {
             $param['template_html'] .= $this->display(__FILE__, 'hook-email-wrapper.tpl');
         }
