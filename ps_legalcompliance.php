@@ -96,7 +96,7 @@ class Ps_LegalCompliance extends Module
         $return = parent::install() &&
             $this->loadTables() &&
             $this->installHooks() &&
-            $this->registerHook('header') &&
+            $this->registerHook('displayHeader') &&
             $this->registerHook('displayProductPriceBlock') &&
             $this->registerHook('displayCheckoutSubtotalDetails') &&
             $this->registerHook('displayFooter') &&
@@ -803,7 +803,7 @@ class Ps_LegalCompliance extends Module
         $param['template_vars']['{carrier}'] .= ' - '.$carrier->delay[(int) $param['cart']->id_lang];
     }
 
-    public function hookHeader($param)
+    public function hookDisplayHeader($param)
     {
         $this->context->controller->registerStylesheet('modules-aeuc_front', 'modules/'.$this->name.'/views/css/aeuc_front.css', ['media' => 'all', 'priority' => 150]);
 
