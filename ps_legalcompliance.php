@@ -552,6 +552,10 @@ class Ps_LegalCompliance extends Module
         foreach ($cms_pages_associated as $cms_page_associated) {
             if ($cms_page_associated instanceof CMSRole && (int) $cms_page_associated->id_cms > 0) {
                 $cms = new CMS((int) $cms_page_associated->id_cms);
+                if (!Validate::isLoadedObject($cms)) {
+                    // skip non loaded object
+                    continue;
+                }
                 $cms_links[] = array('link' => $this->context->link->getCMSLink($cms->id, null, $is_ssl_enabled),
                                      'id' => 'cms-page-'.$cms->id,
                                      'title' => $cms->meta_title[$this->context->language->id],
@@ -856,8 +860,9 @@ class Ps_LegalCompliance extends Module
             $cms_conditions = $cms_repository->i10nFindOneById((int) $cms_page_conditions_associated->id_cms,
                                                                (int) $this->context->language->id,
                                                                (int) $this->context->shop->id);
-            $link_conditions =
-                $this->context->link->getCMSLink($cms_conditions, $cms_conditions->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
+            $link_conditions = $cms_conditions
+                ? $this->context->link->getCMSLink($cms_conditions, $cms_conditions->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'))
+                : null;
 
             $cms_revocation = $cms_repository->i10nFindOneById((int) $cms_page_revocation_associated->id_cms,
                                                                (int) $this->context->language->id,
