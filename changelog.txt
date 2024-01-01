@@ -48,4 +48,6 @@ Version	Datum     	Bemerkung
 					fix: add unity to unit price on product listing page
 8.3.0	12.09.2023	New: added Show conditions checkbox
 8.3.1	27.09.2023	Fix translations
+8.3.2	01.01.2024	Fix: errors in demo shop FO
+					fix: hook name display header
 					
