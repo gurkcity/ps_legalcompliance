@@ -50,4 +50,5 @@ Version	Datum     	Bemerkung
 8.3.1	27.09.2023	Fix translations
 8.3.2	01.01.2024	Fix: errors in demo shop FO
 					fix: hook name display header
+8.3.3	05.01.2024	Fix: displayPaymentEU Hook on Upgrade / Delete upgrade-1.5.1.php
 					
