@@ -24,22 +24,24 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-$sql = array();
+$sql = [];
 
 /* CMS Role to Mail association */
-$sql[_DB_PREFIX_.'aeuc_cmsrole_email'] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'aeuc_cmsrole_email` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT,
-			  `id_cms_role` int(11) NOT NULL,
-			  `id_mail` int(11) NOT NULL,
-			  PRIMARY KEY (`id`)
-			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
+$sql[_DB_PREFIX_ . 'aeuc_cmsrole_email'] = '
+CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'aeuc_cmsrole_email` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`id_cms_role` int(11) NOT NULL,
+`id_mail` int(11) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;';
 
 /* Mail table */
-$sql[_DB_PREFIX_.'aeuc_email'] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'aeuc_email` (
-			  `id_mail` int(11) NOT NULL AUTO_INCREMENT,
-			  `filename` varchar(64) NOT NULL,
-			  `display_name` varchar(64) NOT NULL,
-			  PRIMARY KEY (`id_mail`)
-			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
+$sql[_DB_PREFIX_ . 'aeuc_email'] = '
+CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'aeuc_email` (
+	`id_mail` int(11) NOT NULL AUTO_INCREMENT,
+	`filename` varchar(64) NOT NULL,
+	`display_name` varchar(64) NOT NULL,
+	PRIMARY KEY (`id_mail`)
+) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;';
 
 return $sql;

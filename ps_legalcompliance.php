@@ -23,21 +23,21 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-if (!defined('_PS_VERSION_')) {
-    exit;
-}
 
 /* Namespaces used in this module */
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShop\PrestaShop\Core\Foundation\Filesystem\FileSystem;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
-use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
 /* Include required entities */
 include_once __DIR__.'/entities/AeucCMSRoleEmailEntity.php';
 include_once __DIR__.'/entities/AeucEmailEntity.php';
 include_once __DIR__.'/classes/LegalcomplianceException.php';
+
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 class Ps_LegalCompliance extends Module
 {
@@ -46,8 +46,8 @@ class Ps_LegalCompliance extends Module
     protected $entity_manager;
     protected $filesystem;
     protected $emails;
-    protected $_errors = array();
-    protected $_warnings = array();
+    protected $_errors = [];
+    protected $_warnings = [];
 
     /* Constants used for LEGAL/CMS Management */
     const LEGAL_NO_ASSOC = 'NO_ASSOC';
@@ -59,10 +59,11 @@ class Ps_LegalCompliance extends Module
     const LEGAL_ENVIRONMENTAL = 'LEGAL_ENVIRONMENTAL';
     const LEGAL_SHIP_PAY = 'LEGAL_SHIP_PAY';
 
-    public function __construct(EntityManager $entity_manager,
-                                FileSystem $fs,
-                                EmailLister $email)
-    {
+    public function __construct(
+        EntityManager $entity_manager,
+        FileSystem $fs,
+        EmailLister $email
+    ) {
         $this->name = 'ps_legalcompliance';
         $this->tab = 'administration';
         $this->version = '8.3.3';
@@ -77,14 +78,17 @@ class Ps_LegalCompliance extends Module
         $this->filesystem = $fs;
         $this->emails = $email;
 
-        $this->displayName = $this->trans('Legal Compliance', array(), 'Modules.Legalcompliance.Admin');
-        $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', array(), 'Modules.Legalcompliance.Admin');
-        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', array(), 'Modules.Legalcompliance.Admin');
+        $this->displayName = $this->trans('Legal Compliance', [], 'Modules.Legalcompliance.Admin');
+        $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', [], 'Modules.Legalcompliance.Admin');
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Legalcompliance.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.7.3.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = [
+            'min' => '1.7.3.0',
+            'max' => _PS_VERSION_
+        ];
 
         /* Init errors var */
-        $this->_errors = array();
+        $this->_errors = [];
     }
 
     /**
@@ -93,29 +97,29 @@ class Ps_LegalCompliance extends Module
      */
     public function install()
     {
-        $return = parent::install() &&
-            $this->loadTables() &&
-            $this->installHooks() &&
-            $this->registerHook('displayHeader') &&
-            $this->registerHook('displayProductPriceBlock') &&
-            $this->registerHook('displayCheckoutSubtotalDetails') &&
-            $this->registerHook('displayFooter') &&
-            $this->registerHook('displayFooterAfter') &&
-            $this->registerHook('actionEmailSendBefore') &&
-            $this->registerHook('actionEmailAddAfterContent') &&
-            $this->registerHook('displayCartTotalPriceLabel') &&
-            $this->registerHook('displayCMSPrintButton') &&
-            $this->registerHook('displayCMSDisputeInformation') &&
-            $this->registerHook('termsAndConditions') &&
-            $this->registerHook('displayOverrideTemplate') &&
-            $this->registerHook('displayCheckoutSummaryTop') &&
-            $this->registerHook('sendMailAlterTemplateVars') &&
-            $this->registerHook('displayReassurance') &&
-            $this->createConfig() &&
-            $this->generateAndLinkCMSPages() &&
-            $this->removeCMSPagesIfNeeded() &&
-            $this->setLegalContentToOrderMails() &&
-            $this->hideWirePaymentInviteAtOrderConfirmation();
+        $return = parent::install()
+            && $this->loadTables()
+            && $this->installHooks()
+            && $this->registerHook('displayHeader')
+            && $this->registerHook('displayProductPriceBlock')
+            && $this->registerHook('displayCheckoutSubtotalDetails')
+            && $this->registerHook('displayFooter')
+            && $this->registerHook('displayFooterAfter')
+            && $this->registerHook('actionEmailSendBefore')
+            && $this->registerHook('actionEmailAddAfterContent')
+            && $this->registerHook('displayCartTotalPriceLabel')
+            && $this->registerHook('displayCMSPrintButton')
+            && $this->registerHook('displayCMSDisputeInformation')
+            && $this->registerHook('termsAndConditions')
+            && $this->registerHook('displayOverrideTemplate')
+            && $this->registerHook('displayCheckoutSummaryTop')
+            && $this->registerHook('sendMailAlterTemplateVars')
+            && $this->registerHook('displayReassurance')
+            && $this->createConfig()
+            && $this->generateAndLinkCMSPages()
+            && $this->removeCMSPagesIfNeeded()
+            && $this->setLegalContentToOrderMails()
+            && $this->hideWirePaymentInviteAtOrderConfirmation();
 
         $this->emptyTemplatesCache();
         $this->installTranslations();
@@ -131,8 +135,10 @@ class Ps_LegalCompliance extends Module
     public function updateWirePaymentInviteDisplayAtOrderConfirmation($display)
     {
         $wirePaymentModule = Module::getInstanceByName('ps_wirepayment');
+
         if (defined(get_class($wirePaymentModule) . '::FLAG_DISPLAY_PAYMENT_INVITE')) {
             $flagName = constant(get_class($wirePaymentModule) . '::FLAG_DISPLAY_PAYMENT_INVITE');
+
             Configuration::updateValue($flagName, $display);
 
             return true;
@@ -148,10 +154,10 @@ class Ps_LegalCompliance extends Module
 
     public function uninstall()
     {
-        return parent::uninstall() &&
-            $this->dropConfig() &&
-            $this->showWirePaymentInviteAtOrderConfirmation() &&
-            $this->unloadTables();
+        return parent::uninstall()
+            && $this->dropConfig()
+            && $this->showWirePaymentInviteAtOrderConfirmation()
+            && $this->unloadTables();
     }
 
     public function disable($force_all = false)
@@ -180,7 +186,7 @@ class Ps_LegalCompliance extends Module
 
             if (!$new_hook->add()) {
                 $return &= false;
-                $this->_errors[] = $this->trans('Could not install new hook', array(), 'Modules.Legalcompliance.Admin').': '.$hook_name;
+                $this->_errors[] = $this->trans('Could not install new hook', [], 'Modules.Legalcompliance.Admin').': '.$hook_name;
             }
         }
 
@@ -189,13 +195,13 @@ class Ps_LegalCompliance extends Module
 
     public function createConfig()
     {
-        $custom_cart_text_values = array();
+        $custom_cart_text_values = [];
 
         $langs_repository = $this->entity_manager->getRepository('Language');
         $langs = $langs_repository->findAll();
 
         foreach ($langs as $lang) {
-            $custom_cart_text_values[(int) $lang->id] = $this->trans('The order will only be confirmed when you click on the button \'Order with an obligation to pay\' at the end of the checkout!', array(), 'Modules.Legalcompliance.Shop', $lang->locale);
+            $custom_cart_text_values[(int) $lang->id] = $this->trans('The order will only be confirmed when you click on the button \'Order with an obligation to pay\' at the end of the checkout!', [], 'Modules.Legalcompliance.Shop', $lang->locale);
         }
 
         /* Base settings */
@@ -208,44 +214,56 @@ class Ps_LegalCompliance extends Module
         $this->processAeucLabelShippingIncExc(false);
         $this->processAeucLabelCombinationFrom(true);
 
-        return Configuration::updateValue('AEUC_LABEL_CUSTOM_CART_TEXT', $custom_cart_text_values) &&
-               Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false) &&
-               Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false) &&
-               Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true) &&
-               Configuration::updateValue('AEUC_LABEL_TAX_INC_EXC', true) &&
-               Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true) &&
-               Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false) &&
-               Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true) &&
-               Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false) &&
-               Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true) &&
-               Configuration::updateValue('PS_TAX_DISPLAY', true) &&
-               Configuration::updateValue('PS_FINAL_SUMMARY_ENABLED', true) &&
-               Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true) &&
-               Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', 1);
+        return Configuration::updateValue('AEUC_LABEL_CUSTOM_CART_TEXT', $custom_cart_text_values)
+            && Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
+            && Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false)
+            && Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true)
+            && Configuration::updateValue('AEUC_LABEL_TAX_INC_EXC', true)
+            && Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true)
+            && Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false)
+            && Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true)
+            && Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false)
+            && Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true)
+            && Configuration::updateValue('PS_TAX_DISPLAY', true)
+            && Configuration::updateValue('PS_FINAL_SUMMARY_ENABLED', true)
+            && Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true)
+            && Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', 1);
     }
 
     public function generateAndLinkCMSPages()
     {
-        $cms_pages = array(
-            self::LEGAL_NOTICE => array('meta_title' => $this->trans('Legal notice', array(), 'Modules.Legalcompliance.Admin'),
-                                        'link_rewrite' => 'legal-notice',
-                                        'content' => $this->trans('Please add your legal information to this site.', array(), 'Modules.Legalcompliance.Admin'), ),
-            self::LEGAL_CONDITIONS => array('meta_title' => $this->trans('Terms of Service (ToS)', array(), 'Modules.Legalcompliance.Admin'),
-                                            'link_rewrite' => 'terms-of-service-tos',
-                                            'content' => $this->trans('Please add your Terms of Service (ToS) to this site.', array(), 'Modules.Legalcompliance.Admin'), ),
-            self::LEGAL_REVOCATION => array('meta_title' => $this->trans('Revocation terms', array(), 'Modules.Legalcompliance.Admin'),
-                                            'link_rewrite' => 'revocation-terms',
-                                            'content' => $this->trans('Please add your Revocation terms to this site.', array(), 'Modules.Legalcompliance.Admin'), ),
-            self::LEGAL_PRIVACY => array('meta_title' => $this->trans('Privacy', array(), 'Modules.Legalcompliance.Admin'),
-                                        'link_rewrite' => 'privacy',
-                                        'content' => $this->trans('Please insert here your content about privacy. If you have activated Social Media modules, please provide a notice about third-party access to data.', array(), 'Modules.Legalcompliance.Admin'), ),
-            self::LEGAL_SHIP_PAY => array('meta_title' => $this->trans('Shipping and payment', array(), 'Modules.Legalcompliance.Admin'),
-                                          'link_rewrite' => 'shipping-and-payment',
-                                          'content' => $this->trans('Please add your Shipping and payment information to this site.', array(), 'Modules.Legalcompliance.Admin'), ),
-            self::LEGAL_ENVIRONMENTAL => array('meta_title' => $this->trans('Environmental notice', array(), 'Modules.Legalcompliance.Admin'),
-                                               'link_rewrite' => 'environmental-notice',
-                                               'content' => $this->trans('Please add your Environmental information to this site.', array(), 'Modules.Legalcompliance.Admin'), ),
-        );
+        $cms_pages = [
+            self::LEGAL_NOTICE => [
+                'meta_title' => $this->trans('Legal notice', [], 'Modules.Legalcompliance.Admin'),
+                'link_rewrite' => 'legal-notice',
+                'content' => $this->trans('Please add your legal information to this site.', [], 'Modules.Legalcompliance.Admin'),
+            ],
+            self::LEGAL_CONDITIONS => [
+                'meta_title' => $this->trans('Terms of Service (ToS)', [], 'Modules.Legalcompliance.Admin'),
+                'link_rewrite' => 'terms-of-service-tos',
+                'content' => $this->trans('Please add your Terms of Service (ToS) to this site.', [], 'Modules.Legalcompliance.Admin'),
+            ],
+            self::LEGAL_REVOCATION => [
+                'meta_title' => $this->trans('Revocation terms', [], 'Modules.Legalcompliance.Admin'),
+                'link_rewrite' => 'revocation-terms',
+                'content' => $this->trans('Please add your Revocation terms to this site.', [], 'Modules.Legalcompliance.Admin'),
+            ],
+            self::LEGAL_PRIVACY => [
+                'meta_title' => $this->trans('Privacy', [], 'Modules.Legalcompliance.Admin'),
+                'link_rewrite' => 'privacy',
+                'content' => $this->trans('Please insert here your content about privacy. If you have activated Social Media modules, please provide a notice about third-party access to data.', [], 'Modules.Legalcompliance.Admin'),
+            ],
+            self::LEGAL_SHIP_PAY => [
+                'meta_title' => $this->trans('Shipping and payment', [], 'Modules.Legalcompliance.Admin'),
+                'link_rewrite' => 'shipping-and-payment',
+                'content' => $this->trans('Please add your Shipping and payment information to this site.', [], 'Modules.Legalcompliance.Admin'),
+            ],
+            self::LEGAL_ENVIRONMENTAL => [
+                'meta_title' => $this->trans('Environmental notice', [], 'Modules.Legalcompliance.Admin'),
+                'link_rewrite' => 'environmental-notice',
+                'content' => $this->trans('Please add your Environmental information to this site.', [], 'Modules.Legalcompliance.Admin'),
+            ],
+        ];
 
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
 
@@ -254,16 +272,20 @@ class Ps_LegalCompliance extends Module
 
         foreach ($cms_pages as $cms_page_role => $cms_page) {
             $cms_role = $cms_role_repository->findOneByName($cms_page_role);
+
             if ((int) $cms_role->id_cms == 0) {
                 $cms = new CMS();
                 $cms->id_cms_category = 1;
+
                 foreach ($langs as $lang) {
                     $cms->meta_title[(int) $lang->id] = $cms_page['meta_title'];
                     $cms->link_rewrite[(int) $lang->id] = 'aeu-legal-'.$cms_page['link_rewrite'];
                     $cms->content[(int) $lang->id] = $cms_page['content'];
                 }
+
                 $cms->active = 1;
                 $cms->add();
+
                 $cms_role->id_cms = (int) $cms->id;
                 $cms_role->update();
             }
@@ -279,12 +301,17 @@ class Ps_LegalCompliance extends Module
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
             $cms_page_conditions_associated = $cms_role_repository->findOneByName(self::LEGAL_CONDITIONS);
 
-            $sql = 'SELECT id_link_block, content
-                    FROM '._DB_PREFIX_.'link_block';
+            $sql = '
+                SELECT id_link_block, content
+                FROM '._DB_PREFIX_.'link_block
+            ';
+
             $link_blocks = Db::getInstance()->executeS($sql);
+
             foreach ($link_blocks as $link_block) {
                 $conditions_found = false;
                 $content = json_decode($link_block['content'], true);
+
                 if (isset($content['cms']) && is_array($content['cms'])) {
                     foreach ($content['cms'] as $cms_key => $cms_id) {
                         if ((int) $cms_id == (int) $cms_page_conditions_associated->id_cms) {
@@ -293,10 +320,11 @@ class Ps_LegalCompliance extends Module
                         }
                     }
                 }
+
                 if ($conditions_found) {
                     $content['cms'] = array_values($content['cms']);
                     $content = json_encode($content);
-                    Db::getInstance()->update('link_block', array('content' => pSQL($content)), '`id_link_block` = '.(int) $link_block['id_link_block']);
+                    Db::getInstance()->update('link_block', ['content' => pSQL($content)], '`id_link_block` = '.(int) $link_block['id_link_block']);
                 }
             }
         }
@@ -309,23 +337,28 @@ class Ps_LegalCompliance extends Module
         $cms_roles_aeuc = $this->getCMSRoles();
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
         $cms_roles_associated = $cms_role_repository->getCMSRolesAssociated();
-        $role_ids_to_set = array();
+        $role_ids_to_set = [];
         $role_id_legal_notice = false;
-        $email_ids_to_set = array();
-        $account_email_ids_to_set = array();
-        $legal_options = array();
-        $cleaned_mails_names = array();
+        $email_ids_to_set = [];
+        $account_email_ids_to_set = [];
+        $legal_options = [];
+        $cleaned_mails_names = [];
 
         foreach ($cms_roles_associated as $role) {
-            if ($role->name == self::LEGAL_CONDITIONS || $role->name == self::LEGAL_REVOCATION || $role->name == self::LEGAL_NOTICE) {
+            if (
+                $role->name == self::LEGAL_CONDITIONS
+                || $role->name == self::LEGAL_REVOCATION
+                || $role->name == self::LEGAL_NOTICE
+            ) {
                 $role_ids_to_set[] = $role->id;
             }
+
             if ($role->name == self::LEGAL_NOTICE) {
                 $role_id_legal_notice = $role->id;
             }
         }
 
-        $email_filenames = array(
+        $email_filenames = [
             'backoffice_order',
             'credit_slip',
             'order_canceled',
@@ -336,19 +369,21 @@ class Ps_LegalCompliance extends Module
             'order_return_state',
             'payment',
             'refund',
-        );
+        ];
+
         foreach (AeucEmailEntity::getAll() as $email) {
             if (in_array($email['filename'], $email_filenames)) {
                 $email_ids_to_set[] = $email['id_mail'];
             }
         }
 
-        $account_newsletter_mail_filenames = array(
+        $account_newsletter_mail_filenames = [
             'account',
             'newsletter',
             'password',
             'password_query',
-        );
+        ];
+
         foreach (AeucEmailEntity::getAll() as $email) {
             if (in_array($email['filename'], $account_newsletter_mail_filenames)) {
                 $account_email_ids_to_set[] = $email['id_mail'];
@@ -374,15 +409,17 @@ class Ps_LegalCompliance extends Module
                 $assoc_obj->save();
             }
         }
+
         return true;
     }
 
     public function unloadTables()
     {
         $state = true;
-        $sql = require __DIR__.'/install/sql_install.php';
+        $sql = require __DIR__ . '/install/sql_install.php';
+
         foreach ($sql as $name => $v) {
-            $state &= Db::getInstance()->execute('DROP TABLE IF EXISTS '.$name);
+            $state &= Db::getInstance()->execute('DROP TABLE IF EXISTS ' . $name);
         }
 
         return $state;
@@ -394,6 +431,7 @@ class Ps_LegalCompliance extends Module
 
         // Create module's table
         $sql = require __DIR__.'/install/sql_install.php';
+
         foreach ($sql as $s) {
             $state &= Db::getInstance()->execute($s);
         }
@@ -412,11 +450,11 @@ class Ps_LegalCompliance extends Module
             }
         }
 
-        $default_path_email = _PS_MAIL_DIR_.'en'.DIRECTORY_SEPARATOR;
+        $default_path_email = _PS_MAIL_DIR_ . 'en' . DIRECTORY_SEPARATOR;
 
         if (!is_dir($default_path_email)) {
             $isoDefault = $this->getIsoFromDefaultLanguage();
-            $default_path_email = _PS_MAIL_DIR_.$isoDefault.DIRECTORY_SEPARATOR;
+            $default_path_email = _PS_MAIL_DIR_ . $isoDefault . DIRECTORY_SEPARATOR;
         }
 
         // Fill-in aeuc_mail table
@@ -425,6 +463,7 @@ class Ps_LegalCompliance extends Module
             $new_email->filename = (string) $mail;
             $new_email->display_name = $this->emails->getCleanedMailName($mail);
             $new_email->save();
+
             unset($new_email);
         }
 
@@ -433,23 +472,23 @@ class Ps_LegalCompliance extends Module
 
     public function dropConfig()
     {
-        return Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL') &&
-               Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE') &&
-               Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE') &&
-               Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC') &&
-               Configuration::deleteByName('AEUC_LABEL_COND_PRIVACY') &&
-               Configuration::deleteByName('AEUC_LABEL_REVOCATION_TOS') &&
-               Configuration::deleteByName('AEUC_LABEL_REVOCATION_VP') &&
-               Configuration::deleteByName('AEUC_LABEL_SHIPPING_INC_EXC') &&
-               Configuration::deleteByName('AEUC_LABEL_COMBINATION_FROM') &&
-               Configuration::deleteByName('AEUC_LABEL_CUSTOM_CART_TEXT') &&
-               Configuration::updateValue('PS_ATCP_SHIPWRAP', false) &&
-               Configuration::deleteByName('AEUC_LABEL_TAX_FOOTER');
+        return Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL')
+            && Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE')
+            && Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE')
+            && Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC')
+            && Configuration::deleteByName('AEUC_LABEL_COND_PRIVACY')
+            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_TOS')
+            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_VP')
+            && Configuration::deleteByName('AEUC_LABEL_SHIPPING_INC_EXC')
+            && Configuration::deleteByName('AEUC_LABEL_COMBINATION_FROM')
+            && Configuration::deleteByName('AEUC_LABEL_CUSTOM_CART_TEXT')
+            && Configuration::updateValue('PS_ATCP_SHIPWRAP', false)
+            && Configuration::deleteByName('AEUC_LABEL_TAX_FOOTER');
     }
 
     /*
         This method checks if cart has virtual products
-        It's better to add this method (as hasVirtualProduct) and add 'protected static $_hasVirtualProduct = array(); property
+        It's better to add this method (as hasVirtualProduct) and add 'protected static $_hasVirtualProduct = []; property
         in Cart class in next version of prestashop.
     */
     private function hasCartVirtualProduct(Cart $cart)
@@ -471,16 +510,17 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayCartTotalPriceLabel($param)
     {
-        $smartyVars = array();
+        $smartyVars = [];
+
         if ((bool) Configuration::get('AEUC_LABEL_TAX_INC_EXC') === true) {
             $customer_default_group_id = (int) $this->context->customer->id_default_group;
             $customer_default_group = new Group($customer_default_group_id);
 
             if ((bool) Configuration::get('PS_TAX') === true && $this->context->country->display_tax_label &&
                 !(Validate::isLoadedObject($customer_default_group) && (bool) $customer_default_group->price_display_method === true)) {
-                $smartyVars['price']['tax_str_i18n'] = $this->trans('Tax included', array(), 'Shop.Theme.Checkout');
+                $smartyVars['price']['tax_str_i18n'] = $this->trans('Tax included', [], 'Shop.Theme.Checkout');
             } else {
-                $smartyVars['price']['tax_str_i18n'] = $this->trans('Tax excluded', array(), 'Shop.Theme.Checkout');
+                $smartyVars['price']['tax_str_i18n'] = $this->trans('Tax excluded', [], 'Shop.Theme.Checkout');
             }
         }
 
@@ -493,14 +533,18 @@ class Ps_LegalCompliance extends Module
             }
         }
 
-        $this->context->smarty->assign(array('smartyVars' => $smartyVars));
+        $this->context->smarty->assign(['smartyVars' => $smartyVars]);
 
         return $this->display(__FILE__, 'displayCartTotalPriceLabel.tpl');
     }
 
     public function hookDisplayOverrideTemplate($param)
     {
-        if (isset($this->context->controller->php_self) && !$this->context->controller->ajax && ($this->context->controller->php_self == 'order')) {
+        if (
+            isset($this->context->controller->php_self)
+            && !$this->context->controller->ajax
+            && $this->context->controller->php_self == 'order'
+        ) {
             return $this->getTemplatePath('hookDisplayOverrideTemplateFooter.tpl');
         }
     }
@@ -512,7 +556,8 @@ class Ps_LegalCompliance extends Module
             null,
             $this->context->language->id,
             ['action' => 'show']
-            );
+        );
+
         $this->context->smarty->assign('link_shopping_cart', $cart_url);
 
         return $this->display(__FILE__, 'hookDisplayCheckoutSummaryTop.tpl');
@@ -520,12 +565,17 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayReassurance($param)
     {
-        if (isset($this->context->controller->php_self) && (in_array($this->context->controller->php_self, array('order', 'cart')))) {
+        if (
+            isset($this->context->controller->php_self)
+            && in_array($this->context->controller->php_self, array('order', 'cart'))
+        ) {
             $custom_cart_text = Configuration::get('AEUC_LABEL_CUSTOM_CART_TEXT', (int) $this->context->language->id);
+
             if (trim($custom_cart_text) == '') {
                 return false;
             } else {
                 $this->context->smarty->assign('custom_cart_text', $custom_cart_text);
+
                 return $this->display(__FILE__, 'hookDisplayReassurance.tpl');
             }
         }
@@ -538,29 +588,38 @@ class Ps_LegalCompliance extends Module
             return;
         }
 
-        $cms_roles_to_be_displayed = array(self::LEGAL_NOTICE,
+        $cms_roles_to_be_displayed = [
+            self::LEGAL_NOTICE,
             self::LEGAL_CONDITIONS,
             self::LEGAL_REVOCATION,
             self::LEGAL_PRIVACY,
             self::LEGAL_SHIP_PAY,
-            self::LEGAL_ENVIRONMENTAL, );
+            self::LEGAL_ENVIRONMENTAL,
+        ];
 
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
         $cms_pages_associated = $cms_role_repository->findByName($cms_roles_to_be_displayed);
         $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
-        $cms_links = array();
+        $cms_links = [];
+
         foreach ($cms_pages_associated as $cms_page_associated) {
-            if ($cms_page_associated instanceof CMSRole && (int) $cms_page_associated->id_cms > 0) {
+            if (
+                $cms_page_associated instanceof CMSRole
+                && (int) $cms_page_associated->id_cms > 0
+            ) {
                 $cms = new CMS((int) $cms_page_associated->id_cms);
+
                 if (!Validate::isLoadedObject($cms)) {
                     // skip non loaded object
                     continue;
                 }
-                $cms_links[] = array('link' => $this->context->link->getCMSLink($cms->id, null, $is_ssl_enabled),
-                                     'id' => 'cms-page-'.$cms->id,
-                                     'title' => $cms->meta_title[$this->context->language->id],
-                                     'desc' => $cms->meta_description[$this->context->language->id],
-                );
+
+                $cms_links[] = [
+                    'link' => $this->context->link->getCMSLink($cms->id, null, $is_ssl_enabled),
+                    'id' => 'cms-page-' . $cms->id,
+                    'title' => $cms->meta_title[$this->context->language->id],
+                    'desc' => $cms->meta_description[$this->context->language->id],
+                ];
             }
         }
         $this->context->smarty->assign('cms_links', $cms_links);
@@ -570,79 +629,101 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayFooterAfter($param)
     {
-        if (isset($this->context->controller->php_self)) {
-            if (in_array($this->context->controller->php_self, array('index', 'category', 'prices-drop', 'new-products', 'best-sales', 'search', 'product'))) {
-                $cms_repository = $this->entity_manager->getRepository('CMS');
-                $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-                $cms_page_shipping_pay = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+        if (
+            isset($this->context->controller->php_self)
+            && in_array($this->context->controller->php_self, ['index', 'category', 'prices-drop', 'new-products', 'best-sales', 'search', 'product'])
+        ) {
+            $cms_repository = $this->entity_manager->getRepository('CMS');
+            $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+            $cms_page_shipping_pay = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
 
-                $link_shipping = false;
-                if ((int) $cms_page_shipping_pay->id_cms > 0) {
-                    $cms_shipping_pay = $cms_repository->i10nFindOneById((int) $cms_page_shipping_pay->id_cms,
-                        (int) $this->context->language->id,
-                        (int) $this->context->shop->id);
-                    if (!$cms_shipping_pay) {
-                        return false;
-                    }
-                    $link_shipping =
-                        $this->context->link->getCMSLink($cms_shipping_pay, $cms_shipping_pay->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
+            $link_shipping = false;
+
+            if ((int) $cms_page_shipping_pay->id_cms > 0) {
+                $cms_shipping_pay = $cms_repository->i10nFindOneById(
+                    (int) $cms_page_shipping_pay->id_cms,
+                    (int) $this->context->language->id,
+                    (int) $this->context->shop->id
+                );
+
+                if (!$cms_shipping_pay) {
+                    return false;
                 }
 
-                if ($this->context->controller->php_self == 'product') {
-                    $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
-                    if (trim($delivery_addtional_info) == '') {
-                        return false;
-                    }
-                    $this->context->smarty->assign('link_shipping', $link_shipping);
-                    $this->context->smarty->assign('delivery_additional_information', $delivery_addtional_info);
-                } else {
-                    $customer_default_group_id = (int) $this->context->customer->id_default_group;
-                    $customer_default_group = new Group($customer_default_group_id);
-
-                    if ((bool) Configuration::get('PS_TAX') === true && $this->context->country->display_tax_label &&
-                        !(Validate::isLoadedObject($customer_default_group) && (bool) $customer_default_group->price_display_method === true)) {
-                        $tax_included = true;
-                    } else {
-                        $tax_included = false;
-                    }
-
-                    $this->context->smarty->assign('show_shipping', (bool) Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC') === true);
-                    $this->context->smarty->assign('link_shipping', $link_shipping);
-                    $this->context->smarty->assign('tax_included', $tax_included);
-                }
-
-                $this->context->smarty->assign([
-                    'display_tax_information' => (int) Configuration::get('AEUC_LABEL_TAX_FOOTER') == 1,
-                ]);
-                return $this->display(__FILE__, 'hookDisplayFooterAfter.tpl');
+                $link_shipping = $this->context->link->getCMSLink(
+                    $cms_shipping_pay,
+                    $cms_shipping_pay->link_rewrite,
+                    (bool) Configuration::get('PS_SSL_ENABLED')
+                );
             }
+
+            if ($this->context->controller->php_self == 'product') {
+                $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
+
+                if (trim($delivery_addtional_info) == '') {
+                    return false;
+                }
+
+                $this->context->smarty->assign('link_shipping', $link_shipping);
+                $this->context->smarty->assign('delivery_additional_information', $delivery_addtional_info);
+            } else {
+                $customer_default_group_id = (int) $this->context->customer->id_default_group;
+                $customer_default_group = new Group($customer_default_group_id);
+
+                if (
+                    (bool) Configuration::get('PS_TAX') === true
+                    && $this->context->country->display_tax_label
+                    && !(
+                        Validate::isLoadedObject($customer_default_group)
+                        && (bool) $customer_default_group->price_display_method === true
+                    )
+                ) {
+                    $tax_included = true;
+                } else {
+                    $tax_included = false;
+                }
+
+                $this->context->smarty->assign('show_shipping', (bool) Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC') === true);
+                $this->context->smarty->assign('link_shipping', $link_shipping);
+                $this->context->smarty->assign('tax_included', $tax_included);
+            }
+
+            $this->context->smarty->assign([
+                'display_tax_information' => (int) Configuration::get('AEUC_LABEL_TAX_FOOTER') == 1,
+            ]);
+
+            return $this->display(__FILE__, 'hookDisplayFooterAfter.tpl');
         }
     }
 
     private function getCmsRolesForMailtemplate($tpl_name, $id_lang)
     {
         $tpl_name_exploded = explode('.', $tpl_name);
+
         if (is_array($tpl_name_exploded)) {
             $tpl_name = (string) $tpl_name_exploded[0];
         }
 
         $mail_id = AeucEmailEntity::getMailIdFromTplFilename($tpl_name);
+
         if (!isset($mail_id['id_mail'])) {
-            return array();
+            return [];
         }
 
         $mail_id = (int) $mail_id['id_mail'];
         $cms_role_ids = AeucCMSRoleEmailEntity::getCMSRoleIdsFromIdMail($mail_id);
 
-        $tmp_cms_role_list = array();
+        $tmp_cms_role_list = [];
+
         foreach ($cms_role_ids as $cms_role_id) {
             $tmp_cms_role_list[] = $cms_role_id['id_cms_role'];
         }
 
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+
         return $tmp_cms_role_list
             ? $cms_role_repository->findByIdCmsRole($tmp_cms_role_list)
-            : array();
+            : [];
     }
 
     public function hookActionEmailSendBefore($params)
@@ -654,7 +735,7 @@ class Ps_LegalCompliance extends Module
         $iso_code = (new Language((int) $params['idLang']))->iso_code;
         $cms_roles = $this->getCmsRolesForMailTemplate((string) $params['template'], (int) $params['idLang']);
         $cms_repo = $this->entity_manager->getRepository('CMS');
-        $pdf_attachment = $this->getPDFAttachmentOptionsArray();
+        $pdf_attachment = $this->getPDFAttachmentOptions();
 
         if (empty($cms_roles)) {
             return;
@@ -665,7 +746,11 @@ class Ps_LegalCompliance extends Module
                 continue;
             }
 
-            $cms_page = $cms_repo->i10nFindOneById((int) $cms_role->id_cms, (int) $params['idLang'], $this->context->shop->id);
+            $cms_page = $cms_repo->i10nFindOneById(
+                (int) $cms_role->id_cms,
+                (int) $params['idLang'],
+                $this->context->shop->id
+            );
 
             if (!isset($cms_page->content)) {
                 continue;
@@ -687,7 +772,11 @@ class Ps_LegalCompliance extends Module
 
     public function hookActionEmailAddAfterContent($param)
     {
-        if (!isset($param['template']) || !isset($param['template_html']) || !isset($param['template_txt'])) {
+        if (
+            !isset($param['template'])
+            || !isset($param['template_html'])
+            || !isset($param['template_txt'])
+        ) {
             return;
         }
 
@@ -695,8 +784,8 @@ class Ps_LegalCompliance extends Module
         $cms_roles = $this->getCmsRolesForMailTemplate((string) $param['template'], (int) $param['id_lang']);
 
         $cms_repo = $this->entity_manager->getRepository('CMS');
-        $cms_contents = array();
-        $pdf_attachment = $this->getPDFAttachmentOptionsArray();
+        $cms_contents = [];
+        $pdf_attachment = $this->getPDFAttachmentOptions();
 
         foreach ($cms_roles as $cms_role) {
             // exclude the CMS content from the mail if the PDF Attachment is enabled for the cms role
@@ -714,10 +803,11 @@ class Ps_LegalCompliance extends Module
             $param['template_txt'] .= strip_tags($cms_page->content, true);
         }
 
-        $this->context->smarty->assign(array(
+        $this->context->smarty->assign([
             'cms_contents' => $cms_contents,
             'legal_mail_footer' => Configuration::get('LEGAL_MAIL_FOOTER', $id_lang)
-        ));
+        ]);
+
         $str = $param['template_html'];
 
         try {
@@ -744,8 +834,10 @@ class Ps_LegalCompliance extends Module
             } else {
                 $divs = $doc->getElementsByTagName('div'); //selects first wrapping div
                 $k = 0;
+
                 foreach ($divs as $div) {
                     $div_class_attribute = $divs->item($k)->getAttribute('class');
+
                     if ($div_class_attribute == 'shadow wrapper-container') {
                         $wrapper = $divs->item($k);
                     }
@@ -756,18 +848,23 @@ class Ps_LegalCompliance extends Module
                 $footer_doc->loadHTML('<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
                         <head><meta charset="utf-8"></head><body>' .
-                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
+                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>'
+                );
+
                 for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
                     $clone_node = $doc->importNode(
                         $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
                         true
                     );
+
                     $tr = $doc->createElement("tr");
                     $td = $doc->createElement("td");
                     $tr->appendChild($td);
+
                     if (isset($wrapper)) {
                         $wrapper->appendChild($tr);
                     }
+
                     $td->appendChild($clone_node);
                 }
             }
@@ -794,6 +891,7 @@ class Ps_LegalCompliance extends Module
 
         $tpl_name = (string) $param['template'];
         $tpl_name_exploded = explode('.', $tpl_name);
+
         if (is_array($tpl_name_exploded)) {
             $tpl_name = (string) $tpl_name_exploded[0];
         }
@@ -804,7 +902,7 @@ class Ps_LegalCompliance extends Module
 
         $carrier = new Carrier((int) $param['cart']->id_carrier);
 
-        $param['template_vars']['{carrier}'] .= ' - '.$carrier->delay[(int) $param['cart']->id_lang];
+        $param['template_vars']['{carrier}'] .= ' - ' . $carrier->delay[(int) $param['cart']->id_lang];
     }
 
     public function hookDisplayHeader($param)
@@ -857,10 +955,12 @@ class Ps_LegalCompliance extends Module
 
     protected function isPrintableCMSPage()
     {
-        $printable_cms_pages = array();
+        $printable_cms_pages = [];
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        foreach (array(self::LEGAL_CONDITIONS, self::LEGAL_REVOCATION, self::LEGAL_SHIP_PAY, self::LEGAL_PRIVACY) as $cms_page_name) {
+
+        foreach ([self::LEGAL_CONDITIONS, self::LEGAL_REVOCATION, self::LEGAL_SHIP_PAY, self::LEGAL_PRIVACY] as $cms_page_name) {
             $cms_page_associated = $cms_role_repository->findOneByName($cms_page_name);
+
             if ($cms_page_associated instanceof CMSRole && (int) $cms_page_associated->id_cms > 0) {
                 $printable_cms_pages[] = (int) $cms_page_associated->id_cms;
             }
@@ -873,6 +973,7 @@ class Ps_LegalCompliance extends Module
     {
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
         $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_NOTICE);
+
         if ($cms_page_associated instanceof CMSRole && (int) $cms_page_associated->id_cms > 0) {
             if (Tools::getValue('id_cms') == $cms_page_associated->id_cms) {
                 return $this->display(__FILE__, 'hookDisplayCMSDisputeInformation.tpl');
@@ -882,7 +983,7 @@ class Ps_LegalCompliance extends Module
 
     public function hookTermsAndConditions($param)
     {
-        $returned_terms_and_conditions = array();
+        $returned_terms_and_conditions = [];
 
         $cms_repository = $this->entity_manager->getRepository('CMS');
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
@@ -890,25 +991,48 @@ class Ps_LegalCompliance extends Module
         $cms_page_revocation_associated = $cms_role_repository->findOneByName(self::LEGAL_REVOCATION);
         $cms_page_privacy_associated = $cms_role_repository->findOneByName(self::LEGAL_PRIVACY);
 
-        if (Configuration::get('PS_CONDITIONS') && (int) $cms_page_conditions_associated->id_cms > 0 && (int) $cms_page_revocation_associated->id_cms > 0) {
-            $cms_conditions = $cms_repository->i10nFindOneById((int) $cms_page_conditions_associated->id_cms,
-                                                               (int) $this->context->language->id,
-                                                               (int) $this->context->shop->id);
+        if (
+            Configuration::get('PS_CONDITIONS')
+            && (int) $cms_page_conditions_associated->id_cms > 0
+            && (int) $cms_page_revocation_associated->id_cms > 0
+        ) {
+            $cms_conditions = $cms_repository->i10nFindOneById(
+                (int) $cms_page_conditions_associated->id_cms,
+                (int) $this->context->language->id,
+                (int) $this->context->shop->id
+            );
+
             $link_conditions = $cms_conditions
-                ? $this->context->link->getCMSLink($cms_conditions, $cms_conditions->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'))
+                ? $this->context->link->getCMSLink(
+                    $cms_conditions,
+                    $cms_conditions->link_rewrite,
+                    (bool) Configuration::get('PS_SSL_ENABLED')
+                )
                 : null;
 
-            $cms_revocation = $cms_repository->i10nFindOneById((int) $cms_page_revocation_associated->id_cms,
-                                                               (int) $this->context->language->id,
-                                                               (int) $this->context->shop->id);
-            $link_revocation =
-                $this->context->link->getCMSLink($cms_revocation, $cms_revocation->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
+            $cms_revocation = $cms_repository->i10nFindOneById(
+                (int) $cms_page_revocation_associated->id_cms,
+                (int) $this->context->language->id,
+                (int) $this->context->shop->id
+            );
 
-            $cms_privacy = $cms_repository->i10nFindOneById((int) $cms_page_privacy_associated->id_cms,
-                                                               (int) $this->context->language->id,
-                                                               (int) $this->context->shop->id);
-            $link_privacy =
-                $this->context->link->getCMSLink($cms_privacy, $cms_privacy->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
+            $link_revocation = $this->context->link->getCMSLink(
+                $cms_revocation,
+                $cms_revocation->link_rewrite,
+                (bool) Configuration::get('PS_SSL_ENABLED')
+            );
+
+            $cms_privacy = $cms_repository->i10nFindOneById(
+                (int) $cms_page_privacy_associated->id_cms,
+                (int) $this->context->language->id,
+                (int) $this->context->shop->id
+            );
+
+            $link_privacy = $this->context->link->getCMSLink(
+                $cms_privacy,
+                $cms_privacy->link_rewrite,
+                (bool) Configuration::get('PS_SSL_ENABLED')
+            );
 
             $termsAndConditions = new TermsAndConditions();
             $termsAndConditions->setIdentifier('terms-and-conditions');
@@ -918,10 +1042,12 @@ class Ps_LegalCompliance extends Module
                     _PS_MODULE_DIR_ . $this->name . '/views/templates/front/terms_and_condition_revocation.tpl',
                     $this->context->smarty
                 );
+
                 // hide the checkbox is the option is disabled
                 $tpl->assign([
                     'checkbox_identifier' => 'terms-and-conditions',
                 ]);
+
                 $termsAndConditions->setText(
                     $this->trans(
                         'Please note our [%terms_and_conditions%] and [%revocation%]',
@@ -946,7 +1072,10 @@ class Ps_LegalCompliance extends Module
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
-        if ((bool) Configuration::get('AEUC_LABEL_REVOCATION_VP') && $this->hasCartVirtualProduct($this->context->cart)) {
+        if (
+            (bool) Configuration::get('AEUC_LABEL_REVOCATION_VP')
+            && $this->hasCartVirtualProduct($this->context->cart)
+        ) {
             $termsAndConditions = new TermsAndConditions();
 
             $translation =  $this->trans(
@@ -979,11 +1108,17 @@ class Ps_LegalCompliance extends Module
             $this->context->smarty->assign('directPrint', Tools::getValue('content_only') != '1');
 
             $cms_repository = $this->entity_manager->getRepository('CMS');
-            $cms_current = $cms_repository->i10nFindOneById((int) Tools::getValue('id_cms'),
-                                                            (int) $this->context->language->id,
-                                                            (int) $this->context->shop->id);
-            $cms_current_link =
-            $this->context->link->getCMSLink($cms_current, $cms_current->link_rewrite, (bool) Configuration::get('PS_SSL_ENABLED'));
+            $cms_current = $cms_repository->i10nFindOneById(
+                (int) Tools::getValue('id_cms'),
+                (int) $this->context->language->id,
+                (int) $this->context->shop->id
+            );
+
+            $cms_current_link = $this->context->link->getCMSLink(
+                $cms_current,
+                $cms_current->link_rewrite,
+                (bool) Configuration::get('PS_SSL_ENABLED')
+            );
 
             if (!strpos($cms_current_link, '?')) {
                 $cms_current_link .= '?direct_print=1';
@@ -992,6 +1127,7 @@ class Ps_LegalCompliance extends Module
             }
 
             $this->context->smarty->assign('print_link', $cms_current_link);
+
             return $this->display(__FILE__, 'hookDisplayCMSPrintButton.tpl');
         }
     }
@@ -1044,8 +1180,8 @@ class Ps_LegalCompliance extends Module
                     unset($combinations);
 
                     if ($need_display) {
-                        $smartyVars['before_price'] = array();
-                        $smartyVars['before_price']['from_str_i18n'] = $this->trans('From', array(), 'Modules.Legalcompliance.Shop');
+                        $smartyVars['before_price'] = [];
+                        $smartyVars['before_price']['from_str_i18n'] = $this->trans('From', [], 'Modules.Legalcompliance.Shop');
                     }
                 }
             }
@@ -1055,13 +1191,13 @@ class Ps_LegalCompliance extends Module
                 $type == 'old_price'
                 && Configuration::get('AEUC_LABEL_SPECIFIC_PRICE')
             ) {
-                $smartyVars['old_price'] = array();
-                $smartyVars['old_price']['before_str_i18n'] = $this->trans('Our previous price', array(), 'Modules.Legalcompliance.Shop');
+                $smartyVars['old_price'] = [];
+                $smartyVars['old_price']['before_str_i18n'] = $this->trans('Our previous price', [], 'Modules.Legalcompliance.Shop');
             }
 
             /* Handle Shipping Inc./Exc.*/
             if ($type == 'price') {
-                $smartyVars['price'] = array();
+                $smartyVars['price'] = [];
 
                 if (Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC')) {
                     if (!$product['is_virtual']) {
@@ -1079,9 +1215,9 @@ class Ps_LegalCompliance extends Module
                             $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
                             $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
 
-                            $smartyVars['ship'] = array();
+                            $smartyVars['ship'] = [];
                             $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
-                            $smartyVars['ship']['ship_str_i18n'] = $this->trans('Shipping excluded', array(), 'Modules.Legalcompliance.Shop');
+                            $smartyVars['ship']['ship_str_i18n'] = $this->trans('Shipping excluded', [], 'Modules.Legalcompliance.Shop');
                         }
                     } elseif (
                         $product['is_virtual']
@@ -1118,9 +1254,9 @@ class Ps_LegalCompliance extends Module
                             $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
                             $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
 
-                            $smartyVars['ship'] = array();
+                            $smartyVars['ship'] = [];
                             $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
-                            $smartyVars['ship']['ship_str_i18n'] = $this->trans('Download Info', array(), 'Modules.Legalcompliance.Shop');
+                            $smartyVars['ship']['ship_str_i18n'] = $this->trans('Download Info', [], 'Modules.Legalcompliance.Shop');
                         }
                     }
                 }
@@ -1128,7 +1264,7 @@ class Ps_LegalCompliance extends Module
 
             /* Handle Delivery time label */
             if ($type == 'after_price') {
-                $smartyVars['after_price'] = array();
+                $smartyVars['after_price'] = [];
 
                 $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
                 if (trim($delivery_addtional_info) !== '') {
@@ -1138,7 +1274,7 @@ class Ps_LegalCompliance extends Module
 
             /* Handle Taxes Inc./Exc.*/
             if ($type == 'list_taxes') {
-                $smartyVars['list_taxes'] = array();
+                $smartyVars['list_taxes'] = [];
 
                 if (Configuration::get('AEUC_LABEL_TAX_INC_EXC')) {
                     $customer_default_group_id = (int) $this->context->customer->id_default_group;
@@ -1152,9 +1288,9 @@ class Ps_LegalCompliance extends Module
                             && $customer_default_group->price_display_method
                         )
                     ) {
-                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax included', array(), 'Shop.Theme.Checkout');
+                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax included', [], 'Shop.Theme.Checkout');
                     } else {
-                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax excluded', array(), 'Shop.Theme.Checkout');
+                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax excluded', [], 'Shop.Theme.Checkout');
                     }
                 }
             }
@@ -1190,12 +1326,18 @@ class Ps_LegalCompliance extends Module
     public function hookDisplayCheckoutSubtotalDetails($param)
     {
         // Display "under conditions" when the shipping subtotal equals 0
-        if ('shipping' === $param['subtotal']['type'] && 0 === $param['subtotal']['amount']) {
+        if (
+            'shipping' === $param['subtotal']['type']
+            && 0 === $param['subtotal']['amount']
+        ) {
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
             $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
             $link_shipping_payment = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
 
-            $this->context->smarty->assign(array('link_shipping_payment' => $link_shipping_payment));
+            $this->context->smarty->assign([
+                'link_shipping_payment' => $link_shipping_payment,
+            ]);
+
             return $this->display(__FILE__, 'hookDisplayCartPriceBlock_shipping_details.tpl');
         }
     }
@@ -1227,7 +1369,7 @@ class Ps_LegalCompliance extends Module
 
     private function getDefaultEmailTemplatePath(): string
     {
-        $default_path_email = _PS_MAIL_DIR_.'en';
+        $default_path_email = _PS_MAIL_DIR_ . 'en';
 
         if (!is_dir($default_path_email)) {
             $lang_iso = $this->getIsoFromDefaultLanguage();
@@ -1300,7 +1442,7 @@ class Ps_LegalCompliance extends Module
 
         $this->context->smarty->assign('module_dir', $this->_path);
         $this->context->smarty->assign('errors', $this->_errors);
-        $this->context->controller->addCSS($this->_path.'views/css/configure.css', 'all');
+        $this->context->controller->addCSS($this->_path . 'views/css/configure.css', 'all');
         // Render all required form for each 'part'
         $formLabelsManager = $this->renderFormLabelsManager();
         $formVirtualProductsManager = $this->renderFormVirtualProductsManager();
@@ -1309,8 +1451,16 @@ class Ps_LegalCompliance extends Module
         $formEmailAttachmentsManager = $this->renderFormEmailAttachmentsManager();
         $formLegalMailFooter = $this->renderFormLegalMailFooter();
 
-        return $theme_warning.$this->adminDisplayInformation($infoMsg).$success_band.$formLabelsManager.$formVirtualProductsManager.$formFeaturesManager.$formLegalContentManager.
-               $formEmailAttachmentsManager.$formLegalMailFooter;
+        return $theme_warning
+            . $this->adminDisplayInformation($infoMsg)
+            . $success_band
+            . $formLabelsManager
+            . $formVirtualProductsManager
+            . $formFeaturesManager
+            . $formLegalContentManager
+            . $formEmailAttachmentsManager
+            . $formLegalMailFooter
+        ;
     }
 
     /**
@@ -1320,16 +1470,20 @@ class Ps_LegalCompliance extends Module
     {
         $has_processed_something = false;
 
-        $post_keys_switchable =
-            array_keys(array_merge($this->getConfigFormLabelsManagerValues(), $this->getConfigFormVirtualProductsManagerValues(), $this->getConfigFormFeaturesManagerValues()));
+        $post_keys_switchable = array_keys(array_merge(
+            $this->getConfigFormLabelsManagerValues(),
+            $this->getConfigFormVirtualProductsManagerValues(),
+            $this->getConfigFormFeaturesManagerValues()
+        ));
 
-        $post_keys_complex = array('AEUC_legalContentManager',
-                                   'AEUC_emailAttachmentsManager',
-                                   'discard_tpl_warn',
-                                   'submitLegalMailFooter'
-        );
+        $post_keys_complex = [
+            'AEUC_legalContentManager',
+            'AEUC_emailAttachmentsManager',
+            'discard_tpl_warn',
+            'submitLegalMailFooter',
+        ];
 
-        $i10n_inputs_received = array();
+        $i10n_inputs_received = [];
         $received_values = Tools::getAllValues();
 
         foreach (array_keys($received_values) as $key_received) {
@@ -1339,10 +1493,11 @@ class Ps_LegalCompliance extends Module
                 $key = Tools::strtolower($key_received);
                 $key = Tools::toCamelCase($key);
 
-                if (method_exists($this, 'process'.$key)) {
-                    $this->{'process'.$key}($is_option_active);
+                if (method_exists($this, 'process' . $key)) {
+                    $this->{'process' . $key}($is_option_active);
                     $has_processed_something = true;
                 }
+
                 continue;
             }
             /* Case we are on more complex forms */
@@ -1351,8 +1506,8 @@ class Ps_LegalCompliance extends Module
                 $key = Tools::strtolower($key_received);
                 $key = Tools::toCamelCase($key, true);
 
-                if (method_exists($this, 'process'.$key)) {
-                    $this->{'process'.$key}();
+                if (method_exists($this, 'process' . $key)) {
+                    $this->{'process' . $key}();
                     $has_processed_something = true;
                 }
             }
@@ -1381,18 +1536,21 @@ class Ps_LegalCompliance extends Module
         if (count($i10n_inputs_received) > 0) {
             $this->processAeucLabelMultiLang($i10n_inputs_received);
             $this->processAeucVirtualProductsMultiLang($i10n_inputs_received);
+
             $has_processed_something = true;
         }
 
         if ($has_processed_something) {
             $this->emptyTemplatesCache();
 
-            return (count($this->_errors) ? $this->displayError($this->_errors) : '').
-                   (count($this->_warnings) ? $this->displayWarning($this->_warnings) : '').
-                   $this->displayConfirmation($this->trans('The settings have been updated.', array(), 'Admin.Notifications.Success'));
+            return (count($this->_errors) ? $this->displayError($this->_errors) : '')
+                . (count($this->_warnings) ? $this->displayWarning($this->_warnings) : '')
+                . $this->displayConfirmation($this->trans('The settings have been updated.', [], 'Admin.Notifications.Success'))
+            ;
         } else {
-            return (count($this->_errors) ? $this->displayError($this->_errors) : '').
-                   (count($this->_warnings) ? $this->displayWarning($this->_warnings) : '').'';
+            return (count($this->_errors) ? $this->displayError($this->_errors) : '')
+                . (count($this->_warnings) ? $this->displayWarning($this->_warnings) : '')
+            ;
         }
     }
 
@@ -1401,6 +1559,7 @@ class Ps_LegalCompliance extends Module
         if (isset($i10n_inputs['AEUC_LABEL_DELIVERY_ADDITIONAL'])) {
             Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', $i10n_inputs['AEUC_LABEL_DELIVERY_ADDITIONAL']);
         }
+
         if (isset($i10n_inputs['AEUC_LABEL_CUSTOM_CART_TEXT'])) {
             Configuration::updateValue('AEUC_LABEL_CUSTOM_CART_TEXT', $i10n_inputs['AEUC_LABEL_CUSTOM_CART_TEXT']);
         }
@@ -1442,17 +1601,19 @@ class Ps_LegalCompliance extends Module
         // Empty previous assoc to make new ones
         AeucCMSRoleEmailEntity::truncate();
         $pdf_attachment = [];
+
         foreach ($json_attach_assoc as $assoc) {
             if ($assoc->id_mail == 'pdf') {
                 $pdf_attachment[] = (int)$assoc->id_cms_role;
                 continue;
             }
+
             $assoc_obj = new AeucCMSRoleEmailEntity();
             $assoc_obj->id_mail = $assoc->id_mail;
             $assoc_obj->id_cms_role = $assoc->id_cms_role;
 
             if (!$assoc_obj->save()) {
-                $this->_errors[] = $this->trans('Failed to associate legal content with an email template.', array(), 'Modules.Legalcompliance.Admin');
+                $this->_errors[] = $this->trans('Failed to associate legal content with an email template.', [], 'Modules.Legalcompliance.Admin');
             }
         }
 
@@ -1515,7 +1676,7 @@ class Ps_LegalCompliance extends Module
 
     protected function processaeucVpCmsId($id_cms)
     {
-        Configuration::updateValue('AEUC_VP_CMS_ID', (int)$id_cms);
+        Configuration::updateValue('AEUC_VP_CMS_ID', (int) $id_cms);
     }
 
     protected function processAeucLabelShippingIncExc($is_option_active)
@@ -1526,7 +1687,10 @@ class Ps_LegalCompliance extends Module
         $cms_roles = $this->getCMSRoles();
 
         if ((bool) $is_option_active) {
-            if (!$cms_page_associated instanceof CMSRole || (int) $cms_page_associated->id_cms === 0) {
+            if (
+                !($cms_page_associated instanceof CMSRole)
+                || (int) $cms_page_associated->id_cms === 0
+            ) {
                 $this->_errors[] =
                     $this->trans(
                         'Shipping fees label cannot be activated unless you associate "%s" role with a Page.',
@@ -1538,6 +1702,7 @@ class Ps_LegalCompliance extends Module
 
                 return;
             }
+
             Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', true);
         } else {
             Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false);
@@ -1547,11 +1712,13 @@ class Ps_LegalCompliance extends Module
     protected function processAeucLabelTaxIncExc($is_option_active)
     {
         $countries = Country::getCountries((int) Context::getContext()->language->id, true);
+
         foreach ($countries as $id_country => $country_row) {
             $country = new Country($id_country);
             $country->display_tax_label = (bool) $is_option_active;
             $country->save();
         }
+
         Configuration::updateValue('AEUC_LABEL_TAX_INC_EXC', (bool) $is_option_active);
     }
 
@@ -1604,25 +1771,28 @@ class Ps_LegalCompliance extends Module
     protected function processSubmitlegalmailfooter()
     {
         if (Tools::isSubmit('submitLegalMailFooter')) {
-            $LEGAL_MAIL_FOOTER = array();
+            $LEGAL_MAIL_FOOTER = [];
             $languages = $this->context->controller->getLanguages();
+
             foreach ($languages as $lang) {
                 $LEGAL_MAIL_FOOTER[$lang['id_lang']] = Tools::getValue('LEGAL_MAIL_FOOTER_' . $lang['id_lang'], null);
             }
+
             Configuration::updateValue('LEGAL_MAIL_FOOTER', $LEGAL_MAIL_FOOTER, true);
         }
     }
 
     protected function getCMSRoles()
     {
-        return array(self::LEGAL_NOTICE => $this->trans('Legal notice', array(), 'Modules.Legalcompliance.Admin'),
-                     self::LEGAL_CONDITIONS => $this->trans('Terms of Service (ToS)', array(), 'Modules.Legalcompliance.Admin'),
-                     self::LEGAL_REVOCATION => $this->trans('Revocation terms', array(), 'Modules.Legalcompliance.Admin'),
-                     self::LEGAL_REVOCATION_FORM => $this->trans('Revocation form', array(), 'Modules.Legalcompliance.Admin'),
-                     self::LEGAL_PRIVACY => $this->trans('Privacy', array(), 'Modules.Legalcompliance.Admin'),
-                     self::LEGAL_ENVIRONMENTAL => $this->trans('Environmental notice', array(), 'Modules.Legalcompliance.Admin'),
-                     self::LEGAL_SHIP_PAY => $this->trans('Shipping and payment', array(), 'Modules.Legalcompliance.Admin'),
-        );
+        return [
+            self::LEGAL_NOTICE => $this->trans('Legal notice', [], 'Modules.Legalcompliance.Admin'),
+            self::LEGAL_CONDITIONS => $this->trans('Terms of Service (ToS)', [], 'Modules.Legalcompliance.Admin'),
+            self::LEGAL_REVOCATION => $this->trans('Revocation terms', [], 'Modules.Legalcompliance.Admin'),
+            self::LEGAL_REVOCATION_FORM => $this->trans('Revocation form', [], 'Modules.Legalcompliance.Admin'),
+            self::LEGAL_PRIVACY => $this->trans('Privacy', [], 'Modules.Legalcompliance.Admin'),
+            self::LEGAL_ENVIRONMENTAL => $this->trans('Environmental notice', [], 'Modules.Legalcompliance.Admin'),
+            self::LEGAL_SHIP_PAY => $this->trans('Shipping and payment', [], 'Modules.Legalcompliance.Admin'),
+        ];
     }
 
     /**
@@ -1640,17 +1810,20 @@ class Ps_LegalCompliance extends Module
 
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'submitAEUC_labelsManager';
-        $helper->currentIndex =
-            $this->context->link->getAdminLink('AdminModules', false).'&configure='.$this->name.'&tab_module='.
-            $this->tab.'&module_name='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules');
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
+            . '&configure=' . $this->name
+            . '&tab_module=' . $this->tab
+            . '&module_name=' . $this->name
+            . '&token=' . Tools::getAdminTokenLite('AdminModules')
+        ;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
-        $helper->tpl_vars =
-            array('fields_value' => $this->getConfigFormLabelsManagerValues(),
-                  /* Add values for your inputs */
-                  'languages' => $this->context->controller->getLanguages(),
-                  'id_language' => $this->context->language->id,
-            );
+        $helper->tpl_vars = [
+            'fields_value' => $this->getConfigFormLabelsManagerValues(),
+            /* Add values for your inputs */
+            'languages' => $this->context->controller->getLanguages(),
+            'id_language' => $this->context->language->id,
+        ];
 
         return $helper->generateForm(array($this->getConfigFormLabelsManager()));
     }
@@ -1660,193 +1833,193 @@ class Ps_LegalCompliance extends Module
      */
     protected function getConfigFormLabelsManager()
     {
-        return array(
-            'form' => array(
-                'legend' => array(
-                    'title' => $this->trans('Labels', array(), 'Modules.Legalcompliance.Admin'),
+        return [
+            'form' => [
+                'legend' => [
+                    'title' => $this->trans('Labels', [], 'Modules.Legalcompliance.Admin'),
                     'icon' => 'icon-tags',
-                ),
-                'input' => array(
-                    array(
+                ],
+                'input' => [
+                    [
                         'type' => 'text',
                         'lang' => true,
-                        'label' => $this->trans('Additional information about delivery time', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Additional information about delivery time', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_DELIVERY_ADDITIONAL',
-                        'desc' => $this->trans('If you specified a delivery time, this additional information is displayed in the footer of product pages with a link to the "Shipping & Payment" Page. Leave the field empty to disable.', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('Indicate for which countries your delivery time applies.', array(), 'Modules.Legalcompliance.Admin'),
-                    ),
-                    array(
+                        'desc' => $this->trans('If you specified a delivery time, this additional information is displayed in the footer of product pages with a link to the "Shipping & Payment" Page. Leave the field empty to disable.', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('Indicate for which countries your delivery time applies.', [], 'Modules.Legalcompliance.Admin'),
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans(' \'Our previous price\' label', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans(' \'Our previous price\' label', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_SPECIFIC_PRICE',
                         'is_bool' => true,
-                        'desc' => $this->trans('When a product is on sale, displays a \'Our previous price\' label before the original price crossed out, next to the price on the product page.', array(), 'Modules.Legalcompliance.Admin'),
-                        'values' => array(
-                            array(
+                        'desc' => $this->trans('When a product is on sale, displays a \'Our previous price\' label before the original price crossed out, next to the price on the product page.', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Tax \'inc./excl.\' label', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Tax \'inc./excl.\' label', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_TAX_INC_EXC',
                         'is_bool' => true,
-                        'desc' => $this->trans('Displays whether the tax is included on the product page (\'Tax incl./excl.\' label) and adds a short mention in the footer of other pages.', array(), 'Modules.Legalcompliance.Admin'),
-                        'values' => array(
-                            array(
+                        'desc' => $this->trans('Displays whether the tax is included on the product page (\'Tax incl./excl.\' label) and adds a short mention in the footer of other pages.', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array('id' => 'active_off',
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            ['id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Price per unit label', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Price per unit label', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_UNIT_PRICE',
                         'is_bool' => true,
-                        'desc' => $this->trans('If available, displays the price per unit everywhere the product price is listed.', array(), 'Modules.Legalcompliance.Admin'),
-                        'values' => array(
-                            array(
+                        'desc' => $this->trans('If available, displays the price per unit everywhere the product price is listed.', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('\'Shipping fees excl.\' label', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('\'Shipping fees excl.\' label', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_SHIPPING_INC_EXC',
                         'is_bool' => true,
-                        'desc' => $this->trans('Displays a label next to the product price (\'Shipping excluded\') and adds a short mention in the footer of other pages.', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('If enabled, make sure the Shipping terms are associated with a page below (Legal Content Management). The label will link to this content.', array(), 'Modules.Legalcompliance.Admin'),
-                        'values' => array(
-                            array(
+                        'desc' => $this->trans('Displays a label next to the product price (\'Shipping excluded\') and adds a short mention in the footer of other pages.', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('If enabled, make sure the Shipping terms are associated with a page below (Legal Content Management). The label will link to this content.', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Show Conditions Checkbox', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Show Conditions Checkbox', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_COND_PRIVACY',
                         'is_bool' => true,
-                        'desc' => $this->trans('Shows a checkbox to confirm conditions privacy and revocation (default: Yes)', array(), 'Modules.Legalcompliance.Admin'),
+                        'desc' => $this->trans('Shows a checkbox to confirm conditions privacy and revocation (default: Yes)', [], 'Modules.Legalcompliance.Admin'),
                         'disable' => false,
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Revocation Terms within ToS', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Revocation Terms within ToS', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_REVOCATION_TOS',
                         'is_bool' => true,
-                        'desc' => $this->trans('Includes content from the Revocation Terms page within the Terms of Services (ToS).', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('If enabled, make sure the Revocation Terms are associated with a page below (Legal Content Management).', array(), 'Modules.Legalcompliance.Admin'),
+                        'desc' => $this->trans('Includes content from the Revocation Terms page within the Terms of Services (ToS).', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('If enabled, make sure the Revocation Terms are associated with a page below (Legal Content Management).', [], 'Modules.Legalcompliance.Admin'),
                         'disable' => true,
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('\'From\' price label (when combinations)', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('\'From\' price label (when combinations)', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_COMBINATION_FROM',
                         'is_bool' => true,
-                        'desc' => $this->trans('Displays a \'From\' label before the price on products with combinations.', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('As prices can vary from a combination to another, this label indicates that the final price may be higher.', array(), 'Modules.Legalcompliance.Admin'),
+                        'desc' => $this->trans('Displays a \'From\' label before the price on products with combinations.', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('As prices can vary from a combination to another, this label indicates that the final price may be higher.', [], 'Modules.Legalcompliance.Admin'),
                         'disable' => true,
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'text',
                         'lang' => true,
-                        'label' => $this->trans('Custom text in shopping cart page', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Custom text in shopping cart page', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_CUSTOM_CART_TEXT',
-                        'desc' => $this->trans('This text will be displayed on the shopping cart page. Leave empty to disable.', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('Please inform your customers about how the order is legally confirmed.', array(), 'Modules.Legalcompliance.Admin'),
-                    ),
-                    array(
+                        'desc' => $this->trans('This text will be displayed on the shopping cart page. Leave empty to disable.', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('Please inform your customers about how the order is legally confirmed.', [], 'Modules.Legalcompliance.Admin'),
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Display tax in footer', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Display tax in footer', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_TAX_FOOTER',
                         'is_bool' => true,
-                        'desc' => $this->trans('Displays the tax informations in the footer.', array(), 'Modules.Legalcompliance.Admin'),
+                        'desc' => $this->trans('Displays the tax informations in the footer.', [], 'Modules.Legalcompliance.Admin'),
                         'disable' => true,
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                ),
-                'submit' => array(
-                    'title' => $this->trans('Save', array(), 'Admin.Actions'),
-                ),
-            ),
-        );
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                ],
+                'submit' => [
+                    'title' => $this->trans('Save', [], 'Admin.Actions'),
+                ],
+            ],
+        ];
     }
 
     /**
@@ -1854,7 +2027,7 @@ class Ps_LegalCompliance extends Module
      */
     protected function getConfigFormLabelsManagerValues()
     {
-        $custom_cart_text_values = array();
+        $custom_cart_text_values = [];
 
         $langs = Language::getLanguages(false, false);
 
@@ -1864,7 +2037,7 @@ class Ps_LegalCompliance extends Module
             $custom_cart_text_values[$tmp_id_lang] = Configuration::get('AEUC_LABEL_CUSTOM_CART_TEXT', $tmp_id_lang);
         }
 
-        return array(
+        return [
             'AEUC_LABEL_DELIVERY_ADDITIONAL' => $delivery_additional,
             'AEUC_LABEL_CUSTOM_CART_TEXT' => $custom_cart_text_values,
             'AEUC_LABEL_SPECIFIC_PRICE' => Configuration::get('AEUC_LABEL_SPECIFIC_PRICE'),
@@ -1875,7 +2048,7 @@ class Ps_LegalCompliance extends Module
             'AEUC_LABEL_SHIPPING_INC_EXC' => Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'),
             'AEUC_LABEL_COMBINATION_FROM' => Configuration::get('AEUC_LABEL_COMBINATION_FROM'),
             'AEUC_LABEL_TAX_FOOTER' => Configuration::get('AEUC_LABEL_TAX_FOOTER'),
-        );
+        ];
     }
 
     public function renderFormVirtualProductsManager()
@@ -1891,17 +2064,20 @@ class Ps_LegalCompliance extends Module
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'submitAEUC_virtualProductsManager';
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
-                                .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+            . '&configure=' . $this->name
+            . '&tab_module=' . $this->tab
+            . '&module_name=' . $this->name
+        ;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
-        $helper->tpl_vars = array(
+        $helper->tpl_vars = [
             'fields_value' => $this->getConfigFormVirtualProductsManagerValues(),
             /* Add values for your inputs */
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
-        );
+        ];
 
-        return $helper->generateForm(array($this->getConfigFormVirtualProductsManager()));
+        return $helper->generateForm([$this->getConfigFormVirtualProductsManager()]);
     }
 
     /**
@@ -1909,93 +2085,93 @@ class Ps_LegalCompliance extends Module
      */
     protected function getConfigFormVirtualProductsManager()
     {
-        return array(
-            'form' => array(
-                'legend' => array(
-                    'title' => $this->trans('Virtual Products', array(), 'Modules.Legalcompliance.Admin'),
+        return [
+            'form' => [
+                'legend' => [
+                    'title' => $this->trans('Virtual Products', [], 'Modules.Legalcompliance.Admin'),
                     'icon' => 'icon-cogs',
-                ),
-                'input' => array(
-                    array(
+                ],
+                'input' => [
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Label "Virtual Product"', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Label "Virtual Product"', [], 'Modules.Legalcompliance.Admin'),
                         'hint' => false,
                         'name' => 'AEUC_VP_ACTIVE',
                         'is_bool' => true,
-                        'desc' => $this->trans('Show a label placed next to the product-tax and links to the virtual products CMS-Infopage', array(), 'Modules.Legalcompliance.Admin'),
-                        'values' => array(
-                            array(
+                        'desc' => $this->trans('Show a label placed next to the product-tax and links to the virtual products CMS-Infopage', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
                                 'id' => 'AEUC_VP_ACTIVE_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'AEUC_VP_ACTIVE_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'select',
-                        'label' => $this->trans('Virtual Products CMS-Infopage', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Virtual Products CMS-Infopage', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_VP_CMS_ID',
                         'default_value' => Configuration::getGlobalValue('AEUC_VP_CMS_ID'),
-                        'options' => array(
+                        'options' => [
                             'query' => array_map(
-                                            function ($cms) {
-                                                return [
-                                                    'id_cms' => $cms->id,
-                                                    'meta_title' => $cms->meta_title
-                                                ];
-                                            },
-                                            $this->entity_manager->getRepository('CMS')->i10nFindAll(
-                                                $this->context->language->id,
-                                                $this->context->shop->id
-                                            )
-                                        ),
+                                function ($cms) {
+                                    return [
+                                        'id_cms' => $cms->id,
+                                        'meta_title' => $cms->meta_title
+                                    ];
+                                },
+                                $this->entity_manager->getRepository('CMS')->i10nFindAll(
+                                    $this->context->language->id,
+                                    $this->context->shop->id
+                                )
+                            ),
                             'id' => 'id_cms',
                             'name' => 'meta_title',
-                            'default' => array(
+                            'default' => [
                                 'value' => 0,
-                                'label' => $this->trans('-- Select associated page --', array(), 'Modules.Legalcompliance.Admin')
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('-- Select associated page --', [], 'Modules.Legalcompliance.Admin')
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'text',
                         'lang' => true,
-                        'label' => $this->trans('Labeltext "Virtual Product"', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Labeltext "Virtual Product"', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_VP_LABEL_TEXT',
-                        'desc' => $this->trans('Text for the label linked to the virtual products CMS-Infopage', array(), 'Modules.Legalcompliance.Admin')
-                    ),
-                    array(
+                        'desc' => $this->trans('Text for the label linked to the virtual products CMS-Infopage', [], 'Modules.Legalcompliance.Admin')
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Revocation for virtual products', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Revocation for virtual products', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_LABEL_REVOCATION_VP',
                         'is_bool' => true,
-                        'desc' => $this->trans('Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('Require customers to renounce their revocation right when purchasing virtual products (digital goods or services).', array(), 'Modules.Legalcompliance.Admin'),
+                        'desc' => $this->trans('Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('Require customers to renounce their revocation right when purchasing virtual products (digital goods or services).', [], 'Modules.Legalcompliance.Admin'),
                         'disable' => true,
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                ),
-                'submit' => array(
-                    'title' => $this->trans('Save', array(), 'Admin.Actions'),
-                ),
-            ),
-        );
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                ],
+                'submit' => [
+                    'title' => $this->trans('Save', [], 'Admin.Actions'),
+                ],
+            ],
+        ];
     }
 
     /**
@@ -2005,17 +2181,18 @@ class Ps_LegalCompliance extends Module
     {
         $langs = Language::getLanguages(false, false);
 
-        $label_text = array();
+        $label_text = [];
+
         foreach ($langs as $lang) {
             $label_text[(int) $lang['id_lang']] = Configuration::get('AEUC_VP_LABEL_TEXT', (int) $lang['id_lang']);
         }
 
-        return array(
+        return [
             'AEUC_VP_ACTIVE' => Configuration::get('AEUC_VP_ACTIVE'),
             'AEUC_VP_CMS_ID' => Configuration::get('AEUC_VP_CMS_ID'),
             'AEUC_VP_LABEL_TEXT' => $label_text,
             'AEUC_LABEL_REVOCATION_VP' => Configuration::get('AEUC_LABEL_REVOCATION_VP'),
-        );
+        ];
     }
 
     /**
@@ -2034,17 +2211,20 @@ class Ps_LegalCompliance extends Module
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'submitAEUC_featuresManager';
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
-                                .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+            . '&configure=' . $this->name
+            . '&tab_module=' . $this->tab
+            . '&module_name=' . $this->name
+        ;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
-        $helper->tpl_vars = array(
+        $helper->tpl_vars = [
             'fields_value' => $this->getConfigFormFeaturesManagerValues(),
             /* Add values for your inputs */
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
-        );
+        ];
 
-        return $helper->generateForm(array($this->getConfigFormFeaturesManager()));
+        return $helper->generateForm([$this->getConfigFormFeaturesManager()]);
     }
 
     /**
@@ -2052,59 +2232,59 @@ class Ps_LegalCompliance extends Module
      */
     protected function getConfigFormFeaturesManager()
     {
-        return array(
-            'form' => array(
-                'legend' => array(
-                    'title' => $this->trans('Features', array(), 'Modules.Legalcompliance.Admin'),
+        return [
+            'form' => [
+                'legend' => [
+                    'title' => $this->trans('Features', [], 'Modules.Legalcompliance.Admin'),
                     'icon' => 'icon-cogs',
-                ),
-                'input' => array(
-                    array(
+                ],
+                'input' => [
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Enable \'Reordering\' feature', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('If enabled, the \'Reorder\' option allows customers to reorder in one click from their Order History page.', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Enable \'Reordering\' feature', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('If enabled, the \'Reorder\' option allows customers to reorder in one click from their Order History page.', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'AEUC_FEAT_REORDER',
                         'is_bool' => true,
-                        'desc' => $this->trans('Make sure you comply with your local legislation before enabling: it can be considered as unsolicited goods.', array(), 'Modules.Legalcompliance.Admin'),
-                        'values' => array(
-                            array(
+                        'desc' => $this->trans('Make sure you comply with your local legislation before enabling: it can be considered as unsolicited goods.', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                    array(
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'switch',
-                        'label' => $this->trans('Proportionate tax for shipping and wrapping', array(), 'Modules.Legalcompliance.Admin'),
+                        'label' => $this->trans('Proportionate tax for shipping and wrapping', [], 'Modules.Legalcompliance.Admin'),
                         'name' => 'PS_ATCP_SHIPWRAP',
                         'is_bool' => true,
-                        'desc' => $this->trans('When enabled, tax for shipping and wrapping costs will be calculated proportionate to taxes applying to the products in the cart.', array(), 'Modules.Legalcompliance.Admin'),
-                        'hint' => $this->trans('If active, your carriers\' shipping fees must be tax included! Make sure it is the case in the Shipping section.', array(), 'Modules.Legalcompliance.Admin'),
-                        'values' => array(
-                            array(
+                        'desc' => $this->trans('When enabled, tax for shipping and wrapping costs will be calculated proportionate to taxes applying to the products in the cart.', [], 'Modules.Legalcompliance.Admin'),
+                        'hint' => $this->trans('If active, your carriers\' shipping fees must be tax included! Make sure it is the case in the Shipping section.', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->trans('Enabled', array(), 'Admin.Global'),
-                            ),
-                            array(
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->trans('Disabled', array(), 'Admin.Global'),
-                            ),
-                        ),
-                    ),
-                ),
-                'submit' => array(
-                    'title' => $this->trans('Save', array(), 'Admin.Actions'),
-                ),
-            ),
-        );
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                ],
+                'submit' => [
+                    'title' => $this->trans('Save', [], 'Admin.Actions'),
+                ],
+            ],
+        ];
     }
 
     /**
@@ -2112,10 +2292,10 @@ class Ps_LegalCompliance extends Module
      */
     protected function getConfigFormFeaturesManagerValues()
     {
-        return array(
+        return [
             'AEUC_FEAT_REORDER' => !Configuration::get('PS_DISALLOW_HISTORY_REORDERING'),
             'PS_ATCP_SHIPWRAP' => Configuration::get('PS_ATCP_SHIPWRAP'),
-        );
+        ];
     }
 
     /**
@@ -2127,12 +2307,12 @@ class Ps_LegalCompliance extends Module
         $cms_repository = $this->entity_manager->getRepository('CMS');
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
         $cms_roles = $cms_role_repository->findByName(array_keys($cms_roles_aeuc));
-        $cms_roles_assoc = array();
+        $cms_roles_assoc = [];
         $id_lang = Context::getContext()->employee->id_lang;
         $id_shop = Context::getContext()->shop->id;
 
         foreach ($cms_roles as $cms_role) {
-            $assoc_cms_name = $this->trans('-- Select associated page --', array(), 'Modules.Legalcompliance.Admin');
+            $assoc_cms_name = $this->trans('-- Select associated page --', [], 'Modules.Legalcompliance.Admin');
 
             if ((int) $cms_role->id_cms > 0) {
                 $cms_entity = $cms_repository->findOne((int) $cms_role->id_cms);
@@ -2142,26 +2322,28 @@ class Ps_LegalCompliance extends Module
                 }
             }
 
-            $cms_roles_assoc[(int) $cms_role->id] = array('id_cms' => (int) $cms_role->id_cms,
-                                                         'page_title' => (string) $assoc_cms_name,
-                                                         'role_title' => (string) $cms_roles_aeuc[$cms_role->name],
-            );
+            $cms_roles_assoc[(int) $cms_role->id] = [
+                'id_cms' => (int) $cms_role->id_cms,
+                'page_title' => (string) $assoc_cms_name,
+                'role_title' => (string) $cms_roles_aeuc[$cms_role->name],
+            ];
         }
 
         $cms_pages = $cms_repository->i10nFindAll($id_lang, $id_shop);
         $fake_object = new stdClass();
         $fake_object->id = 0;
-        $fake_object->meta_title = $this->trans('-- Select associated page --', array(), 'Modules.Legalcompliance.Admin');
+        $fake_object->meta_title = $this->trans('-- Select associated page --', [], 'Modules.Legalcompliance.Admin');
         $cms_pages[-1] = $fake_object;
+
         unset($fake_object);
 
-        $this->context->smarty->assign(array(
+        $this->context->smarty->assign([
            'cms_roles_assoc' => $cms_roles_assoc,
            'cms_pages' => $cms_pages,
-           'form_action' => $this->context->link->getAdminLink('AdminModules').'&configure='.$this->name,
+           'form_action' => $this->context->link->getAdminLink('AdminModules') . '&configure=' . $this->name,
            'add_cms_link' => $this->context->link->getAdminLink('AdminCMS'),
            'AEUC_LINKBLOCK_FOOTER' => (int) Configuration::get('AEUC_LINKBLOCK_FOOTER')
-        ));
+        ]);
 
         return $this->display(__FILE__, 'views/templates/admin/legal_cms_manager_form.tpl');
     }
@@ -2171,47 +2353,47 @@ class Ps_LegalCompliance extends Module
         $cms_roles_aeuc = $this->getCMSRoles();
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
         $cms_roles_associated = $cms_role_repository->getCMSRolesAssociated();
-        $legal_options = array();
-        $cleaned_mails_names = array();
+        $legal_options = [];
+        $cleaned_mails_names = [];
 
         foreach ($cms_roles_associated as $role) {
             $list_id_mail_assoc = AeucCMSRoleEmailEntity::getIdEmailFromCMSRoleId((int) $role->id);
-            $clean_list = array();
+            $clean_list = [];
 
             foreach ($list_id_mail_assoc as $list_id_mail_assoc) {
                 $clean_list[] = $list_id_mail_assoc['id_mail'];
             }
 
-            $legal_options[$role->name] = array(
+            $legal_options[$role->name] = [
                 'name' => $cms_roles_aeuc[$role->name],
                 'id' => $role->id,
                 'list_id_mail_assoc' => $clean_list,
-            );
+            ];
         }
 
         foreach (AeucEmailEntity::getAll() as $email) {
             $cleaned_mails_names[] = $email;
         }
 
-        $this->context->smarty->assign(array(
-                                           'has_assoc' => $cms_roles_associated,
-                                           'mails_available' => $cleaned_mails_names,
-                                           'legal_options' => $legal_options,
-                                           'form_action' => $this->context->link->getAdminLink('AdminModules').'&configure='.$this->name,
-                                           'check_new_templates_link' => $this->context->link->getAdminLink(
-                                                'AdminModules',
-                                                true,
-                                                [],
-                                                [
-                                                    'configure' => $this->name,
-                                                    'submitCheckForNewTemplates' => '1'
-                                                ]
-                                            ),
-                                           'pdf_attachment' => $this->getPDFAttachmentOptionsArray()
-                                       ));
+        $this->context->smarty->assign([
+            'has_assoc' => $cms_roles_associated,
+            'mails_available' => $cleaned_mails_names,
+            'legal_options' => $legal_options,
+            'form_action' => $this->context->link->getAdminLink('AdminModules') . '&configure=' . $this->name,
+            'check_new_templates_link' => $this->context->link->getAdminLink(
+                'AdminModules',
+                true,
+                [],
+                [
+                    'configure' => $this->name,
+                    'submitCheckForNewTemplates' => '1'
+                ]
+            ),
+            'pdf_attachment' => $this->getPDFAttachmentOptions()
+        ]);
 
         // Insert JS in the page
-        $this->context->controller->addJS(($this->_path).'views/js/email_attachement.js');
+        $this->context->controller->addJS($this->_path . 'views/js/email_attachement.js');
 
         return $this->display(__FILE__, 'views/templates/admin/email_attachments_form.tpl');
     }
@@ -2228,15 +2410,20 @@ class Ps_LegalCompliance extends Module
 
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'submitLegalMailFooter';
-        $helper->currentIndex =
-            $this->context->link->getAdminLink('AdminModules', false).'&configure='.$this->name.'&tab_module='.
-            $this->tab.'&module_name='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules');
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
+            . '&configure=' . $this->name
+            . '&tab_module=' . $this->tab
+            . '&module_name=' . $this->name
+            . '&token=' . Tools::getAdminTokenLite('AdminModules')
+        ;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
-        $fields_value = array(
-            'LEGAL_MAIL_FOOTER' => array()
-        );
+        $fields_value = [
+            'LEGAL_MAIL_FOOTER' => []
+        ];
+
         $languages = $this->context->controller->getLanguages();
+
         foreach ($languages as $lang) {
             $fields_value['LEGAL_MAIL_FOOTER'][$lang['id_lang']] = Tools::getValue(
                 'LEGAL_MAIL_FOOTER_' . $lang['id_lang'],
@@ -2244,33 +2431,35 @@ class Ps_LegalCompliance extends Module
             );
         }
 
-        $helper->tpl_vars = array(
+        $helper->tpl_vars = [
             'fields_value' => $fields_value,
             'languages' => $languages,
             'id_language' => $this->context->language->id
-        );
+        ];
 
-        return $helper->generateForm(array(array(
-            'form' => array(
-                'legend' => array(
-                    'title' => $this->trans('Legal Mail Footer', array(), 'Modules.Legalcompliance.Admin'),
-                    'icon' => 'icon-envelope'
-                ),
-                'input' => array(
-                    array(
-                        'type' => 'textarea',
-                        'autoload_rte' => true,
-                        'lang' => true,
-                        'label' => $this->trans('Additional HTML in Mail-Templates', array(), 'Modules.Legalcompliance.Admin'),
-                        'name' => 'LEGAL_MAIL_FOOTER',
-                        'desc' => $this->trans('You can add additional legal informations and links to other legal ressources into this text editor.', array(), 'Modules.Legalcompliance.Admin')
-                    )
-                ),
-                'submit' => array(
-                    'title' => $this->trans('Save', array(), 'Admin.Actions')
-                )
-            )
-        )));
+        return $helper->generateForm(
+            [
+                'form' => [
+                    'legend' => [
+                        'title' => $this->trans('Legal Mail Footer', [], 'Modules.Legalcompliance.Admin'),
+                        'icon' => 'icon-envelope'
+                    ],
+                    'input' => [
+                        [
+                            'type' => 'textarea',
+                            'autoload_rte' => true,
+                            'lang' => true,
+                            'label' => $this->trans('Additional HTML in Mail-Templates', [], 'Modules.Legalcompliance.Admin'),
+                            'name' => 'LEGAL_MAIL_FOOTER',
+                            'desc' => $this->trans('You can add additional legal informations and links to other legal ressources into this text editor.', [], 'Modules.Legalcompliance.Admin')
+                        ],
+                    ],
+                    'submit' => [
+                        'title' => $this->trans('Save', [], 'Admin.Actions')
+                    ],
+                ],
+            ],
+        );
     }
 
     private function getIsoFromDefaultLanguage(): string
@@ -2283,18 +2472,21 @@ class Ps_LegalCompliance extends Module
         return true;
     }
 
-    private function getPDFAttachmentOptionsArray()
+    private function getPDFAttachmentOptions()
     {
         $pdf_attachment = unserialize(Configuration::get('AEUC_PDF_ATTACHMENT'));
+
         if (!is_array($pdf_attachment)) {
             $pdf_attachment = [];
         }
+
         return $pdf_attachment;
     }
 
     private function installTranslations()
     {
         $id_lang = Language::getIdByIso('de');
+
         if (!$id_lang) {
             return;
         }
