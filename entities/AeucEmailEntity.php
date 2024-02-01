@@ -40,8 +40,8 @@ class AeucEmailEntity extends ObjectModel
 		'table' => 'aeuc_email',
 		'primary' => 'id',
 		'fields' => [
-			'id_mail' => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'],
-			'filename' => ['type' => self::TYPE_STRING, 'required' => true, 'size' => 64],
+			'id_mail'      => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'],
+			'filename'     => ['type' => self::TYPE_STRING, 'required' => true, 'size' => 64],
 			'display_name' => ['type' => self::TYPE_STRING, 'required' => true, 'size' => 64],
 		],
 	];
@@ -53,20 +53,18 @@ class AeucEmailEntity extends ObjectModel
 	 */
 	public static function getAll()
 	{
-		$sql = '
-		SELECT *
-		FROM `' . _DB_PREFIX_ . AeucEmailEntity::$definition['table'] . '`';
-
-		return Db::getInstance()->executeS($sql);
+		return Db::getInstance()->executeS('
+			SELECT *
+			FROM `' . _DB_PREFIX_ . self::$definition['table'] . '`
+		');
 	}
 
-	public static function getMailIdFromTplFilename($tpl_name)
+	public static function getMailIdFromTplFilename(string $tpl_name)
 	{
-		$sql = '
-		SELECT `id_mail`
-		FROM `' . _DB_PREFIX_ . AeucEmailEntity::$definition['table'] . '`
-		WHERE `filename` = "' . pSQL($tpl_name) . '"';
-
-		return Db::getInstance()->getRow($sql);
+		return Db::getInstance()->getRow('
+			SELECT `id_mail`
+			FROM `' . _DB_PREFIX_ . self::$definition['table'] . '`
+			WHERE `filename` = \'' . pSQL($tpl_name) . '\'
+		');
 	}
 }

@@ -38,7 +38,7 @@ class AeucCMSRoleEmailEntity extends ObjectModel
 		'table' => 'aeuc_cmsrole_email',
 		'primary' => 'id',
 		'fields' => [
-			'id_mail' => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'],
+			'id_mail'     => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'],
 			'id_cms_role' => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'],
 		],
 	];
@@ -50,8 +50,9 @@ class AeucCMSRoleEmailEntity extends ObjectModel
 	 */
 	public static function truncate()
 	{
-		$sql = 'TRUNCATE `' . _DB_PREFIX_ . AeucCMSRoleEmailEntity::$definition['table'] . '`';
-		return Db::getInstance()->execute($sql);
+		return Db::getInstance()->execute('
+			TRUNCATE `' . _DB_PREFIX_ . self::$definition['table'] . '`
+		');
 	}
 
 	/**
@@ -59,14 +60,13 @@ class AeucCMSRoleEmailEntity extends ObjectModel
 	 * @return array|false
 	 * @throws PrestaShopDatabaseException
 	 */
-	public static function getIdEmailFromCMSRoleId($id_cms_role)
+	public static function getIdEmailFromCMSRoleId(int $id_cms_role)
 	{
-		$sql = '
-		SELECT `id_mail`
-		FROM `' . _DB_PREFIX_ . AeucCMSRoleEmailEntity::$definition['table'] . '`
-		WHERE `id_cms_role` = ' . (int) $id_cms_role;
-
-		return Db::getInstance()->executeS($sql);
+		return Db::getInstance()->executeS('
+			SELECT `id_mail`
+			FROM `' . _DB_PREFIX_ . self::$definition['table'] . '`
+			WHERE `id_cms_role` = ' . $id_cms_role . '
+		');
 	}
 
 
@@ -77,21 +77,19 @@ class AeucCMSRoleEmailEntity extends ObjectModel
 	 */
 	public static function getAll()
 	{
-		$sql = '
-		SELECT *
-		FROM `' . _DB_PREFIX_ . AeucCMSRoleEmailEntity::$definition['table'] . '`';
-
-		return Db::getInstance()->executeS($sql);
+		return Db::getInstance()->executeS('
+			SELECT *
+			FROM `' . _DB_PREFIX_ . self::$definition['table'] . '`
+		');
 	}
 
-	public static function getCMSRoleIdsFromIdMail($id_mail)
+	public static function getCMSRoleIdsFromIdMail(int $id_mail)
 	{
-		$sql = '
-		SELECT DISTINCT(`id_cms_role`)
-		FROM `' . _DB_PREFIX_ . AeucCMSRoleEmailEntity::$definition['table'] . '`
-		WHERE `id_mail` = ' . (int) $id_mail;
-
-		return Db::getInstance()->executeS($sql);
+		return Db::getInstance()->executeS('
+			SELECT DISTINCT(`id_cms_role`)
+			FROM `' . _DB_PREFIX_ . self::$definition['table'] . '`
+			WHERE `id_mail` = ' . $id_mail . '
+		');
 	}
 
 

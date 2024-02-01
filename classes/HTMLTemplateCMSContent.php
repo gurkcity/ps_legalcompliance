@@ -31,7 +31,9 @@ class HTMLTemplateCMSContent extends HTMLTemplate
     public function getHeader()
     {
         $this->assignCommonHeaderData();
-        $this->smarty->assign(['header' => $this->cms->meta_title]);
+        $this->smarty->assign([
+            'header' => $this->cms->meta_title
+        ]);
 
         return $this->smarty->fetch($this->getTemplate('header'));
     }
