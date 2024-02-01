@@ -1810,7 +1810,7 @@ class Ps_LegalCompliance extends Module
             'id_language' => $this->context->language->id,
         ];
 
-        return $helper->generateForm(array($this->getConfigFormLabelsManager()));
+        return $helper->generateForm([$this->getConfigFormLabelsManager()]);
     }
 
     /**
@@ -2418,7 +2418,7 @@ class Ps_LegalCompliance extends Module
             'id_language' => $this->context->language->id
         ];
 
-        return $helper->generateForm(
+        return $helper->generateForm([
             [
                 'form' => [
                     'legend' => [
@@ -2440,7 +2440,7 @@ class Ps_LegalCompliance extends Module
                     ],
                 ],
             ],
-        );
+        ]);
     }
 
     private function getIsoFromDefaultLanguage(): string
