@@ -23,11 +23,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if isset($smartyVars)}
-    {* "From" Price Hook templating *}
-    {if isset($smartyVars.before_price) && isset($smartyVars.before_price.from_str_i18n)}
-        <span class="aeuc_from_label">
-            {$smartyVars.before_price.from_str_i18n|escape:'htmlall'}
-        </span>
-    {/if}
+{if isset($smartyVars.before_price.from_str_i18n)}
+    <span class="aeuc_from_label">
+        {$smartyVars.before_price.from_str_i18n|escape:'htmlall'}
+    </span>
 {/if}

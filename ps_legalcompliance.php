@@ -809,16 +809,50 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayHeader($param)
     {
-        $this->context->controller->registerStylesheet('modules-aeuc_front', 'modules/'.$this->name.'/views/css/aeuc_front.css', ['media' => 'all', 'priority' => 150]);
+        $this->context->controller->registerStylesheet(
+            'modules-aeuc_front',
+            'modules/' . $this->name . '/views/css/aeuc_front.css',
+            [
+                'media' => 'all',
+                'priority' => 150
+            ]
+        );
 
-        if (isset($this->context->controller->php_self) && ($this->context->controller->php_self == 'cms')) {
-            if ($this->isPrintableCMSPage()) {
-                $this->context->controller->registerStylesheet('modules-aeuc_print', 'modules/'.$this->name.'/views/css/aeuc_print.css', ['media' => 'print', 'priority' => 150]);
-            }
+        if (
+            isset($this->context->controller->php_self)
+            && $this->context->controller->php_self == 'cms'
+            && $this->isPrintableCMSPage()
+        ) {
+            $this->context->controller->registerStylesheet(
+                'modules-aeuc_print',
+                'modules/' . $this->name . '/views/css/aeuc_print.css',
+                [
+                    'media' => 'print',
+                    'priority' => 150
+                ]
+            );
         }
+
         if (Tools::getValue('direct_print') == '1') {
-            $this->context->controller->registerJavascript('modules-fo_aeuc_print', 'modules/'.$this->name.'/views/js/fo_aeuc_print.js', ['position' => 'bottom', 'priority' => 150]);
+            $this->context->controller->registerJavascript(
+                'modules-fo_aeuc_print',
+                'modules/'.$this->name.'/views/js/fo_aeuc_print.js',
+                [
+                    'position' => 'bottom',
+                    'priority' => 150
+                ]
+            );
         }
+
+        $this->context->controller->registerJavascript(
+            'modules-fo_aeuc_tnc',
+            'modules/'.$this->name.'/views/js/fo_aeuc_tnc.js',
+            [
+                'position' => 'bottom',
+                'priority' => 150,
+                'attributes' => 'defer'
+            ]
+        );
     }
 
     protected function isPrintableCMSPage()
@@ -964,28 +998,41 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayProductPriceBlock($param)
     {
-        if (!isset($param['product']) || !isset($param['type'])) {
+        if (
+            empty($param['product'])
+            || empty($param['type'])
+        ) {
             return;
         }
 
         $product = $param['product'];
-        $hook_type = $param['type'];
+        $type = $param['type'];
 
-        if (!$product instanceof Product) {
-            $product_repository = $this->entity_manager->getRepository('Product');
-            $product = $product_repository->findOne((int) $product['id_product']);
+        $cache_key = $this->name . '|' . $type;
+
+        if ($type == 'before_price') {
+            $cache_key .= '|' . $product['id_product'];
+        } elseif ($type == 'price') {
+            $cache_key .= '|' . $product['is_virtual'];
         }
-        if (!Validate::isLoadedObject($product)) {
-            return;
-        }
 
-        $smartyVars = array();
+        $cache_id = $this->getCacheId($cache_key);
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayProductPriceBlock_' . $type . '.tpl';
 
-        /* Handle Product Combinations label */
-        if ($param['type'] == 'before_price' && (bool) Configuration::get('AEUC_LABEL_COMBINATION_FROM') === true) {
-            if ($product->hasAttributes()) {
+        $smartyVars = [];
+
+        if (!$this->isCached($template, $cache_id)) {
+            /* Handle Product Combinations label */
+            if (
+                $type == 'before_price'
+                && Configuration::get('AEUC_LABEL_COMBINATION_FROM')
+                && !empty($product['attributes'])
+            ) {
                 $need_display = false;
-                $combinations = $product->getAttributeCombinations($this->context->language->id);
+
+                $product_instance = new Product($product['id_product']);
+                $combinations = $product_instance->getAttributeCombinations($this->context->language->id);
+
                 if ($combinations && is_array($combinations)) {
                     foreach ($combinations as $combination) {
                         if ((float) $combination['price'] != 0) {
@@ -999,135 +1046,145 @@ class Ps_LegalCompliance extends Module
                     if ($need_display) {
                         $smartyVars['before_price'] = array();
                         $smartyVars['before_price']['from_str_i18n'] = $this->trans('From', array(), 'Modules.Legalcompliance.Shop');
-
-                        return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type);
-                    }
-                }
-
-                return;
-            }
-        }
-
-        /* Handle Specific Price label*/
-        if ($param['type'] == 'old_price' && (bool) Configuration::get('AEUC_LABEL_SPECIFIC_PRICE') === true && 'catalog/_partials/miniatures/product.tpl' != $param['smarty']->template_resource) {
-            $smartyVars['old_price'] = array();
-            $smartyVars['old_price']['before_str_i18n'] = $this->trans('Our previous price', array(), 'Modules.Legalcompliance.Shop');
-
-            return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type);
-        }
-
-        /* Handle Shipping Inc./Exc.*/
-        if ($param['type'] == 'price') {
-            $smartyVars['price'] = array();
-            $need_shipping_label = true;
-
-            if ((bool) Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC') === true && $need_shipping_label === true) {
-                if (!$product->is_virtual) {
-                    $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-                    $cms_repository = $this->entity_manager->getRepository('CMS');
-                    $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
-
-                    if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
-                        $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
-                        $cms_ship_pay = $cms_repository->i10nFindOneById($cms_ship_pay_id, $this->context->language->id,
-                                                                            $this->context->shop->id);
-                        $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
-                        $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
-
-                        $smartyVars['ship'] = array();
-                        $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
-                        $smartyVars['ship']['ship_str_i18n'] = $this->trans('Shipping excluded', array(), 'Modules.Legalcompliance.Shop');
-                    }
-                } elseif ($product->is_virtual && (bool) Configuration::get('AEUC_VP_ACTIVE') === true) {
-                    $cms_ship_pay_id = (int) Configuration::get('AEUC_VP_CMS_ID');
-                    if ($cms_ship_pay_id) {
-                        $cms_ship_pay = $this->entity_manager
-                            ->getRepository('CMS')
-                            ->i10nFindOneById($cms_ship_pay_id, $this->context->language->id, $this->context->shop->id);
-
-                        $smartyVars['ship'] = array(
-                            'link_ship_pay' => $this->context->link->getCMSLink(
-                                    $cms_ship_pay,
-                                    $cms_ship_pay->link_rewrite,
-                                    (bool) Configuration::get('PS_SSL_ENABLED')
-                                ),
-                            'ship_str_i18n' => Configuration::get('AEUC_VP_LABEL_TEXT', $this->context->language->id)
-                        );
-                    }
-                } else {
-                    $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-                    $cms_repository = $this->entity_manager->getRepository('CMS');
-                    $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
-
-                    if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
-                        $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
-                        $cms_ship_pay = $cms_repository->i10nFindOneById($cms_ship_pay_id, $this->context->language->id,
-                                                                            $this->context->shop->id);
-                        $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
-                        $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
-
-                        $smartyVars['ship'] = array();
-                        $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
-                        $smartyVars['ship']['ship_str_i18n'] = $this->trans('Download Info', array(), 'Modules.Legalcompliance.Shop');
                     }
                 }
             }
 
-            return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type);
-        }
+            /* Handle Specific Price label*/
+            if (
+                $type == 'old_price'
+                && Configuration::get('AEUC_LABEL_SPECIFIC_PRICE')
+            ) {
+                $smartyVars['old_price'] = array();
+                $smartyVars['old_price']['before_str_i18n'] = $this->trans('Our previous price', array(), 'Modules.Legalcompliance.Shop');
+            }
 
-        /* Handle Delivery time label */
-        if ($param['type'] == 'after_price') {
-            $context_id_lang = $this->context->language->id;
-            $smartyVars['after_price'] = array();
+            /* Handle Shipping Inc./Exc.*/
+            if ($type == 'price') {
+                $smartyVars['price'] = array();
 
-            $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $context_id_lang);
-            if (trim($delivery_addtional_info) !== '') {
-                if (array_key_exists('delivery_str_i18n', $smartyVars['after_price'])) {
-                    $smartyVars['after_price']['delivery_str_i18n'] .= '*';
-                } else {
+                if (Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC')) {
+                    if (!$product['is_virtual']) {
+                        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+                        $cms_repository = $this->entity_manager->getRepository('CMS');
+                        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+
+                        if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
+                            $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
+                            $cms_ship_pay = $cms_repository->i10nFindOneById(
+                                $cms_ship_pay_id,
+                                $this->context->language->id,
+                                $this->context->shop->id
+                            );
+                            $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
+                            $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
+
+                            $smartyVars['ship'] = array();
+                            $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
+                            $smartyVars['ship']['ship_str_i18n'] = $this->trans('Shipping excluded', array(), 'Modules.Legalcompliance.Shop');
+                        }
+                    } elseif (
+                        $product['is_virtual']
+                        && Configuration::get('AEUC_VP_ACTIVE')
+                    ) {
+                        $cms_ship_pay_id = (int) Configuration::get('AEUC_VP_CMS_ID');
+
+                        if ($cms_ship_pay_id) {
+                            $cms_ship_pay = $this->entity_manager
+                                ->getRepository('CMS')
+                                ->i10nFindOneById($cms_ship_pay_id, $this->context->language->id, $this->context->shop->id);
+
+                            $smartyVars['ship'] = array(
+                                'link_ship_pay' => $this->context->link->getCMSLink(
+                                        $cms_ship_pay,
+                                        $cms_ship_pay->link_rewrite,
+                                        (bool) Configuration::get('PS_SSL_ENABLED')
+                                    ),
+                                'ship_str_i18n' => Configuration::get('AEUC_VP_LABEL_TEXT', $this->context->language->id)
+                            );
+                        }
+                    } else {
+                        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+                        $cms_repository = $this->entity_manager->getRepository('CMS');
+                        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+
+                        if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
+                            $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
+                            $cms_ship_pay = $cms_repository->i10nFindOneById(
+                                $cms_ship_pay_id,
+                                $this->context->language->id,
+                                $this->context->shop->id
+                            );
+                            $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
+                            $link_ship_pay = $this->context->link->getCMSLink($cms_ship_pay, $cms_ship_pay->link_rewrite, $is_ssl_enabled);
+
+                            $smartyVars['ship'] = array();
+                            $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
+                            $smartyVars['ship']['ship_str_i18n'] = $this->trans('Download Info', array(), 'Modules.Legalcompliance.Shop');
+                        }
+                    }
+                }
+            }
+
+            /* Handle Delivery time label */
+            if ($type == 'after_price') {
+                $smartyVars['after_price'] = array();
+
+                $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
+                if (trim($delivery_addtional_info) !== '') {
                     $smartyVars['after_price']['delivery_str_i18n'] = '*';
                 }
             }
 
-            return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type);
-        }
+            /* Handle Taxes Inc./Exc.*/
+            if ($type == 'list_taxes') {
+                $smartyVars['list_taxes'] = array();
 
-        /* Handle Taxes Inc./Exc.*/
-        if ($param['type'] == 'list_taxes') {
-            $smartyVars['list_taxes'] = array();
-            if ((bool) Configuration::get('AEUC_LABEL_TAX_INC_EXC') === true) {
-                $customer_default_group_id = (int) $this->context->customer->id_default_group;
-                $customer_default_group = new Group($customer_default_group_id);
+                if (Configuration::get('AEUC_LABEL_TAX_INC_EXC')) {
+                    $customer_default_group_id = (int) $this->context->customer->id_default_group;
+                    $customer_default_group = new Group($customer_default_group_id);
 
-                if ((bool) Configuration::get('PS_TAX') === true && $this->context->country->display_tax_label &&
-                    !(Validate::isLoadedObject($customer_default_group) && (bool) $customer_default_group->price_display_method === true)) {
-                    $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax included', array(), 'Shop.Theme.Checkout');
-                } else {
-                    $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax excluded', array(), 'Shop.Theme.Checkout');
+                    if (
+                        Configuration::get('PS_TAX')
+                        && $this->context->country->display_tax_label
+                        && !(
+                            Validate::isLoadedObject($customer_default_group)
+                            && $customer_default_group->price_display_method
+                        )
+                    ) {
+                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax included', array(), 'Shop.Theme.Checkout');
+                    } else {
+                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax excluded', array(), 'Shop.Theme.Checkout');
+                    }
                 }
             }
 
-            return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type);
-        }
+            /* Handle Unit prices */
+            if ($type == 'unit_price') {
+                $unit_price = $product['unit_price_tax_included'] ?? 0;
 
-        /* Handle Unit prices */
-        if ($param['type'] == 'unit_price') {
-            $unit_price = $param['product']['unit_price_tax_included'] ?? 0;
+                if (Configuration::get('AEUC_LABEL_UNIT_PRICE') && $unit_price > 0) {
+                    $smartyVars['unit_price'] = (new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter)
+                    ->format($unit_price) . ' ' . $product['unity'];
 
-            if (Configuration::get('AEUC_LABEL_UNIT_PRICE') && $unit_price > 0) {
-                $smartyVars['unit_price'] = (new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter)
-                ->format($unit_price) . ' ' . $param['product']['unity'];
-
-                if (Module::isEnabled('gc_unitprice')) {
-                    /** @var GC_Unitprice $gc_unitprice */
-                    $gc_unitprice = Module::getInstanceByName('gc_unitprice');
-                    $smartyVars['unit_price'] = $gc_unitprice->getFullUnitPrice($smartyVars['unit_price'], $product->unity);
+                    if (Module::isEnabled('gc_unitprice')) {
+                        /** @var GC_Unitprice $gc_unitprice */
+                        $gc_unitprice = Module::getInstanceByName('gc_unitprice');
+                        $smartyVars['unit_price'] = $gc_unitprice->getFullUnitPrice($smartyVars['unit_price'], $product->unity);
+                    }
                 }
             }
-
-            return $this->dumpHookDisplayProductPriceBlock($smartyVars, $hook_type, $product->id);
         }
+
+        if (!empty($smartyVars)) {
+            $this->context->smarty->assign([
+                'smartyVars' => $smartyVars
+            ]);
+
+            return $this->fetch($template, $cache_id);
+        }
+
+        return '';
     }
 
     public function hookDisplayCheckoutSubtotalDetails($param)
@@ -1147,16 +1204,6 @@ class Ps_LegalCompliance extends Module
     {
         $this->_clearCache('product.tpl');
         $this->_clearCache('product-list.tpl');
-    }
-
-    private function dumpHookDisplayProductPriceBlock(array $smartyVars, $hook_type, $additional_cache_param = false)
-    {
-        $cache_id = sha1($hook_type.$additional_cache_param.$this->context->language->id);
-        $this->context->smarty->assign(array('smartyVars' => $smartyVars));
-        $this->context->controller->addJS($this->_path.'views/js/fo_aeuc_tnc.js', true);
-        $template = 'hookDisplayProductPriceBlock_'.$hook_type.'.tpl';
-
-        return $this->display(__FILE__, $template, $cache_id);
     }
 
     private function postProcess()

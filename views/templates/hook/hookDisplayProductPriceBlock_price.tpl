@@ -23,14 +23,10 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if isset($smartyVars)}
-    {* "Shipping CMS content" Price Hook templating *}
-    {if isset($smartyVars.ship) && isset($smartyVars.ship.link_ship_pay) &&
-    isset($smartyVars.ship.ship_str_i18n)}
-        <span class="aeuc_shipping_label">
-            <a href="{$smartyVars.ship.link_ship_pay}" class="iframe">
-                {$smartyVars.ship.ship_str_i18n|escape:'htmlall'}
-            </a>
-        </span>
-    {/if}
+{if isset($smartyVars.ship.link_ship_pay)}
+    <span class="aeuc_shipping_label">
+        <a href="{$smartyVars.ship.link_ship_pay}" class="iframe">
+            {$smartyVars.ship.ship_str_i18n|escape:'htmlall'}
+        </a>
+    </span>
 {/if}

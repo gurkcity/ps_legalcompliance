@@ -23,11 +23,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if isset($smartyVars)}
-    {* "Before" Price Hook templating *}
-    {if isset($smartyVars.old_price) && isset($smartyVars.old_price.before_str_i18n)}
-        <span class="aeuc_before_label">
-            {$smartyVars.old_price.before_str_i18n|escape:'htmlall'}
-        </span>
-    {/if}
+{if isset($smartyVars.old_price.before_str_i18n)}
+    <span class="aeuc_before_label">
+        {$smartyVars.old_price.before_str_i18n|escape:'htmlall'}
+    </span>
 {/if}

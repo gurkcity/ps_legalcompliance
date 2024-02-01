@@ -23,11 +23,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if isset($smartyVars)}
-    {* "Tax in Listing" Price Hook templating *}
-    {if isset($smartyVars.list_taxes) && isset($smartyVars.list_taxes.tax_str_i18n)}
-        <div class="aeuc_tax_label">
-            {$smartyVars.list_taxes.tax_str_i18n|escape:'htmlall'}
-        </div>
-    {/if}
+{if isset($smartyVars.list_taxes.tax_str_i18n)}
+    <div class="aeuc_tax_label">
+        {$smartyVars.list_taxes.tax_str_i18n|escape:'htmlall'}
+    </div>
 {/if}

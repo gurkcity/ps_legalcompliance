@@ -23,11 +23,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if isset($smartyVars)}
-    {* "Delivery Estimation" Price Hook templating *}
-    {if isset($smartyVars.after_price) && isset($smartyVars.after_price.delivery_str_i18n)}
-        <span class="aeuc_delivery_label">
-            {$smartyVars.after_price.delivery_str_i18n|escape:'htmlall'}
-        </span>
-    {/if}
+{if isset($smartyVars.after_price.delivery_str_i18n)}
+    <span class="aeuc_delivery_label">
+        {$smartyVars.after_price.delivery_str_i18n|escape:'htmlall'}
+    </span>
 {/if}
