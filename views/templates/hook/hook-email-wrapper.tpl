@@ -24,7 +24,7 @@
  *}
 
 <div id="ps_legalcompliance_cms_content">
-    <table style="width:100%;margin-top:10px">
+    <table style="width: 100%; margin-top:10px; table-layout: fixed;">
         <tbody>
             {foreach from=$cms_contents item=content}
             <tr>
