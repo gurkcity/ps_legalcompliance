@@ -54,4 +54,6 @@ Version	Datum     	Bemerkung
 8.3.4	12.02.2024	cache hook displayProductPriceBlock with smarty for performance
 					clean code part 1 & 2
 					fix: admin form missing brakets
+8.3.5	12.04.2024	Fix: move checkout modal box to hook_before_body_closing_tag
+					Fix: set table layout fixed in cms-part in emails
 					
