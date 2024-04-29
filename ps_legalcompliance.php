@@ -1137,13 +1137,7 @@ class Ps_LegalCompliance extends Module
         $product = $param['product'];
         $type = $param['type'];
 
-        $cache_key = $this->name . '|' . $type;
-
-        if ($type == 'before_price') {
-            $cache_key .= '|' . $product['id_product'];
-        } elseif ($type == 'price') {
-            $cache_key .= '|' . $product['is_virtual'];
-        }
+        $cache_key = $this->name . '|' . $type . '|' . $product['id_product'];
 
         $cache_id = $this->getCacheId($cache_key);
         $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayProductPriceBlock_' . $type . '.tpl';
