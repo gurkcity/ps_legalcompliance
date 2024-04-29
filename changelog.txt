@@ -56,4 +56,5 @@ Version	Datum     	Bemerkung
 					fix: admin form missing brakets
 8.3.5	12.04.2024	Fix: move checkout modal box to hook_before_body_closing_tag
 					Fix: set table layout fixed in cms-part in emails
+8.3.6	29.04.2024	fix: cache key by product id on display price block hook
 					
