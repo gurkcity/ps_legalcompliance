@@ -1130,8 +1130,16 @@ class Ps_LegalCompliance extends Module
         if (
             empty($param['product'])
             || empty($param['type'])
+            || !in_array($type, [
+                    'before_price',
+                    'old_price',
+                    'price',
+                    'after_price',
+                    'list_taxes',
+                    'unit_price'
+                ])
         ) {
-            return;
+            return '';
         }
 
         $product = $param['product'];
@@ -1142,9 +1150,9 @@ class Ps_LegalCompliance extends Module
         $cache_id = $this->getCacheId($cache_key);
         $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayProductPriceBlock_' . $type . '.tpl';
 
-        $smartyVars = [];
-
         if (!$this->isCached($template, $cache_id)) {
+            $smartyVars = [];
+
             /* Handle Product Combinations label */
             if (
                 $type == 'before_price'
@@ -1299,17 +1307,13 @@ class Ps_LegalCompliance extends Module
                     }
                 }
             }
-        }
 
-        if (!empty($smartyVars)) {
             $this->context->smarty->assign([
                 'smartyVars' => $smartyVars,
             ]);
-
-            return $this->fetch($template, $cache_id);
         }
 
-        return '';
+        return $this->fetch($template, $cache_id);
     }
 
     public function hookDisplayCheckoutSubtotalDetails($param)
