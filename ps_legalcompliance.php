@@ -1130,7 +1130,7 @@ class Ps_LegalCompliance extends Module
         if (
             empty($param['product'])
             || empty($param['type'])
-            || !in_array($type, [
+            || !in_array($param['type'], [
                     'before_price',
                     'old_price',
                     'price',
