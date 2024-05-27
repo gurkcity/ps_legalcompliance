@@ -58,4 +58,6 @@ Version	Datum     	Bemerkung
 					Fix: set table layout fixed in cms-part in emails
 8.3.6	29.04.2024	fix: cache key by product id on display price block hook
 8.3.7	03.05.2024	fix: caching price block template and smarty assign
+8.3.8	27.05.2024	fix: fatal error
+					fix: missing var $type
 					
