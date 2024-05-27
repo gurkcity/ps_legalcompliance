@@ -295,10 +295,11 @@ class Ps_LegalCompliance extends Module
                 $content = json_encode($content);
 
                 Db::getInstance()->update(
-                    'link_block', [
+                    'link_block',
+                    [
                         'content' => pSQL($content)
                     ],
-                    '`id_link_block` = ' . (int) $link_block['id_link_block'],
+                    '`id_link_block` = ' . (int) $link_block['id_link_block']
                 );
             }
         }
