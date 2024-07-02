@@ -731,12 +731,14 @@ class Ps_LegalCompliance extends Module
 
             if (Configuration::get('PS_MAIL_THEME') == 'classic') {
                 $wrapper = $doc->getElementsByTagName('table')->item(0); //selects tbody
+
+                // escape "&" to "&amp;"
+                $hook_email_wrapper = preg_replace('/&(?!amp)/', '&amp;', $this->display(__FILE__, 'hook-email-wrapper_classic.tpl'));
+
                 $footer_doc->loadHTML('<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
-                        <head><meta charset="utf-8"></head><body>' .
-                    $this->display(__FILE__, 'hook-email-wrapper_classic.tpl') . '</body></html>');
+                        <head><meta charset="utf-8"></head><body>' . $hook_email_wrapper . '</body></html>');
                 $wrapper->appendChild($footer_doc);
-
             } else {
                 $divs = $doc->getElementsByTagName('div'); //selects first wrapping div
                 $k = 0;
@@ -749,10 +751,12 @@ class Ps_LegalCompliance extends Module
                     $k++;
                 }
 
+                // escape "&" to "&amp;"
+                $hook_email_wrapper = preg_replace('/&(?!amp)/', '&amp;', $this->display(__FILE__, 'hook-email-wrapper.tpl'));
+
                 $footer_doc->loadHTML('<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
-                        <head><meta charset="utf-8"></head><body>' .
-                    $this->display(__FILE__, 'hook-email-wrapper.tpl') . '</body></html>');
+                        <head><meta charset="utf-8"></head><body>' . $hook_email_wrapper . '</body></html>');
                 for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
                     $clone_node = $doc->importNode(
                         $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
