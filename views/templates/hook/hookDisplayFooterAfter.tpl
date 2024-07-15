@@ -24,10 +24,12 @@
  *}
 
 <div class="aeuc_footer_info">
-	{if isset($delivery_additional_information)}
+	{if isset($delivery_additional_information) && trim($delivery_additional_information) !== ''}
 		* {$delivery_additional_information}
 		<a href="{$link_shipping}">{l s='Shipping and payment' d='Modules.Legalcompliance.Shop'}</a>
-	{elseif isset($display_tax_information) && $display_tax_information}
+	{/if}
+	{if isset($display_tax_information) && $display_tax_information}
+		<br/>
 		{if $tax_included}
 			{l s='All prices are mentioned tax included' d='Modules.Legalcompliance.Shop'}
 		{else}

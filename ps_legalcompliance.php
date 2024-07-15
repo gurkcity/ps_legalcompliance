@@ -636,46 +636,40 @@ class Ps_LegalCompliance extends Module
                     (int) $this->context->shop->id
                 );
 
-                if (!$cms_shipping_pay) {
-                    return false;
+                if ($cms_shipping_pay) {
+                    $link_shipping = $this->context->link->getCMSLink(
+                        $cms_shipping_pay,
+                        $cms_shipping_pay->link_rewrite,
+                        (bool) Configuration::get('PS_SSL_ENABLED')
+                    );
                 }
-
-                $link_shipping = $this->context->link->getCMSLink(
-                    $cms_shipping_pay,
-                    $cms_shipping_pay->link_rewrite,
-                    (bool) Configuration::get('PS_SSL_ENABLED')
-                );
             }
 
             if ($this->context->controller->php_self == 'product') {
                 $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
 
-                if (trim($delivery_addtional_info) == '') {
-                    return false;
-                }
-
                 $this->context->smarty->assign('link_shipping', $link_shipping);
                 $this->context->smarty->assign('delivery_additional_information', $delivery_addtional_info);
-            } else {
-                $customer_default_group = new Group((int) $this->context->customer->id_default_group);
-
-                if (
-                    Configuration::get('PS_TAX')
-                    && $this->context->country->display_tax_label
-                    && !(
-                        Validate::isLoadedObject($customer_default_group)
-                        && $customer_default_group->price_display_method
-                    )
-                ) {
-                    $tax_included = true;
-                } else {
-                    $tax_included = false;
-                }
-
-                $this->context->smarty->assign('show_shipping', (bool) Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'));
-                $this->context->smarty->assign('link_shipping', $link_shipping);
-                $this->context->smarty->assign('tax_included', $tax_included);
             }
+
+            $customer_default_group = new Group((int) $this->context->customer->id_default_group);
+
+            if (
+                Configuration::get('PS_TAX')
+                && $this->context->country->display_tax_label
+                && !(
+                    Validate::isLoadedObject($customer_default_group)
+                    && $customer_default_group->price_display_method
+                )
+            ) {
+                $tax_included = true;
+            } else {
+                $tax_included = false;
+            }
+
+            $this->context->smarty->assign('show_shipping', (bool) Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'));
+            $this->context->smarty->assign('link_shipping', $link_shipping);
+            $this->context->smarty->assign('tax_included', $tax_included);
 
             $this->context->smarty->assign([
                 'display_tax_information' => Configuration::get('AEUC_LABEL_TAX_FOOTER'),
