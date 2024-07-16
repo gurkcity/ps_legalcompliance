@@ -185,6 +185,7 @@ class Ps_LegalCompliance extends Module
 
         return Configuration::updateValue('AEUC_LABEL_CUSTOM_CART_TEXT', $custom_cart_text_values)
             && Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
+            && Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0)
             && Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false)
             && Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true)
             && Configuration::updateValue('AEUC_LABEL_TAX_INC_EXC', true)
@@ -448,6 +449,7 @@ class Ps_LegalCompliance extends Module
     public function dropConfig()
     {
         return Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL')
+            && Configuration::deleteByName('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL')
             && Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE')
             && Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE')
             && Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC')
@@ -645,7 +647,9 @@ class Ps_LegalCompliance extends Module
                 }
             }
 
-            if ($this->context->controller->php_self == 'product') {
+            if ($this->context->controller->php_self == 'product'
+                && (int) Configuration::get('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL') == 1
+            ) {
                 $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
 
                 $this->context->smarty->assign('link_shipping', $link_shipping);
@@ -1257,10 +1261,11 @@ class Ps_LegalCompliance extends Module
             if ($type == 'after_price') {
                 $smartyVars['after_price'] = [];
 
-                $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
-
-                if (trim($delivery_addtional_info) !== '') {
-                    $smartyVars['after_price']['delivery_str_i18n'] = '*';
+                if ((int) Configuration::get('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL') == 1) {
+                    $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
+                    if (trim($delivery_addtional_info) !== '') {
+                        $smartyVars['after_price']['delivery_str_i18n'] = '*';
+                    }
                 }
             }
 
@@ -1760,6 +1765,11 @@ class Ps_LegalCompliance extends Module
         }
     }
 
+    protected function processAeucLabelDisplayDeliveryAdditional($is_option_active)
+    {
+        Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', (int) $is_option_active);
+    }
+
     protected function getCMSRoles()
     {
         return [
@@ -1803,6 +1813,9 @@ class Ps_LegalCompliance extends Module
             'id_language' => $this->context->language->id,
         ];
 
+        // Insert JS in the page
+        $this->context->controller->addJS($this->_path . 'views/js/admin.js');
+
         return $helper->generateForm([$this->getConfigFormLabelsManager()]);
     }
 
@@ -1819,9 +1832,28 @@ class Ps_LegalCompliance extends Module
                 ],
                 'input' => [
                     [
+                        'type' => 'switch',
+                        'label' => $this->trans('Additional information about delivery time', [], 'Modules.Legalcompliance.Admin'),
+                        'name' => 'AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL',
+                        'is_bool' => true,
+                        'desc' => $this->trans('If you specified a delivery time...', [], 'Modules.Legalcompliance.Admin'),
+                        'values' => [
+                            [
+                                'id' => 'AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL_ON',
+                                'value' => true,
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
+                                'id' => 'AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL_OFF',
+                                'value' => false,
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'text',
                         'lang' => true,
-                        'label' => $this->trans('Additional information about delivery time', [], 'Modules.Legalcompliance.Admin'),
+                        'label' => '',
                         'name' => 'AEUC_LABEL_DELIVERY_ADDITIONAL',
                         'desc' => $this->trans('If you specified a delivery time, this additional information is displayed in the footer of product pages with a link to the "Shipping & Payment" Page. Leave the field empty to disable.', [], 'Modules.Legalcompliance.Admin'),
                         'hint' => $this->trans('Indicate for which countries your delivery time applies.', [], 'Modules.Legalcompliance.Admin'),
@@ -2014,6 +2046,7 @@ class Ps_LegalCompliance extends Module
         }
 
         return [
+            'AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL' => (int) Configuration::get('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL'),
             'AEUC_LABEL_DELIVERY_ADDITIONAL' => $delivery_additional,
             'AEUC_LABEL_CUSTOM_CART_TEXT' => $custom_cart_text_values,
             'AEUC_LABEL_SPECIFIC_PRICE' => Configuration::get('AEUC_LABEL_SPECIFIC_PRICE'),
