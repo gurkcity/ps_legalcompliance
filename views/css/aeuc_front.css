@@ -54,6 +54,13 @@ span.aeuc_tax_label_blockcart {
   text-decoration: underline;
 }
 
+.product-prices .tax-shipping-delivery-label .aeuc_shipping_label + .delivery-information {
+	display: block;
+}
+.product-prices .tax-shipping-delivery-label .aeuc_shipping_label + .delivery-information::before {
+	display: none;
+}
+
 .content_price > span {
 	display:inline-block;
 }
