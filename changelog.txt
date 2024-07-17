@@ -61,4 +61,6 @@ Version	Datum     	Bemerkung
 8.3.8	27.05.2024	fix: fatal error
 					fix: missing var $type
 8.3.9	16.07.2024	fix: display tax info in footer switch
+8.4.0	18.07.2024	feat: added new option to display additional delivery info
+					fix: show delivery time in separate line
 					
