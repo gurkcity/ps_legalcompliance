@@ -883,7 +883,17 @@ class Ps_LegalCompliance extends Module
 
         $carrier = new Carrier((int) $param['cart']->id_carrier);
 
-        $param['template_vars']['{carrier}'] .= ' - ' . $carrier->delay[(int) $param['cart']->id_lang];
+        if (!Validate::isLoadedObject($carrier)) {
+            return;
+        }
+
+        $delay = $carrier->delay[(int) $param['cart']->id_lang] ?? '';
+
+        if ($delay == '') {
+            return;
+        }
+
+        $param['template_vars']['{carrier}'] .= ' - ' . $delay;
     }
 
     public function hookDisplayHeader($param)
