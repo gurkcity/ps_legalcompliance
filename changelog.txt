@@ -63,4 +63,5 @@ Version	Datum     	Bemerkung
 8.3.9	16.07.2024	fix: display tax info in footer switch
 8.4.0	18.07.2024	feat: added new option to display additional delivery info
 					fix: show delivery time in separate line
+8.4.1	28.07.2024	fix: virtual carts: do not update carrier delay in e-mail
 					
