@@ -165,13 +165,6 @@ class Ps_LegalCompliance extends Module
 
     public function createConfig()
     {
-        $custom_cart_text_values = [];
-
-        $langs_repository = $this->entity_manager->getRepository('Language');
-
-        foreach ($langs_repository->findAll() as $lang) {
-            $custom_cart_text_values[(int) $lang->id] = $this->trans('The order will only be confirmed when you click on the button \'Order with an obligation to pay\' at the end of the checkout!', [], 'Modules.Legalcompliance.Shop', $lang->locale);
-        }
 
         /* Base settings */
         $this->processAeucFeatReorder(true);
@@ -183,8 +176,7 @@ class Ps_LegalCompliance extends Module
         $this->processAeucLabelShippingIncExc(false);
         $this->processAeucLabelCombinationFrom(true);
 
-        return Configuration::updateValue('AEUC_LABEL_CUSTOM_CART_TEXT', $custom_cart_text_values)
-            && Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
+        return Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
             && Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0)
             && Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false)
             && Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true)
