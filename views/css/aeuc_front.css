@@ -202,3 +202,8 @@ h5.aeuc_scart {
       color: #2fb5d2; }
   .euAboutUsCMS .cms-page-link a {
     color: #414141; }
+
+#order-summary-content .order-summary-cart-link {
+	display: inline-block;
+	padding-left: 1rem;
+}

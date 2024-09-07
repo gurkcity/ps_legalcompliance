@@ -938,6 +938,22 @@ class Ps_LegalCompliance extends Module
                 'attributes' => 'defer'
             ]
         );
+
+        if ($this->context->controller instanceof OrderController) {
+            $this->context->controller->registerJavascript(
+                'modules-' . $this->name . '-checkout',
+                'modules/' . $this->name . '/views/js/checkout.js',
+                [
+                    'position' => 'bottom',
+                    'priority' => 150,
+                ]
+            );
+
+            Media::addJsDef([
+                'cartEditLinkTitle' => $this->trans('edit', [], 'Modules.Legalcompliance.Shop'),
+                'cartEditLinkUrl' => $this->context->link->getPageLink('cart', null, null, ['action' => 'show']),
+            ]);
+        }
     }
 
     protected function isPrintableCMSPage(): bool
