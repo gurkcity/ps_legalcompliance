@@ -43,6 +43,7 @@
             // rebuild label
             var selector = 'label' + '[for*="' +
                 '{/literal}{$checkbox_identifier}{literal}"]';
+            jQuery(selector).closest('.condition-label').addClass('p-0');
             jQuery(selector).attr('for', '');
         });
     {/literal}
