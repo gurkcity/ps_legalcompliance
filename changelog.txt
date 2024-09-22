@@ -64,4 +64,8 @@ Version	Datum     	Bemerkung
 8.4.0	18.07.2024	feat: added new option to display additional delivery info
 					fix: show delivery time in separate line
 8.4.1	28.07.2024	fix: virtual carts: do not update carrier delay in e-mail
+8.4.2	22.09.2024	fix: remove custom cart text default value
+					fix: escape "&" in email template
+					add edit button for cart table
+					alignment with conditions-checkbox off and lightbox issues
 					

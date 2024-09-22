@@ -66,7 +66,7 @@ class Ps_LegalCompliance extends Module
     ) {
         $this->name = 'ps_legalcompliance';
         $this->tab = 'administration';
-        $this->version = '8.4.1';
+        $this->version = '8.4.2';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -83,7 +83,7 @@ class Ps_LegalCompliance extends Module
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Legalcompliance.Admin');
 
         $this->ps_versions_compliancy = [
-            'min' => '1.7.3.0',
+            'min' => '8.0',
             'max' => _PS_VERSION_
         ];
 
