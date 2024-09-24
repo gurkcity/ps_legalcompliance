@@ -26,6 +26,6 @@ $(document).ready(function() {
 	if (typeof cartEditLinkUrl != 'undefined'
 		&& typeof cartEditLinkTitle  != 'undefined'
 	) {
-		$("#order-summary-content #order-items .card-title").first().append('<a href="' + cartEditLinkUrl + '" class="order-summary-cart-link">' + cartEditLinkTitle + '</a>');
+		$("#order-summary-content #order-items .card-title").first().append('<a href="' + cartEditLinkUrl + '" class="order-summary-cart-link"><i class="material-icons edit">mode_edit</i>' + cartEditLinkTitle + '</a>');
 	}
 });

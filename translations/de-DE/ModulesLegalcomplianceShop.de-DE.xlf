@@ -97,6 +97,11 @@
         <target>(Unter bestimmten Bedingungen)</target>
         <note>Line: </note>
       </trans-unit>
+      <trans-unit id="6af90b162bd8ab1c547c76492d8a2421">
+        <source>edit</source>
+        <target>bearbeiten</target>
+        <note>Line: </note>
+      </trans-unit>
     </body>
   </file>
 </xliff>
