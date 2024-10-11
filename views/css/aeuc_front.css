@@ -205,18 +205,5 @@ h5.aeuc_scart {
     color: #414141; }
 
 #order-summary-content .order-summary-cart-link {
-	display: inline-block;
 	padding-left: 5px;
-	color: #7a7a7a;
-	text-transform: lowercase;
-	font-weight: 500;
-	font-size: 1.125rem;
-}
-
-#order-summary-content .order-summary-cart-link:hover {
-	color: #7a7a7a
-}
-
-#order-summary-content .order-summary-cart-link .material-icons {
-	font-size: 1em
 }
