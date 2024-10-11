@@ -69,4 +69,5 @@ Version	Datum     	Bemerkung
 					add edit button for cart table
 					alignment with conditions-checkbox off and lightbox issues
 8.4.3	04.10.2024	fix: edit button for cart table
+8.4.4	11.10.2024	fix: add step-edit class, remove css
 					
