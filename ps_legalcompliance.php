@@ -176,6 +176,10 @@ class Ps_LegalCompliance extends Module
         $this->processAeucLabelShippingIncExc(false);
         $this->processAeucLabelCombinationFrom(true);
 
+        if (Configuration::get('PS_TAX')) {
+            Configuration::updateValue('PS_TAX_DISPLAY', true);
+        }
+
         return Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
             && Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0)
             && Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false)
@@ -186,7 +190,6 @@ class Ps_LegalCompliance extends Module
             && Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true)
             && Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false)
             && Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true)
-            && Configuration::updateValue('PS_TAX_DISPLAY', true)
             && Configuration::updateValue('PS_FINAL_SUMMARY_ENABLED', true)
             && Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true)
             && Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', 1);
