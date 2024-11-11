@@ -1442,16 +1442,6 @@ class Ps_LegalCompliance extends Module
         $theme_warning = null;
         $success_band = $this->_postProcess();
 
-        $infoMsg = $this->trans(
-            'This module helps European merchants to comply with legal requirements. Learn how to configure the module and other shop parameters so that you\'re in compliance with the law.[1][2]PrestaShop 1.7 legal compliance documentation[/2]',
-            array(
-                '[1]' => '<br>',
-                '[2]' => '<a href="http://doc.prestashop.com/display/PS17/Complying+with+the+European+legislation" target="_blank">',
-                '[/2]' => '</a>',
-            ),
-            'Modules.Legalcompliance.Admin'
-        );
-
         $this->context->smarty->assign('module_dir', $this->_path);
         $this->context->smarty->assign('errors', $this->_errors);
         $this->context->controller->addCSS($this->_path . 'views/css/configure.css', 'all');
@@ -1464,7 +1454,6 @@ class Ps_LegalCompliance extends Module
         $formLegalMailFooter = $this->renderFormLegalMailFooter();
 
         return $theme_warning
-            . $this->adminDisplayInformation($infoMsg)
             . $success_band
             . $formLabelsManager
             . $formVirtualProductsManager
