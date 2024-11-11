@@ -7,9 +7,9 @@
         <target>Informationen</target>
         <note>Line: </note>
       </trans-unit>
-      <trans-unit id="7c5b051f9cd69598866d9abe424ace5b">
-        <source>The order will only be confirmed when you click on the button 'Order with an obligation to pay' at the end of the checkout!</source>
-        <target>Ihre Bestellung muss durch Mausklick auf den Button "Kaufen" bestätigt werden!</target>
+      <trans-unit id="de95b43bceeb4b998aed4aed5cef1ae7">
+        <source>edit</source>
+        <target>bearbeiten</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6a91d7d52c586b57ca8f2a425434b5c6">
@@ -47,6 +47,16 @@
         <target>Download Info</target>
         <note>Line: </note>
       </trans-unit>
+      <trans-unit id="6af90b162bd8ab1c547c76492d8a2380">
+        <source>(Under conditions)</source>
+        <target>(Unter bestimmten Bedingungen)</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="59a297091dace235b4bce5af7b86ead6">
+        <source>My shopping cart</source>
+        <target>Mein Warenkorb</target>
+        <note>Line: </note>
+      </trans-unit>
       <trans-unit id="ded564687a6602917eb07c460577f456">
         <source>Information regarding online dispute resolution pursuant to Art. 14 Para. 1 of the ODR (Online Dispute Resolution Regulation):</source>
         <target>Information zur Online-Streitbeilegung gemäß Art. 14 § 1 ODR-VO (Online-Streibeilegungs-Verordnung):</target>
@@ -55,6 +65,11 @@
       <trans-unit id="29bd9770285cd28ad9e55714db33e8bd">
         <source>The European Commission gives consumers the opportunity to resolve online disputes pursuant to Art. 14 Para. 1 of the ODR on one of their platforms. The platform ([1]http://ec.europa.eu/consumers/odr[/1]) serves as a site where consumers can try to reach out-of-court settlements of disputes arising from online purchases and contracts for services.</source>
         <target>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie hier finden: ([1]https://ec.europa.eu/consumers/odr[/1]. Verbraucher haben die Möglichkeit, diese Plattform für die Beilegung von Streitigkeiten über online getätigte Käufe oder abgeschlossene Dienstleistungsverträge zu nutzen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="427e29628d9f5d9bfde0e58b32569619">
+        <source>Print this page</source>
+        <target>Seite drucken</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5fb4f05f62f9967052977077d783fc2d">
@@ -80,26 +95,6 @@
       <trans-unit id="53ae8b43aace8a1d1349d659c150d99f">
         <source>shipping excluded</source>
         <target>zzgl. Versand</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="59a297091dace235b4bce5af7b86ead6">
-        <source>My shopping cart</source>
-        <target>Mein Warenkorb</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="427e29628d9f5d9bfde0e58b32569619">
-        <source>Print this page</source>
-        <target>Seite drucken</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="6af90b162bd8ab1c547c76492d8a2380">
-        <source>(Under conditions)</source>
-        <target>(Unter bestimmten Bedingungen)</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="6af90b162bd8ab1c547c76492d8a2421">
-        <source>edit</source>
-        <target>bearbeiten</target>
         <note>Line: </note>
       </trans-unit>
     </body>

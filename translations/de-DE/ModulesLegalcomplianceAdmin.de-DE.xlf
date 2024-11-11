@@ -17,11 +17,6 @@
         <target>Soll dieses Modul wirklich deinstalliert werden?</target>
         <note>Line: </note>
       </trans-unit>
-      <trans-unit id="3b528a3fe35bcd29ad2ab0e77fe01d4d">
-        <source>Could not install new hook</source>
-        <target>Neuer Hook konnte nicht installiert werden</target>
-        <note>Line: </note>
-      </trans-unit>
       <trans-unit id="23e162ba6bf36c7560ebbc868d9e2552">
         <source>Legal notice</source>
         <target>Impressum</target>
@@ -115,6 +110,11 @@
       <trans-unit id="bdd4f0a0fbdc23d1d20e027c2f3050ee">
         <source>Additional information about delivery time</source>
         <target>Zusätzlicher Hinweis zur Lieferzeit</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="6885dbb8e1aae77efb664bd3ce81a31e">
+        <source>If you specified a delivery time...</source>
+        <target>Wenn Sie eine Lieferzeit angegeben haben...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b0c2a88bea1ad0728e3901bce50f1d69">
@@ -337,6 +337,31 @@
         <target>Sie können diesem Texteditor zusätzliche rechtliche Informationen und Links zu anderen rechtlichen Quellen hinzufügen.</target>
         <note>Line: </note>
       </trans-unit>
+      <trans-unit id="c49b8914d58716ebb70e35e5a08db6dd">
+        <source>Email content inclusion</source>
+        <target>Zusätzliche E-Mail-Inhalte</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="124c44c55082e763c52819653560e925">
+        <source>This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop's emails.</source>
+        <target>Legen Sie hier fest, bei welchen E-Mails zusätzliche Informationen aus der Verwaltung rechtskonformer Inhalte oben angefügt werden sollen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="96103eb82bd7f00ef55fac85c2f0a410">
+        <source>For each type of email, you can define which content you would like to include.</source>
+        <target>Sie können für jede Shop-Mail separat festlegen, welche zusätzlichen Informationen übermittelt werden sollen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f68e93b7698c42081e06d5b2925bd543">
+        <source>Check for new email templates</source>
+        <target>Test Email</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e29252902fd4eaee6279ea5b60bc9092">
+        <source>Email templates</source>
+        <target>Alle E-Mail-Vorlagen</target>
+        <note>Line: </note>
+      </trans-unit>
       <trans-unit id="c47ab33401eaded8f1cb361a05f20e14">
         <source>Legal content management</source>
         <target>Verwaltung rechtskonformer Inhalte</target>
@@ -371,31 +396,6 @@ Es liegt aber allein in der Verantwortung des Shopbetreibers, diese Seiten mit d
       <trans-unit id="dc4cd8f87379d05d6a67eb1fe4ae162d">
         <source>Add new Page</source>
         <target>Neue Seite erstellen</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="c49b8914d58716ebb70e35e5a08db6dd">
-        <source>Email content inclusion</source>
-        <target>Zusätzliche E-Mail-Inhalte</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="124c44c55082e763c52819653560e925">
-        <source>This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop's emails.</source>
-        <target>Legen Sie hier fest, bei welchen E-Mails zusätzliche Informationen aus der Verwaltung rechtskonformer Inhalte oben angefügt werden sollen.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="96103eb82bd7f00ef55fac85c2f0a410">
-        <source>For each type of email, you can define which content you would like to include.</source>
-        <target>Sie können für jede Shop-Mail separat festlegen, welche zusätzlichen Informationen übermittelt werden sollen.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="f68e93b7698c42081e06d5b2925bd543">
-        <source>Check for new email templates</source>
-        <target>Test Email</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="e29252902fd4eaee6279ea5b60bc9092">
-        <source>Email templates</source>
-        <target>Alle E-Mail-Vorlagen</target>
         <note>Line: </note>
       </trans-unit>
     </body>
