@@ -2350,8 +2350,8 @@ class Ps_LegalCompliance extends Module
         $this->context->smarty->assign([
            'cms_roles_assoc' => $cms_roles_assoc,
            'cms_pages' => $cms_pages,
-           'form_action' => $this->context->link->getAdminLink('AdminModules') . '&configure=' . $this->name,
-           'add_cms_link' => $this->context->link->getAdminLink('AdminCMS'),
+           'form_action' => $this->context->link->getAdminLink('AdminModules', true, [], ['configure' => $this->name]),
+           'add_cms_link' => $this->context->link->getAdminLink('AdminCmsContent', true, ['route' => 'admin_cms_pages_index']),
            'AEUC_LINKBLOCK_FOOTER' => (int) Configuration::get('AEUC_LINKBLOCK_FOOTER')
         ]);
 
