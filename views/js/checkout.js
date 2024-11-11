@@ -28,4 +28,19 @@ $(document).ready(function() {
 	) {
 		$("#order-summary-content #order-items .card-title").first().append('<a href="' + cartEditLinkUrl + '" class="order-summary-cart-link step-edit"><i class="material-icons edit">mode_edit</i>' + cartEditLinkTitle + '</a>');
 	}
+
+  if (typeof checkbox_identifier != 'undefined') {
+    const input = $('input[name*="' + checkbox_identifier + '"]');
+    const label = $('label[for*="' + checkbox_identifier + '"]');
+
+    // set checked position
+    input.prop('checked', true).trigger('change');
+
+    // hide checkbox wrapper
+    input.closest('div').hide();
+
+    // rebuild label
+    label.closest('.condition-label').addClass('p-0');
+    label.attr('for', '');
+  }
 });

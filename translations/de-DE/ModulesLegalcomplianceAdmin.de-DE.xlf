@@ -77,11 +77,6 @@
         <target>Bitte fügen Sie hier Ihre Umweltschutzhinweise ein.</target>
         <note>Line: </note>
       </trans-unit>
-      <trans-unit id="f9227a2ab59639e217bd44ec47f35fcc">
-        <source>This module helps European merchants to comply with legal requirements. Learn how to configure the module and other shop parameters so that you're in compliance with the law.[1][2]PrestaShop 1.7 legal compliance documentation[/2]</source>
-        <target>Das Modul hilft europäischen Händlern, ihren Shop rechtssicher zu machen.</target>
-        <note>Line: </note>
-      </trans-unit>
       <trans-unit id="2ad348b570305efbdb00791eab07ccea">
         <source>Failed to associate legal content with an email template.</source>
         <target>Seiten mit Rechtsinhalten konnten nicht mit der E-Mail-Vorlage verknüpft werden.</target>

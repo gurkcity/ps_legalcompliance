@@ -957,6 +957,12 @@ class Ps_LegalCompliance extends Module
                 'cartEditLinkUrl' => $this->context->link->getPageLink('cart', null, null, ['action' => 'show']),
             ]);
         }
+
+        if (!Configuration::get('AEUC_LABEL_COND_PRIVACY')) {
+            Media::addJsDef([
+                'checkbox_identifier' => 'terms-and-conditions',
+            ]);
+        }
     }
 
     protected function isPrintableCMSPage(): bool
@@ -1048,37 +1054,20 @@ class Ps_LegalCompliance extends Module
             $termsAndConditions = new TermsAndConditions();
             $termsAndConditions->setIdentifier('terms-and-conditions');
 
-            if (!Configuration::get('AEUC_LABEL_COND_PRIVACY')) {
-                $tpl = $this->context->smarty->createTemplate(
-                    _PS_MODULE_DIR_ . $this->name . '/views/templates/front/terms_and_condition_revocation.tpl',
-                    $this->context->smarty
-                );
-
-                // hide the checkbox is the option is disabled
-                $tpl->assign([
-                    'checkbox_identifier' => 'terms-and-conditions',
-                ]);
-
-                $termsAndConditions->setText(
-                    $this->trans(
-                        'Please note our [%terms_and_conditions%] and [%revocation%]',
-                        [
-                            '%revocation%' => $cms_revocation->meta_title,
-                            '%terms_and_conditions%' => $cms_conditions->meta_title,
-                        ],
-                        'Modules.Legalcompliance.Shop'
-                    ) . $tpl->fetch(),
-                    $link_conditions,
-                    $link_revocation
-                );
-            } else {
-                $termsAndConditions->setText(
-                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') ,
-                    $link_conditions,
-                    $link_revocation,
-                    $link_privacy
-                );
-            }
+            $termsAndConditions->setText(
+                $this->trans(
+                    'I agree to the [%terms_and_conditions%], [%revocation%] and [%privacy%] and will adhere to them unconditionally.',
+                    [
+                        '%revocation%' => $cms_revocation->meta_title,
+                        '%terms_and_conditions%' => $cms_conditions->meta_title,
+                        '%privacy%' => $cms_privacy->meta_title,
+                    ],
+                    'Modules.Legalcompliance.Shop'
+                ) ,
+                $link_conditions,
+                $link_revocation,
+                $link_privacy
+            );
 
             $returned_terms_and_conditions[] = $termsAndConditions;
         }

@@ -12,14 +12,9 @@
         <target>bearbeiten</target>
         <note>Line: </note>
       </trans-unit>
-      <trans-unit id="6a91d7d52c586b57ca8f2a425434b5c6">
-        <source>Please note our [%terms_and_conditions%] and [%revocation%]</source>
-        <target>Bitte beachten Sie unsere [%terms_and_conditions%] und [%revocation%]</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="cd18220ba24e07df2d859c30cb5809a9">
-        <source>I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.</source>
-        <target>Ich habe die [Allgemeinen Geschäftsbedingungen], mein [Widerrufsrecht] und die [Datenschutzerklärung] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
+      <trans-unit id="98e99ddc31aa8320b7042207c88a5381">
+        <source>I agree to the [%terms_and_conditions%], [%revocation%] and [%privacy%] and will adhere to them unconditionally.</source>
+        <target>Ich habe die [%terms_and_conditions%], mein [%revocation%] und die [%privacy%] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6f06a13b9608ee5f2da343a3ca049f31">
