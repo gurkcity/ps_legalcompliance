@@ -824,15 +824,19 @@ class Ps_LegalCompliance extends Module
                 // escape "&" to "&amp;"
                 $hook_email_wrapper = preg_replace('/&(?!amp)/', '&amp;', $this->display(__FILE__, 'hook-email-wrapper.tpl'));
 
-                $footer_doc->loadHTML('<!DOCTYPE html>
+                $html_doc = '<!DOCTYPE html>
                     <html lang="' . (new Language($id_lang))->iso_code .'">
-                        <head><meta charset="utf-8"></head><body>' . $hook_email_wrapper . '</body></html>');
+                        <head><meta charset="utf-8"></head><body>' . $hook_email_wrapper . '</body></html>';
 
-                for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
-                    $clone_node = $doc->importNode(
-                        $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
-                        true
-                    );
+                $decoded_html = html_entity_decode($html_doc, ENT_QUOTES, 'UTF-8');
+
+                $footer_doc->loadHTML(mb_convert_encoding($decoded_html, 'HTML-ENTITIES', 'UTF-8'));
+
+                $xpath = new DOMXPath($footer_doc);
+                $divs = $xpath->query("//div[starts-with(@id, 'ps_legalcompliance')]");
+
+                foreach ($divs as $div) {
+                    $clone_node = $doc->importNode($div->cloneNode(true), true);
 
                     $tr = $doc->createElement("tr");
                     $td = $doc->createElement("td");
