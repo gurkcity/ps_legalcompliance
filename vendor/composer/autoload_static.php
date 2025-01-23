@@ -6,13 +6,34 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit360873948f5380f4375209e0ba3ed463
 {
+    public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'PSLegalcompliance\\' => 18,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'PSLegalcompliance\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
+    );
+
     public static $classMap = array (
+        'AeucCMSRoleEmailEntity' => __DIR__ . '/../..' . '/entities/AeucCMSRoleEmailEntity.php',
+        'AeucEmailEntity' => __DIR__ . '/../..' . '/entities/AeucEmailEntity.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'HTMLTemplateCMSContent' => __DIR__ . '/../..' . '/classes/HTMLTemplateCMSContent.php',
+        'LegalcomplianceException' => __DIR__ . '/../..' . '/classes/LegalcomplianceException.php',
+        'Ps_LegalCompliance' => __DIR__ . '/../..' . '/ps_legalcompliance.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit360873948f5380f4375209e0ba3ed463::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit360873948f5380f4375209e0ba3ed463::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit360873948f5380f4375209e0ba3ed463::$classMap;
 
         }, null, ClassLoader::class);

@@ -30,10 +30,7 @@ use PrestaShop\PrestaShop\Core\Foundation\Filesystem\FileSystem;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
 
-/* Include required entities */
-include_once __DIR__.'/entities/AeucCMSRoleEmailEntity.php';
-include_once __DIR__.'/entities/AeucEmailEntity.php';
-include_once __DIR__.'/classes/LegalcomplianceException.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -727,10 +724,6 @@ class Ps_LegalCompliance extends Module
 
             if (!isset($cms_page->content)) {
                 continue;
-            }
-
-            if (class_exists('HTMLTemplateCMSContent') == false) {
-                require_once _PS_MODULE_DIR_ . $this->name . '/classes/HTMLTemplateCMSContent.php';
             }
 
             $pdf = new PDF($cms_page, 'CMSContent', $this->context->smarty);
