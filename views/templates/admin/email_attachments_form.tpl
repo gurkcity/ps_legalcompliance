@@ -31,7 +31,7 @@
             {l s='Email content inclusion' d='Modules.Legalcompliance.Admin'}
         </div>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-6">
                 <p>
                     {l s='This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop\'s emails.' d='Modules.Legalcompliance.Admin'}
                 </p>
@@ -39,8 +39,18 @@
                     {l s='For each type of email, you can define which content you would like to include.' d='Modules.Legalcompliance.Admin'}
                 </p>
             </div>
-            <div class="col-sm-4">
-                <a href="{$check_new_templates_link}" class="btn btn-default pull-right">{l s='Check for new email templates' d='Modules.Legalcompliance.Admin'}</a>
+            <div class="col-sm-6">
+                {if $emailTemplatesMissing}
+                  <div class="new_emails alert alert-info">
+                    <p>{l s='There are %count% new email templates found:' sprintf=['%count%' => count($emailTemplatesMissing)] d='Modules.Pslegalcompliance.Admin'}</p>
+                    <ul>
+                        {foreach from=$emailTemplatesMissing item=emailTemplate}
+                            <li>{$emailTemplate}</li>
+                        {/foreach}
+                    </ul>
+                    <a href="{$check_new_templates_link}" class="btn btn-primary">{l s='Insert new email templates' d='Modules.Legalcompliance.Admin'}</a>
+                  </div>
+                {/if}
             </div>
         </div>
         <br/>

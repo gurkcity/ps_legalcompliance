@@ -11,5 +11,6 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'HTMLTemplateCMSContent' => $baseDir . '/classes/HTMLTemplateCMSContent.php',
     'LegalcomplianceException' => $baseDir . '/classes/LegalcomplianceException.php',
+    'PSLegalcompliance\\EmailTemplateFinder' => $baseDir . '/src/EmailTemplateFinder.php',
     'Ps_LegalCompliance' => $baseDir . '/ps_legalcompliance.php',
 );

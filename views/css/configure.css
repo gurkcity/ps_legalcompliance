@@ -31,3 +31,7 @@
 .bootstrap .table tbody>tr>td.td-primary-top {
 	border-top: solid 1px #a0d0eb;
 }
+
+.new_emails a {
+  margin-top: 0.5rem;
+}

@@ -29,6 +29,7 @@ use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShop\PrestaShop\Core\Foundation\Filesystem\FileSystem;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
+use PSLegalcompliance\EmailTemplateFinder;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -1353,61 +1354,29 @@ class Ps_LegalCompliance extends Module
     private function postProcess()
     {
         if (Tools::isSubmit('submitCheckForNewTemplates')) {
-            $this->processCheckForNewTemplates();
+            $emailTemplatesInserted = $this->processCheckForNewTemplates();
+
+            if ($emailTemplatesInserted) {
+                $this->_confirmations[] = $this->trans('%count% email templates were installed successfully.', ['%count%' => $emailTemplatesInserted], 'Modules.Pslegalcompliance.Admin');
+            } else {
+                $this->_errors[] = $this->trans('No new email templates were found.', [], 'Modules.Pslegalcompliance.Admin');
+            }
         }
     }
 
-    private function processCheckForNewTemplates(): bool
+    private function processCheckForNewTemplates(): int
     {
-        $default_email_template_path = $this->getDefaultEmailTemplatePath();
-        $all_available_email_templates = $this->getAllAvailableEmailTemplates($default_email_template_path);
+        $emailTemplates = $this->getNewEmailTemplates();
+        $this->insertEmailTemplates($emailTemplates);
 
-        $new_email_templates = $this->filterNewEmailTemplates($all_available_email_templates);
-
-        $this->insertEmailTemplates($new_email_templates);
-
-        return true;
+        return count($emailTemplates);
     }
 
-    private function getDefaultEmailTemplatePath(): string
+    private function getNewEmailTemplates(): array
     {
-        $default_path_email = _PS_MAIL_DIR_ . 'en';
+        $emailTemplateFinder = new EmailTemplateFinder($this->emails);
 
-        if (!is_dir($default_path_email)) {
-            $lang_iso = $this->getIsoFromDefaultLanguage();
-            $default_path_email = _PS_MAIL_DIR_ . $lang_iso;
-        }
-
-        if (!is_dir($default_path_email)) {
-            return '';
-        }
-
-        return $default_path_email;
-    }
-
-    private function getAllAvailableEmailTemplates(string $email_path): array
-    {
-        if (!is_dir($email_path)) {
-            throw new LegalcomplianceException(sprintf('Email template path %s is not vaild', $email_path));
-        }
-
-        return $this->emails->getAvailableMails($email_path);
-    }
-
-    private function filterNewEmailTemplates(array $email_templates): array
-    {
-        $current_email_templates = $this->getStoredEmailTemplates();
-
-        return array_diff($email_templates, $current_email_templates);
-    }
-
-    private function getStoredEmailTemplates(): array
-    {
-        $all_email_templates = AeucEmailEntity::getAll();
-
-        return array_map(function ( $email_template) {
-            return $email_template['filename'];
-        }, $all_email_templates);
+        return $emailTemplateFinder->findNewEmailTemplates();
     }
 
     private function insertEmailTemplates(array $email_templates)
@@ -2397,6 +2366,8 @@ class Ps_LegalCompliance extends Module
             $cleaned_mails_names[] = $email;
         }
 
+        $emailTemplates = $this->getNewEmailTemplates();
+
         $this->context->smarty->assign([
             'has_assoc' => $cms_roles_associated,
             'mails_available' => $cleaned_mails_names,
@@ -2411,7 +2382,8 @@ class Ps_LegalCompliance extends Module
                     'submitCheckForNewTemplates' => '1'
                 ]
             ),
-            'pdf_attachment' => $this->getPDFAttachmentOptions()
+            'pdf_attachment' => $this->getPDFAttachmentOptions(),
+            'emailTemplatesMissing' => $emailTemplates,
         ]);
 
         // Insert JS in the page
@@ -2482,11 +2454,6 @@ class Ps_LegalCompliance extends Module
                 ],
             ],
         ]);
-    }
-
-    private function getIsoFromDefaultLanguage(): string
-    {
-        return Language::getIsoById((int) Configuration::get('PS_LANG_DEFAULT'));
     }
 
     public function isUsingNewTranslationSystem()

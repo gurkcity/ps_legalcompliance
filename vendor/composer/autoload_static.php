@@ -26,6 +26,7 @@ class ComposerStaticInit360873948f5380f4375209e0ba3ed463
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'HTMLTemplateCMSContent' => __DIR__ . '/../..' . '/classes/HTMLTemplateCMSContent.php',
         'LegalcomplianceException' => __DIR__ . '/../..' . '/classes/LegalcomplianceException.php',
+        'PSLegalcompliance\\EmailTemplateFinder' => __DIR__ . '/../..' . '/src/EmailTemplateFinder.php',
         'Ps_LegalCompliance' => __DIR__ . '/../..' . '/ps_legalcompliance.php',
     );
 
