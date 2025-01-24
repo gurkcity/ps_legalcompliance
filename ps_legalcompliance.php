@@ -29,6 +29,7 @@ use PrestaShop\PrestaShop\Core\Foundation\Filesystem\FileSystem;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
 use PSLegalcompliance\EmailTemplateFinder;
+use PSLegalcompliance\Install;
 use PSLegalcompliance\Roles;
 use PSLegalcompliance\VirtualCart;
 
@@ -41,9 +42,9 @@ if (!defined('_PS_VERSION_')) {
 class Ps_LegalCompliance extends Module
 {
     protected $config_form = false;
-    protected $entity_manager = null;
-    protected $filesystem = null;
-    protected $emails = null;
+    protected $entity_manager;
+    protected $filesystem;
+    protected $email;
     protected $_errors = [];
     protected $_warnings = [];
 
@@ -64,7 +65,7 @@ class Ps_LegalCompliance extends Module
         /* Register dependencies to module */
         $this->entity_manager = $entity_manager;
         $this->filesystem = $fs;
-        $this->emails = $email;
+        $this->email = $email;
 
         $this->displayName = $this->trans('Legal Compliance', [], 'Modules.Legalcompliance.Admin');
         $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', [], 'Modules.Legalcompliance.Admin');
@@ -84,67 +85,16 @@ class Ps_LegalCompliance extends Module
             return false;
         }
 
-        $return =
-            $this->installSql()
-            && Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
-            && Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0)
-            && Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false)
-            && Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true)
-            && Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true)
-            && Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false)
-            && Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true)
-            && Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false)
-            && Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true)
-            && Configuration::updateValue('PS_TAX_DISPLAY', true)
-            && Configuration::updateValue('PS_FINAL_SUMMARY_ENABLED', true)
-            && Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true)
-            && Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', 1)
-            && Configuration::updateValue('PS_DISALLOW_HISTORY_REORDERING', false)
-            && $this->registerHook('displayHeader')
-            && $this->registerHook('displayProductPriceBlock')
-            && $this->registerHook('displayCheckoutSubtotalDetails')
-            && $this->registerHook('displayFooter')
-            && $this->registerHook('displayFooterAfter')
-            && $this->registerHook('actionEmailSendBefore')
-            && $this->registerHook('actionEmailAddAfterContent')
-            && $this->registerHook('displayCartTotalPriceLabel')
-            && $this->registerHook('displayCMSPrintButton')
-            && $this->registerHook('displayCMSDisputeInformation')
-            && $this->registerHook('termsAndConditions')
-            && $this->registerHook('displayOverrideTemplate')
-            && $this->registerHook('displayCheckoutSummaryTop')
-            && $this->registerHook('sendMailAlterTemplateVars')
-            && $this->registerHook('displayReassurance')
-            && $this->setLegalContentToOrderMails()
-        ;
+        $install = new Install($this, $this->entity_manager, $this->email, $this->context);
 
-        if ($return) {
-            $this->processAeucLabelTaxIncExc(true);
-        }
-
-        return $return;
+        return $install->install();
     }
 
     public function uninstall()
     {
-        $return =
-            Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL')
-            && Configuration::deleteByName('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL')
-            && Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE')
-            && Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE')
-            && Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC')
-            && Configuration::deleteByName('AEUC_LABEL_COND_PRIVACY')
-            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_TOS')
-            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_VP')
-            && Configuration::deleteByName('AEUC_LABEL_SHIPPING_INC_EXC')
-            && Configuration::deleteByName('AEUC_LABEL_COMBINATION_FROM')
-            && Configuration::deleteByName('AEUC_LABEL_CUSTOM_CART_TEXT')
-            && Configuration::updateValue('PS_ATCP_SHIPWRAP', false)
-            && Configuration::deleteByName('AEUC_LABEL_TAX_FOOTER')
-            && $this->uninstallSql()
-        ;
+        $install = new Install($this, $this->entity_manager, $this->email, $this->context);
 
-        if ($return) {
+        if ($install->uninstall()) {
             return parent::uninstall();
         }
 
@@ -153,143 +103,13 @@ class Ps_LegalCompliance extends Module
 
     public function disable($force_all = false)
     {
-        return
-            parent::disable()
-            && Configuration::updateValue('PS_ATCP_SHIPWRAP', false);
-    }
-
-    public function setLegalContentToOrderMails()
-    {
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_roles_associated = $cms_role_repository->getCMSRolesAssociated();
-        $role_ids_to_set = [];
-        $role_id_legal_notice = false;
-        $email_ids_to_set = [];
-        $account_email_ids_to_set = [];
-
-        foreach ($cms_roles_associated as $role) {
-            if (
-                $role->name == Roles::CONDITIONS
-                || $role->name == Roles::REVOCATION
-                || $role->name == Roles::NOTICE
-            ) {
-                $role_ids_to_set[] = $role->id;
-            }
-
-            if ($role->name == Roles::NOTICE) {
-                $role_id_legal_notice = $role->id;
-            }
+        if (!parent::disable()) {
+            return false;
         }
 
-        $email_filenames = [
-            'backoffice_order',
-            'credit_slip',
-            'order_canceled',
-            'order_changed',
-            'order_conf',
-            'order_customer_comment',
-            'order_merchant_comment',
-            'order_return_state',
-            'payment',
-            'refund',
-        ];
+        $install = new Install($this, $this->entity_manager, $this->email, $this->context);
 
-        foreach (AeucEmailEntity::getAll() as $email) {
-            if (in_array($email['filename'], $email_filenames)) {
-                $email_ids_to_set[] = $email['id_mail'];
-            }
-        }
-
-        $account_newsletter_mail_filenames = [
-            'account',
-            'newsletter',
-            'password',
-            'password_query',
-        ];
-
-        foreach (AeucEmailEntity::getAll() as $email) {
-            if (in_array($email['filename'], $account_newsletter_mail_filenames)) {
-                $account_email_ids_to_set[] = $email['id_mail'];
-            }
-        }
-
-        AeucCMSRoleEmailEntity::truncate();
-
-        foreach ($role_ids_to_set as $role_id) {
-            foreach ($email_ids_to_set as $email_id) {
-                $assoc_obj = new AeucCMSRoleEmailEntity();
-                $assoc_obj->id_mail = (int) $email_id;
-                $assoc_obj->id_cms_role = (int) $role_id;
-                $assoc_obj->save();
-            }
-        }
-
-        if ($role_id_legal_notice) {
-            foreach ($account_email_ids_to_set as $email_id) {
-                $assoc_obj = new AeucCMSRoleEmailEntity();
-                $assoc_obj->id_mail = (int) $email_id;
-                $assoc_obj->id_cms_role = (int) $role_id_legal_notice;
-                $assoc_obj->save();
-            }
-        }
-
-        return true;
-    }
-
-    public function uninstallSql(): bool
-    {
-        $sql = require __DIR__ . '/install/sql_install.php';
-
-        foreach ($sql as $name => $v) {
-            try {
-                Db::getInstance()->execute('DROP TABLE IF EXISTS ' . $name);
-            } catch (Throwable $e) {
-
-            }
-        }
-
-        return true;
-    }
-
-    public function installSql()
-    {
-        $state = true;
-
-        // Create module's table
-        $sql = require __DIR__ . '/install/sql_install.php';
-
-        foreach ($sql as $s) {
-            $state &= Db::getInstance()->execute($s);
-        }
-
-        // Fillin CMS ROLE
-        $roles_array = $this->getCMSRoles();
-        $roles = array_keys($roles_array);
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-
-        foreach ($roles as $role) {
-            if (!$cms_role_repository->findOneByName($role)) {
-                $cms_role = $cms_role_repository->getNewEntity();
-                $cms_role->id_cms = 0; // No assoc at this time
-                $cms_role->name = $role;
-                $state &= (bool) $cms_role->save();
-            }
-        }
-
-        $emailTemplateFinder = new EmailTemplateFinder($this->emails);
-        $defaultEmailTemplatePath = $this->getDefaultEmailTemplatePath();
-
-        // Fill-in aeuc_mail table
-        foreach ($emailTemplateFinder->getAllAvailableEmailTemplates($defaultEmailTemplatePath) as $mail) {
-            $new_email = new AeucEmailEntity();
-            $new_email->filename = (string) $mail;
-            $new_email->display_name = $this->emails->getCleanedMailName($mail);
-            $new_email->save();
-
-            unset($new_email);
-        }
-
-        return $state;
+        return $install->disable();
     }
 
     public function hookDisplayCartTotalPriceLabel($param)
@@ -1243,7 +1063,7 @@ class Ps_LegalCompliance extends Module
 
     private function getNewEmailTemplates(): array
     {
-        $emailTemplateFinder = new EmailTemplateFinder($this->emails);
+        $emailTemplateFinder = new EmailTemplateFinder($this->email);
 
         return $emailTemplateFinder->findNewEmailTemplates();
     }
@@ -1253,7 +1073,7 @@ class Ps_LegalCompliance extends Module
         foreach ($email_templates as $mail) {
             $new_email = new AeucEmailEntity();
             $new_email->filename = (string) $mail;
-            $new_email->display_name = $this->emails->getCleanedMailName($mail);
+            $new_email->display_name = $this->email->getCleanedMailName($mail);
             $new_email->save();
 
             unset($new_email);
@@ -1267,18 +1087,7 @@ class Ps_LegalCompliance extends Module
     {
         $this->postProcess();
 
-        $theme_warning = null;
         $success_band = $this->_postProcess();
-
-        $infoMsg = $this->trans(
-            'This module helps European merchants to comply with legal requirements. Learn how to configure the module and other shop parameters so that you\'re in compliance with the law.[1][2]PrestaShop 1.7 legal compliance documentation[/2]',
-            array(
-                '[1]' => '<br>',
-                '[2]' => '<a href="http://doc.prestashop.com/display/PS17/Complying+with+the+European+legislation" target="_blank">',
-                '[/2]' => '</a>',
-            ),
-            'Modules.Legalcompliance.Admin'
-        );
 
         $this->context->smarty->assign('module_dir', $this->_path);
         $this->context->smarty->assign('errors', $this->_errors);
@@ -1291,9 +1100,7 @@ class Ps_LegalCompliance extends Module
         $formEmailAttachmentsManager = $this->renderFormEmailAttachmentsManager();
         $formLegalMailFooter = $this->renderFormLegalMailFooter();
 
-        return $theme_warning
-            . $this->adminDisplayInformation($infoMsg)
-            . $success_band
+        return $success_band
             . $formLabelsManager
             . $formVirtualProductsManager
             . $formFeaturesManager
@@ -1604,7 +1411,7 @@ class Ps_LegalCompliance extends Module
         Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', (int) $is_option_active);
     }
 
-    protected function getCMSRoles()
+    public function getCMSRoles()
     {
         return [
             Roles::NOTICE => $this->trans('Legal notice', [], 'Modules.Legalcompliance.Admin'),
