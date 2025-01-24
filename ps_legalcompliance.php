@@ -88,8 +88,26 @@ class Ps_LegalCompliance extends Module
 
     public function install()
     {
-        $return = parent::install()
-            && $this->loadTables()
+        if (!parent::install()) {
+            return false;
+        }
+
+        $return =
+            $this->installSql()
+            && Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
+            && Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0)
+            && Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false)
+            && Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true)
+            && Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true)
+            && Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false)
+            && Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true)
+            && Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false)
+            && Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true)
+            && Configuration::updateValue('PS_TAX_DISPLAY', true)
+            && Configuration::updateValue('PS_FINAL_SUMMARY_ENABLED', true)
+            && Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true)
+            && Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', 1)
+            && Configuration::updateValue('PS_DISALLOW_HISTORY_REORDERING', false)
             && $this->registerHook('displayHeader')
             && $this->registerHook('displayProductPriceBlock')
             && $this->registerHook('displayCheckoutSubtotalDetails')
@@ -105,49 +123,40 @@ class Ps_LegalCompliance extends Module
             && $this->registerHook('displayCheckoutSummaryTop')
             && $this->registerHook('sendMailAlterTemplateVars')
             && $this->registerHook('displayReassurance')
-            && $this->createConfig()
-            && $this->generateAndLinkCMSPages()
-            && $this->removeCMSPagesIfNeeded()
             && $this->setLegalContentToOrderMails()
-            && $this->hideWirePaymentInviteAtOrderConfirmation();
+        ;
 
-        return (bool) $return;
-    }
-
-    public function hideWirePaymentInviteAtOrderConfirmation(): bool
-    {
-        return $this->updateWirePaymentInviteDisplayAtOrderConfirmation(false);
-    }
-
-    public function updateWirePaymentInviteDisplayAtOrderConfirmation(bool $display): bool
-    {
-        $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
-        $moduleManager = $moduleManagerBuilder->build();
-
-        if (
-            $moduleManager->isInstalled('ps_wirepayment')
-            && defined('Ps_Wirepayment::FLAG_DISPLAY_PAYMENT_INVITE')
-        ) {
-            Configuration::updateValue(Ps_Wirepayment::FLAG_DISPLAY_PAYMENT_INVITE, $display);
-
-            return true;
+        if ($return) {
+            $this->processAeucLabelTaxIncExc(true);
         }
 
-        return false;
-    }
-
-    public function showWirePaymentInviteAtOrderConfirmation(): bool
-    {
-        return $this->updateWirePaymentInviteDisplayAtOrderConfirmation(true);
+        return $return;
     }
 
     public function uninstall()
     {
-        return
-            parent::uninstall()
-            && $this->dropConfig()
-            && $this->showWirePaymentInviteAtOrderConfirmation()
-            && $this->unloadTables();
+        $return =
+            Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL')
+            && Configuration::deleteByName('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL')
+            && Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE')
+            && Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE')
+            && Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC')
+            && Configuration::deleteByName('AEUC_LABEL_COND_PRIVACY')
+            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_TOS')
+            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_VP')
+            && Configuration::deleteByName('AEUC_LABEL_SHIPPING_INC_EXC')
+            && Configuration::deleteByName('AEUC_LABEL_COMBINATION_FROM')
+            && Configuration::deleteByName('AEUC_LABEL_CUSTOM_CART_TEXT')
+            && Configuration::updateValue('PS_ATCP_SHIPWRAP', false)
+            && Configuration::deleteByName('AEUC_LABEL_TAX_FOOTER')
+            && $this->uninstallSql()
+        ;
+
+        if ($return) {
+            return parent::uninstall();
+        }
+
+        return false;
     }
 
     public function disable($force_all = false)
@@ -155,144 +164,6 @@ class Ps_LegalCompliance extends Module
         return
             parent::disable()
             && Configuration::updateValue('PS_ATCP_SHIPWRAP', false);
-    }
-
-    public function createConfig()
-    {
-        $this->processAeucFeatReorder(true);
-        $this->processAeucLabelRevocationTOS(false);
-        $this->processAeucLabelRevocationVP(false);
-        $this->processAeucLabelSpecificPrice(true);
-        $this->processAeucLabelUnitPrice(true);
-        $this->processAeucLabelTaxIncExc(true);
-        $this->processAeucLabelShippingIncExc(false);
-        $this->processAeucLabelCombinationFrom(true);
-
-        return Configuration::updateValue('AEUC_LABEL_DELIVERY_ADDITIONAL', false)
-            && Configuration::updateValue('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0)
-            && Configuration::updateValue('AEUC_LABEL_SPECIFIC_PRICE', false)
-            && Configuration::updateValue('AEUC_LABEL_UNIT_PRICE', true)
-            && Configuration::updateValue('AEUC_LABEL_TAX_INC_EXC', true)
-            && Configuration::updateValue('AEUC_LABEL_COND_PRIVACY', true)
-            && Configuration::updateValue('AEUC_LABEL_REVOCATION_TOS', false)
-            && Configuration::updateValue('AEUC_LABEL_REVOCATION_VP', true)
-            && Configuration::updateValue('AEUC_LABEL_SHIPPING_INC_EXC', false)
-            && Configuration::updateValue('AEUC_LABEL_COMBINATION_FROM', true)
-            && Configuration::updateValue('PS_TAX_DISPLAY', true)
-            && Configuration::updateValue('PS_FINAL_SUMMARY_ENABLED', true)
-            && Configuration::updateValue('AEUC_LABEL_TAX_FOOTER', true)
-            && Configuration::updateValue('AEUC_LINKBLOCK_FOOTER', 1);
-    }
-
-    public function generateAndLinkCMSPages(): bool
-    {
-        $cms_pages = [
-            self::LEGAL_NOTICE => [
-                'meta_title' => $this->trans('Legal notice', [], 'Modules.Legalcompliance.Admin'),
-                'link_rewrite' => 'legal-notice',
-                'content' => $this->trans('Please add your legal information to this site.', [], 'Modules.Legalcompliance.Admin'),
-            ],
-            self::LEGAL_CONDITIONS => [
-                'meta_title' => $this->trans('Terms of Service (ToS)', [], 'Modules.Legalcompliance.Admin'),
-                'link_rewrite' => 'terms-of-service-tos',
-                'content' => $this->trans('Please add your Terms of Service (ToS) to this site.', [], 'Modules.Legalcompliance.Admin'),
-            ],
-            self::LEGAL_REVOCATION => [
-                'meta_title' => $this->trans('Revocation terms', [], 'Modules.Legalcompliance.Admin'),
-                'link_rewrite' => 'revocation-terms',
-                'content' => $this->trans('Please add your Revocation terms to this site.', [], 'Modules.Legalcompliance.Admin'),
-            ],
-            self::LEGAL_PRIVACY => [
-                'meta_title' => $this->trans('Privacy', [], 'Modules.Legalcompliance.Admin'),
-                'link_rewrite' => 'privacy',
-                'content' => $this->trans('Please insert here your content about privacy. If you have activated Social Media modules, please provide a notice about third-party access to data.', [], 'Modules.Legalcompliance.Admin'),
-            ],
-            self::LEGAL_SHIP_PAY => [
-                'meta_title' => $this->trans('Shipping and payment', [], 'Modules.Legalcompliance.Admin'),
-                'link_rewrite' => 'shipping-and-payment',
-                'content' => $this->trans('Please add your Shipping and payment information to this site.', [], 'Modules.Legalcompliance.Admin'),
-            ],
-            self::LEGAL_ENVIRONMENTAL => [
-                'meta_title' => $this->trans('Environmental notice', [], 'Modules.Legalcompliance.Admin'),
-                'link_rewrite' => 'environmental-notice',
-                'content' => $this->trans('Please add your Environmental information to this site.', [], 'Modules.Legalcompliance.Admin'),
-            ],
-        ];
-
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-
-        $langs_repository = $this->entity_manager->getRepository('Language');
-        $langs = $langs_repository->findAll();
-
-        foreach ($cms_pages as $cms_page_role => $cms_page) {
-            $cms_role = $cms_role_repository->findOneByName($cms_page_role);
-
-            if (empty($cms_role->id_cms)) {
-                $cms = new CMS();
-                $cms->id_cms_category = 1;
-
-                foreach ($langs as $lang) {
-                    $cms->meta_title[(int) $lang->id] = $cms_page['meta_title'];
-                    $cms->link_rewrite[(int) $lang->id] = 'aeu-legal-' . $cms_page['link_rewrite'];
-                    $cms->content[(int) $lang->id] = $cms_page['content'];
-                }
-
-                $cms->active = 1;
-                $cms->add();
-
-                $cms_role->id_cms = (int) $cms->id;
-                $cms_role->update();
-            }
-        }
-
-        return true;
-    }
-
-    public function removeCMSPagesIfNeeded(): bool
-    {
-        $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
-        $moduleManager = $moduleManagerBuilder->build();
-
-        if (!$moduleManager->isInstalled('ps_linklist')) {
-            return true;
-        }
-
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_page_conditions_associated = $cms_role_repository->findOneByName(self::LEGAL_CONDITIONS);
-
-        $link_blocks = Db::getInstance()->executeS('
-            SELECT `id_link_block`, `content`
-            FROM `' . _DB_PREFIX_ . 'link_block`
-        ');
-
-        foreach ($link_blocks as $link_block) {
-            $conditions_found = false;
-            $content = json_decode($link_block['content'], true);
-
-            if (isset($content['cms']) && is_array($content['cms'])) {
-                foreach ($content['cms'] as $cms_key => $cms_id) {
-                    if ($cms_id == $cms_page_conditions_associated->id_cms) {
-                        unset($content['cms'][$cms_key]);
-                        $conditions_found = true;
-                    }
-                }
-            }
-
-            if ($conditions_found) {
-                $content['cms'] = array_values($content['cms']);
-                $content = json_encode($content);
-
-                Db::getInstance()->update(
-                    'link_block',
-                    [
-                        'content' => pSQL($content)
-                    ],
-                    '`id_link_block` = ' . (int) $link_block['id_link_block']
-                );
-            }
-        }
-
-        return true;
     }
 
     public function setLegalContentToOrderMails()
@@ -373,7 +244,7 @@ class Ps_LegalCompliance extends Module
         return true;
     }
 
-    public function unloadTables(): bool
+    public function uninstallSql(): bool
     {
         $sql = require __DIR__ . '/install/sql_install.php';
 
@@ -388,7 +259,7 @@ class Ps_LegalCompliance extends Module
         return true;
     }
 
-    public function loadTables()
+    public function installSql()
     {
         $state = true;
 
@@ -427,24 +298,6 @@ class Ps_LegalCompliance extends Module
         }
 
         return $state;
-    }
-
-    public function dropConfig()
-    {
-        return
-            Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL')
-            && Configuration::deleteByName('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL')
-            && Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE')
-            && Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE')
-            && Configuration::deleteByName('AEUC_LABEL_TAX_INC_EXC')
-            && Configuration::deleteByName('AEUC_LABEL_COND_PRIVACY')
-            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_TOS')
-            && Configuration::deleteByName('AEUC_LABEL_REVOCATION_VP')
-            && Configuration::deleteByName('AEUC_LABEL_SHIPPING_INC_EXC')
-            && Configuration::deleteByName('AEUC_LABEL_COMBINATION_FROM')
-            && Configuration::deleteByName('AEUC_LABEL_CUSTOM_CART_TEXT')
-            && Configuration::updateValue('PS_ATCP_SHIPWRAP', false)
-            && Configuration::deleteByName('AEUC_LABEL_TAX_FOOTER');
     }
 
     private function hasCartVirtualProduct(Cart $cart): bool
