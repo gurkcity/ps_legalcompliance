@@ -24,12 +24,13 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShop\PrestaShop\Core\Foundation\Filesystem\FileSystem;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
 use PSLegalcompliance\EmailTemplateFinder;
+use PSLegalcompliance\Roles;
+use PSLegalcompliance\VirtualCart;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -39,15 +40,6 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_LegalCompliance extends Module
 {
-    const LEGAL_NO_ASSOC = 'NO_ASSOC';
-    const LEGAL_NOTICE = 'LEGAL_NOTICE';
-    const LEGAL_CONDITIONS = 'LEGAL_CONDITIONS';
-    const LEGAL_REVOCATION = 'LEGAL_REVOCATION';
-    const LEGAL_REVOCATION_FORM = 'LEGAL_REVOCATION_FORM';
-    const LEGAL_PRIVACY = 'LEGAL_PRIVACY';
-    const LEGAL_ENVIRONMENTAL = 'LEGAL_ENVIRONMENTAL';
-    const LEGAL_SHIP_PAY = 'LEGAL_SHIP_PAY';
-
     protected $config_form = false;
     protected $entity_manager = null;
     protected $filesystem = null;
@@ -177,14 +169,14 @@ class Ps_LegalCompliance extends Module
 
         foreach ($cms_roles_associated as $role) {
             if (
-                $role->name == self::LEGAL_CONDITIONS
-                || $role->name == self::LEGAL_REVOCATION
-                || $role->name == self::LEGAL_NOTICE
+                $role->name == Roles::CONDITIONS
+                || $role->name == Roles::REVOCATION
+                || $role->name == Roles::NOTICE
             ) {
                 $role_ids_to_set[] = $role->id;
             }
 
-            if ($role->name == self::LEGAL_NOTICE) {
+            if ($role->name == Roles::NOTICE) {
                 $role_id_legal_notice = $role->id;
             }
         }
@@ -300,23 +292,6 @@ class Ps_LegalCompliance extends Module
         return $state;
     }
 
-    private function hasCartVirtualProduct(Cart $cart): bool
-    {
-        $products = $cart->getProducts();
-
-        if (!count($products)) {
-            return false;
-        }
-
-        foreach ($products as $product) {
-            if ($product['is_virtual']) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function hookDisplayCartTotalPriceLabel($param)
     {
         $smartyVars = [];
@@ -418,12 +393,12 @@ class Ps_LegalCompliance extends Module
 
         if (!$this->isCached($template, $cacheId)) {
             $cms_roles_to_be_displayed = [
-                self::LEGAL_NOTICE,
-                self::LEGAL_CONDITIONS,
-                self::LEGAL_REVOCATION,
-                self::LEGAL_PRIVACY,
-                self::LEGAL_SHIP_PAY,
-                self::LEGAL_ENVIRONMENTAL,
+                Roles::NOTICE,
+                Roles::CONDITIONS,
+                Roles::REVOCATION,
+                Roles::PRIVACY,
+                Roles::SHIP_PAY,
+                Roles::ENVIRONMENTAL,
             ];
 
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
@@ -477,7 +452,7 @@ class Ps_LegalCompliance extends Module
         if (!$this->isCached($template, $cacheId)) {
             $cmsRepository = $this->entity_manager->getRepository('CMS');
             $cmsRoleRepository = $this->entity_manager->getRepository('CMSRole');
-            $cmsPageShippingPay = $cmsRoleRepository->findOneByName(self::LEGAL_SHIP_PAY);
+            $cmsPageShippingPay = $cmsRoleRepository->findOneByName(Roles::SHIP_PAY);
 
             $link_shipping = false;
 
@@ -813,7 +788,7 @@ class Ps_LegalCompliance extends Module
         $printable_cms_pages = [];
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
 
-        foreach ([self::LEGAL_CONDITIONS, self::LEGAL_REVOCATION, self::LEGAL_SHIP_PAY, self::LEGAL_PRIVACY] as $cms_page_name) {
+        foreach ([Roles::CONDITIONS, Roles::REVOCATION, Roles::SHIP_PAY, Roles::PRIVACY] as $cms_page_name) {
             $cms_page_associated = $cms_role_repository->findOneByName($cms_page_name);
 
             if (
@@ -840,7 +815,7 @@ class Ps_LegalCompliance extends Module
 
         if (!$this->isCached($template, $cacheId)) {
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-            $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_NOTICE);
+            $cms_page_associated = $cms_role_repository->findOneByName(Roles::NOTICE);
 
             $isAssociated = false;
 
@@ -866,9 +841,9 @@ class Ps_LegalCompliance extends Module
 
         $cmsRepository = $this->entity_manager->getRepository('CMS');
         $cmsRoleRepository = $this->entity_manager->getRepository('CMSRole');
-        $cmsPageConditionsAssoiciated = $cmsRoleRepository->findOneByName(self::LEGAL_CONDITIONS);
-        $cmsPageRevocationAssociated = $cmsRoleRepository->findOneByName(self::LEGAL_REVOCATION);
-        $cmsPagePrivacyAssociated = $cmsRoleRepository->findOneByName(self::LEGAL_PRIVACY);
+        $cmsPageConditionsAssoiciated = $cmsRoleRepository->findOneByName(Roles::CONDITIONS);
+        $cmsPageRevocationAssociated = $cmsRoleRepository->findOneByName(Roles::REVOCATION);
+        $cmsPagePrivacyAssociated = $cmsRoleRepository->findOneByName(Roles::PRIVACY);
 
         $idShop = (int) $this->context->shop->id;
         $idLang = (int) $this->context->language->id;
@@ -956,7 +931,7 @@ class Ps_LegalCompliance extends Module
 
         if (
             Configuration::get('AEUC_LABEL_REVOCATION_VP')
-            && $this->hasCartVirtualProduct($this->context->cart)
+            && VirtualCart::hasCartVirtualProduct($this->context->cart)
         ) {
             $termsAndConditions = new TermsAndConditions();
 
@@ -1101,7 +1076,7 @@ class Ps_LegalCompliance extends Module
                     if (!$product['is_virtual']) {
                         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
                         $cms_repository = $this->entity_manager->getRepository('CMS');
-                        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+                        $cms_page_associated = $cms_role_repository->findOneByName(Roles::SHIP_PAY);
 
                         if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
                             $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
@@ -1140,7 +1115,7 @@ class Ps_LegalCompliance extends Module
                     } else {
                         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
                         $cms_repository = $this->entity_manager->getRepository('CMS');
-                        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+                        $cms_page_associated = $cms_role_repository->findOneByName(Roles::SHIP_PAY);
 
                         if (isset($cms_page_associated->id_cms) && !$cms_page_associated->id_cms) {
                             $cms_ship_pay_id = (int) $cms_page_associated->id_cms;
@@ -1234,7 +1209,7 @@ class Ps_LegalCompliance extends Module
 
         if (!$this->isCached($template, $cacheId)) {
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-            $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+            $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(Roles::SHIP_PAY);
             $link_shipping_payment = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
 
             $this->smarty->assign([
@@ -1484,7 +1459,7 @@ class Ps_LegalCompliance extends Module
     {
         // Check first if LEGAL_REVOCATION CMS Role has been set before doing anything here
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_REVOCATION);
+        $cms_page_associated = $cms_role_repository->findOneByName(Roles::REVOCATION);
         $cms_roles = $this->getCMSRoles();
 
         if ($is_option_active) {
@@ -1496,7 +1471,7 @@ class Ps_LegalCompliance extends Module
                     $this->trans(
                         '\'Revocation Terms within ToS\' label cannot be activated unless you associate "%s" role with a Page.',
                         [
-                            '%s' => (string) $cms_roles[self::LEGAL_REVOCATION],
+                            '%s' => (string) $cms_roles[Roles::REVOCATION],
                         ],
                         'Modules.Legalcompliance.Admin'
                     );
@@ -1533,7 +1508,7 @@ class Ps_LegalCompliance extends Module
     {
         // Check first if LEGAL_SHIP_PAY CMS Role has been set before doing anything here
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+        $cms_page_associated = $cms_role_repository->findOneByName(Roles::SHIP_PAY);
         $cms_roles = $this->getCMSRoles();
 
         if ($is_option_active) {
@@ -1545,7 +1520,7 @@ class Ps_LegalCompliance extends Module
                     $this->trans(
                         'Shipping fees label cannot be activated unless you associate "%s" role with a Page.',
                         array(
-                            '%s' => (string) $cms_roles[self::LEGAL_SHIP_PAY],
+                            '%s' => (string) $cms_roles[Roles::SHIP_PAY],
                         ),
                         'Modules.Legalcompliance.Admin'
                     );
@@ -1632,13 +1607,13 @@ class Ps_LegalCompliance extends Module
     protected function getCMSRoles()
     {
         return [
-            self::LEGAL_NOTICE => $this->trans('Legal notice', [], 'Modules.Legalcompliance.Admin'),
-            self::LEGAL_CONDITIONS => $this->trans('Terms of Service (ToS)', [], 'Modules.Legalcompliance.Admin'),
-            self::LEGAL_REVOCATION => $this->trans('Revocation terms', [], 'Modules.Legalcompliance.Admin'),
-            self::LEGAL_REVOCATION_FORM => $this->trans('Revocation form', [], 'Modules.Legalcompliance.Admin'),
-            self::LEGAL_PRIVACY => $this->trans('Privacy', [], 'Modules.Legalcompliance.Admin'),
-            self::LEGAL_ENVIRONMENTAL => $this->trans('Environmental notice', [], 'Modules.Legalcompliance.Admin'),
-            self::LEGAL_SHIP_PAY => $this->trans('Shipping and payment', [], 'Modules.Legalcompliance.Admin'),
+            Roles::NOTICE => $this->trans('Legal notice', [], 'Modules.Legalcompliance.Admin'),
+            Roles::CONDITIONS => $this->trans('Terms of Service (ToS)', [], 'Modules.Legalcompliance.Admin'),
+            Roles::REVOCATION => $this->trans('Revocation terms', [], 'Modules.Legalcompliance.Admin'),
+            Roles::REVOCATION_FORM => $this->trans('Revocation form', [], 'Modules.Legalcompliance.Admin'),
+            Roles::PRIVACY => $this->trans('Privacy', [], 'Modules.Legalcompliance.Admin'),
+            Roles::ENVIRONMENTAL => $this->trans('Environmental notice', [], 'Modules.Legalcompliance.Admin'),
+            Roles::SHIP_PAY => $this->trans('Shipping and payment', [], 'Modules.Legalcompliance.Admin'),
         ];
     }
 

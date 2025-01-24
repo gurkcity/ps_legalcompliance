@@ -12,5 +12,7 @@ return array(
     'HTMLTemplateCMSContent' => $baseDir . '/classes/HTMLTemplateCMSContent.php',
     'LegalcomplianceException' => $baseDir . '/classes/LegalcomplianceException.php',
     'PSLegalcompliance\\EmailTemplateFinder' => $baseDir . '/src/EmailTemplateFinder.php',
+    'PSLegalcompliance\\Roles' => $baseDir . '/src/Roles.php',
+    'PSLegalcompliance\\VirtualCart' => $baseDir . '/src/VirtualCart.php',
     'Ps_LegalCompliance' => $baseDir . '/ps_legalcompliance.php',
 );

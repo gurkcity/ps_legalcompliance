@@ -27,6 +27,8 @@ class ComposerStaticInit360873948f5380f4375209e0ba3ed463
         'HTMLTemplateCMSContent' => __DIR__ . '/../..' . '/classes/HTMLTemplateCMSContent.php',
         'LegalcomplianceException' => __DIR__ . '/../..' . '/classes/LegalcomplianceException.php',
         'PSLegalcompliance\\EmailTemplateFinder' => __DIR__ . '/../..' . '/src/EmailTemplateFinder.php',
+        'PSLegalcompliance\\Roles' => __DIR__ . '/../..' . '/src/Roles.php',
+        'PSLegalcompliance\\VirtualCart' => __DIR__ . '/../..' . '/src/VirtualCart.php',
         'Ps_LegalCompliance' => __DIR__ . '/../..' . '/ps_legalcompliance.php',
     );
 
