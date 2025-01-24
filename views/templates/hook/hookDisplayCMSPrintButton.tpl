@@ -23,8 +23,10 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if $directPrint}
-	<input type="submit" name="printCMSPage" value="{l s='Print this page' d='Modules.Legalcompliance.Shop'}" class="btn btn-secondary" onclick="window.print()" />
-{else}
-	<a href="{$print_link}" class="btn btn-secondary" target="_blank">{l s='Print this page' d='Modules.Legalcompliance.Shop'}</a>
+{if $showButton}
+  {if $directPrint}
+    <input type="submit" name="printCMSPage" value="{l s='Print this page' d='Modules.Legalcompliance.Shop'}" class="btn btn-secondary" onclick="window.print()" />
+  {else}
+    <a href="{$print_link}" class="btn btn-secondary" target="_blank">{l s='Print this page' d='Modules.Legalcompliance.Shop'}</a>
+  {/if}
 {/if}

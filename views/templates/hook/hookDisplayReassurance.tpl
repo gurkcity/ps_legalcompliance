@@ -23,6 +23,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
+{if $custom_cart_text != ''}
 <div class="aeuc_cart_custom_text">
 	<p>{$custom_cart_text}</p>
 </div>
+{/if}

@@ -24,7 +24,7 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-/* Namespaces used in this module */
+use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShop\PrestaShop\Core\Foundation\Filesystem\FileSystem;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
@@ -39,15 +39,6 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_LegalCompliance extends Module
 {
-    /* Class members */
-    protected $config_form = false;
-    protected $entity_manager = null;
-    protected $filesystem = null;
-    protected $emails = null;
-    protected $_errors = [];
-    protected $_warnings = [];
-
-    /* Constants used for LEGAL/CMS Management */
     const LEGAL_NO_ASSOC = 'NO_ASSOC';
     const LEGAL_NOTICE = 'LEGAL_NOTICE';
     const LEGAL_CONDITIONS = 'LEGAL_CONDITIONS';
@@ -56,6 +47,13 @@ class Ps_LegalCompliance extends Module
     const LEGAL_PRIVACY = 'LEGAL_PRIVACY';
     const LEGAL_ENVIRONMENTAL = 'LEGAL_ENVIRONMENTAL';
     const LEGAL_SHIP_PAY = 'LEGAL_SHIP_PAY';
+
+    protected $config_form = false;
+    protected $entity_manager = null;
+    protected $filesystem = null;
+    protected $emails = null;
+    protected $_errors = [];
+    protected $_warnings = [];
 
     public function __construct(
         EntityManager $entity_manager,
@@ -85,14 +83,9 @@ class Ps_LegalCompliance extends Module
             'max' => _PS_VERSION_
         ];
 
-        /* Init errors var */
         $this->_errors = [];
     }
 
-    /**
-     * Don't forget to create update methods if needed:
-     * http://doc.prestashop.com/display/PS16/Enabling+the+Auto-Update.
-     */
     public function install()
     {
         $return = parent::install()
@@ -128,8 +121,11 @@ class Ps_LegalCompliance extends Module
 
     public function updateWirePaymentInviteDisplayAtOrderConfirmation(bool $display): bool
     {
+        $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
+        $moduleManager = $moduleManagerBuilder->build();
+
         if (
-            Module::isInstalled('ps_wirepayment')
+            $moduleManager->isInstalled('ps_wirepayment')
             && defined('Ps_Wirepayment::FLAG_DISPLAY_PAYMENT_INVITE')
         ) {
             Configuration::updateValue(Ps_Wirepayment::FLAG_DISPLAY_PAYMENT_INVITE, $display);
@@ -163,8 +159,6 @@ class Ps_LegalCompliance extends Module
 
     public function createConfig()
     {
-
-        /* Base settings */
         $this->processAeucFeatReorder(true);
         $this->processAeucLabelRevocationTOS(false);
         $this->processAeucLabelRevocationVP(false);
@@ -256,7 +250,10 @@ class Ps_LegalCompliance extends Module
 
     public function removeCMSPagesIfNeeded(): bool
     {
-        if (!Module::isInstalled('ps_linklist')) {
+        $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
+        $moduleManager = $moduleManagerBuilder->build();
+
+        if (!$moduleManager->isInstalled('ps_linklist')) {
             return true;
         }
 
@@ -396,7 +393,7 @@ class Ps_LegalCompliance extends Module
         $state = true;
 
         // Create module's table
-        $sql = require __DIR__.'/install/sql_install.php';
+        $sql = require __DIR__ . '/install/sql_install.php';
 
         foreach ($sql as $s) {
             $state &= Db::getInstance()->execute($s);
@@ -416,15 +413,11 @@ class Ps_LegalCompliance extends Module
             }
         }
 
-        $default_path_email = _PS_MAIL_DIR_ . 'en' . DIRECTORY_SEPARATOR;
-
-        if (!is_dir($default_path_email)) {
-            $isoDefault = $this->getIsoFromDefaultLanguage();
-            $default_path_email = _PS_MAIL_DIR_ . $isoDefault . DIRECTORY_SEPARATOR;
-        }
+        $emailTemplateFinder = new EmailTemplateFinder($this->emails);
+        $defaultEmailTemplatePath = $this->getDefaultEmailTemplatePath();
 
         // Fill-in aeuc_mail table
-        foreach ($this->emails->getAvailableMails($default_path_email) as $mail) {
+        foreach ($emailTemplateFinder->getAllAvailableEmailTemplates($defaultEmailTemplatePath) as $mail) {
             $new_email = new AeucEmailEntity();
             $new_email->filename = (string) $mail;
             $new_email->display_name = $this->emails->getCleanedMailName($mail);
@@ -438,7 +431,8 @@ class Ps_LegalCompliance extends Module
 
     public function dropConfig()
     {
-        return Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL')
+        return
+            Configuration::deleteByName('AEUC_LABEL_DELIVERY_ADDITIONAL')
             && Configuration::deleteByName('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL')
             && Configuration::deleteByName('AEUC_LABEL_SPECIFIC_PRICE')
             && Configuration::deleteByName('AEUC_LABEL_UNIT_PRICE')
@@ -453,11 +447,6 @@ class Ps_LegalCompliance extends Module
             && Configuration::deleteByName('AEUC_LABEL_TAX_FOOTER');
     }
 
-    /*
-        This method checks if cart has virtual products
-        It's better to add this method (as hasVirtualProduct) and add 'protected static $_hasVirtualProduct = []; property
-        in Cart class in next version of prestashop.
-    */
     private function hasCartVirtualProduct(Cart $cart): bool
     {
         $products = $cart->getProducts();
@@ -506,7 +495,7 @@ class Ps_LegalCompliance extends Module
             }
         }
 
-        $this->context->smarty->assign([
+        $this->smarty->assign([
             'smartyVars' => $smartyVars,
         ]);
 
@@ -516,9 +505,8 @@ class Ps_LegalCompliance extends Module
     public function hookDisplayOverrideTemplate($param)
     {
         if (
-            isset($this->context->controller->php_self)
+            $this->context->controller instanceof OrderController
             && !$this->context->controller->ajax
-            && $this->context->controller->php_self == 'order'
         ) {
             return $this->getTemplatePath('hookDisplayOverrideTemplateFooter.tpl');
         }
@@ -526,104 +514,123 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayCheckoutSummaryTop($param)
     {
-        $cart_url = $this->context->link->getPageLink(
-            'cart',
-            null,
-            $this->context->language->id,
-            ['action' => 'show']
-        );
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayCheckoutSummaryTop.tpl';
+        $cacheId = $this->getCacheId($this->name . '|hookDisplayCheckoutSummaryTop');
 
-        $this->context->smarty->assign([
-            'link_shopping_cart' => $cart_url,
-        ]);
+        if (!$this->isCached($template, $cacheId)) {
+            $this->smarty->assign([
+                'link_shopping_cart' => $this->context->link->getPageLink(
+                    'cart',
+                    null,
+                    $this->context->language->id,
+                    ['action' => 'show']
+                ),
+            ]);
+        }
 
-        return $this->fetch('module:' . $this->name . '/views/templates/hook/hookDisplayCheckoutSummaryTop.tpl');
+        return $this->fetch($template, $cacheId);
     }
 
     public function hookDisplayReassurance($param)
     {
         if (
-            isset($this->context->controller->php_self)
-            && in_array($this->context->controller->php_self, ['order', 'cart'])
+            !($this->context->controller instanceof OrderController)
+            || !($this->context->controller instanceof CartController)
         ) {
+            return;
+        }
+
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayReassurance.tpl';
+        $cacheId = $this->getCacheId($this->name . '|hookDisplayReassurance');
+
+        if (!$this->isCached($template, $cacheId)) {
             $custom_cart_text = Configuration::get('AEUC_LABEL_CUSTOM_CART_TEXT', $this->context->language->id);
 
-            if (trim($custom_cart_text) == '') {
-                return false;
-            } else {
-                $this->context->smarty->assign([
-                    'custom_cart_text' => $custom_cart_text,
-                ]);
-
-                return $this->fetch('module:' . $this->name . '/views/templates/hook/hookDisplayReassurance.tpl');
-            }
+            $this->smarty->assign([
+                'custom_cart_text' => trim($custom_cart_text),
+            ]);
         }
+
+        return $this->fetch($template, $cacheId);
     }
 
     public function hookDisplayFooter($param)
     {
         if (!Configuration::get('AEUC_LINKBLOCK_FOOTER')) {
-            // do not display block in footer
             return;
         }
 
-        $cms_roles_to_be_displayed = [
-            self::LEGAL_NOTICE,
-            self::LEGAL_CONDITIONS,
-            self::LEGAL_REVOCATION,
-            self::LEGAL_PRIVACY,
-            self::LEGAL_SHIP_PAY,
-            self::LEGAL_ENVIRONMENTAL,
-        ];
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayFooter.tpl';
+        $cacheId = $this->getCacheId($this->name . '|hookDisplayFooter');
 
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_pages_associated = $cms_role_repository->findByName($cms_roles_to_be_displayed);
-        $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
-        $cms_links = [];
+        if (!$this->isCached($template, $cacheId)) {
+            $cms_roles_to_be_displayed = [
+                self::LEGAL_NOTICE,
+                self::LEGAL_CONDITIONS,
+                self::LEGAL_REVOCATION,
+                self::LEGAL_PRIVACY,
+                self::LEGAL_SHIP_PAY,
+                self::LEGAL_ENVIRONMENTAL,
+            ];
 
-        foreach ($cms_pages_associated as $cms_page_associated) {
-            if (
-                ($cms_page_associated instanceof CMSRole)
-                && $cms_page_associated->id_cms > 0
-            ) {
-                $cms = new CMS((int) $cms_page_associated->id_cms);
+            $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+            $cms_pages_associated = $cms_role_repository->findByName($cms_roles_to_be_displayed);
+            $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
+            $cms_links = [];
 
-                if (!Validate::isLoadedObject($cms)) {
-                    // skip non loaded object
-                    continue;
+            foreach ($cms_pages_associated as $cms_page_associated) {
+                if (
+                    ($cms_page_associated instanceof CMSRole)
+                    && $cms_page_associated->id_cms > 0
+                ) {
+                    $cms = new CMS((int) $cms_page_associated->id_cms);
+
+                    if (!Validate::isLoadedObject($cms)) {
+                        // skip non loaded object
+                        continue;
+                    }
+
+                    $cms_links[] = [
+                        'link' => $this->context->link->getCMSLink($cms->id, null, $is_ssl_enabled),
+                        'id' => 'cms-page-' . $cms->id,
+                        'title' => $cms->meta_title[$this->context->language->id],
+                        'desc' => $cms->meta_description[$this->context->language->id],
+                    ];
                 }
-
-                $cms_links[] = [
-                    'link' => $this->context->link->getCMSLink($cms->id, null, $is_ssl_enabled),
-                    'id' => 'cms-page-' . $cms->id,
-                    'title' => $cms->meta_title[$this->context->language->id],
-                    'desc' => $cms->meta_description[$this->context->language->id],
-                ];
             }
+
+            $this->smarty->assign([
+                'cms_links' => $cms_links,
+            ]);
         }
 
-        $this->context->smarty->assign([
-            'cms_links' => $cms_links,
-        ]);
-
-        return $this->fetch('module:' . $this->name . '/views/templates/hook/hookDisplayFooter.tpl');
+        return $this->fetch($template, $cacheId);
     }
 
     public function hookDisplayFooterAfter($param)
     {
         if (
-            isset($this->context->controller->php_self)
-            && in_array($this->context->controller->php_self, ['index', 'category', 'prices-drop', 'new-products', 'best-sales', 'search', 'product'])
+            !isset($this->context->controller->php_self)
+            || !in_array($this->context->controller->php_self, ['index', 'category', 'prices-drop', 'new-products', 'best-sales', 'search', 'product'])
         ) {
-            $cms_repository = $this->entity_manager->getRepository('CMS');
-            $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-            $cms_page_shipping_pay = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
+            return;
+        }
+
+        $idCountry = !empty($this->context->country->id) ? $this->context->country->id : 0;
+
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayFooterAfter.tpl';
+        $cacheId = $this->getCacheId($this->name . '|hookDisplayFooterAfter|' . $this->context->controller->php_self . '|' . $idCountry);
+
+        if (!$this->isCached($template, $cacheId)) {
+            $cmsRepository = $this->entity_manager->getRepository('CMS');
+            $cmsRoleRepository = $this->entity_manager->getRepository('CMSRole');
+            $cmsPageShippingPay = $cmsRoleRepository->findOneByName(self::LEGAL_SHIP_PAY);
 
             $link_shipping = false;
 
-            if ($cms_page_shipping_pay->id_cms > 0) {
-                $cms_shipping_pay = $cms_repository->i10nFindOneById(
-                    (int) $cms_page_shipping_pay->id_cms,
+            if ($cmsPageShippingPay->id_cms > 0) {
+                $cms_shipping_pay = $cmsRepository->i10nFindOneById(
+                    (int) $cmsPageShippingPay->id_cms,
                     (int) $this->context->language->id,
                     (int) $this->context->shop->id
                 );
@@ -637,13 +644,13 @@ class Ps_LegalCompliance extends Module
                 }
             }
 
-            if ($this->context->controller->php_self == 'product'
+            if (
+                $this->context->controller->php_self == 'product'
                 && (int) Configuration::get('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL') == 1
             ) {
                 $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
 
-                $this->context->smarty->assign('link_shipping', $link_shipping);
-                $this->context->smarty->assign('delivery_additional_information', $delivery_addtional_info);
+                $this->smarty->assign('delivery_additional_information', $delivery_addtional_info);
             }
 
             $customer_default_group = new Group((int) $this->context->customer->id_default_group);
@@ -661,16 +668,15 @@ class Ps_LegalCompliance extends Module
                 $tax_included = false;
             }
 
-            $this->context->smarty->assign('show_shipping', (bool) Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'));
-            $this->context->smarty->assign('link_shipping', $link_shipping);
-            $this->context->smarty->assign('tax_included', $tax_included);
-
-            $this->context->smarty->assign([
+            $this->smarty->assign([
+                'show_shipping' => (bool) Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC'),
+                'link_shipping' => $link_shipping,
+                'tax_included' => $tax_included,
                 'display_tax_information' => Configuration::get('AEUC_LABEL_TAX_FOOTER'),
             ]);
-
-            return $this->fetch('module:' . $this->name . '/views/templates/hook/hookDisplayFooterAfter.tpl');
         }
+
+        return $this->fetch($template, $cacheId);
     }
 
     private function getCmsRolesForMailtemplate($tpl_name, $id_lang)
@@ -898,8 +904,7 @@ class Ps_LegalCompliance extends Module
         );
 
         if (
-            isset($this->context->controller->php_self)
-            && $this->context->controller->php_self == 'cms'
+            $this->context->controller instanceof CMSController
             && $this->isPrintableCMSPage()
         ) {
             $this->context->controller->registerStylesheet(
@@ -950,7 +955,7 @@ class Ps_LegalCompliance extends Module
         }
     }
 
-    protected function isPrintableCMSPage(): bool
+    protected function isPrintableCMSPage(int $idCms): bool
     {
         $printable_cms_pages = [];
         $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
@@ -966,74 +971,90 @@ class Ps_LegalCompliance extends Module
             }
         }
 
-        return in_array(Tools::getValue('id_cms'), $printable_cms_pages);
+        return in_array($idCms, $printable_cms_pages);
     }
 
     public function hookDisplayCMSDisputeInformation($params)
     {
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_NOTICE);
+        $idCms = (int) Tools::getValue('id_cms');
 
-        if (
-            ($cms_page_associated instanceof CMSRole)
-            && $cms_page_associated->id_cms
-            && Tools::getValue('id_cms') == $cms_page_associated->id_cms
-        ) {
-            return $this->display(__FILE__, 'hookDisplayCMSDisputeInformation.tpl');
+        if (empty($idCms)) {
+            return;
         }
+
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayCMSDisputeInformation.tpl';
+        $cacheId = $this->getCacheId($this->name . '|hookDisplayCMSDisputeInformation|' . $idCms);
+
+        if (!$this->isCached($template, $cacheId)) {
+            $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+            $cms_page_associated = $cms_role_repository->findOneByName(self::LEGAL_NOTICE);
+
+            $isAssociated = false;
+
+            if (
+                ($cms_page_associated instanceof CMSRole)
+                && $cms_page_associated->id_cms
+                && $idCms == $cms_page_associated->id_cms
+            ) {
+                $isAssociated = true;
+            }
+
+            $this->smarty->assign([
+                'isAssociated' => $isAssociated,
+            ]);
+        }
+
+        return $this->fetch($template, $cacheId);
     }
 
     public function hookTermsAndConditions($param)
     {
-        $returned_terms_and_conditions = [];
+        $returnedTermsAndConditions = [];
 
-        $cms_repository = $this->entity_manager->getRepository('CMS');
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-        $cms_page_conditions_associated = $cms_role_repository->findOneByName(self::LEGAL_CONDITIONS);
-        $cms_page_revocation_associated = $cms_role_repository->findOneByName(self::LEGAL_REVOCATION);
-        $cms_page_privacy_associated = $cms_role_repository->findOneByName(self::LEGAL_PRIVACY);
+        $cmsRepository = $this->entity_manager->getRepository('CMS');
+        $cmsRoleRepository = $this->entity_manager->getRepository('CMSRole');
+        $cmsPageConditionsAssoiciated = $cmsRoleRepository->findOneByName(self::LEGAL_CONDITIONS);
+        $cmsPageRevocationAssociated = $cmsRoleRepository->findOneByName(self::LEGAL_REVOCATION);
+        $cmsPagePrivacyAssociated = $cmsRoleRepository->findOneByName(self::LEGAL_PRIVACY);
+
+        $idShop = (int) $this->context->shop->id;
+        $idLang = (int) $this->context->language->id;
 
         if (
             Configuration::get('PS_CONDITIONS')
-            && (int) $cms_page_conditions_associated->id_cms > 0
-            && (int) $cms_page_revocation_associated->id_cms > 0
+            && (int) $cmsPageConditionsAssoiciated->id_cms > 0
+            && (int) $cmsPageRevocationAssociated->id_cms > 0
         ) {
-            $cms_conditions = $cms_repository->i10nFindOneById(
-                (int) $cms_page_conditions_associated->id_cms,
-                (int) $this->context->language->id,
-                (int) $this->context->shop->id
+            $cmsConditions = $cmsRepository->i10nFindOneById(
+                (int) $cmsPageConditionsAssoiciated->id_cms,
+                $idLang,
+                $idShop
             );
 
-            $link_conditions = $cms_conditions
+            $link_conditions = $cmsConditions
                 ? $this->context->link->getCMSLink(
-                    $cms_conditions,
-                    $cms_conditions->link_rewrite,
+                    $cmsConditions,
+                    $cmsConditions->link_rewrite,
                     (bool) Configuration::get('PS_SSL_ENABLED')
                 )
                 : null;
 
-            $cms_revocation = $cms_repository->i10nFindOneById(
-                (int) $cms_page_revocation_associated->id_cms,
-                (int) $this->context->language->id,
-                (int) $this->context->shop->id
+            $cmsRevocation = $cmsRepository->i10nFindOneById(
+                (int) $cmsPageRevocationAssociated->id_cms,
+                $idLang,
+                $idShop
             );
 
             $link_revocation = $this->context->link->getCMSLink(
-                $cms_revocation,
-                $cms_revocation->link_rewrite,
+                $cmsRevocation,
+                $cmsRevocation->link_rewrite,
                 (bool) Configuration::get('PS_SSL_ENABLED')
             );
 
-            $cms_privacy = $cms_repository->i10nFindOneById(
-                (int) $cms_page_privacy_associated->id_cms,
-                (int) $this->context->language->id,
-                (int) $this->context->shop->id
-            );
-
-            $link_privacy = $this->context->link->getCMSLink(
-                $cms_privacy,
-                $cms_privacy->link_rewrite,
-                (bool) Configuration::get('PS_SSL_ENABLED')
+            $cms_privacy = $cmsRepository->i10nFindOneById(
+                (int) $cmsPagePrivacyAssociated->id_cms,
+                $idLang,
+                $idShop
             );
 
             $termsAndConditions = new TermsAndConditions();
@@ -1054,8 +1075,8 @@ class Ps_LegalCompliance extends Module
                     $this->trans(
                         'Please note our [%terms_and_conditions%] and [%revocation%]',
                         [
-                            '%revocation%' => $cms_revocation->meta_title,
-                            '%terms_and_conditions%' => $cms_conditions->meta_title,
+                            '%revocation%' => $cmsRevocation->meta_title,
+                            '%terms_and_conditions%' => $cmsConditions->meta_title,
                         ],
                         'Modules.Legalcompliance.Shop'
                     ) . $tpl->fetch(),
@@ -1063,6 +1084,12 @@ class Ps_LegalCompliance extends Module
                     $link_revocation
                 );
             } else {
+                $link_privacy = $this->context->link->getCMSLink(
+                    $cms_privacy,
+                    $cms_privacy->link_rewrite,
+                    (bool) Configuration::get('PS_SSL_ENABLED')
+                );
+
                 $termsAndConditions->setText(
                     $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') ,
                     $link_conditions,
@@ -1071,7 +1098,7 @@ class Ps_LegalCompliance extends Module
                 );
             }
 
-            $returned_terms_and_conditions[] = $termsAndConditions;
+            $returnedTermsAndConditions[] = $termsAndConditions;
         }
 
         if (
@@ -1094,11 +1121,11 @@ class Ps_LegalCompliance extends Module
                 )
                 ->setIdentifier('virtual-products');
 
-            $returned_terms_and_conditions[] = $termsAndConditions;
+            $returnedTermsAndConditions[] = $termsAndConditions;
         }
 
-        if (count($returned_terms_and_conditions) > 0) {
-            return $returned_terms_and_conditions;
+        if (count($returnedTermsAndConditions) > 0) {
+            return $returnedTermsAndConditions;
         } else {
             return false;
         }
@@ -1106,38 +1133,46 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayCMSPrintButton($param)
     {
-        if (!$this->isPrintableCMSPage()) {
-            return '';
+        $idCms = (int) Tools::getValue('id_cms');
+        $contentOnly = (bool) Tools::getValue('content_only');
+
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayCMSPrintButton.tpl';
+        $cacheId = $this->getCacheId($this->name . '|hookDisplayCMSPrintButton|' . $idCms . '|' . $contentOnly);
+
+        if (!$this->isCached($template, $cacheId)) {
+            $showButton = true;
+
+            if (!$this->isPrintableCMSPage($idCms)) {
+                $showButton = false;
+            }
+
+            $cms_repository = $this->entity_manager->getRepository('CMS');
+            $cms_current = $cms_repository->i10nFindOneById(
+                $idCms,
+                (int) $this->context->language->id,
+                (int) $this->context->shop->id
+            );
+
+            $cms_current_link = $this->context->link->getCMSLink(
+                $cms_current,
+                $cms_current->link_rewrite,
+                (bool) Configuration::get('PS_SSL_ENABLED')
+            );
+
+            if (!strpos($cms_current_link, '?')) {
+                $cms_current_link .= '?direct_print=1';
+            } else {
+                $cms_current_link .= '&direct_print=1';
+            }
+
+            $this->smarty->assign([
+                'print_link' => $cms_current_link,
+                'directPrint' => $contentOnly,
+                'showButton' => $showButton,
+            ]);
         }
 
-        $this->context->smarty->assign([
-            'directPrint' => (Tools::getValue('content_only') != '1'),
-        ]);
-
-        $cms_repository = $this->entity_manager->getRepository('CMS');
-        $cms_current = $cms_repository->i10nFindOneById(
-            (int) Tools::getValue('id_cms'),
-            (int) $this->context->language->id,
-            (int) $this->context->shop->id
-        );
-
-        $cms_current_link = $this->context->link->getCMSLink(
-            $cms_current,
-            $cms_current->link_rewrite,
-            (bool) Configuration::get('PS_SSL_ENABLED')
-        );
-
-        if (!strpos($cms_current_link, '?')) {
-            $cms_current_link .= '?direct_print=1';
-        } else {
-            $cms_current_link .= '&direct_print=1';
-        }
-
-        $this->context->smarty->assign([
-            'print_link' => $cms_current_link,
-        ]);
-
-        return $this->display(__FILE__, 'hookDisplayCMSPrintButton.tpl');
+        return $this->fetch($template, $cacheId);
     }
 
     public function hookDisplayProductPriceBlock($param)
@@ -1324,7 +1359,7 @@ class Ps_LegalCompliance extends Module
                 }
             }
 
-            $this->context->smarty->assign([
+            $this->smarty->assign([
                 'smartyVars' => $smartyVars,
             ]);
         }
@@ -1334,21 +1369,27 @@ class Ps_LegalCompliance extends Module
 
     public function hookDisplayCheckoutSubtotalDetails($param)
     {
-        // Display "under conditions" when the shipping subtotal equals 0
         if (
-            'shipping' === $param['subtotal']['type']
-            && 0 === $param['subtotal']['amount']
+            'shipping' !== $param['subtotal']['type']
+            || 0 !== $param['subtotal']['amount']
         ) {
+            return;
+        }
+
+        $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayCartPriceBlock_shipping_details.tpl';
+        $cacheId = $this->getCacheId($this->name . '|hookDisplayCheckoutSubtotalDetails');
+
+        if (!$this->isCached($template, $cacheId)) {
             $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
             $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(self::LEGAL_SHIP_PAY);
             $link_shipping_payment = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
 
-            $this->context->smarty->assign([
+            $this->smarty->assign([
                 'link_shipping_payment' => $link_shipping_payment,
             ]);
-
-            return $this->fetch('module:' . $this->name . '/views/templates/hook/hookDisplayCartPriceBlock_shipping_details.tpl');
         }
+
+        return $this->fetch($template, $cacheId);
     }
 
     private function postProcess()
@@ -1514,7 +1555,7 @@ class Ps_LegalCompliance extends Module
         }
 
         if ($has_processed_something) {
-            $this->clearTemplateCache();
+            $this->_clearCache('*');
 
             return (count($this->_errors) ? $this->displayError($this->_errors) : '')
                 . (count($this->_warnings) ? $this->displayWarning($this->_warnings) : '')
@@ -1524,25 +1565,6 @@ class Ps_LegalCompliance extends Module
             return (count($this->_errors) ? $this->displayError($this->_errors) : '')
                 . (count($this->_warnings) ? $this->displayWarning($this->_warnings) : '')
             ;
-        }
-    }
-
-    protected function clearTemplateCache()
-    {
-        $types = [
-            'after_price',
-            'before_price',
-            'list_taxes',
-            'old_price',
-            'price',
-            'unit_price',
-        ];
-
-        foreach ($types as $type) {
-            $this->_clearCache(
-                'module:' . $this->name . '/views/templates/hook/hookDisplayProductPriceBlock_' . $type . '.tpl',
-                $this->getCacheId($this->name)
-            );
         }
     }
 

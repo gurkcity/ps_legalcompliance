@@ -20,12 +20,21 @@ class EmailTemplateFinder
     public function findNewEmailTemplates(): array
     {
         $defaultEmailTemplatePath = $this->getDefaultEmailTemplatePath();
-        $AllAvailableEmailTemplates = $this->getAllAvailableEmailTemplates($defaultEmailTemplatePath);
+        $allAvailableEmailTemplates = $this->getAllAvailableEmailTemplates($defaultEmailTemplatePath);
 
-        return $this->filterNewEmailTemplates($AllAvailableEmailTemplates);
+        return $this->filterNewEmailTemplates($allAvailableEmailTemplates);
     }
 
-    protected function getDefaultEmailTemplatePath(): string
+    public function getAllAvailableEmailTemplates(string $emailPath): array
+    {
+        if (!is_dir($emailPath)) {
+            throw new LegalcomplianceException(sprintf('Email template path %s is not vaild', $emailPath));
+        }
+
+        return $this->emailLister->getAvailableMails($emailPath);
+    }
+
+    public function getDefaultEmailTemplatePath(): string
     {
         $defaultEmailTemplatePath = _PS_MAIL_DIR_ . 'en';
 
@@ -46,15 +55,6 @@ class EmailTemplateFinder
         $idLangDefault = (int) Configuration::get('PS_LANG_DEFAULT');
 
         return Language::getIsoById($idLangDefault);
-    }
-
-    protected function getAllAvailableEmailTemplates(string $emailPath): array
-    {
-        if (!is_dir($emailPath)) {
-            throw new LegalcomplianceException(sprintf('Email template path %s is not vaild', $emailPath));
-        }
-
-        return $this->emailLister->getAvailableMails($emailPath);
     }
 
     protected function filterNewEmailTemplates(array $emailTemplates): array
