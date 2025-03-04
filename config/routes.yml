@@ -1,0 +1,47 @@
+legalcompliance:
+  path: legalcompliance
+  methods: [ GET ]
+  defaults:
+    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::indexAction'
+    _legacy_controller: PSLegalcomplianceConfigurationAdminController
+    _legacy_link: PSLegalcomplianceConfigurationAdminController
+
+legalcompliance_label_save:
+  path: legalcompliance/label
+  methods: [ POST ]
+  defaults:
+    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processLabelFormAction'
+    _legacy_controller: PSLegalcomplianceConfigurationAdminController
+    _legacy_link: PSLegalcomplianceConfigurationAdminController
+
+legalcompliance_virtual_save:
+  path: legalcompliance/virtual
+  methods: [ POST ]
+  defaults:
+    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processVirtualFormAction'
+    _legacy_controller: PSLegalcomplianceConfigurationAdminController
+    _legacy_link: PSLegalcomplianceConfigurationAdminController
+
+legalcompliance_general_save:
+  path: legalcompliance/general
+  methods: [ POST ]
+  defaults:
+    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processGeneralFormAction'
+    _legacy_controller: PSLegalcomplianceConfigurationAdminController
+    _legacy_link: PSLegalcomplianceConfigurationAdminController
+
+legalcompliance_cms_save:
+  path: legalcompliance/cms
+  methods: [ POST ]
+  defaults:
+    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processCmsFormAction'
+    _legacy_controller: PSLegalcomplianceConfigurationAdminController
+    _legacy_link: PSLegalcomplianceConfigurationAdminController
+
+legalcompliance_email_save:
+  path: legalcompliance/email
+  methods: [ POST ]
+  defaults:
+    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processEmailFormAction'
+    _legacy_controller: PSLegalcomplianceConfigurationAdminController
+    _legacy_link: PSLegalcomplianceConfigurationAdminController

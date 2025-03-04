@@ -83,6 +83,7 @@ class Install
             && $this->module->registerHook('displayCheckoutSummaryTop')
             && $this->module->registerHook('sendMailAlterTemplateVars')
             && $this->module->registerHook('displayReassurance')
+            && $this->module->registerHook('actionAdminControllerSetMedia')
             && $this->setLegalContentToOrderMails()
         ;
 

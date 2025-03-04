@@ -1,0 +1,8 @@
+{% use '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+{% trans_default_domain "Modules.Pslegalcompliance.Admin" %}
+
+{% block translatefields_widget %}
+  {{ parent() }}
+  {{- block('form_help') -}}
+{% endblock %}
+

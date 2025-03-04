@@ -1,0 +1,151 @@
+services:
+  _defaults:
+    public: true
+
+  # Module
+
+  pslegalcompliance.module:
+    class: "PS_Legalcompliance"
+    factory: ["Module", "getInstanceByName"]
+    arguments:
+      - 'ps_legalcompliance'
+
+  # Controller
+
+  PSLegalcompliance\Controller\ConfigurationAdminController:
+    class: PSLegalcompliance\Controller\ConfigurationAdminController
+    arguments:
+      - '@pslegalcompliance.module'
+      - '@prestashop.adapter.legacy.configuration'
+
+  # Form Handler
+
+  pslegalcompliance.form_handler.label:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@pslegalcompliance.form_provider.label'
+      - 'PSLegalcompliance\Form\Type\LabelType'
+      - 'PsLegalcomplianceLabel'
+      - 'label'
+
+  pslegalcompliance.form_handler.virtual:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@pslegalcompliance.form_provider.virtual'
+      - 'PSLegalcompliance\Form\Type\VirtualType'
+      - 'PsLegalcomplianceVirtual'
+      - 'virtual'
+
+  pslegalcompliance.form_handler.general:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@pslegalcompliance.form_provider.general'
+      - 'PSLegalcompliance\Form\Type\GeneralType'
+      - 'PsLegalcomplianceGeneral'
+      - 'general'
+
+  pslegalcompliance.form_handler.cms:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@pslegalcompliance.form_provider.cms'
+      - 'PSLegalcompliance\Form\Type\CmsType'
+      - 'PsLegalcomplianceCms'
+      - 'cms'
+
+  pslegalcompliance.form_handler.email:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@pslegalcompliance.form_provider.email'
+      - 'PSLegalcompliance\Form\Type\EmailType'
+      - 'PsLegalcomplianceEmail'
+      - 'email'
+
+  # Data Provider
+
+  pslegalcompliance.entitymanager:
+    class: PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager
+    arguments:
+      - '@prestashop.adapter.database'
+      - '@prestashop.adapter.legacy.configuration'
+
+  pslegalcompliance.form_provider.label:
+    class: PSLegalcompliance\Form\DataProvider\LabelDataProvider
+    arguments:
+      - '@prestashop.adapter.legacy.configuration'
+      - "@=service('prestashop.adapter.legacy.context').getAvailableLanguages()"
+
+  pslegalcompliance.form_provider.virtual:
+    class: PSLegalcompliance\Form\DataProvider\VirtualDataProvider
+    arguments:
+      - '@prestashop.adapter.legacy.configuration'
+      - "@=service('prestashop.adapter.legacy.context').getAvailableLanguages()"
+
+  pslegalcompliance.form_provider.general:
+    class: PSLegalcompliance\Form\DataProvider\GeneralDataProvider
+    arguments:
+      - '@prestashop.adapter.legacy.configuration'
+      - "@=service('prestashop.adapter.legacy.context').getAvailableLanguages()"
+
+  pslegalcompliance.form_provider.cms:
+    class: PSLegalcompliance\Form\DataProvider\CmsDataProvider
+    arguments:
+      - '@prestashop.adapter.legacy.configuration'
+
+  pslegalcompliance.form_provider.email:
+    class: PSLegalcompliance\Form\DataProvider\EmailDataProvider
+    arguments:
+      - '@prestashop.adapter.legacy.configuration'
+      - '@translator'
+      - '@pslegalcompliance.entitymanager'
+
+  # Form Types
+
+  pslegalcompliance.form_type.label:
+    class: PSLegalcompliance\Form\Type\LabelType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  pslegalcompliance.form_type.virtual:
+    class: PSLegalcompliance\Form\Type\VirtualType
+    parent: 'form.type.translatable.aware'
+    public: true
+    arguments:
+      - "@=service('prestashop.adapter.legacy.context').getContext().shop.id"
+      - "@=service('prestashop.adapter.legacy.context').getContext().language.id"
+    tags:
+      - { name: form.type }
+
+  pslegalcompliance.form_type.general:
+    class: PSLegalcompliance\Form\Type\GeneralType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  pslegalcompliance.form_type.cms:
+    class: PSLegalcompliance\Form\Type\CmsType
+    parent: 'form.type.translatable.aware'
+    public: true
+    arguments:
+      - "@=service('prestashop.adapter.legacy.context').getContext().shop.id"
+    tags:
+      - { name: form.type }
+
+  pslegalcompliance.form_type.email:
+    class: PSLegalcompliance\Form\Type\EmailType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
