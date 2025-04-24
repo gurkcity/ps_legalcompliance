@@ -1,0 +1,41 @@
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  {% include '@Modules/ps_legalcompliance/views/templates/admin/maintenance/_partials/hooks.html.twig' %}
+  {% include '@Modules/ps_legalcompliance/views/templates/admin/maintenance/_partials/tabs.html.twig' %}
+  {% include '@Modules/ps_legalcompliance/views/templates/admin/maintenance/_partials/sql.html.twig' %}
+  {% include '@Modules/ps_legalcompliance/views/templates/admin/maintenance/_partials/config.html.twig' %}
+  {% include '@Modules/ps_legalcompliance/views/templates/admin/maintenance/_partials/controller.html.twig' %}
+  {% include '@Modules/ps_legalcompliance/views/templates/admin/maintenance/_partials/orderstate.html.twig' %}
+
+  <div class="col-xl-6">
+    <div class="card">
+      <h3 class="card-header">
+        <i class="material-icons">settings</i> {{ 'Advanced Options'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+      </h3>
+      <div class="card-body">
+        <p>
+          <a id="btn_change_license_code" class="btn btn-default" href="{{ path('ps_legalcompliance_license') }}">{{ 'Change license code'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+        </p>
+        <ul class="list-unstyled">
+          <li>PHP Version: <b>{{ php_version }}</b></li>
+          <li>Module Version: <b>{{ module_version }}</b></li>
+          <li>GC Module Version: <b>{{ module_gcversion }}</b></li>
+          <li>GC Module Subversion: <b>{{ module_gcsubversion }}</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

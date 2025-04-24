@@ -1,1 +1,19 @@
+#dev
+/.idea
+
+#log
+/log/*
+!/log/.htaccess
+!/log/index.php
+
+#composer & node
+/node_modules
+/_dev/node_modules
+
+#files
+*.code-workspace
 config_*.xml
+
+.php-cs-fixer.cache
+/_releases/*
+!/_releases/index.php

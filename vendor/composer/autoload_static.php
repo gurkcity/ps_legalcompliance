@@ -4,17 +4,17 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit360873948f5380f4375209e0ba3ed463
+class ComposerStaticInit14bcc31c74dfb28f3c4b6ab73f7cc22b
 {
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'O' => 
         array (
-            'PSLegalcompliance\\' => 18,
+            'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\' => 51,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'PSLegalcompliance\\' => 
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -26,30 +26,80 @@ class ComposerStaticInit360873948f5380f4375209e0ba3ed463
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'HTMLTemplateCMSContent' => __DIR__ . '/../..' . '/classes/HTMLTemplateCMSContent.php',
         'LegalcomplianceException' => __DIR__ . '/../..' . '/classes/LegalcomplianceException.php',
-        'PSLegalcompliance\\Controller\\ConfigurationAdminController' => __DIR__ . '/../..' . '/src/Controller/ConfigurationAdminController.php',
-        'PSLegalcompliance\\EmailTemplateFinder' => __DIR__ . '/../..' . '/src/EmailTemplateFinder.php',
-        'PSLegalcompliance\\Form\\DataProvider\\CmsDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/CmsDataProvider.php',
-        'PSLegalcompliance\\Form\\DataProvider\\EmailDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/EmailDataProvider.php',
-        'PSLegalcompliance\\Form\\DataProvider\\GeneralDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/GeneralDataProvider.php',
-        'PSLegalcompliance\\Form\\DataProvider\\LabelDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/LabelDataProvider.php',
-        'PSLegalcompliance\\Form\\DataProvider\\VirtualDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/VirtualDataProvider.php',
-        'PSLegalcompliance\\Form\\Type\\CmsType' => __DIR__ . '/../..' . '/src/Form/Type/CmsType.php',
-        'PSLegalcompliance\\Form\\Type\\EmailType' => __DIR__ . '/../..' . '/src/Form/Type/EmailType.php',
-        'PSLegalcompliance\\Form\\Type\\GeneralType' => __DIR__ . '/../..' . '/src/Form/Type/GeneralType.php',
-        'PSLegalcompliance\\Form\\Type\\LabelType' => __DIR__ . '/../..' . '/src/Form/Type/LabelType.php',
-        'PSLegalcompliance\\Form\\Type\\VirtualType' => __DIR__ . '/../..' . '/src/Form/Type/VirtualType.php',
-        'PSLegalcompliance\\Install' => __DIR__ . '/../..' . '/src/Install.php',
-        'PSLegalcompliance\\Roles' => __DIR__ . '/../..' . '/src/Roles.php',
-        'PSLegalcompliance\\VirtualCart' => __DIR__ . '/../..' . '/src/VirtualCart.php',
-        'Ps_LegalCompliance' => __DIR__ . '/../..' . '/ps_legalcompliance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Controller\\AdminController' => __DIR__ . '/../..' . '/src/Controller/AdminController.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Controller\\ConfigurationAdminController' => __DIR__ . '/../..' . '/src/Controller/ConfigurationAdminController.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Controller\\CronAdminController' => __DIR__ . '/../..' . '/src/Controller/CronAdminController.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Controller\\LicenseAdminController' => __DIR__ . '/../..' . '/src/Controller/LicenseAdminController.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Controller\\LogAdminController' => __DIR__ . '/../..' . '/src/Controller/LogAdminController.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Controller\\MaintenanceAdminController' => __DIR__ . '/../..' . '/src/Controller/MaintenanceAdminController.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Cron\\CronExecuter' => __DIR__ . '/../..' . '/src/Cron/CronExecuter.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Cron\\CronPresenter' => __DIR__ . '/../..' . '/src/Cron/CronPresenter.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Cron\\CronQueueRepository' => __DIR__ . '/../..' . '/src/Cron/CronQueueRepository.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\EmailTemplateFinder' => __DIR__ . '/../..' . '/src/EmailTemplateFinder.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Exception\\CronException' => __DIR__ . '/../..' . '/src/Exception/CronException.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Exception\\InstallException' => __DIR__ . '/../..' . '/src/Exception/InstallException.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Exception\\LogException' => __DIR__ . '/../..' . '/src/Exception/LogException.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Exception\\SettingException' => __DIR__ . '/../..' . '/src/Exception/SettingException.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\DataProvider\\CmsDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/CmsDataProvider.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\DataProvider\\EmailDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/EmailDataProvider.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\DataProvider\\GeneralDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/GeneralDataProvider.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\DataProvider\\LabelDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/LabelDataProvider.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\DataProvider\\VirtualDataProvider' => __DIR__ . '/../..' . '/src/Form/DataProvider/VirtualDataProvider.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\CmsType' => __DIR__ . '/../..' . '/src/Form/Type/CmsType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\ConfigurationType' => __DIR__ . '/../..' . '/src/Form/Type/ConfigurationType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\CronType' => __DIR__ . '/../..' . '/src/Form/Type/CronType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\EmailType' => __DIR__ . '/../..' . '/src/Form/Type/EmailType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\GeneralType' => __DIR__ . '/../..' . '/src/Form/Type/GeneralType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\ImageFileType' => __DIR__ . '/../..' . '/src/Form/Type/ImageFileType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\LabelType' => __DIR__ . '/../..' . '/src/Form/Type/LabelType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\LicenseType' => __DIR__ . '/../..' . '/src/Form/Type/LicenseType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\LogType' => __DIR__ . '/../..' . '/src/Form/Type/LogType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\PaymentType' => __DIR__ . '/../..' . '/src/Form/Type/PaymentType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Form\\Type\\VirtualType' => __DIR__ . '/../..' . '/src/Form/Type/VirtualType.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Log\\LogLevel' => __DIR__ . '/../..' . '/src/Log/LogLevel.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Log\\LogRepository' => __DIR__ . '/../..' . '/src/Log/LogRepository.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Log\\Logger' => __DIR__ . '/../..' . '/src/Log/Logger.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Mail\\MailPartialTemplateRenderer' => __DIR__ . '/../..' . '/src/Mail/MailPartialTemplateRenderer.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\ConfigMaintenance' => __DIR__ . '/../..' . '/src/Maintenance/ConfigMaintenance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\ControllerMaintenance' => __DIR__ . '/../..' . '/src/Maintenance/ControllerMaintenance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\HookMaintenance' => __DIR__ . '/../..' . '/src/Maintenance/HookMaintenance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\Maintenance' => __DIR__ . '/../..' . '/src/Maintenance/Maintenance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\MaintenanceInterface' => __DIR__ . '/../..' . '/src/Maintenance/MaintenanceInterface.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\OrderstateMaintenance' => __DIR__ . '/../..' . '/src/Maintenance/OrderstateMaintenance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\SqlMaintenance' => __DIR__ . '/../..' . '/src/Maintenance/SqlMaintenance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Maintenance\\TabMaintenance' => __DIR__ . '/../..' . '/src/Maintenance/TabMaintenance.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Module\\AbstractSettings' => __DIR__ . '/../..' . '/src/Module/AbstractSettings.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Module\\ConfigurationAdapter' => __DIR__ . '/../..' . '/src/Module/ConfigurationAdapter.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Module\\Install' => __DIR__ . '/../..' . '/src/Module/Install.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Module\\TranslationLoader' => __DIR__ . '/../..' . '/src/Module/TranslationLoader.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Payment\\PaymentLogo' => __DIR__ . '/../..' . '/src/Payment/PaymentLogo.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Payment\\PaymentLogoFactory' => __DIR__ . '/../..' . '/src/Payment/PaymentLogoFactory.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Response\\Cron' => __DIR__ . '/../..' . '/src/Response/Cron.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Response\\Json' => __DIR__ . '/../..' . '/src/Response/Json.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Roles' => __DIR__ . '/../..' . '/src/Roles.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings' => __DIR__ . '/../..' . '/src/Settings.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings\\Config' => __DIR__ . '/../..' . '/src/Settings/Config.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings\\Controller' => __DIR__ . '/../..' . '/src/Settings/Controller.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings\\Hook' => __DIR__ . '/../..' . '/src/Settings/Hook.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings\\Orderstate' => __DIR__ . '/../..' . '/src/Settings/Orderstate.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings\\SettingsInterface' => __DIR__ . '/../..' . '/src/Settings/SettingsInterface.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings\\Sql' => __DIR__ . '/../..' . '/src/Settings/Sql.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Settings\\Tab' => __DIR__ . '/../..' . '/src/Settings/Tab.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Traits\\ModuleHelperTrait' => __DIR__ . '/../..' . '/src/Traits/ModuleHelperTrait.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Traits\\ModuleLicenseTrait' => __DIR__ . '/../..' . '/src/Traits/ModuleLicenseTrait.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Traits\\ModulePaymentTrait' => __DIR__ . '/../..' . '/src/Traits/ModulePaymentTrait.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Traits\\ModuleTrait' => __DIR__ . '/../..' . '/src/Traits/ModuleTrait.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\Traits\\ObjectAdminControllerTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectAdminControllerTrait.php',
+        'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\VirtualCart' => __DIR__ . '/../..' . '/src/VirtualCart.php',
+        'PS_Legalcompliance' => __DIR__ . '/../..' . '/ps_legalcompliance.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit360873948f5380f4375209e0ba3ed463::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit360873948f5380f4375209e0ba3ed463::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit360873948f5380f4375209e0ba3ed463::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit14bcc31c74dfb28f3c4b6ab73f7cc22b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit14bcc31c74dfb28f3c4b6ab73f7cc22b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit14bcc31c74dfb28f3c4b6ab73f7cc22b::$classMap;
 
         }, null, ClassLoader::class);
     }

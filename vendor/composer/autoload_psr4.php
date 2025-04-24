@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'PSLegalcompliance\\' => array($baseDir . '/src'),
+    'Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\' => array($baseDir . '/src'),
 );

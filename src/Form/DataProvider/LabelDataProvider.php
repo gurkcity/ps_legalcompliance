@@ -1,6 +1,6 @@
 <?php
 
-namespace PSLegalcompliance\Form\DataProvider;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider;
 
 use PrestaShop\PrestaShop\Adapter\Configuration;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;

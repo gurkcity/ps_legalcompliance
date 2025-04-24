@@ -1,0 +1,75 @@
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+<div class="col-xl-6">
+  <div class="card">
+
+    <h3 class="card-header">
+      <i class="material-icons">anchor</i> {{ 'Hooks'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+    </h3>
+
+    <div class="card-body">
+      <p>{{ 'This list shows all hooks used by the module. If not all hooks are registered, you can fix this with the button below.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+
+      {% if hooks.module is not empty %}
+      <table class="hooks_list table">
+        <thead>
+          <tr>
+            <th>{{ 'Hook Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for hook in hooks.module %}
+          <tr>
+            <td>{{ hook.name }}</td>
+            <td>
+              {% if not hook.registered %}
+              <span class="badge badge-danger">{{ 'not registered!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              {% else %}
+              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="alert alert-info">{{ 'There are no hooks for this module to register'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      {% endif %}
+
+      {% if hooks.unnecessary is not empty %}
+      <table class="hooks_list_unnecessary table">
+        <thead>
+          <tr>
+            <th>{{ 'Hook Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for hook_name in hooks.unnecessary %}
+          <tr>
+            <td>{{ hook_name }}</td>
+            <td>
+              <span class="badge badge-warning">{{ 'registerd but unnecessary!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+
+    <div class="card-footer">
+      <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_hooks_reset') }}">{{ 'Reset missing hooks'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+      </div>
+    </div>
+
+  </div>
+</div>

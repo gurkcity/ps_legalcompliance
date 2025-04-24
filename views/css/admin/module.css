@@ -1,0 +1,148 @@
+/**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ */
+.info_panel {
+  margin: -1rem -0.9375rem 2rem -0.9375rem;
+  display: grid;
+  grid-template-rows: auto 40px auto;
+  background: white;
+}
+
+.info_panel .panel-body {
+  background: #0b3d65;
+  background: linear-gradient(#0b3d65, #236c9a);
+  padding: 2rem;
+}
+
+.info_panel .panel-separator {
+  background: url(../../img/bg_module.png) no-repeat #236c9a bottom;
+  background-size: cover;
+}
+
+.info_panel h1,
+.info_panel h2,
+.info_panel p,
+.info_panel ul,
+.info_panel td {
+  color: #fff;
+}
+
+.info_panel h1 {
+  font-size: 2.5em
+}
+
+.info_panel h1 span {
+  color: #FAE20B
+}
+
+.info_panel .info_logo {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "logo title"
+    "logo description"
+    "fulldescription fulldescription";
+}
+
+.info_panel .info_logo h1 {
+  grid-area: title;
+}
+
+.info_panel .info_logo h2 {
+  margin-bottom: 20px;
+  font-size: 1rem;
+  grid-area: description;
+}
+
+.info_panel .info_logo img {
+  grid-area: logo;
+  display: block;
+  background: white;
+  border-radius: 52px;
+  padding: 20px;
+  width: 64px;
+  height: 64px;
+  box-sizing: content-box;
+  margin: 0 1rem 1rem 0;
+}
+
+.info_panel .info_logo p {
+  grid-area: fulldescription;
+}
+
+.info_panel tbody > tr > td {
+  border-bottom: 1px solid #ffffff25;
+  padding: 0.3rem;
+}
+
+.info_panel tbody > tr:last-child > td {
+  border-bottom: none;
+}
+
+.info_panel .panel-body a {
+  color: #6CD7FF;
+}
+
+.info_panel .info_author {
+  border-left: 1px solid #ffffff25;
+}
+
+.info_panel .panel-footer {
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.info_panel.closed {
+  grid-template-rows: auto;
+}
+
+.info_panel.closed .panel-body,
+.info_panel.closed .panel-separator {
+  display: none;
+}
+
+.info_panel.closed .panel-footer {
+  align-items: center;
+}
+
+.info_panel.closed .panel-footer img {
+  max-width: 120px;
+}
+
+.cronjobs .wrap {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.cronjobs .cron_param {
+  border: 1px solid #00000029;
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  margin: 0 0 0.2rem 0;
+  display: inline-block;
+}
+
+.monospace {
+  font-family: monospace;
+}
+
+.corrupt {
+  background: #ff00002e;
+  display: inline-block;
+  border-radius: 2px;
+  padding: 0 0.1rem;
+  margin: 0 0.1rem;
+  border: 1px solid #ff000042;
+}
+
+/* Custom styles here: */

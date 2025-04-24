@@ -1,6 +1,6 @@
 <?php
 
-namespace PSLegalcompliance\Form\Type;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type;
 
 use PrestaShop\PrestaShop\Core\ConstraintValidator\Constraints\CleanHtml;
 use PrestaShopBundle\Form\Admin\Type\FormattedTextareaType;

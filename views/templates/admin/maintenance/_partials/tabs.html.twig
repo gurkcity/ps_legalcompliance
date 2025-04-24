@@ -1,0 +1,80 @@
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+<div class="col-xl-6">
+  <div class="card">
+
+    <h3 class="card-header">
+      <i class="material-icons">list</i> {{ 'Tabs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+    </h3>
+
+    <div class="card-body">
+      <p>{{ 'This list shows all admin tabs of the module that should be registered. If not all tabs are registered, you can fix this with the button below.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+
+      {% if tabs.module is not empty %}
+      <table class="tabs_list table">
+        <thead>
+          <tr>
+            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Roles'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tab in tabs.module %}
+          <tr>
+            <td>{{ tab.class_name }}</td>
+            <td>
+              {% if not tab.valid %}
+              <span class="badge badge-warning">{{ 'not registered!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              {% else %}
+              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              {% endif %}
+            </td>
+            <td>
+              {%- for role in tab.roles -%}
+                <span class="role {% if role.id == 0 %}corrupt{% endif %}">{{ role.role[:1] }}</span>
+              {%- endfor -%}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="alert alert-info">{{ 'There are no tabs for this module to register'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      {% endif %}
+
+      {% if tabs.unnecessary is not empty %}
+      <p>{{ 'This list shows admin tabs that are no longer needed'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <table class="tabs_list table">
+        <thead>
+          <tr>
+            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tab in tabs.unnecessary %}
+          <tr>
+            <td>{{ tab.class_name }}</td>
+            <td><span class="badge badge-warning">{{ 'unecessary'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+
+    <div class="card-footer">
+      <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_tabs_reset') }}">{{ 'Reset tabs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+      </div>
+    </div>
+
+  </div>
+</div>

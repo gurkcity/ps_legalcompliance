@@ -1,6 +1,6 @@
 <?php
 
-namespace PSLegalcompliance;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance;
 
 use Cart;
 

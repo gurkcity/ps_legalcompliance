@@ -1,6 +1,6 @@
 <?php
 
-namespace PSLegalcompliance\Form\DataProvider;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider;
 
 use AeucCMSRoleEmailEntity;
 use AeucEmailEntity;
@@ -8,7 +8,7 @@ use PrestaShop\PrestaShop\Adapter\Configuration;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShopBundle\Translation\TranslatorInterface;
-use PSLegalcompliance\Roles;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 
 class EmailDataProvider implements FormDataProviderInterface
 {

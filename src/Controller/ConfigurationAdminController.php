@@ -1,43 +1,95 @@
 <?php
 
-namespace PSLegalcompliance\Controller;
+/**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ */
+
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller;
 
 use AeucCMSRoleEmailEntity;
-use PrestaShop\PrestaShop\Adapter\Configuration;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\ConfigurationType;
 use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
-use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
-use PS_Legalcompliance;
+use PrestaShopBundle\Security\Annotation\AdminSecurity;
+use PrestaShopBundle\Security\Annotation\ModuleActivated;
 use Symfony\Component\HttpFoundation\Request;
 
-class ConfigurationAdminController extends FrameworkBundleAdminController
+/**
+ * @ModuleActivated(moduleName="ps_legalcompliance", redirectRoute="ps_legalcompliance_license")
+ */
+class ConfigurationAdminController extends AdminController
 {
-    protected $module;
-    protected $configuration;
-
-    public function __construct(
-        PS_Legalcompliance $module,
-        Configuration $configuration
-    ) {
-        $this->module = $module;
-        $this->configuration = $configuration;
-    }
-
+    /**
+     * @AdminSecurity(
+     *     "is_granted('read', request.get('_legacy_controller')) && is_granted('update', request.get('_legacy_controller')) && is_granted('create', request.get('_legacy_controller')) && is_granted('delete', request.get('_legacy_controller'))",
+     *     message="Access denied."
+     * )
+     */
     public function indexAction(Request $request)
     {
+        if (!$this->module->isLicensed()) {
+            return $this->redirectToRoute('ps_legalcompliance_license');
+        }
+
+        $configurationForm = $this->createForm(
+            ConfigurationType::class,
+            $this->getConfigurationData()
+        );
+
+        $configurationForm->handleRequest($request);
+
+        if (
+            $configurationForm->isSubmitted()
+            && $configurationForm->isValid()
+        ) {
+            $formData = $configurationForm->getData();
+
+            if ($this->handleForm($formData)) {
+                $this->addFlash('success', $this->trans('Settings saved!', 'Modules.Pslegalcompliance.Admin'));
+
+                $this->redirectToRoute('ps_legalcompliance_configuration');
+            }
+        }
+
+        $paymentForm = $this->processAndGetPaymentForm($request);
+
         $labelForm = $this->getLabelFormHandler()->getForm();
         $virtualForm = $this->getVirtualFormHandler()->getForm();
         $generalForm = $this->getGeneralFormHandler()->getForm();
         $cmsForm = $this->getCmsFormHandler()->getForm();
         $emailForm = $this->getEmailFormHandler()->getForm();
 
-        return $this->render('@Modules/ps_legalcompliance/views/templates/admin/configuration.html.twig', [
+        return $this->render('views/templates/admin/configuration.html.twig', [
+            'configurationForm' => $configurationForm->createView(),
             'labelForm' => $labelForm->createView(),
             'virtualForm' => $virtualForm->createView(),
             'generalForm' => $generalForm->createView(),
             'cmsForm' => $cmsForm->createView(),
             'emailForm' => $emailForm->createView(),
             'emailTemplatesMissing' => $this->module->getNewEmailTemplates(),
+            'paymentForm' => $paymentForm !== null ? $paymentForm->createView() : null,
         ]);
+    }
+
+    private function handleForm($datas): bool
+    {
+        $result = true;
+
+        /* process form here */
+        // $this->updateConfiguration('CONFIG_VALUE', 'config_value', (int) $datas['config_value']);
+
+        return $result;
+    }
+
+    private function getConfigurationData(): array
+    {
+        return [
+            // 'config_value' => (int) $this->config->get('CONFIG_VALUE'),
+        ];
     }
 
     public function processLabelFormAction(Request $request)

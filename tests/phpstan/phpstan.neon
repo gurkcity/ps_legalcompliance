@@ -1,0 +1,17 @@
+includes:
+  - %currentWorkingDirectory%/vendor/prestashop/php-dev-tools/phpstan/ps-module-extension.neon
+
+parameters:
+  paths:
+    - ../../
+  excludePaths:
+    - ../../vendor/
+    - ../../_dev/
+    - ../../_releases/
+    - ../../node_modules/
+  reportUnmatchedIgnoredErrors: false
+  level: 5
+  ignoreErrors:
+    - '#on an unknown class AeucEmailEntity#'
+    - '#class AeucEmailEntity not found#'
+    - '#unknown class AeucEmailEntity#'

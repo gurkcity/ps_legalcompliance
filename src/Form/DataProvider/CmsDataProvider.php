@@ -1,11 +1,11 @@
 <?php
 
-namespace PSLegalcompliance\Form\DataProvider;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider;
 
 use PrestaShop\PrestaShop\Adapter\Configuration;
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
-use PSLegalcompliance\Roles;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 
 class CmsDataProvider implements FormDataProviderInterface
 {

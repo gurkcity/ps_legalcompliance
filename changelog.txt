@@ -1,73 +1,71 @@
-Changelog PrestaShop Modul Rechtssicherheit (ps_legalcompliance)
+Changelog PrestaShop PS Legalcompliance
 
 Version	Datum     	Bemerkung
-3.0.3	26.04.2021	Fork by Onlineshop-Module / Gurkcity
-3.0.4	05.05.2021	Feature: Add button and logic to insert missing templates into db table
-3.1.0	21.12.2021	Feature: added panel 'Mail Footer' on the configuration page
-					Feature: Display tax in footer
-					Bug: Notice on installation missing array index cms entity meta_title id_lang
-3.1.1	21.02.2022	Fix: hook display footer after
-3.1.2	14.03.2022	Fix: additional html in mail-templates
-					Update: display additional HTML in mails. Fix: display UTF-8 chars
-3.1.3	04.05.2022	new translation system
-					fix: classic email template dom element
-					fix: classic mail template footer
-3.1.4	21.05.2022	fix: translation test 2
-3.1.5	25.05.2022	fix: add modal container in footer template
-8.0.0	28.10.2022	New module version for PS8
-					fix: tools json decode for PS 8.0
-					fix: empty unit_price_full
-					fix: Eception for missing wrapper in emails
-8.1.0	30.01.2023	add label for virtual products
-					Improve german translations
-					Virtual Products Settings
-					add classname for hookDisplayCheckoutSubtotalDetails
-					switch from div to span element for keeping inline style
-					legal cms content as pdf file attachments in mails
-					fix: trans terms and conditions without htmlspecialchars replacements
-					Update ps_legalcompliance.php
-					Update: legal cms content as pdf file attachments in mails
-8.1.1	08.02.2023	Fix: cms list for virtual products
-					Add translation on Installation
-8.1.2	23.02.2023	Fix: unitprice net instead gros on category page / Grundpreis Netto statt Brutto auf Kategorieseite
-8.1.3	08.03.2023	fix: typo vritual product
-8.1.4	15.03.2023	Fix: register hook hookDisplayPaymentEU for the payment modules
-					Delete: backward compatibility with the hook paymentEU
-					Update: version 8.1.4
-8.1.5	01.05.2023	improve Translations
-					Delete config.xml
-					Fix: escaping special chars in cms roles within mails
-					code formatting
-8.1.6	12.06.2023	fix: rename link variable
-8.1.7	05.07.2023	Fix: undefined variable wrapper
-8.2.0	19.07.2023	Display links in Footer
-					Fix: display tax in footer issue
-8.2.1	28.07.2023	add module gc_unitprice to modify unit price display
-					complete translations
-8.2.2	02.08.2023	Fix: foreach() argument mist be of type array|object
-					fix: add unity to unit price on product listing page
-8.3.0	12.09.2023	New: added Show conditions checkbox
-8.3.1	27.09.2023	Fix translations
-8.3.2	01.01.2024	Fix: errors in demo shop FO
-					fix: hook name display header
-8.3.3	05.01.2024	Fix: displayPaymentEU Hook on Upgrade / Delete upgrade-1.5.1.php
-8.3.4	12.02.2024	cache hook displayProductPriceBlock with smarty for performance
-					clean code part 1 & 2
-					fix: admin form missing brakets
-8.3.5	12.04.2024	Fix: move checkout modal box to hook_before_body_closing_tag
-					Fix: set table layout fixed in cms-part in emails
-8.3.6	29.04.2024	fix: cache key by product id on display price block hook
-8.3.7	03.05.2024	fix: caching price block template and smarty assign
-8.3.8	27.05.2024	fix: fatal error
-					fix: missing var $type
-8.3.9	16.07.2024	fix: display tax info in footer switch
-8.4.0	18.07.2024	feat: added new option to display additional delivery info
-					fix: show delivery time in separate line
-8.4.1	28.07.2024	fix: virtual carts: do not update carrier delay in e-mail
-8.4.2	22.09.2024	fix: remove custom cart text default value
-					fix: escape "&" in email template
-					add edit button for cart table
-					alignment with conditions-checkbox off and lightbox issues
-8.4.3	04.10.2024	fix: edit button for cart table
-8.4.4	11.10.2024	fix: add step-edit class, remove css
-					
+1.0.0	01.01.2020	Modul Release
+3.0.6	21.06.2023	translate module template
+					fix: PS 8.0 compatibility Tools::jsonEncode json_encode
+					fix: module install query typo
+					remove translation sql
+					fix: set correct license params
+					fix: build license register query
+					feat: add display payment logo configuration
+					feat: enrich order history mail with hook sendMailAlterTemplateVars
+					fix: missing method getEmailTemplateContent
+					feat: new xlf translation script
+					ps version compliancy
+					fix: versions compliancy
+					rebrand OSM to GCD
+					update translation domain Front -> Shop
+					copyright version to 2023
+					fix: helper options field image
+					remove unused backup folder
+					module admin controller ajax render instead of ajaxdie
+					remove override folder
+					remove pdf folder
+					namespaces and bugs
+					Tools encrypt replate with hash
+					option multishop override
+					update, bugs
+					new gc module version
+3.0.7	28.07.2023	fix: PHP 8 issue remove __wakeup magic method
+					fix: smarty is_array deprecation
+					fix: remove deprecated functions
+					clean code
+					translation
+					remove unused template vars
+					fix: remove deprecated functions
+					feat: isset to empty
+					update index files
+3.0.8	24.08.2023	fix: Error ColorBrighnessCalculator
+3.0.9	19.10.2023	fix: Error ColorBrighnessCalculator
+					admin show log with smarty
+					fix: smarty admin options array
+					javascript frontoffice defer
+					fix: return type missing logger clear logs
+					add content to empty css and js files to prevent 404 error in frontoffic…
+					add module upgrade iformations
+					remove log emails
+					get context locale from tools class
+					admin controller translator
+					add config yml files
+3.0.10	19.10.2023	translateable tabs
+3.0.11	20.10.2023	tab language from static array
+3.0.12	01.11.2023	Improve Translations
+					Fix: add missing index files
+					Fix: rename hook displayPaymentReturn
+					Fix: helper options delete value multishop singel shop context
+3.0.13	02.11.2023	Fix translation domain
+					Update .gitignore
+					fix: multishop context definition
+3.0.14	02.12.2023	feat: improve composer autoload
+					update _dev descriptions
+					add missing translations
+					XLF translation tool filename/domain front -> shop
+3.0.16	09.10.2024	update options helper template multi select options
+					add composer classmap authoritative and php version 7
+					a lot of fixes
+3.0.17	28.11.2024	Upload individual payment logo
+					add translation fixtures for installation
+3.0.18	07.01.2025	fix: use TranslatorInterface for typehint
+					fix: ps_legalcompliancy check for required file
+9.0.0   01.01.2025  update to version 9.0

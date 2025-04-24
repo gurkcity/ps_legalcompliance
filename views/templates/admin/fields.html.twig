@@ -1,0 +1,47 @@
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+{% block image_file_widget %}
+  <style>
+    .custom-file-label:after {
+      content: "{{ "Browse"|trans({}, 'Admin.Actions')  }}";
+    }
+    .image {
+      padding: 5px 0;
+    }
+    .image img {
+      margin-right: 5px;
+      max-width: 100px;
+    }
+  </style>
+  {% if form.vars.image_file %}
+  <div class="image">
+    <img src="{{ form.vars.image_file }}" width="{{ form.vars.image_width }}" height="{{ form.vars.image_height }}" class="img-fluid" alt="{{ "Image"|trans({}, 'Admin.Actions')  }}">
+    Size: {{ form.vars.image_width }} x {{ form.vars.image_height }}
+  </div>
+  {% endif %}
+  <div class="custom-file">
+    {% set attr = attr|merge({
+      class: (attr.class|default('') ~ ' custom-file-input')|trim,
+      'data-multiple-files-text': '%count% file(s)'|trans({}, 'Admin.Global'),
+      'data-locale': get_context_iso_code()
+    }) -%}
+
+    {% if attr.disabled is defined and attr.disabled %}
+      {% set attr = attr|merge({
+        class: attr.class ~ ' disabled'
+      }) %}
+    {% endif %}
+    {{- block('form_widget_simple') -}}
+
+    <label class="custom-file-label" for="{{ form.vars.id }}">
+      {% set attributes = form.vars.attr %}
+      {{ attributes.placeholder is defined ?  attributes.placeholder : 'Choose file(s)'|trans({}, 'Admin.Actions') }}
+    </label>
+  </div>
+{% endblock image_file_widget %}

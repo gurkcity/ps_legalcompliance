@@ -1,125 +1,76 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop.
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@prestashop.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
- * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
- *
- * @author     PrestaShop SA <contact@prestashop.com>
- * @copyright  2007-2017 PrestaShop SA
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *  International Registered Trademark & Property of PrestaShop SA
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
  */
 
-use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
-use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
-use PrestaShop\PrestaShop\Core\Foundation\Filesystem\FileSystem;
-use PrestaShop\PrestaShop\Core\Email\EmailLister;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\EmailTemplateFinder;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleHelperTrait;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleLicenseTrait;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModulePaymentTrait;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleTrait;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\VirtualCart;
+use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
-use PSLegalcompliance\EmailTemplateFinder;
-use PSLegalcompliance\Install;
-use PSLegalcompliance\Roles;
-use PSLegalcompliance\VirtualCart;
-
-require_once __DIR__ . '/vendor/autoload.php';
+use PrestaShop\PrestaShop\Core\Email\EmailLister;
+use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-class Ps_LegalCompliance extends Module
-{
-    protected $config_form = false;
-    protected $entity_manager;
-    protected $filesystem;
-    protected $email;
-    protected $_errors = [];
-    protected $_warnings = [];
+require_once __DIR__ . '/vendor/autoload.php';
 
-    public function __construct(
-        EntityManager $entity_manager,
-        FileSystem $fs,
-        EmailLister $email
-    ) {
+class PS_Legalcompliance extends PaymentModule
+{
+    use ModuleTrait;
+    use ModuleHelperTrait;
+    use ModuleLicenseTrait;
+    use ModulePaymentTrait;
+
+    const GC_VERSION = '9.0.0';
+    const GC_SUBVERSION = '39';
+
+    public function __construct()
+    {
+        $this->version = '9.0.1';
+
         $this->name = 'ps_legalcompliance';
-        $this->tab = 'administration';
-        $this->version = '9.0.0';
-        $this->author = 'PrestaShop';
-        $this->need_instance = 0;
-        $this->bootstrap = true;
+
+        $this->author = 'Gurkcity';
+
+        $this->ps_versions_compliancy = [
+            'min' => '8.1.0',
+            'max' => _PS_VERSION_,
+        ];
+
+        $this->tab = 'front_office_features';
+
+        $this->displayName = $this->trans('Legal Compliance', [], 'Modules.Pslegalcompliance.Admin');
+        $this->displayNamePre = $this->trans('Legal', [], 'Modules.Pslegalcompliance.Admin');
+        $this->displayNamePost = $this->trans('Compliance', [], 'Modules.Pslegalcompliance.Admin');
+        $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', [], 'Modules.Pslegalcompliance.Admin');
+        $this->description_full = $this->trans('Continue to cultivate the growth of your business with a sense of calm and peace of mind. Expand your reach across the diverse markets of Europe, offering your products or services successfully in all regions. Simultaneously, maintain a steadfast commitment to adhering to all relevant e-commerce regulations, ensuring a solid and legally sound foundation for your expansion. This approach allows you to focus serenely on the ongoing development of your enterprise while providing a trustworthy and compliant shopping experience for your customers throughout Europe.', [], 'Modules.Pslegalcompliance.Admin');
 
         parent::__construct();
 
-        /* Register dependencies to module */
-        $this->entity_manager = $entity_manager;
-        $this->filesystem = $fs;
-        $this->email = $email;
-
-        $this->displayName = $this->trans('Legal Compliance', [], 'Modules.Legalcompliance.Admin');
-        $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', [], 'Modules.Legalcompliance.Admin');
-        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Legalcompliance.Admin');
-
-        $this->ps_versions_compliancy = [
-            'min' => '8.0',
-            'max' => _PS_VERSION_
-        ];
-
-        $this->_errors = [];
+        $this->initModule();
     }
 
-    public function install()
+    public function enablePost()
     {
-        if (!parent::install()) {
-            return false;
-        }
-
-        $install = new Install($this, $this->entity_manager, $this->email, $this->context);
-
-        return $install->install();
+        return Configuration::updateValue('PS_ATCP_SHIPWRAP', true);
     }
 
-    public function uninstall()
+    public function disablePost()
     {
-        $install = new Install($this, $this->entity_manager, $this->email, $this->context);
-
-        if ($install->uninstall()) {
-            return parent::uninstall();
-        }
-
-        return false;
-    }
-
-    public function disable($force_all = false)
-    {
-        if (!parent::disable()) {
-            return false;
-        }
-
-        $install = new Install($this, $this->entity_manager, $this->email, $this->context);
-
-        return $install->disable();
-    }
-
-    public function hookActionAdminControllerSetMedia($params)
-    {
-        $controller = Context::getContext()->controller;
-
-        if ($controller->php_self === 'PSLegalcomplianceConfigurationAdminController') {
-            $controller->addJS($this->getPathUri() . 'views/js/email_attachement.js');
-        }
+        return Configuration::updateValue('PS_ATCP_SHIPWRAP', false);
     }
 
     public function hookDisplayCartTotalPriceLabel($param)
@@ -231,7 +182,7 @@ class Ps_LegalCompliance extends Module
                 Roles::ENVIRONMENTAL,
             ];
 
-            $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+            $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
             $cms_pages_associated = $cms_role_repository->findByName($cms_roles_to_be_displayed);
             $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
             $cms_links = [];
@@ -280,8 +231,8 @@ class Ps_LegalCompliance extends Module
         $cacheId = $this->getCacheId($this->name . '|hookDisplayFooterAfter|' . $this->context->controller->php_self . '|' . $idCountry);
 
         if (!$this->isCached($template, $cacheId)) {
-            $cmsRepository = $this->entity_manager->getRepository('CMS');
-            $cmsRoleRepository = $this->entity_manager->getRepository('CMSRole');
+            $cmsRepository = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
+            $cmsRoleRepository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
             $cmsPageShippingPay = $cmsRoleRepository->findOneByName(Roles::SHIP_PAY);
 
             $link_shipping = false;
@@ -355,7 +306,7 @@ class Ps_LegalCompliance extends Module
 
         $tmp_cms_role_list = array_column($cms_role_ids, 'id_cms_role');
 
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+        $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
 
         return $tmp_cms_role_list
             ? $cms_role_repository->findByIdCmsRole($tmp_cms_role_list)
@@ -369,7 +320,7 @@ class Ps_LegalCompliance extends Module
         }
 
         $cms_roles = $this->getCmsRolesForMailTemplate((string) $params['template'], (int) $params['idLang']);
-        $cms_repo = $this->entity_manager->getRepository('CMS');
+        $cms_repo = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
         $pdf_attachment = $this->getPDFAttachmentOptions();
 
         if (empty($cms_roles)) {
@@ -414,7 +365,7 @@ class Ps_LegalCompliance extends Module
         $id_lang = (int) $param['id_lang'];
         $cms_roles = $this->getCmsRolesForMailTemplate((string) $param['template'], (int) $param['id_lang']);
 
-        $cms_repo = $this->entity_manager->getRepository('CMS');
+        $cms_repo = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
         $cms_contents = [];
         $pdf_attachment = $this->getPDFAttachmentOptions();
 
@@ -561,9 +512,11 @@ class Ps_LegalCompliance extends Module
             ]
         );
 
+        $idCms = (int) Tools::getValue('id_cms');
+
         if (
             $this->context->controller instanceof CMSController
-            && $this->isPrintableCMSPage()
+            && $this->isPrintableCMSPage($idCms)
         ) {
             $this->context->controller->registerStylesheet(
                 'modules-aeuc_print',
@@ -616,7 +569,7 @@ class Ps_LegalCompliance extends Module
     protected function isPrintableCMSPage(int $idCms): bool
     {
         $printable_cms_pages = [];
-        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+        $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
 
         foreach ([Roles::CONDITIONS, Roles::REVOCATION, Roles::SHIP_PAY, Roles::PRIVACY] as $cms_page_name) {
             $cms_page_associated = $cms_role_repository->findOneByName($cms_page_name);
@@ -644,7 +597,7 @@ class Ps_LegalCompliance extends Module
         $cacheId = $this->getCacheId($this->name . '|hookDisplayCMSDisputeInformation|' . $idCms);
 
         if (!$this->isCached($template, $cacheId)) {
-            $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+            $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
             $cms_page_associated = $cms_role_repository->findOneByName(Roles::NOTICE);
 
             $isAssociated = false;
@@ -669,8 +622,8 @@ class Ps_LegalCompliance extends Module
     {
         $returnedTermsAndConditions = [];
 
-        $cmsRepository = $this->entity_manager->getRepository('CMS');
-        $cmsRoleRepository = $this->entity_manager->getRepository('CMSRole');
+        $cmsRepository = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
+        $cmsRoleRepository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
         $cmsPageConditionsAssoiciated = $cmsRoleRepository->findOneByName(Roles::CONDITIONS);
         $cmsPageRevocationAssociated = $cmsRoleRepository->findOneByName(Roles::REVOCATION);
         $cmsPagePrivacyAssociated = $cmsRoleRepository->findOneByName(Roles::PRIVACY);
@@ -804,7 +757,7 @@ class Ps_LegalCompliance extends Module
                 $showButton = false;
             }
 
-            $cms_repository = $this->entity_manager->getRepository('CMS');
+            $cms_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
             $cms_current = $cms_repository->i10nFindOneById(
                 $idCms,
                 (int) $this->context->language->id,
@@ -904,8 +857,8 @@ class Ps_LegalCompliance extends Module
 
                 if (Configuration::get('AEUC_LABEL_SHIPPING_INC_EXC')) {
                     if (!$product['is_virtual']) {
-                        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-                        $cms_repository = $this->entity_manager->getRepository('CMS');
+                        $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
+                        $cms_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
                         $cms_page_associated = $cms_role_repository->findOneByName(Roles::SHIP_PAY);
 
                         if (isset($cms_page_associated->id_cms) && $cms_page_associated->id_cms != 0) {
@@ -929,7 +882,7 @@ class Ps_LegalCompliance extends Module
                         $cms_ship_pay_id = (int) Configuration::get('AEUC_VP_CMS_ID');
 
                         if ($cms_ship_pay_id) {
-                            $cms_ship_pay = $this->entity_manager
+                            $cms_ship_pay = ServiceLocator::get(EntityManager::class)
                                 ->getRepository('CMS')
                                 ->i10nFindOneById($cms_ship_pay_id, $this->context->language->id, $this->context->shop->id);
 
@@ -943,8 +896,8 @@ class Ps_LegalCompliance extends Module
                             );
                         }
                     } else {
-                        $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
-                        $cms_repository = $this->entity_manager->getRepository('CMS');
+                        $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
+                        $cms_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
                         $cms_page_associated = $cms_role_repository->findOneByName(Roles::SHIP_PAY);
 
                         if (isset($cms_page_associated->id_cms) && !$cms_page_associated->id_cms) {
@@ -1038,7 +991,7 @@ class Ps_LegalCompliance extends Module
         $cacheId = $this->getCacheId($this->name . '|hookDisplayCheckoutSubtotalDetails');
 
         if (!$this->isCached($template, $cacheId)) {
-            $cms_role_repository = $this->entity_manager->getRepository('CMSRole');
+            $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
             $cms_page_shipping_and_payment = $cms_role_repository->findOneByName(Roles::SHIP_PAY);
             $link_shipping_payment = $this->context->link->getCMSLink((int) $cms_page_shipping_and_payment->id_cms);
 
@@ -1052,27 +1005,23 @@ class Ps_LegalCompliance extends Module
 
     public function getNewEmailTemplates(): array
     {
-        $emailTemplateFinder = new EmailTemplateFinder($this->email);
+        $emailTemplateFinder = ServiceLocator::get(EmailTemplateFinder::class);
 
         return $emailTemplateFinder->findNewEmailTemplates();
     }
 
     private function insertEmailTemplates(array $email_templates)
     {
+        $emailLister = ServiceLocator::get(EmailLister::class);
+
         foreach ($email_templates as $mail) {
             $new_email = new AeucEmailEntity();
             $new_email->filename = (string) $mail;
-            $new_email->display_name = $this->email->getCleanedMailName($mail);
+            $new_email->display_name = $emailLister->getCleanedMailName($mail);
             $new_email->save();
 
             unset($new_email);
         }
-    }
-
-    public function getContent()
-    {
-        $redirect = SymfonyContainer::getInstance()->get('router')->generate('legalcompliance');
-        Tools::redirectAdmin($redirect);
     }
 
     public function getCMSRoles()
@@ -1086,11 +1035,6 @@ class Ps_LegalCompliance extends Module
             Roles::ENVIRONMENTAL => $this->trans('Environmental notice', [], 'Modules.Legalcompliance.Admin'),
             Roles::SHIP_PAY => $this->trans('Shipping and payment', [], 'Modules.Legalcompliance.Admin'),
         ];
-    }
-
-    public function isUsingNewTranslationSystem()
-    {
-        return true;
     }
 
     private function getPDFAttachmentOptions()

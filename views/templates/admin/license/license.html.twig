@@ -1,0 +1,47 @@
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+
+{% extends '@Modules/ps_legalcompliance/views/templates/admin/header/moduleheader.html.twig' %}
+{% form_theme licenseForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-xl-10">
+    {{ form_start(licenseForm) }}
+    <div class="card">
+      <h3 class="card-header">
+        <i class="material-icons">description</i> {{ 'License agreement'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+      </h3>
+
+      <div class="card-body">
+        <p>{{ 'If you want to use this Module, please enter your license code here. You can get it in your customer account at Onlineshop-Module.de %tag_start%"Onlineshop-module.de"%tag_end%.'|trans({
+          '%tag_start%': '<a href="http://www.onlineshop-module.de/lizenz-registrieren" target="_blank">',
+          '%tag_end%': '</a>',}, 'Modules.Pslegalcompliance.Admin')|raw }}</p>
+        <div class="form-wrapper">
+          {{ form_widget(licenseForm) }}
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-primary">{{ 'Save License and continue...'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</button>
+        </div>
+      </div>
+    </div>
+    {{ form_end(licenseForm) }}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_javascripts %}
+  {{ parent() }}
+  <script>
+    $('#head_tabs').hide();
+    $('#info_panel').css('margin-bottom', '2rem');
+  </script>
+{% endblock %}

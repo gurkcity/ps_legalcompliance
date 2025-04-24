@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="admin-dev" source-language="de-DE" target-language="de-DE" datatype="plaintext">
+    <body>
+      <trans-unit id="ec833c896da4a7349e562bd742fcb606">
+        <source>PS Legalcompliance</source>
+        <target>PS Legalcompliance</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="d96a7b792e2c0ac09384ea347a125244">
+        <source>Module Name 1</source>
+        <target>Modul Name 1</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="61f17295d0dbe116f72c4a6708953953">
+        <source>Module Name 2</source>
+        <target>Modul Name 2</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="d8b26cc297845a3433be359f2fc5873b">
+        <source>Module Description</source>
+        <target>Modul Beschreibung</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="8738879ac8972938f7e38d0e375aaa51">
+        <source>Module Description Extended</source>
+        <target>Erweiterte Modulbeschreibung</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ba85d14a739b96b8523a8cf0c04663a6">
+        <source>Payment settings saved.</source>
+        <target>Zahlungseinstellungen gespeichert.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="53103fcc4656f55c219b600ded3c7438">
+        <source>Manage hooks</source>
+        <target>Hooks verwalten</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="deccbe4e9083c3b5f7cd2632722765bb">
+        <source>Translate</source>
+        <target>Übersetzen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="519928d26756f485aa6dde0b4023a003">
+        <source>Settings saved!</source>
+        <target>Einstellungen gespeichert!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c2f9e106741b37195a2c4c739e4d9ed2">
+        <source>License accepted. Now You can use the full features of this module.</source>
+        <target>Lizenschlüssel akzeptiert. Sie können nun alle Features dieses Moduls uneingeschränkt nutzen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="06afcfe30b5ceaf64f68d967965359e7">
+        <source>Log files could not be deleted!</source>
+        <target>Logdateien konnten nicht gelöscht werden!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2737aad061ceb54df515ab92fbc2dc85">
+        <source>Log files have been cleared</source>
+        <target>Logdateien wurden gelöscht</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e917952bbff398b5e9eae100e28d0e5b">
+        <source>Log file could not be deleted!</source>
+        <target>Logdateien konnten nicht gelöscht werden!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f31bec38dddfcb51c4712b10de8b55df">
+        <source>Log fils have been deleted</source>
+        <target>Logdateien wurden gelöscht</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="0ced31c8ace33128dac9f4337956b1fe">
+        <source>Reset failed on some hooks!</source>
+        <target>Das Zurücksetzen ist bei einigen Hooks fehlgeschlagen!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="951814b8ca7eecd573fa16cf83fee1e6">
+        <source>All hooks have been reset successfully</source>
+        <target>Alle Hooks wurden erfolgreich zurückgesetzt</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9ace91987416775acafdb959292d856d">
+        <source>Reset failed on some tabs!</source>
+        <target>Das Zurücksetzen ist bei einigen Menüeinträgen fehlgeschlagen!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4fb02e115743467cfbf305c9f70d3ef8">
+        <source>All tabs have been reset successfully</source>
+        <target>Alle Menüeinträge wurden erfolgreich zurückgesetzt</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ddd7a78d6cd4a0bc336ebd4fdd563b91">
+        <source>Reset SQL failed!</source>
+        <target>SQL zurücksetzen fehlgeschlagen!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="04b62052e52144a15f68c97ae26d4e5a">
+        <source>SQL queries has been executed successfully</source>
+        <target>SQL-Abfragen wurden erfolgreich ausgeführt</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="89fda1440e8bd51f913dca480cc7cadc">
+        <source>Install missing configuration failed!</source>
+        <target>Die Installation der fehlenden Konfiguration ist fehlgeschlagen!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9e766ca86cd6fb4092f690b503020730">
+        <source>Missing configuration installed successfully</source>
+        <target>Fehlende Konfiguration erfolgreich installiert</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="eca9090987d34f7db237dad2290c04db">
+        <source>Reset of controller failed!</source>
+        <target>Reset der Controller fehlgeschlagen!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ae83b33500f049643d8056bfcb1172c2">
+        <source>Controller reseted successfully</source>
+        <target>Controller erfolgreich zurückgesetzt</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="85a146ee20225afb6528729e67145cec">
+        <source>Take this cron url to prepare the cronjob for the action '%action_name%'</source>
+        <target>Verwenden Sie diese Cron-URL, um den Cronjob für die Aktion '%action_name%' vorzubereiten.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="b5e29765c117848c3c26f57906560a73">
+        <source>Cron run on maintenance</source>
+        <target>Cron wird im Wartungsmodus ausgeführt</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="6592630e9c9af7131f492f42cb73dde7">
+        <source>Run cronjobs even maintenance mode is on.</source>
+        <target>Führen Sie Cronjobs aus, auch wenn der Wartungsmodus aktiviert ist.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="025b6852a51e9f57b4b686bf5291a9eb">
+        <source>Rows per run</source>
+        <target>Zeilen pro Lauf</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f514f587af7e1266dc94dc9a8f50a80c">
+        <source>How many lines should be processed per cronjob call? Please note the average runtime of the cron jobs in relation to the execution interval.</source>
+        <target>Wie viele Zeilen sollen pro Cronjob-Aufruf verarbeitet werden? Bitte beachten Sie die durchschnittliche Laufzeit der Cronjobs im Verhältnis zum Ausführungsintervall.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c9df1aa2176c7f1e5aaf355ef51d3fee">
+        <source>Please select a number greater than zero.</source>
+        <target>Bitte wählen Sie eine Zahl größer als Null.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="88604cba295e1865f4411f96e99a3a69">
+        <source>License Code</source>
+        <target>Lizenzschlüssel</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9be0ed7142747d2fb5046255b767e79c">
+        <source>This license code seems not to be valid</source>
+        <target>Dieser Lizenzschlüssel scheint ungültig zu sein</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="7b1cc07c283826f9245b2cd606936ca6">
+        <source>Yes! I Accept the privacy policy.</source>
+        <target>Ja! ich akzeptiere die Datenschutzbestimmungen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="86d3bd315b7853f4a5a98a37fc0311c2">
+        <source>If you click on 'save and continue' some parameters of your onlinestore will be send to the domain https://www.onlineshop-module.de and your license will be activatet. This parameters contains: Licensecode, referer of your Browser, domain of your onlienestore, version of this module.</source>
+        <target>Wenn Sie auf „Speichern und fortfahren“ klicken, werden einige Parameter Ihres Onlineshops an die Domain https://www.onlineshop-module.de gesendet und Ihre Lizenz aktiviert. Diese Parameter enthalten: Lizenzschlüssel, Referrer Ihres Browsers, Domain Ihres Onlineshops, Version dieses Moduls.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="589d13eaaa57a7987e2846e4795573e5">
+        <source>Please accept the privacy policy</source>
+        <target>Bitte akzeptieren Sie die Datenschutzerklärung</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a74ccc444d6b765cef99475095bcbaaa">
+        <source>Log Level</source>
+        <target>Log Level</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="6ddef5412b550d449a068abae66205a2">
+        <source>Determine from which log level the messages should be recorded. Set the log level lower than WARNING only for debug purposes, otherwise the files will be too large.</source>
+        <target>Legen Sie fest, ab welchem Level die Logs aufgezeichnet werden sollen. Stellen Sie die Protokollstufe nur für Debugzwecke auf einen niedrigeren Wert als WARNUNG ein, da die Dateien sonst zu groß werden.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="78328bd27c031bf7ff7e23e21d61a535">
+        <source>Order State after placing an order</source>
+        <target>Bestellstatus, nachdem die Bestellung aufgegeben wurde</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="bb1a9ed46c931fad1da21728f30ecbd6">
+        <source>The order state after a customer placed an order.</source>
+        <target>Der Bestellstatus, der unmittelbar nach der Bestellaufgabe des Kunden im System erscheint. Üblicherweise verschickt dieser keine E-Mail und wird dem Kunden auch nicht angezeigt.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5e50809b704cfa2e87ed916bfa56a1b3">
+        <source>Please select a valid order state.</source>
+        <target>Bitte wählen Sie einen gültigen Bestellstatus aus.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="86514803e5a513ddace2adbf4bb0d111">
+        <source>Order State Awaiting Payment</source>
+        <target>Warten auf Zahlungseingang</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="90f65f88c715939163cceeff23d1aa06">
+        <source>Automatically set the order state to 'awaiting payment' after order was created.</source>
+        <target>Setzt den Bestellstatus automatisch auf 'Warten auf Zahlungseingang' nachdem die Bestellung aufgegeben wurde.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f20afed90eceea6221f507ea8aff3085">
+        <source>The order state after customer placed an order and waiting for payment.</source>
+        <target>Dies ist ein Folgestatus, der eine E-Mail mit weiteren Angaben an den Kunden schicken kann. Wird nur angewendet, wenn die Option \"Warten auf Zahlungseingang\" auf \"JA\" steht.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="36e802cbfb7959f4460894d672f179bf">
+        <source>Show Payment Logo</source>
+        <target>Zahlungslogo anzeigen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2fc0fa62169d1294266a8e86e179fde1">
+        <source>Display the payment logo on checkout payment selection.</source>
+        <target>Zeigen Sie das Zahlungslogo bei der Zahlungsauswahl an der Kasse an.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5caa8aba5815a7cf17e557b7a1977bc7">
+        <source>Awaiting payment: %display_name%</source>
+        <target>Warten auf Zahlungseingang: %display_name%</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e2bd28808c03bda089a0a3afd09dfcfd">
+        <source>Name of the cronjob</source>
+        <target>Name of the cronjob</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="cd7c21d402607ef26772f91de9c62ccb">
+        <source>This cron job does super cool things in your webshop.</source>
+        <target>This cron job does super cool things in your webshop.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4a8e2b7478a54f57b5341c94bfea3958">
+        <source>Description for parameter</source>
+        <target>Description for parameter</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e1c5a5b36ede6b8c1ddea563b56ab3c8">
+        <source>Parameter 1 value description</source>
+        <target>Parameter 1 value description</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c0ea057b65fdb85c96c3ce1a01bb5cd8">
+        <source>Parameter 2 value description</source>
+        <target>Parameter 2 value description</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="db48242495babd891229136018ed5be4">
+        <source>This module is disabled. Please enable it.</source>
+        <target>Dieses Modul ist deaktiviert. Um es zu konfigurieren zu können, müssen Sie es aktivieren.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="83c8b8fa47a5a4b4b750ac3eba10b0f6">
+        <source>%count% image(s)</source>
+        <target>%count% Bild(er)</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ed13b3693357ebed3751cb71cb639e65">
+        <source>No carrier</source>
+        <target>Kein Lieferant</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="44aa13304026bb46ad79f4151f16634a">
+        <source>(waiting for validation)</source>
+        <target>(warten auf Validierung)</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+        <source>Yes</source>
+        <target>Ja</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+        <source>No</source>
+        <target>Nein</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="254f642527b45bc260048e30704edb39">
+        <source>Configuration</source>
+        <target>Einstellung</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
+        <source>Save</source>
+        <target>Speichern</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="dece56930ee76a163856963cc6c6b953">
+        <source>Cron Queue</source>
+        <target>Cron Warteschlange</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a22452e6fbb65bc8e1b204ef4f633149">
+        <source>No stats about the cron queue available</source>
+        <target>Keine Statistiken zur Cron-Warteschlange verfügbar</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a1fa27779242b4902f7ae3bdd5c6d508">
+        <source>Type</source>
+        <target>Typ</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ec53a8c4f07baed5d8825072c89799be">
+        <source>Status</source>
+        <target>Status</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ab92b706928f6f07bee0102c7ea39b00">
+        <source>Runtime [s] (avg / min / max)</source>
+        <target>Laufzeit [s] (Durchschnitt / Min. / Max.)</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e2bca7a52e8f759b23a1d4781ac22913">
+        <source>Count Rows</source>
+        <target>Anzahl Zeilen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a1bd42dd3b0a7c93e8ea528a74d97abd">
+        <source>In Execution</source>
+        <target>In Ausführung</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="37ae3959ff931a36a5157d1d971d964c">
+        <source>Executed</source>
+        <target>Ausgeführt</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5706de961fb376d701be6e7762d8b09c">
+        <source>Waiting</source>
+        <target>Wartend</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="7b596b44ed412bb168741e7230b03d8b">
+        <source>Cronjobs</source>
+        <target>Cronjobs</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2e135c64ae882cdebae8a7745c83f2eb">
+        <source>Show cronjob properties</source>
+        <target>Zeige Cronjob Einstellungen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="963ae6068b8445589c369d7128bb5b07">
+        <source>Possible cron calls</source>
+        <target>Mögliche Cron-Aufrufe</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4c3880bb027f159e801041b1021e88e8">
+        <source>Method</source>
+        <target>Methode</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c3755e61202abd74da5885d2e9c9160e">
+        <source>Call</source>
+        <target>Aufruf</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="69a22d68d6268a3a95315d0575f0770d">
+        <source>Additional parameters</source>
+        <target>Zusätzliche Parameter</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="49ee3087348e8d44e1feda1917443987">
+        <source>Name</source>
+        <target>Name</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c82a6100dace2b41087ba6cf99a5976a">
+        <source>Values</source>
+        <target>mögliche Werte</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39">
+        <source>Description</source>
+        <target>Beschreibung</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="3a1d5ff0ed27045fc25776f283afba53">
+        <source>Add this</source>
+        <target>das hinzufügen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="716f6b30598ba30945d84485e61c1027">
+        <source>close</source>
+        <target>schließen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="175e26e2089a9f065b191925948bb4d2">
+        <source>Execute cron '%cron_name%' now!</source>
+        <target>Cronjob '%cron_name%' jetzt ausführen!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f4f70727dc34561dfde1a3c529b6205c">
+        <source>Settings</source>
+        <target>Einstellungen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4221666818938f328c482cda04c53fdc">
+        <source>Gurkcity creates professional and individual modules and addons for PrestaShop onlinestores since 2010.</source>
+        <target>Gurkcity entwickelt seit 2010 professionelle und individuelle Module und Add-ons für PrestaShop-Onlineshops.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="13d6aa5a5722145453f2f045a2030dfd">
+        <source>Get more information from the links below.</source>
+        <target>Erfahren Sie mehr über die folgenden Links.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a77d1540925b8613ddf32b875e4c4685">
+        <source>License key</source>
+        <target>Lizenzschlüssel</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5e850cf22d2b219f0f9a1a81030faaf7">
+        <source>Please consider our license disclaimer.</source>
+        <target>Bitte beachten Sie unsere Lizenzbedingungen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a718d6ad4ccf69d250b8feefacd6bed2">
+        <source>License agreement</source>
+        <target>Lizenzvereinbarung</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="91d8309ff86435f6c2be2c9765ac5889">
+        <source>If you want to use this Module, please enter your license code here. You can get it in your customer account at Onlineshop-Module.de %tag_start%"Onlineshop-module.de"%tag_end%.</source>
+        <target>Wollen Sie die kompletten Features dieses Moduls verwenden, müssen Sie hier Ihren erworbenen Lizenzschlüssel eingeben. Sie erhalten diesen in Ihrem Kundenkonto auf %tag_start%Onlineshop-module.de%tag_end%.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="97996b3b04dbc3f5d0748b292ba48ac0">
+        <source>Save License and continue...</source>
+        <target>Lizenz speichern und weiter...</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9cc09ef9672a0c4d96f86bb1157329b1">
+        <source>Existing Logs</source>
+        <target>Vorhandene Logs</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="0b27918290ff5323bea1e3b78a9cf04e">
+        <source>File</source>
+        <target>Datei</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="6f6cb72d544962fa333e2e34ce64f719">
+        <source>Size</source>
+        <target>Größe</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="004bf6c9a40003140292e97330236c53">
+        <source>Action</source>
+        <target>Aktion</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="099af53f601532dbd31e0ea99ffdeb64">
+        <source>delete</source>
+        <target>löschen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a4aa14f65b7d13f94953ba10245f5456">
+        <source>There are no logfiles yet</source>
+        <target>Es gibt noch keine Logs</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="67fd6c2ed402914b08701f21af350cc5">
+        <source>Clear Logs</source>
+        <target>Logdateien löschen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="7352599cad1d58e5d229643e93a9c709">
+        <source>Log Settings</source>
+        <target>Log Einstellungen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9dfc5d5738312210c3c75e68a468691d">
+        <source>Advanced Options</source>
+        <target>Erweiterte Optionen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="006449f62dd9df8f8144fe3f79852a1c">
+        <source>Change license code</source>
+        <target>Lizenzschlüssel ändern</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="43f5bf9039b19e7a330a86d2fd6d764c">
+        <source>This list shows the configuration that installs this module. If the configuration values are not installed correctly, you can reset them here.</source>
+        <target>Diese Liste zeigt die Konfiguration, die dieses Modul installiert. Sollten die Konfigurationswerte nicht korrekt installiert sein, können Sie diese hier zurücksetzen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="689202409e48743b914713f96d93947c">
+        <source>Value</source>
+        <target>Wert</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f45ba9a3a1dd691449b3749e50da6514">
+        <source>missing!</source>
+        <target>fehlt!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="444bcb3a3fcf8389296c49467f27e1d6">
+        <source>ok</source>
+        <target>ok</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="3b98c3ae710710c492ccb2d917049f55">
+        <source>There is no configuration for this module to install</source>
+        <target>Es gibt keine Konfiguration für die Installation dieses Moduls</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2d652d543e567cfc4f3b693448d4cebd">
+        <source>Install missing configuration</source>
+        <target>Fehlende Konfiguration installieren</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9bbf373797bf7cf7ba62c80023682e25">
+        <source>Controller</source>
+        <target>Controller</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="56d4f2fa44b4083bfc1fe60ff6b78337">
+        <source>This list shows the controller that installs this module. If a controller values are not installed correctly, you can reset them here.</source>
+        <target>Diese Liste zeigt den Controller, der dieses Modul installiert. Sollten die Werte eines Controllers nicht korrekt installiert sein, können Sie diese hier zurücksetzen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a9a2a79de5a35975f451622567c27c3b">
+        <source>There are no controllers for this module to install</source>
+        <target>Für dieses Modul müssen keine Controller installiert werden</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="40fc12ca96502f1c9228916beb60ca5c">
+        <source>Install missing controller</source>
+        <target>Fehlende Controller installieren</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="35ad48797a780091740cbcf14ebc094d">
+        <source>Hooks</source>
+        <target>Hooks</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="8890bdbd10d6ec6a3f7d66d6b02bfee3">
+        <source>This list shows all hooks used by the module. If not all hooks are registered, you can fix this with the button below.</source>
+        <target>Diese Liste zeigt alle vom Modul verwendeten Hooks. Sollten nicht alle Hooks registriert sein, können Sie dies mit der Schaltfläche unten beheben.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="97302e3d521f43eea39a3f151a75aafd">
+        <source>Hook Name</source>
+        <target>Hook Name</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="39f27d90e77dc11aacbfc6425cc6f466">
+        <source>not registered!</source>
+        <target>nicht eingetragen!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="33beca8d591f74238fc5015259d05cd4">
+        <source>There are no hooks for this module to register</source>
+        <target>Es gibt keine Hooks für die Registrierung dieses Moduls</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="1225a8735e5fd16cad37c5e051a4fc2c">
+        <source>registerd but unnecessary!</source>
+        <target>registriert aber unnötig</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a13aca68c7bbc575afcf339c5d730a5c">
+        <source>Reset missing hooks</source>
+        <target>Hooks zurücksetzen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e307db07b3975fef922a80d07455ee5e">
+        <source>Database</source>
+        <target>Datenbank</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5d29c975eb484d3d5b80d0cec85f3b5f">
+        <source>The SQL schema and all differences to the current database are shown here.</source>
+        <target>Hier werden das SQL-Schema und alle Unterschiede zur aktuellen Datenbank angezeigt.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="8fa7b05ab45935bf4833909578a3a3e5">
+        <source>Table Name</source>
+        <target>Tabellenname</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f1eef360f0ed34e642661a9ff81a99f4">
+        <source>failure!</source>
+        <target>Fehler!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ab82db9002a2ded54eed989a4277745e">
+        <source>There is no SQL to install for this module</source>
+        <target>Es gibt kein SQL für dieses Modul zu installieren.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2263b2d7b770509a501b4a82237e2ad5">
+        <source>Differences:</source>
+        <target>Unterschiede:</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5fbc4dceb62361daaf8e2299ca551604">
+        <source>Reset SQL</source>
+        <target>SQL zurücksetzen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="7015777bcc86cd0c5e4819310d62b040">
+        <source>Tabs</source>
+        <target>Menüeinträge</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="794b6dc2e065a17ba6a0d751519faadd">
+        <source>This list shows all admin tabs of the module that should be registered. If not all tabs are registered, you can fix this with the button below.</source>
+        <target>In dieser Liste werden alle Menüeinträge des Moduls angezeigt, die registriert werden sollen. Sollten nicht alle Menüeinträge registriert sein, können Sie dies mit der Schaltfläche unten beheben.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c2cbbd1334f282e8e5526d162816b8e2">
+        <source>Tab Name</source>
+        <target>Menü-Name</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a5cd3ed116608dac017f14c046ea56bf">
+        <source>Roles</source>
+        <target>Roles</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="64dc4422a5a5ad3f2bc3e14c76bdd469">
+        <source>There are no tabs for this module to register</source>
+        <target>Für dieses Modul sind keine Menüeinträge zum Registrieren vorhanden</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="581ee648ccfc6dc8d4e57fffb20d4046">
+        <source>This list shows admin tabs that are no longer needed</source>
+        <target>Diese Liste zeigt alle Admin Tabs des Moduls, die nicht nicht benötigt werden</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="42938ec493fb522f11713bdcfd062ebb">
+        <source>unecessary</source>
+        <target>unnötig</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2e2108e4cc17f535d1e2d27fdf471447">
+        <source>Reset tabs</source>
+        <target>Menüeinträge zurücksetzen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4a04490d2817c00012562df7bc43299d">
+        <source>Payment Configuration</source>
+        <target>Einstellungen für die Bezahlung</target>
+        <note>Line: </note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

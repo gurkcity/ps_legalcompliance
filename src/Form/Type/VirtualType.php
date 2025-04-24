@@ -1,6 +1,6 @@
 <?php
 
-namespace PSLegalcompliance\Form\Type;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type;
 
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShopBundle\Form\Admin\Type\MultistoreConfigurationType;

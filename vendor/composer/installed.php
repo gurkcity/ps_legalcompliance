@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => 'prestashop/ps_legalcompliance',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '589bb2bff37ecca3589355e9bf13adbcae8ae4ca',
+        'name' => 'onlineshopmodule/ps_legalcompliance',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => NULL,
         'type' => 'prestashop-module',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
-        'prestashop/ps_legalcompliance' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '589bb2bff37ecca3589355e9bf13adbcae8ae4ca',
+        'onlineshopmodule/ps_legalcompliance' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => NULL,
             'type' => 'prestashop-module',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

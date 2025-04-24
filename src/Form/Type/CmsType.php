@@ -1,11 +1,11 @@
 <?php
 
-namespace PSLegalcompliance\Form\Type;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type;
 
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use PSLegalcompliance\Roles;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;

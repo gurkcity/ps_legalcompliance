@@ -1,0 +1,53 @@
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+
+{% extends '@Modules/ps_legalcompliance/views/templates/admin/header/moduleheader.html.twig' %}
+{% form_theme exampleForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+
+{% block content %}
+  {{ form_start(exampleForm) }}
+    <div class="row justify-content-center">
+      <div class="col-xl-8">
+        <div class="card">
+          <h3 class="card-header">
+            <i class="material-icons">settings</i> {{ 'Example'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+          </h3>
+
+          <div class="card-body">
+            <div class="form-wrapper">
+              {{ form_widget(exampleForm) }}
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+              <a href="{{ pathWithBackUrl('ps_legalcompliance_examplegrid_index') }}" class="btn btn-outline-secondary">
+                {{ 'Cancel'|trans({}, 'Admin.Actions') }}
+              </a>
+              <button class="btn btn-primary">{{ 'Save'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{ form_end(exampleForm) }}
+{% endblock %}
+
+{% block extra_javascripts %}
+  {{ parent() }}
+  <script>
+  $(() => {
+    window.prestashop.component.initComponents(
+      [
+        'MultistoreConfigField',
+      ],
+    );
+  });
+  </script>
+{% endblock %}

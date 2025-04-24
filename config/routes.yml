@@ -1,10 +1,135 @@
-legalcompliance:
-  path: legalcompliance
+
+# Module main route
+ps_legalcompliance:
+  path: ps_legalcompliance
+  methods: [GET, POST]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::indexAction
+    _legacy_controller: 'PsLegalcomplianceConfigurationAdminController'
+    _legacy_link: 'PsLegalcomplianceConfigurationAdminController'
+
+# License
+ps_legalcompliance_license:
+  path: ps_legalcompliance/license
+  methods: [GET, POST]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController::indexAction
+    _legacy_controller: 'PsLegalcomplianceLicenseAdminController'
+    _legacy_link: 'PsLegalcomplianceLicenseAdminController'
+
+# Configuration
+ps_legalcompliance_configuration:
+  path: ps_legalcompliance/configuration
+  methods: [GET, POST, PATCH]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::indexAction
+    _legacy_controller: 'PsLegalcomplianceConfigurationAdminController'
+    _legacy_link: 'PsLegalcomplianceConfigurationAdminController'
+
+# Cron
+ps_legalcompliance_cron:
+  path: ps_legalcompliance/cron
+  methods: [GET, POST]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController::cronAction
+    _legacy_controller: 'PsLegalcomplianceCronAdminController'
+    _legacy_link: 'PsLegalcomplianceCronAdminController'
+
+# Logs
+ps_legalcompliance_logs:
+  path: ps_legalcompliance/logs
+  methods: [GET, POST]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController::indexAction
+    _legacy_controller: 'PsLegalcomplianceLogsAdminController'
+    _legacy_link: 'PsLegalcomplianceLogsAdminController'
+
+ps_legalcompliance_logs_clear:
+  path: ps_legalcompliance/logs/clear
   methods: [ GET ]
   defaults:
-    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::indexAction'
-    _legacy_controller: PSLegalcomplianceConfigurationAdminController
-    _legacy_link: PSLegalcomplianceConfigurationAdminController
+    _controller:  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController::clearAction
+    _legacy_controller: PsLegalcomplianceLogsAdminController
+    _legacy_link: PsLegalcomplianceLogsAdminController
+
+ps_legalcompliance_logs_view:
+  path: ps_legalcompliance/logs/view/{filename}
+  methods: [ GET ]
+  defaults:
+    _controller:  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController::viewAction
+    _legacy_controller: PsLegalcomplianceLogsAdminController
+    _legacy_link: PsLegalcomplianceLogsAdminController
+  requirements:
+    filename: '[0-9a-z_-]+\.log'
+
+ps_legalcompliance_logs_delete:
+  path: ps_legalcompliance/logs/delete/{filename}
+  methods: [ GET ]
+  defaults:
+    _controller:  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController::deleteAction
+    _legacy_controller: PsLegalcomplianceLogsAdminController
+    _legacy_link: PsLegalcomplianceLogsAdminController
+  requirements:
+    filename: '[0-9a-z_-]+\.log'
+
+# Maintenance
+ps_legalcompliance_maintenance:
+  path: ps_legalcompliance/maintenance
+  methods: [GET]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController::maintenanceAction
+    _legacy_controller: 'PsLegalcomplianceMaintenanceAdminController'
+    _legacy_link: 'PsLegalcomplianceMaintenanceAdminController'
+
+ps_legalcompliance_maintenance_hooks_reset:
+  path: ps_legalcompliance/maintenance/hooks/reset
+  methods: [GET]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController::maintenanceHooksResetAction
+    _legacy_controller: 'PsLegalcomplianceMaintenanceAdminController'
+    _legacy_link: 'PsLegalcomplianceMaintenanceAdminController'
+
+ps_legalcompliance_maintenance_tabs_reset:
+  path: ps_legalcompliance/maintenance/tabs/reset
+  methods: [GET]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController::maintenanceTabsResetAction
+    _legacy_controller: 'PsLegalcomplianceMaintenanceAdminController'
+    _legacy_link: 'PsLegalcomplianceMaintenanceAdminController'
+
+ps_legalcompliance_maintenance_sql_reset:
+  path: ps_legalcompliance/maintenance/sql/reset
+  methods: [GET]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController::maintenanceSqlResetAction
+    _legacy_controller: 'PsLegalcomplianceMaintenanceAdminController'
+    _legacy_link: 'PsLegalcomplianceMaintenanceAdminController'
+
+ps_legalcompliance_maintenance_config_reset:
+  path: ps_legalcompliance/maintenance/config/reset
+  methods: [GET]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController::maintenanceConfigResetAction
+    _legacy_controller: 'PsLegalcomplianceMaintenanceAdminController'
+    _legacy_link: 'PsLegalcomplianceMaintenanceAdminController'
+
+ps_legalcompliance_maintenance_controller_reset:
+  path: ps_legalcompliance/maintenance/controller/reset
+  methods: [GET]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController::maintenanceControllerResetAction
+    _legacy_controller: 'PsLegalcomplianceMaintenanceAdminController'
+    _legacy_link: 'PsLegalcomplianceMaintenanceAdminController'
+
+ps_legalcompliance_maintenance_orderstate_reset:
+  path: ps_legalcompliance/maintenance/orderstates/reset
+  methods: [GET]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController::maintenanceOrderstatesResetAction
+    _legacy_controller: 'PsLegalcomplianceMaintenanceAdminController'
+    _legacy_link: 'PsLegalcomplianceMaintenanceAdminController'
+
+# custom routes here:
 
 legalcompliance_label_save:
   path: legalcompliance/label

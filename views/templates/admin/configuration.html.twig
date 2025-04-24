@@ -1,4 +1,14 @@
-{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+
+{% extends '@Modules/ps_legalcompliance/views/templates/admin/header/moduleheader.html.twig' %}
+{% form_theme configurationForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
 {% trans_default_domain "Modules.Pslegalcompliance.Admin" %}
 {% form_theme labelForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
 {% form_theme virtualForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}

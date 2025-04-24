@@ -1,6 +1,6 @@
 <?php
 
-namespace PSLegalcompliance\Form\Type;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type;
 
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
 use PrestaShopBundle\Form\Admin\Type\TranslatableType;

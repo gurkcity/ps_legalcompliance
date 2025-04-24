@@ -1,24 +1,193 @@
+
 services:
   _defaults:
     public: true
 
   # Module
-
-  pslegalcompliance.module:
+  onlineshopmodule.module.legalcompliance.ps_legalcompliance:
     class: "PS_Legalcompliance"
     factory: ["Module", "getInstanceByName"]
     arguments:
       - 'ps_legalcompliance'
 
   # Controller
-
-  PSLegalcompliance\Controller\ConfigurationAdminController:
-    class: PSLegalcompliance\Controller\ConfigurationAdminController
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
     arguments:
-      - '@pslegalcompliance.module'
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@prestashop.adapter.shop.context'
+      - '@prestashop.adapter.multistore_feature'
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+
+  # License
+  onlineshopmodule.module.legalcompliance.form.type.license:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LicenseType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  # Cron
+  onlineshopmodule.module.legalcompliance.form.type.cron:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\CronType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  onlineshopmodule.module.legalcompliance.cronqueuerepository:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronQueueRepository
+    arguments:
+      $connection: '@doctrine.dbal.default_connection'
+      $dbPrefix: '%database_prefix%'
+      $module: '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+
+  onlineshopmodule.module.legalcompliance.cronpresenter:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronPresenter
+    arguments:
+      $translator: '@translator'
+      $module: '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      $legacyContext: '@prestashop.adapter.legacy.context'
+
+  # Settings
+  onlineshopmodule.module.legalcompliance.settings:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+
+  # Configuration
+  onlineshopmodule.module.legalcompliance.configurationadapter:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module\ConfigurationAdapter
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
       - '@prestashop.adapter.legacy.configuration'
 
-  # Form Handler
+  onlineshopmodule.module.legalcompliance.form.type.configuration:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\ConfigurationType
+    parent: 'form.type.translatable.aware'
+    public: true
+    arguments:
+      $context: '@=service("prestashop.adapter.legacy.context").getContext()'
+    tags:
+      - { name: form.type }
+
+  onlineshopmodule.module.legalcompliance.form.type.payment:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\PaymentType
+    parent: 'form.type.translatable.aware'
+    public: true
+    arguments:
+      $context: '@=service("prestashop.adapter.legacy.context").getContext()'
+      $module: '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+    tags:
+      - { name: form.type }
+
+  # Logs
+  onlineshopmodule.module.legalcompliance.logrepository:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogRepository
+    arguments:
+      - '@filesystem'
+      - 'ps_legalcompliance/'
+
+  onlineshopmodule.module.legalcompliance.loglevel:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogLevel
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.configurationadapter'
+
+  onlineshopmodule.module.legalcompliance.logger:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\Logger
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.logrepository'
+      - '@onlineshopmodule.module.legalcompliance.loglevel'
+
+  onlineshopmodule.module.legalcompliance.form.type.log:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LogType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  # Maintenance
+  onlineshopmodule.module.legalcompliance.maintenance:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\Maintenance
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.maintenance.hook'
+      - '@onlineshopmodule.module.legalcompliance.maintenance.tab'
+      - '@onlineshopmodule.module.legalcompliance.maintenance.sql'
+      - '@onlineshopmodule.module.legalcompliance.maintenance.config'
+      - '@onlineshopmodule.module.legalcompliance.maintenance.controller'
+      - '@onlineshopmodule.module.legalcompliance.maintenance.orderstates'
+
+  onlineshopmodule.module.legalcompliance.maintenance.hook:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\HookMaintenance
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@=service("prestashop.adapter.shop.context").getContextShopID()'
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+
+  onlineshopmodule.module.legalcompliance.maintenance.tab:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\TabMaintenance
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@prestashop.core.admin.tab.repository'
+      - '@prestashop.adapter.module.tab.register'
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+      - '@=service("prestashop.adapter.legacy.context").getLanguages()'
+
+  onlineshopmodule.module.legalcompliance.maintenance.sql:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\SqlMaintenance
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+
+  onlineshopmodule.module.legalcompliance.maintenance.config:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\ConfigMaintenance
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@onlineshopmodule.module.legalcompliance.configurationadapter'
+
+  onlineshopmodule.module.legalcompliance.maintenance.controller:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\ControllerMaintenance
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+
+  onlineshopmodule.module.legalcompliance.maintenance.orderstates:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\OrderstateMaintenance
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+
+
+# custom services here:
 
   pslegalcompliance.form_handler.label:
     class: 'PrestaShop\PrestaShop\Core\Form\Handler'
@@ -26,7 +195,7 @@ services:
       - '@form.factory'
       - '@prestashop.core.hook.dispatcher'
       - '@pslegalcompliance.form_provider.label'
-      - 'PSLegalcompliance\Form\Type\LabelType'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LabelType'
       - 'PsLegalcomplianceLabel'
       - 'label'
 
@@ -36,7 +205,7 @@ services:
       - '@form.factory'
       - '@prestashop.core.hook.dispatcher'
       - '@pslegalcompliance.form_provider.virtual'
-      - 'PSLegalcompliance\Form\Type\VirtualType'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\VirtualType'
       - 'PsLegalcomplianceVirtual'
       - 'virtual'
 
@@ -46,7 +215,7 @@ services:
       - '@form.factory'
       - '@prestashop.core.hook.dispatcher'
       - '@pslegalcompliance.form_provider.general'
-      - 'PSLegalcompliance\Form\Type\GeneralType'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\GeneralType'
       - 'PsLegalcomplianceGeneral'
       - 'general'
 
@@ -56,7 +225,7 @@ services:
       - '@form.factory'
       - '@prestashop.core.hook.dispatcher'
       - '@pslegalcompliance.form_provider.cms'
-      - 'PSLegalcompliance\Form\Type\CmsType'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\CmsType'
       - 'PsLegalcomplianceCms'
       - 'cms'
 
@@ -66,7 +235,7 @@ services:
       - '@form.factory'
       - '@prestashop.core.hook.dispatcher'
       - '@pslegalcompliance.form_provider.email'
-      - 'PSLegalcompliance\Form\Type\EmailType'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\EmailType'
       - 'PsLegalcomplianceEmail'
       - 'email'
 
@@ -79,30 +248,30 @@ services:
       - '@prestashop.adapter.legacy.configuration'
 
   pslegalcompliance.form_provider.label:
-    class: PSLegalcompliance\Form\DataProvider\LabelDataProvider
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\LabelDataProvider
     arguments:
       - '@prestashop.adapter.legacy.configuration'
       - "@=service('prestashop.adapter.legacy.context').getAvailableLanguages()"
 
   pslegalcompliance.form_provider.virtual:
-    class: PSLegalcompliance\Form\DataProvider\VirtualDataProvider
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\VirtualDataProvider
     arguments:
       - '@prestashop.adapter.legacy.configuration'
       - "@=service('prestashop.adapter.legacy.context').getAvailableLanguages()"
 
   pslegalcompliance.form_provider.general:
-    class: PSLegalcompliance\Form\DataProvider\GeneralDataProvider
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\GeneralDataProvider
     arguments:
       - '@prestashop.adapter.legacy.configuration'
       - "@=service('prestashop.adapter.legacy.context').getAvailableLanguages()"
 
   pslegalcompliance.form_provider.cms:
-    class: PSLegalcompliance\Form\DataProvider\CmsDataProvider
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\CmsDataProvider
     arguments:
       - '@prestashop.adapter.legacy.configuration'
 
   pslegalcompliance.form_provider.email:
-    class: PSLegalcompliance\Form\DataProvider\EmailDataProvider
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\EmailDataProvider
     arguments:
       - '@prestashop.adapter.legacy.configuration'
       - '@translator'
@@ -111,14 +280,14 @@ services:
   # Form Types
 
   pslegalcompliance.form_type.label:
-    class: PSLegalcompliance\Form\Type\LabelType
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LabelType
     parent: 'form.type.translatable.aware'
     public: true
     tags:
       - { name: form.type }
 
   pslegalcompliance.form_type.virtual:
-    class: PSLegalcompliance\Form\Type\VirtualType
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\VirtualType
     parent: 'form.type.translatable.aware'
     public: true
     arguments:
@@ -128,14 +297,14 @@ services:
       - { name: form.type }
 
   pslegalcompliance.form_type.general:
-    class: PSLegalcompliance\Form\Type\GeneralType
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\GeneralType
     parent: 'form.type.translatable.aware'
     public: true
     tags:
       - { name: form.type }
 
   pslegalcompliance.form_type.cms:
-    class: PSLegalcompliance\Form\Type\CmsType
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\CmsType
     parent: 'form.type.translatable.aware'
     public: true
     arguments:
@@ -144,7 +313,7 @@ services:
       - { name: form.type }
 
   pslegalcompliance.form_type.email:
-    class: PSLegalcompliance\Form\Type\EmailType
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\EmailType
     parent: 'form.type.translatable.aware'
     public: true
     tags:

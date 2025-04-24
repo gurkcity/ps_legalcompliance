@@ -1,33 +1,52 @@
 {
-  "name": "prestashop/ps_legalcompliance",
-  "description": "PrestaShop module ps_legalcompliance",
-  "homepage": "https://github.com/PrestaShop/advancedeucompliance",
-  "license": "AFL-3.0",
-  "authors": [
-    {
-      "name": "PrestaShop SA",
-      "email": "contact@prestashop.com"
-    }
-  ],
-  "require": {
-    "php": ">=7.3.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "PSLegalcompliance\\": "src/"
-    },
-    "classmap": [
-      "ps_legalcompliance.php",
-      "classes/",
-      "entities/"
+    "name": "onlineshopmodule/ps_legalcompliance",
+    "description": "PrestaShop module to do some fancy stuff ;-)",
+    "type": "prestashop-module",
+    "homepage": "https://www.onlineshop-module.de",
+    "license": "Commercial",
+    "authors": [
+        {
+            "name": "Markus Engel",
+            "email": "info@onlineshop-module.de"
+        }
     ],
-    "exclude-from-classmap": []
-  },
-  "config": {
-    "preferred-install": "dist",
-    "classmap-authoritative": true,
-    "prepend-autoloader": false,
-    "optimize-autoloader": true
-  },
-  "type": "prestashop-module"
+    "autoload": {
+        "psr-4": {
+            "Onlineshopmodule\\PrestaShop\\Module\\Legalcompliance\\": "src/"
+        },
+        "classmap": [
+            "ps_legalcompliance.php",
+            "classes/",
+            "entities/"
+        ],
+        "exclude-from-classmap": []
+    },
+    "config": {
+        "preferred-install": "dist",
+        "classmap-authoritative": true,
+        "prepend-autoloader": false,
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">= 8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.11",
+        "prestashop/php-dev-tools": "^4.3"
+    },
+    "scripts": {
+        "autoindex": [
+            "@php vendor/bin/autoindex --exclude=\".github,.webpack,_dev,node_modules,vendor\""
+        ],
+        "set-license-header": [
+            "@php ./vendor/bin/header-stamp --license=\"./license_header.txt\" --exclude=\".github,.webpack,_dev,node_modules,vendor\""
+        ],
+        "cs-fixer": [
+            "@php vendor/bin/php-cs-fixer fix --using-cache=no"
+        ],
+        "phpstan": [
+            "./phpstan.bat"
+        ]
+    }
 }

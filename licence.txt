@@ -1,0 +1,44 @@
+Kommerzielle Lizenz
+
+1. Nutzungsbedingungen für Module und Themes unter kommerzieller Lizenz
+(1) Die kommerzielle Lizenz erlaubt dem Lizenznehmer die Nutzung des Moduls oder Themes in einem Onlineshop. Sie räumt ihm ein nicht ausschließliches, nicht übertragbares, mit Ausnahme von Ziffer 3, auf die Nutzung des Moduls oder Themes in einem Onlineshop beschränktes Recht ein.
+Die Domain, auf der das lizenzierte Modul/ Theme genutzt wird, ist bei der Bestellung für jedes Modul/ Theme anzugeben. Hierfür steht auf der Produktseite ein Formular zur Speicherung des Domainnamens zur Verfügung. Sie benötigen für jede separate Installation eines Onlineshops, auf dem Sie dieses Modul/ Theme einsetzen möchten, eine eigenständige Lizenz.
+Eine Mehrfachnutzung auf der gleichen Domain oder Subdomain ist nur dann erlaubt, sofern der Onlineshop den gleichen Inhalt aufweist (z.B. bei Updates und Testinstallationen).
+
+(2) Sollte die Domain zum Zeitpunkt des Modulkaufs noch nicht festgelegt sein oder das Modul/ Theme aus einem anderen Grund noch nicht an eine Domain gekoppelt sein, so lässt sich der Domainname auch nachträglich z.B. per E-Mail an den Lizenzgeber übermitteln. Die Lizenz tritt erst in Kraft, sobald das Modul/ Theme mit der Domain des Onlineshops mit der Übermittlung des Domainamens gekoppelt ist.
+
+2. Lizenzdauer
+(1) Eine Lizenz gilt für die gesamte Lebenszeit der Domain, sofern die Shopversion (Major Release von PrestaShop) nicht gewechselt wird, für die das Modul geschrieben wurde.
+
+3. Übertragung der Lizenz
+(1) Die Lizenz ist nicht an den Namen des Käufers des Moduls oder Themes gebunden und kann daher bei Domaininhaberwechsel auf der Domain verbleiben. Die Übertragung auf andere Eigentümer ist erlaubt, solange die Domain und die Shopversion (Major Release von PrestaShop) bestehen bleibt.
+
+4. Bearbeitungsrecht / Modulanpassungen
+(1) Sie dürfen das Modul/ Theme an Ihre eigenen Bedürfnisse anpassen, sofern alle Kommentare und Copyright-Hinweise, sowie der Lizenztext im Modulordner erhalten bleiben. Sie dürfen das Arbeitsergebnis in der Gesamtform nicht ihr eigen nennen.
+
+5. Weiterverkauf
+(1) Der Weiterverkauf des Moduls/ Themes oder Teile davon sind nicht erlaubt.
+
+6. Vervielfältigung
+(1)  Die Vervielfältigung und Publikation des Moduls/ Themes, auch in veränderter Form, ist nicht gestattet. (2) Hierzu bedarf es der ausdrücklichen Genehmigung des Lizenzgebers.
+
+7. Haftungsbegrenzung
+(1)  Die Haftung des Lizenzgebers, gleich aus welchem Rechtsgrund, ist wie folgt beschränkt:
+(a)  für die leicht fahrlässige Verletzung wesentlicher Pflichten aus dem Schuldverhältnis haftet der Lizenzgeber der Höhe nach begrenzt auf den bei Vertragsschluss typischerweise vorhersehbaren Schaden;
+(b)  der Lizenzgeber haftet nicht für die leicht fahrlässige Verletzung nicht wesentlicher Pflichten aus dem Schuldverhältnis sowie für leichte Fahrlässigkeit im Übrigen.
+(2)  Die vorstehenden Regelungen  finden auf Fälle zwingender gesetzlicher Haftung, insbesondere nach dem Produkthaftungsgesetz, und bei schuldhaft verursachten Schädigungen des Lebens, des Körpers oder der Gesundheit keine Anwendung.
+(3) Bei Verlust von Daten haftet der Lizenzgeber nur für denjenigen Aufwand, der bei ordnungsgemäßer und regelmäßiger Datensicherung durch den Lizenznehmer für die Wiederherstellung der Daten erforderlich gewesen wäre.
+
+8. Schutzrechte Dritter
+(1) Der Lizenznehmer gewährleistet, dass die vertraglichen Leistungen frei von Schutzrechten Dritter sind, die ihre vertragsgemäße Nutzung durch den Lizenznehmer ausschließen oder einschränken.
+(2) Werden nach Vertragsschluss Verletzungen von Schutzrechen geltend gemacht und wird die vertragsgemäße Nutzung der vertraglichen Leistungen beeinträchtigt oder untersagt, ist der Lizenzgeber verpflichtet, nach eigener Wahl entweder die vertraglichen Leistungen in der Weise zu ändern oder zu ersetzen, dass sie nicht mehr unter die Schutzrechte fallen, gleichwohl aber den vertraglichen Bestimmungen entsprechen, oder das Recht zu erwirken, dass die vertraglichen Leistungen uneingeschränkt und für den Lizenznehmer ohne zusätzliche Kosten vertragsgemäß genutzt werden können.
+(3) Der Lizenzgeber stellt den Lizenznehmer von jeglicher Inanspruchnahme durch Dritte auf erste Anforderung umfassend frei. Die Haftungsbeschränkung nach Ziffer 7 findet insoweit keine Anwendung.
+
+9. Datenschutz und Übermittlung der Lizenz
+(1) Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Daher möchten wir Sie über die Lizenzübermittlung und den Datenschutz genau informieren.
+(2) Bei jeder Installation und jedem Zugriff über die Konfigurationsseite werden zur Kontrolle des Lizenzstatus für Module verschiedene Daten gespeichert. Das Modul ruft dabei ein Zählpixel auf, mit dem folgende anonyme Daten an onlineshop-module.de übertragen und in einem Datensatz in einer Datenbank gespeichert werden: der Modulname, die Version, Ihre Domain (localhost bei lokaler Installation) und den Referrer, sowie das Datum der Installation und des letzten Zugriffs auf die Konfigurationsseite.
+(3) Sie haben ein Auskunftsrecht über Ihre gespeicherten Daten.
+(4) Ihre Daten werden unter keinen Umständen weitergegeben oder mit Dritten geteilt.
+(5) Sie haben ein Recht auf Löschung dieser Daten. Hierzu bitte eine E-Mail an info@onlineshop-module.de
+
+_201403202057
