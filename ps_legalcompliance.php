@@ -94,9 +94,11 @@ class PS_Legalcompliance extends Module
 
     public function hookDisplayReassurance($param)
     {
+        $context = Context::getContext();
+
         if (
-            !($this->context->controller instanceof OrderController)
-            || !($this->context->controller instanceof CartController)
+            !($context->controller instanceof OrderController)
+            && !($context->controller instanceof CartController)
         ) {
             return;
         }
