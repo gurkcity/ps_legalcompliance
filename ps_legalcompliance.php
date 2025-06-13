@@ -955,40 +955,6 @@ class PS_Legalcompliance extends Module
         return $this->fetch($template, $cacheId);
     }
 
-    public function getNewEmailTemplates(): array
-    {
-        $emailTemplateFinder = ServiceLocator::get(EmailTemplateFinder::class);
-
-        return $emailTemplateFinder->findNewEmailTemplates();
-    }
-
-    private function insertEmailTemplates(array $email_templates)
-    {
-        $emailLister = ServiceLocator::get(EmailLister::class);
-
-        foreach ($email_templates as $mail) {
-            $new_email = new AeucEmailEntity();
-            $new_email->filename = (string) $mail;
-            $new_email->display_name = $emailLister->getCleanedMailName($mail);
-            $new_email->save();
-
-            unset($new_email);
-        }
-    }
-
-    public function getCMSRoles()
-    {
-        return [
-            Roles::NOTICE => $this->trans('Legal notice', [], 'Modules.Legalcompliance.Admin'),
-            Roles::CONDITIONS => $this->trans('Terms of Service (ToS)', [], 'Modules.Legalcompliance.Admin'),
-            Roles::REVOCATION => $this->trans('Revocation terms', [], 'Modules.Legalcompliance.Admin'),
-            Roles::REVOCATION_FORM => $this->trans('Revocation form', [], 'Modules.Legalcompliance.Admin'),
-            Roles::PRIVACY => $this->trans('Privacy', [], 'Modules.Legalcompliance.Admin'),
-            Roles::ENVIRONMENTAL => $this->trans('Environmental notice', [], 'Modules.Legalcompliance.Admin'),
-            Roles::SHIP_PAY => $this->trans('Shipping and payment', [], 'Modules.Legalcompliance.Admin'),
-        ];
-    }
-
     private function getPDFAttachmentOptions()
     {
         $pdf_attachment = unserialize(Configuration::get('AEUC_PDF_ATTACHMENT'));

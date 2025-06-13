@@ -143,8 +143,16 @@ class Settings extends AbstractSettings
             /** @var EmailLister $emailLister */
             $emailLister = ServiceLocator::get(EmailLister::class);
 
-            $roles_array = $this->module->getCMSRoles();
-            $roles = array_keys($roles_array);
+            $roles = [
+                Roles::NOTICE,
+                Roles::CONDITIONS,
+                Roles::REVOCATION,
+                Roles::REVOCATION_FORM,
+                Roles::PRIVACY,
+                Roles::ENVIRONMENTAL,
+                Roles::SHIP_PAY,
+            ];
+
             $cms_role_repository = $entityManager->getRepository('CMSRole');
 
             foreach ($roles as $role) {

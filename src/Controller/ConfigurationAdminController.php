@@ -12,7 +12,8 @@
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller;
 
 use AeucCMSRoleEmailEntity;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\ConfigurationType;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\EmailTemplateFinder;
+use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
 use PrestaShopBundle\Security\Annotation\ModuleActivated;
@@ -60,7 +61,7 @@ class ConfigurationAdminController extends AdminController
             'generalForm' => $generalForm->createView(),
             'cmsForm' => $cmsForm->createView(),
             'emailForm' => $emailForm->createView(),
-            'emailTemplatesMissing' => $this->module->getNewEmailTemplates(),
+            'emailTemplatesMissing' => $this->getNewEmailTemplates(),
         ]);
     }
 
@@ -145,5 +146,12 @@ class ConfigurationAdminController extends AdminController
         }
 
         $this->configuration->set('AEUC_PDF_ATTACHMENT', serialize(array_keys($parameters['pdf_attachment'] ?? [])));
+    }
+
+    protected function getNewEmailTemplates(): array
+    {
+        $emailTemplateFinder = ServiceLocator::get(EmailTemplateFinder::class);
+
+        return $emailTemplateFinder->findNewEmailTemplates();
     }
 }
