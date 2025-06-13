@@ -585,8 +585,8 @@ class PS_Legalcompliance extends Module
 
         if (
             Configuration::get('PS_CONDITIONS')
-            && (int) $cmsPageConditionsAssoiciated->id_cms > 0
-            && (int) $cmsPageRevocationAssociated->id_cms > 0
+            && $cmsPageConditionsAssoiciated->id_cms
+            && $cmsPageRevocationAssociated->id_cms
         ) {
             $cmsConditions = $cmsRepository->i10nFindOneById(
                 (int) $cmsPageConditionsAssoiciated->id_cms,
@@ -612,12 +612,6 @@ class PS_Legalcompliance extends Module
                 $cmsRevocation,
                 $cmsRevocation->link_rewrite,
                 (bool) Configuration::get('PS_SSL_ENABLED')
-            );
-
-            $cms_privacy = $cmsRepository->i10nFindOneById(
-                (int) $cmsPagePrivacyAssociated->id_cms,
-                $idLang,
-                $idShop
             );
 
             $termsAndConditions = new TermsAndConditions();
@@ -647,6 +641,12 @@ class PS_Legalcompliance extends Module
                     $link_revocation
                 );
             } else {
+                $cms_privacy = $cmsRepository->i10nFindOneById(
+                    (int) $cmsPagePrivacyAssociated->id_cms,
+                    $idLang,
+                    $idShop
+                );
+
                 $link_privacy = $this->context->link->getCMSLink(
                     $cms_privacy,
                     $cms_privacy->link_rewrite,
@@ -934,7 +934,7 @@ class PS_Legalcompliance extends Module
     {
         if (
             'shipping' !== $param['subtotal']['type']
-            || 0 !== $param['subtotal']['amount']
+            || 0 == $param['subtotal']['amount']
         ) {
             return;
         }
