@@ -78,7 +78,6 @@ class Settings extends AbstractSettings
             new Hook('displayCMSPrintButton'),
             new Hook('displayCMSDisputeInformation'),
             new Hook('termsAndConditions'),
-            new Hook('displayOverrideTemplate'),
             new Hook('displayCheckoutSummaryTop'),
             new Hook('sendMailAlterTemplateVars'),
             new Hook('displayReassurance'),

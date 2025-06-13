@@ -73,16 +73,6 @@ class PS_Legalcompliance extends Module
         return parent::disable($force_all) && Configuration::updateValue('PS_ATCP_SHIPWRAP', false);
     }
 
-    public function hookDisplayOverrideTemplate($param)
-    {
-        if (
-            $this->context->controller instanceof OrderController
-            && !$this->context->controller->ajax
-        ) {
-            return $this->getTemplatePath('hookDisplayOverrideTemplateFooter.tpl');
-        }
-    }
-
     public function hookDisplayCheckoutSummaryTop($param)
     {
         $template = 'module:' . $this->name . '/views/templates/hook/hookDisplayCheckoutSummaryTop.tpl';

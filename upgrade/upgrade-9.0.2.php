@@ -30,6 +30,7 @@ function upgrade_module_9_0_1($module)
         }
 
         $module->unregisterHook('displayCartTotalPriceLabel') && $result;
+        $module->unregisterHook('displayOverrideTemplate') && $result;
 
         return (bool) $result;
     } catch (Exception $e) {
