@@ -75,7 +75,6 @@ class Settings extends AbstractSettings
             new Hook('displayFooterAfter'),
             new Hook('actionEmailSendBefore'),
             new Hook('actionEmailAddAfterContent'),
-            new Hook('displayCartTotalPriceLabel'),
             new Hook('displayCMSPrintButton'),
             new Hook('displayCMSDisputeInformation'),
             new Hook('termsAndConditions'),

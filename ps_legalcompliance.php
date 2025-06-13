@@ -73,44 +73,6 @@ class PS_Legalcompliance extends Module
         return parent::disable($force_all) && Configuration::updateValue('PS_ATCP_SHIPWRAP', false);
     }
 
-    public function hookDisplayCartTotalPriceLabel($param)
-    {
-        $smartyVars = [];
-
-        if (Configuration::get('AEUC_LABEL_TAX_INC_EXC')) {
-            $customer_default_group_id = (int) $this->context->customer->id_default_group;
-            $customer_default_group = new Group($customer_default_group_id);
-
-            if (
-                Configuration::get('PS_TAX')
-                && $this->context->country->display_tax_label
-                && !(
-                    Validate::isLoadedObject($customer_default_group)
-                    && $customer_default_group->price_display_method
-                )
-            ) {
-                $smartyVars['price']['tax_str_i18n'] = $this->trans('Tax included', [], 'Shop.Theme.Checkout');
-            } else {
-                $smartyVars['price']['tax_str_i18n'] = $this->trans('Tax excluded', [], 'Shop.Theme.Checkout');
-            }
-        }
-
-        if (isset($param['from'])) {
-            if ($param['from'] == 'shopping_cart') {
-                $smartyVars['css_class'] = 'aeuc_tax_label_shopping_cart';
-            }
-            if ($param['from'] == 'blockcart') {
-                $smartyVars['css_class'] = 'aeuc_tax_label_blockcart';
-            }
-        }
-
-        $this->smarty->assign([
-            'smartyVars' => $smartyVars,
-        ]);
-
-        return $this->fetch('module:' . $this->name . '/views/templates/hook/displayCartTotalPriceLabel.tpl');
-    }
-
     public function hookDisplayOverrideTemplate($param)
     {
         if (
