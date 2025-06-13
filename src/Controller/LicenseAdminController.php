@@ -11,9 +11,11 @@
 
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller;
 
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LicenseType;
+use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class LicenseAdminController extends AdminController
 {
@@ -23,36 +25,51 @@ class LicenseAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function indexAction(Request $request)
-    {
-        $form = $this->createForm(LicenseType::class, [
-            'license' => $this->config->getGlobal('LICENSE'),
-            'privacy' => (bool) $this->config->getGlobal('PRIVACY'),
-        ]);
+    public function indexAction(
+        Request $request,
+        #[Autowire(service: 'onlineshopmodule.module.legalcompliance.form.handler.license')]
+        FormHandlerInterface $configurationFormHandler,
+    ) {
+        return $this->processForm(
+            $request,
+            $configurationFormHandler,
+            'ps_legalcompliance_configuration',
+            'views/templates/admin/license/license.html.twig'
+        );
+    }
 
+    protected function processForm(
+        Request $request,
+        FormHandlerInterface $formHandler,
+        string $redirectRoute = 'ps_legalcompliance_configuration',
+        string $template = '',
+        array $templateParameters = []
+    ): Response {
+        $form = $formHandler->getForm();
         $form->handleRequest($request);
 
         if (
             $form->isSubmitted()
             && $form->isValid()
         ) {
-            $formData = $form->getData();
-            $license = trim($formData['license']);
+            $saveErrors = $formHandler->save($form->getData());
 
-            $this->config->setGlobal('LICENSE', $license);
-            $this->config->setGlobal('PRIVACY', true);
+            if (0 === count($saveErrors)) {
+                $this->addFlash('success', $this->trans('Settings saved!', [], 'Modules.Pslegalcompliance.Admin'));
 
-            $this->module->registerLicense($license);
-
-            $this->module->logger->license->info(sprintf('New license registered %s', $license));
-
-            $this->addFlash('success', $this->trans('License accepted. Now You can use the full features of this module.', 'Modules.Pslegalcompliance.Admin'));
-
-            return $this->redirectToRoute('ps_legalcompliance_configuration');
+                return $this->redirectToRoute($redirectRoute);
+            } else {
+                $this->addFlashErrors($saveErrors);
+            }
         }
 
-        return $this->render('views/templates/admin/license/license.html.twig', [
-            'licenseForm' => $form->createView(),
-        ]);
+        $templateParameters = array_merge(
+            $templateParameters,
+            [
+                'form' => $form->createView(),
+            ]
+        );
+
+        return $this->render($template, $templateParameters);
     }
 }

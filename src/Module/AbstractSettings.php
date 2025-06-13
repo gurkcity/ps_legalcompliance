@@ -322,6 +322,22 @@ abstract class AbstractSettings
             ],
         ]);
 
+        if ($this->module->isPayment()) {
+            $defaultTabs[] = Tab::buildFromArray([
+                'class_name' => 'PsLegalcompliancePaymentAdminController',
+                'route_name' => 'ps_legalcompliance_payment',
+                'icon' => '',
+                'wording' => 'Payment',
+                'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+                'visible' => true,
+                'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
+                'name' => [
+                    'en' => 'Payment',
+                    'de' => 'Bezahl-Einstellungen',
+                ],
+            ]);
+        }
+
         if ($this->isUsingCron()) {
             $defaultTabs[] = Tab::buildFromArray([
                 'class_name' => 'PsLegalcomplianceCronAdminController',

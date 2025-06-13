@@ -6,14 +6,14 @@
     <tr>
       <th>
         <span class="title_box">
-          <input id="selectall_attach" type="checkbox"/>
+          <input id="selectall_attach" type="checkbox" value="1">
           {{ 'Email templates'|trans }}
         </span>
       </th>
       {% for option in data.legal_options %}
       <th class="center fixed-width-xs">
         <span class="title_box">
-          <input id="selectall_opt_{{ option.id }}" type="checkbox">
+          <input id="selectall_opt_{{ option.id }}" type="checkbox" value="1">
           {{ option.name }}
         </span>
       </th>
@@ -23,13 +23,21 @@
   <tbody>
     {% for mail in data.mails_available %}
     <tr>
-      <td><input id="mail_{{ mail.id_mail }}" class="select-all-for-mail" type="checkbox"/></th>&nbsp;{{ mail.display_name }}</td>
+      <td>
+        <input
+          id="mail_{{ mail.id_mail }}"
+          class="select-all-for-mail"
+          type="checkbox"
+          value="1"
+        >&nbsp;{{ mail.display_name }}
+      </td>
       {% for option in data.legal_options %}
         <td class="center">
           <input
             name="attach_{{ mail.id_mail }}_{{ option.id }}"
             id="attach_{{ mail.id_mail }}_{{ option.id }}"
             type="checkbox"
+            value="1"
             {% if mail.id_mail in option.list_id_mail_assoc %}checked="true"{% endif %}
           >
         </td>
@@ -38,12 +46,19 @@
     {% endfor %}
   </tbody>
   <tfoot>
-  <tr>
-      <td class="td-primary-top"><input id="mail_pdf" class="select-all-for-mail" type="checkbox"/>&nbsp;{{ 'PDF Attachment'|trans }}</td>
+    <tr>
+      <td>
+        <input
+          id="mail_pdf"
+          class="select-all-for-mail"
+          type="checkbox"
+        >&nbsp;{{ 'PDF Attachment'|trans }}
+      </td>
+
       {% for option in data.legal_options %}
-          <td class="center td-primary-top">
-              <input name="pdf_attachment[{{ option.id }}]" id="attach_pdf_{{ option.id }}" type="checkbox" {% if option.id in data.pdf_attachment %}checked="checked"{% endif %}/>
-          </td>
+      <td class="center">
+        <input name="pdf_attachment[{{ option.id }}]" id="attach_pdf_{{ option.id }}" type="checkbox" {% if option.id in data.pdf_attachment %}checked="checked"{% endif %}/>
+      </td>
       {% endfor %}
     </tr>
   </tfoot>

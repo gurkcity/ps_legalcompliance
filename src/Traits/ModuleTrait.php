@@ -131,28 +131,6 @@ trait ModuleTrait
         return parent::uninstall() && $result;
     }
 
-    public function enable($forceAll = false): bool
-    {
-        $result = parent::enable($forceAll);
-
-        if ($result && method_exists($this, 'enablePost')) {
-            $result = $this->enablePost();
-        }
-
-        return $result;
-    }
-
-    public function disable($forceAll = false): bool
-    {
-        $result = parent::disable($forceAll);
-
-        if ($result && method_exists($this, 'disablePost')) {
-            $result = $this->disablePost();
-        }
-
-        return $result;
-    }
-
     public function reset(): bool
     {
         $install = new Install(
@@ -211,13 +189,17 @@ trait ModuleTrait
 
     public function hookActionAdminControllerSetMedia(array $params)
     {
-        if (
-            $this->context->controller instanceof \AdminLegacyLayoutControllerCore
-            && ($pathInfo = $this->getContainer()->get('request_stack')->getCurrentRequest()->getPathInfo())
-            && strpos($pathInfo, 'modules/' . $this->name) !== false
-        ) {
-            $this->context->controller->addCss($this->getPathUri() . 'views/css/admin/module.css');
-            $this->context->controller->addJs($this->getPathUri() . 'views/js/admin/module.js');
+        $route = '';
+
+        if (!empty($params['request'])) {
+            $route = $params['request']->attributes->get('_route');
+        }
+
+        if (strpos($route, $this->name) !== false) {
+            $context = \Context::getContext();
+
+            $context->controller->addCss($this->getPathUri() . 'views/css/admin/module.css');
+            $context->controller->addJs($this->getPathUri() . 'views/js/admin/module.js');
 
             \Media::addJsDef([
                 'txtUpdateLicenseCode' => $this->trans('Do you really want to update the license code for this module?', [], 'Modules.Pslegalcompliance.Admin'),
@@ -235,7 +217,9 @@ trait ModuleTrait
             return;
         }
 
-        $this->context->controller->registerStylesheet(
+        $context = \Context::getContext();
+
+        $context->controller->registerStylesheet(
             $this->name,
             '/modules/' . $this->name . '/views/css/front/module.css',
             [
@@ -244,7 +228,7 @@ trait ModuleTrait
             ]
         );
 
-        $this->context->controller->registerJavascript(
+        $context->controller->registerJavascript(
             $this->name,
             '/modules/' . $this->name . '/views/js/front/module.js',
             [
@@ -364,16 +348,18 @@ trait ModuleTrait
         $delivery = new \Address((int) $order->id_address_delivery);
         $carrier = new \Carrier((int) $order->id_carrier);
 
-        $currentLanguage = $this->context->language;
-        $this->context->language = $language;
-        $this->context->getTranslator()->setLocale($language->locale);
+        $context = \Context::getContext();
+
+        $currentLanguage = $context->language;
+        $context->language = $language;
+        $context->getTranslator()->setLocale($language->locale);
 
         $deliveryState = $delivery->id_state ? new \State((int) $delivery->id_state) : null;
         $invoiceState = $invoice->id_state ? new \State((int) $invoice->id_state) : null;
 
         $productVarTplList = [];
 
-        $currentLocale = \Tools::getContextLocale($this->context);
+        $currentLocale = \Tools::getContextLocale($context);
 
         foreach ($order->getProducts() as $product) {
             $unitPriceTaxInclFormatted = $currentLocale->formatPrice(
@@ -532,8 +518,8 @@ trait ModuleTrait
             ]);
         }
 
-        $this->context->language = $currentLanguage;
-        $this->context->getTranslator()->setLocale($currentLanguage->locale);
+        $context->language = $currentLanguage;
+        $context->getTranslator()->setLocale($currentLanguage->locale);
 
         if (method_exists($this, 'parentGetExtraMailVars')) {
             $data = $this->parentGetExtraMailVars($data);
@@ -549,13 +535,17 @@ trait ModuleTrait
             return '';
         }
 
-        return $this->getMailPartialTemplateRenderer()->render($template_name, $this->context->language, $var);
+        $context = \Context::getContext();
+
+        return $this->getMailPartialTemplateRenderer()->render($template_name, $context->language, $var);
     }
 
     protected function getMailPartialTemplateRenderer(): MailPartialTemplateRenderer
     {
         if (!$this->mailPartialRenderer) {
-            $this->mailPartialRenderer = new MailPartialTemplateRenderer($this->name, $this->context->smarty);
+            $context = \Context::getContext();
+
+            $this->mailPartialRenderer = new MailPartialTemplateRenderer($this->name, $context->smarty);
         }
 
         return $this->mailPartialRenderer;

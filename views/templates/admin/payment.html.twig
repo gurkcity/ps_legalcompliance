@@ -7,13 +7,14 @@
  * @license   commercial, see licence.txt
  *#}
 
-{% form_theme paymentForm with [
+{% extends '@Modules/ps_legalcompliance/views/templates/admin/header/moduleheader.html.twig' %}
+{% form_theme form with [
   '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig',
   '@Modules/ps_legalcompliance/views/templates/admin/fields.html.twig'
 ] %}
 
 {% block content %}
-  {{ form_start(paymentForm) }}
+  {{ form_start(form) }}
     <div class="row justify-content-center">
       <div class="col-xl-10">
         <div class="card">
@@ -23,7 +24,7 @@
 
           <div class="card-body">
             <div class="form-wrapper">
-              {{ form_widget(paymentForm) }}
+              {{ form_widget(form) }}
             </div>
           </div>
 
@@ -35,5 +36,5 @@
         </div>
       </div>
     </div>
-  {{ form_end(paymentForm) }}
+  {{ form_end(form) }}
 {% endblock %}

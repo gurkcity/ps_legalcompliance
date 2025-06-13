@@ -51,8 +51,8 @@ class CronPresenter implements PresenterInterface
         $cron['params'] = $cron['params'] ?? [];
 
         $shopUrl = \Tools::getShopProtocol() . $this->context->shop->domain . $this->context->shop->getBaseURI();
-        $cron['url_wget'] = $shopUrl . 'index.php?fc=module&module=' . $this->module->name . '&controller=cron&secure_key=' . $this->module->secure_key . '&action=' . $cron['method'];
-        $cron['url_php'] = _PS_ROOT_DIR_ . '/index.php \'fc=module&module=' . $this->module->name . '&controller=cron&secure_key=' . $this->module->secure_key . '&action=' . $cron['method'] . '\'';
+        $cron['url_wget'] = $shopUrl . 'index.php?fc=module&module=' . $this->module->name . '&controller=cron&secure_key=' . $this->module->secureKey . '&action=' . $cron['method'];
+        $cron['url_php'] = _PS_ROOT_DIR_ . '/index.php \'fc=module&module=' . $this->module->name . '&controller=cron&secure_key=' . $this->module->secureKey . '&action=' . $cron['method'] . '\'';
 
         foreach ($cron['params'] as $key => $params) {
             if (empty($params['name']) || empty($params['values'])) {

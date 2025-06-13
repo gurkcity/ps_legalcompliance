@@ -31,21 +31,27 @@ class Settings extends AbstractSettings
     public function config(): array
     {
         return [
-            new Config('AEUC_LABEL_DELIVERY_ADDITIONAL', false, false, false, true, false),
             new Config('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0, false, false, true, false),
+            new Config('AEUC_LABEL_DELIVERY_ADDITIONAL', '', false, false, true, false),
             new Config('AEUC_LABEL_SPECIFIC_PRICE', false, false, false, true, false),
+            new Config('AEUC_LABEL_TAX_INC_EXC', true, false, false, true, false),
             new Config('AEUC_LABEL_UNIT_PRICE', true, false, false, true, false),
+            new Config('AEUC_LABEL_SHIPPING_INC_EXC', false, false, false, true, false),
             new Config('AEUC_LABEL_COND_PRIVACY', true, false, false, true, false),
             new Config('AEUC_LABEL_REVOCATION_TOS', false, false, false, true, false),
-            new Config('AEUC_LABEL_REVOCATION_VP', true, false, false, true, false),
-            new Config('AEUC_LABEL_SHIPPING_INC_EXC', false, false, false, true, false),
             new Config('AEUC_LABEL_COMBINATION_FROM', true, false, false, true, false),
-            new Config('PS_TAX_DISPLAY', true, false, false, true, false),
-            new Config('PS_FINAL_SUMMARY_ENABLED', true, false, false, true, false),
+            new Config('AEUC_LABEL_CUSTOM_CART_TEXT', '', false, false, true, false),
             new Config('AEUC_LABEL_TAX_FOOTER', true, false, false, true, false),
+            new Config('AEUC_VP_ACTIVE', false, false, false, true, false),
+            new Config('AEUC_VP_CMS_ID', 0, false, false, true, false),
+            new Config('AEUC_VP_LABEL_TEXT', '', false, false, true, false),
+            new Config('AEUC_LABEL_REVOCATION_VP', true, false, false, true, false),
+            new Config('LEGAL_MAIL_FOOTER', '', false, false, true, false),
             new Config('AEUC_LINKBLOCK_FOOTER', 1, false, false, true, false),
+            new Config('PS_TAX_DISPLAY', true, false, false, true, false),
+            new Config('PS_ATCP_SHIPWRAP', true, false, false, true, false),
+            new Config('PS_FINAL_SUMMARY_ENABLED', true, false, false, true, false),
             new Config('PS_DISALLOW_HISTORY_REORDERING', false, false, false, true, false),
-            new Config('AEUC_LABEL_TAX_INC_EXC', true, false, false, true, false),
         ];
     }
 

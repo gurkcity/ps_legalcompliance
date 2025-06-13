@@ -17,10 +17,12 @@ class GeneralType extends TranslatorAwareType
             ->add('AEUC_FEAT_REORDER', SwitchType::class, [
                 'label' => $this->trans('Enable \'Reordering\' feature', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('Make sure you comply with your local legislation before enabling: it can be considered as unsolicited goods.', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
             ])
             ->add('PS_ATCP_SHIPWRAP', SwitchType::class, [
                 'label' => $this->trans('Proportionate tax for shipping and wrapping', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('When enabled, tax for shipping and wrapping costs will be calculated proportionate to taxes applying to the products in the cart.', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
             ])
             ->add('LEGAL_MAIL_FOOTER', TranslateType::class, [
                 'type' => FormattedTextareaType::class,

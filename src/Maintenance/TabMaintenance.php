@@ -237,6 +237,7 @@ class TabMaintenance implements MaintenanceInterface
     {
         $idParent = 0;
         $parentClassName = $tab->getParentClassName();
+
         if (!empty($parentClassName)) {
             // Could be a previously duplicated tab
             $idParent = $this->tabRepository->findOneIdByClassName($parentClassName . $this->tabRegister::SUFFIX);
@@ -302,18 +303,18 @@ class TabMaintenance implements MaintenanceInterface
                 $className = $tab->getClassName();
                 $parentClassName = $className . $this->tabRegister::SUFFIX;
 
-                $newTab = clone($tab);
+                $newTab = clone $tab;
                 $newTab->setClassName($parentClassName);
                 $tabs[] = $newTab;
 
-                $newTab = clone($tab);
+                $newTab = clone $tab;
                 $newTab->setParentClassName($parentClassName);
                 $tabs[] = $newTab;
 
                 continue;
             }
 
-            $tabs[] = clone($tab);
+            $tabs[] = clone $tab;
         }
 
         return $tabs;

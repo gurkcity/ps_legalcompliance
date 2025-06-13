@@ -27,13 +27,8 @@ class MaintenanceAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function maintenanceAction(Request $request)
+    public function maintenanceAction(Request $request, Maintenance $maintenance)
     {
-        /**
-         * @var Maintenance $maintenance
-         */
-        $maintenance = $this->get('onlineshopmodule.module.legalcompliance.maintenance');
-
         return $this->render('views/templates/admin/maintenance/maintenance.html.twig', [
             'hooks' => $maintenance->getHooks(),
             'tabs' => $maintenance->getTabs(),
@@ -54,18 +49,12 @@ class MaintenanceAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function maintenanceHooksResetAction(Request $request)
+    public function maintenanceHooksResetAction(Request $request, Maintenance $maintenance)
     {
-        /**
-         * @var Maintenance $maintenance
-         */
-        $maintenance = $this->get('onlineshopmodule.module.legalcompliance.maintenance');
-        $result = $maintenance->resetHooks();
-
-        if (!$result) {
-            $this->addFlash('error', $this->trans('Reset failed on some hooks!', 'Modules.Pslegalcompliance.Admin'));
+        if (!$maintenance->resetHooks()) {
+            $this->addFlash('error', $this->trans('Reset failed on some hooks!', [], 'Modules.Pslegalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('All hooks have been reset successfully', 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('All hooks have been reset successfully', [], 'Modules.Pslegalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -77,18 +66,12 @@ class MaintenanceAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function maintenanceTabsResetAction(Request $request)
+    public function maintenanceTabsResetAction(Request $request, Maintenance $maintenance)
     {
-        /**
-         * @var Maintenance $maintenance
-         */
-        $maintenance = $this->get('onlineshopmodule.module.legalcompliance.maintenance');
-        $result = $maintenance->resetTabs();
-
-        if (!$result) {
-            $this->addFlash('error', $this->trans('Reset failed on some tabs!', 'Modules.Pslegalcompliance.Admin'));
+        if (!$maintenance->resetTabs()) {
+            $this->addFlash('error', $this->trans('Reset failed on some tabs!', [], 'Modules.Pslegalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('All tabs have been reset successfully', 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('All tabs have been reset successfully', [], 'Modules.Pslegalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -100,19 +83,14 @@ class MaintenanceAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function maintenanceSqlResetAction(Request $request)
+    public function maintenanceSqlResetAction(Request $request, Maintenance $maintenance)
     {
-        /**
-         * @var Maintenance $maintenance
-         */
-        $maintenance = $this->get('onlineshopmodule.module.legalcompliance.maintenance');
-
         try {
             $maintenance->resetSql();
 
-            $this->addFlash('success', $this->trans('SQL queries has been executed successfully', 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('SQL queries has been executed successfully', [], 'Modules.Pslegalcompliance.Admin'));
         } catch (\Throwable $e) {
-            $this->addFlash('error', $this->trans('Reset SQL failed! %error%', 'Modules.Pslegalcompliance.Admin', ['%error%' => $e->getMessage()]));
+            $this->addFlash('error', $this->trans('Reset SQL failed! %error%', ['%error%' => $e->getMessage()], 'Modules.Pslegalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -124,18 +102,12 @@ class MaintenanceAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function maintenanceConfigResetAction(Request $request)
+    public function maintenanceConfigResetAction(Request $request, Maintenance $maintenance)
     {
-        /**
-         * @var Maintenance $maintenance
-         */
-        $maintenance = $this->get('onlineshopmodule.module.legalcompliance.maintenance');
-        $result = $maintenance->resetConfig();
-
-        if (!$result) {
-            $this->addFlash('error', $this->trans('Install missing configuration failed!', 'Modules.Pslegalcompliance.Admin'));
+        if (!$maintenance->resetConfig()) {
+            $this->addFlash('error', $this->trans('Install missing configuration failed!', [], 'Modules.Pslegalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Missing configuration installed successfully', 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Missing configuration installed successfully', [], 'Modules.Pslegalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -147,18 +119,12 @@ class MaintenanceAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function maintenanceControllerResetAction(Request $request)
+    public function maintenanceControllerResetAction(Request $request, Maintenance $maintenance)
     {
-        /**
-         * @var Maintenance $maintenance
-         */
-        $maintenance = $this->get('onlineshopmodule.module.legalcompliance.maintenance');
-        $result = $maintenance->resetController();
-
-        if (!$result) {
-            $this->addFlash('error', $this->trans('Reset of controller failed!', 'Modules.Pslegalcompliance.Admin'));
+        if (!$maintenance->resetController()) {
+            $this->addFlash('error', $this->trans('Reset of controller failed!', [], 'Modules.Pslegalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Controller reseted successfully', 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Controller reseted successfully', [], 'Modules.Pslegalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -170,18 +136,12 @@ class MaintenanceAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function maintenanceOrderstatesResetAction(Request $request)
+    public function maintenanceOrderstatesResetAction(Request $request, Maintenance $maintenance)
     {
-        /**
-         * @var Maintenance $maintenance
-         */
-        $maintenance = $this->get('onlineshopmodule.module.legalcompliance.maintenance');
-        $result = $maintenance->resetOrderstates();
-
-        if (!$result) {
-            $this->addFlash('error', $this->trans('Reset of order states failed!', 'Modules.Pslegalcompliance.Admin'));
+        if (!$maintenance->resetOrderstates()) {
+            $this->addFlash('error', $this->trans('Reset of order states failed!', [], 'Modules.Pslegalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Order states reseted successfully', 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Order states reseted successfully', [], 'Modules.Pslegalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');

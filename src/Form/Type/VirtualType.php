@@ -39,20 +39,23 @@ class VirtualType extends TranslatorAwareType
             ->add('AEUC_VP_ACTIVE', SwitchType::class, [
                 'label' => $this->trans('Label "Virtual Product"', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('Show a label placed next to the product-tax and links to the virtual products CMS-Infopage', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
             ])
             ->add('AEUC_VP_CMS_ID', ChoiceType::class, [
                 'label' => $this->trans('Virtual Products CMS-Infopage', 'Modules.Linklist.Admin'),
-                'choices' => array_map(function ($item) {
-                    return [$item->meta_title => $item->id];
-                }, $cmsPages),
+                'choices' => array_column($cmsPages, 'id', 'meta_title'),
+                'placeholder' => $this->trans('-- Select a CMS page --', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
             ])
             ->add('AEUC_VP_LABEL_TEXT', TranslatableType::class, [
                 'label' => $this->trans('Labeltext "Virtual Product"', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('Text for the label linked to the virtual products CMS-Infopage', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
             ])
             ->add('AEUC_LABEL_REVOCATION_VP', SwitchType::class, [
                 'label' => $this->trans('Revocation for virtual products', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
             ])
         ;
     }

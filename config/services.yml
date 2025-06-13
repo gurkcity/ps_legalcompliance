@@ -2,6 +2,8 @@
 services:
   _defaults:
     public: true
+    autowire: true
+    autoconfigure: true
 
   # Module
   onlineshopmodule.module.legalcompliance.ps_legalcompliance:
@@ -10,68 +12,21 @@ services:
     arguments:
       - 'ps_legalcompliance'
 
-  # Controller
-  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+  # Abstract Form Data Provider
+  onlineshopmodule.module.legalcompliance.form.data_provider:
+    class: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\AbstractFormDataProvider'
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.configurationadapter'
+      - '@prestashop.adapter.shop.context'
+      - '@prestashop.adapter.feature.multistore'
+      - '@translator'
+
+  # Configuration Adapter
+  onlineshopmodule.module.legalcompliance.configurationadapter:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module\ConfigurationAdapter
     arguments:
       - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
-      - '@prestashop.adapter.shop.context'
-      - '@prestashop.adapter.multistore_feature'
-
-  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController
-    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
-    public: true
-
-  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController
-    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
-    public: true
-
-  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController
-    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
-    public: true
-
-  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController
-    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
-    public: true
-
-  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController
-    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
-    public: true
-
-  # License
-  onlineshopmodule.module.legalcompliance.form.type.license:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LicenseType
-    parent: 'form.type.translatable.aware'
-    public: true
-    tags:
-      - { name: form.type }
-
-  # Cron
-  onlineshopmodule.module.legalcompliance.form.type.cron:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\CronType
-    parent: 'form.type.translatable.aware'
-    public: true
-    tags:
-      - { name: form.type }
-
-  onlineshopmodule.module.legalcompliance.cronqueuerepository:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronQueueRepository
-    arguments:
-      $connection: '@doctrine.dbal.default_connection'
-      $dbPrefix: '%database_prefix%'
-      $module: '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
-
-  onlineshopmodule.module.legalcompliance.cronpresenter:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronPresenter
-    arguments:
-      $translator: '@translator'
-      $module: '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
-      $legacyContext: '@prestashop.adapter.legacy.context'
+      - '@prestashop.adapter.legacy.configuration'
 
   # Settings
   onlineshopmodule.module.legalcompliance.settings:
@@ -81,12 +36,138 @@ services:
       - '@doctrine.dbal.default_connection'
       - '%database_prefix%'
 
-  # Configuration
-  onlineshopmodule.module.legalcompliance.configurationadapter:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module\ConfigurationAdapter
+  # Controller
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
     arguments:
       - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
-      - '@prestashop.adapter.legacy.configuration'
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\PaymentAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\PaymentAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LogAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\MaintenanceAdminController
+    parent: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\AdminController
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  # License
+  onlineshopmodule.module.legalcompliance.form.handler.license:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@onlineshopmodule.module.legalcompliance.form.data_provider.license'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LicenseType'
+      - 'AdminModuletemplateLicense'
+      - 'license'
+
+  onlineshopmodule.module.legalcompliance.form.data_provider.license:
+    class: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\LicenseFormDataProvider'
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.configurationadapter'
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+
+  onlineshopmodule.module.legalcompliance.form.type.license:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LicenseType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  # Cron
+  onlineshopmodule.module.legalcompliance.form.handler.cron:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@onlineshopmodule.module.legalcompliance.form.data_provider.cron'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\CronType'
+      - 'AdminModuletemplateCron'
+      - 'cron'
+
+  onlineshopmodule.module.legalcompliance.form.data_provider.cron:
+    class: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\CronFormDataProvider'
+    parent: 'onlineshopmodule.module.legalcompliance.form.data_provider'
+
+  onlineshopmodule.module.legalcompliance.form.type.cron:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\CronType
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronQueueRepository:
+    arguments:
+      $connection: '@doctrine.dbal.default_connection'
+      $dbPrefix: '%database_prefix%'
+      $module: '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+
+  onlineshopmodule.module.legalcompliance.cronqueuerepository:
+    alias: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronQueueRepository
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronPresenter:
+    arguments:
+      $translator: '@translator'
+      $module: '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      $legacyContext: '@prestashop.adapter.legacy.context'
+
+  onlineshopmodule.module.legalcompliance.cronpresenter:
+    alias: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronPresenter
+
+  # Configuration
+  onlineshopmodule.module.legalcompliance.form.handler.configuration:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@onlineshopmodule.module.legalcompliance.form.data_provider.configuration'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\ConfigurationType'
+      - 'AdminModuletemplateConfiguration'
+      - 'configuration'
+
+  onlineshopmodule.module.legalcompliance.form.data_provider.configuration:
+    class: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\ConfigurationFormDataProvider'
+    parent: 'onlineshopmodule.module.legalcompliance.form.data_provider'
 
   onlineshopmodule.module.legalcompliance.form.type.configuration:
     class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\ConfigurationType
@@ -96,6 +177,27 @@ services:
       $context: '@=service("prestashop.adapter.legacy.context").getContext()'
     tags:
       - { name: form.type }
+
+  # Payment
+  onlineshopmodule.module.legalcompliance.form.handler.payment:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@onlineshopmodule.module.legalcompliance.form.data_provider.payment'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\PaymentType'
+      - 'AdminModuletemplatePayment'
+      - 'payment'
+
+  onlineshopmodule.module.legalcompliance.form.data_provider.payment:
+    class: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\PaymentFormDataProvider'
+    parent: 'onlineshopmodule.module.legalcompliance.form.data_provider'
+
+  onlineshopmodule.module.legalcompliance.paymentadapter:
+    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module\PaymentAdapter
+    arguments:
+      - '@onlineshopmodule.module.legalcompliance.ps_legalcompliance'
+      - '@prestashop.adapter.legacy.configuration'
 
   onlineshopmodule.module.legalcompliance.form.type.payment:
     class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\PaymentType
@@ -108,21 +210,40 @@ services:
       - { name: form.type }
 
   # Logs
-  onlineshopmodule.module.legalcompliance.logrepository:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogRepository
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogRepository:
     arguments:
       - '@filesystem'
       - 'ps_legalcompliance/'
 
-  onlineshopmodule.module.legalcompliance.loglevel:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogLevel
+  onlineshopmodule.module.legalcompliance.logrepository:
+    alias: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogRepository
+
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogLevel:
     arguments:
       - '@onlineshopmodule.module.legalcompliance.configurationadapter'
+
+  onlineshopmodule.module.legalcompliance.loglevel:
+    alias: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\LogLevel
 
   onlineshopmodule.module.legalcompliance.logger:
     class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Log\Logger
     arguments:
       - '@onlineshopmodule.module.legalcompliance.logrepository'
+      - '@onlineshopmodule.module.legalcompliance.loglevel'
+
+  onlineshopmodule.module.legalcompliance.form.handler.log:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@onlineshopmodule.module.legalcompliance.form.data_provider.log'
+      - 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\LogType'
+      - 'AdminModuletemplateLog'
+      - 'log'
+
+  onlineshopmodule.module.legalcompliance.form.data_provider.log:
+    class: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\LogFormDataProvider'
+    arguments:
       - '@onlineshopmodule.module.legalcompliance.loglevel'
 
   onlineshopmodule.module.legalcompliance.form.type.log:
@@ -133,8 +254,7 @@ services:
       - { name: form.type }
 
   # Maintenance
-  onlineshopmodule.module.legalcompliance.maintenance:
-    class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\Maintenance
+  Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\Maintenance:
     arguments:
       - '@onlineshopmodule.module.legalcompliance.maintenance.hook'
       - '@onlineshopmodule.module.legalcompliance.maintenance.tab'
@@ -142,6 +262,9 @@ services:
       - '@onlineshopmodule.module.legalcompliance.maintenance.config'
       - '@onlineshopmodule.module.legalcompliance.maintenance.controller'
       - '@onlineshopmodule.module.legalcompliance.maintenance.orderstates'
+
+  onlineshopmodule.module.legalcompliance.maintenance:
+    alias: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\Maintenance
 
   onlineshopmodule.module.legalcompliance.maintenance.hook:
     class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\HookMaintenance
@@ -269,6 +392,7 @@ services:
     class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\CmsDataProvider
     arguments:
       - '@prestashop.adapter.legacy.configuration'
+      - '@pslegalcompliance.entitymanager'
 
   pslegalcompliance.form_provider.email:
     class: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider\EmailDataProvider
@@ -276,6 +400,7 @@ services:
       - '@prestashop.adapter.legacy.configuration'
       - '@translator'
       - '@pslegalcompliance.entitymanager'
+      - '@request_stack'
 
   # Form Types
 

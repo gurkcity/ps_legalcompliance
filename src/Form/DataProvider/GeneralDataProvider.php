@@ -18,16 +18,10 @@ class GeneralDataProvider implements FormDataProviderInterface
 
     public function getData()
     {
-        $legalMailFooter = [];
-
-        foreach ($this->languages as $lang) {
-            $legalMailFooter[(int) $lang['id_lang']] = $this->configuration->get('LEGAL_MAIL_FOOTER', (int) $lang['id_lang']);
-        }
-
         return [
             'AEUC_FEAT_REORDER' => !$this->configuration->get('PS_DISALLOW_HISTORY_REORDERING'),
             'PS_ATCP_SHIPWRAP' => $this->configuration->get('PS_ATCP_SHIPWRAP'),
-            'LEGAL_MAIL_FOOTER' => $legalMailFooter,
+            'LEGAL_MAIL_FOOTER' => $this->configuration->get('LEGAL_MAIL_FOOTER'),
         ];
     }
 
@@ -36,7 +30,7 @@ class GeneralDataProvider implements FormDataProviderInterface
         $legalMailFooter = [];
 
         foreach ($this->languages as $lang) {
-            $legalMailFooter[(int) $lang['id_lang']] = trim($data('LEGAL_MAIL_FOOTER_' . $lang['id_lang']) ?? '');
+            $legalMailFooter[(int) $lang['id_lang']] = trim($data['LEGAL_MAIL_FOOTER'][$lang['id_lang']] ?? '');
         }
 
         $this->configuration->set('PS_DISALLOW_HISTORY_REORDERING', !((bool) $data['AEUC_FEAT_REORDER']));

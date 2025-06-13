@@ -35,7 +35,8 @@ class CmsType extends TranslatorAwareType
                 ->add('CMSROLE_' . $role->id, ChoiceType::class, [
                     'label' => $roleTranslations[$role->name] ?? $role->name,
                     'choices' => $choices,
-                    'placeholder' => $this->trans('Select a CMS page', 'Modules.Legalcompliance.Admin'),
+                    'placeholder' => $this->trans('-- Select a CMS page --', 'Modules.Legalcompliance.Admin'),
+                    'required' => false,
                 ]);
         }
 
@@ -43,6 +44,7 @@ class CmsType extends TranslatorAwareType
             ->add('AEUC_LINKBLOCK_FOOTER', SwitchType::class, [
                 'label' => $this->trans('Display Information block in footer', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('Displays the legal cms-pages links as a separate block in the footer (hook displayFooter). If you switch to no, please keep in mind to add your legal text in your own link blocks on every page.', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
             ])
         ;
     }
@@ -64,7 +66,7 @@ class CmsType extends TranslatorAwareType
                 $name = $roleTranslations[$role->name];
             }
 
-            $choices[$name] = $role->id_cms;
+            $choices[$name] = $role->id;
         }
 
         return $choices;

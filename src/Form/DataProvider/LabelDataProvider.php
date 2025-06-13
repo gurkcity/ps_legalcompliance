@@ -63,8 +63,8 @@ class LabelDataProvider implements FormDataProviderInterface
         $customCartText = [];
 
         foreach ($this->languages as $lang) {
-            $deliveryAdditional[(int) $lang['id_lang']] = trim($data['AEUC_LABEL_DELIVERY_ADDITIONAL_' . $lang['id_lang']] ?? '');
-            $customCartText[(int) $lang['id_lang']] = trim($data['AEUC_LABEL_CUSTOM_CART_TEXT_' . $lang['id_lang']] ?? '');
+            $deliveryAdditional[(int) $lang['id_lang']] = trim($data['AEUC_LABEL_DELIVERY_ADDITIONAL'][$lang['id_lang']] ?? '');
+            $customCartText[(int) $lang['id_lang']] = trim($data['AEUC_LABEL_CUSTOM_CART_TEXT'][$lang['id_lang']] ?? '');
         }
 
         $this->configuration->set('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', (bool) $data['AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL']);

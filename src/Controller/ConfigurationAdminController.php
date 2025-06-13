@@ -16,7 +16,9 @@ use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\ConfigurationTy
 use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
 use PrestaShopBundle\Security\Annotation\ModuleActivated;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @ModuleActivated(moduleName="ps_legalcompliance", redirectRoute="ps_legalcompliance_license")
@@ -29,146 +31,92 @@ class ConfigurationAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function indexAction(Request $request)
-    {
+    public function indexAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.label')]
+        FormHandlerInterface $labelFormHandler,
+        #[Autowire(service: 'pslegalcompliance.form_handler.virtual')]
+        FormHandlerInterface $virtualFormHandler,
+        #[Autowire(service: 'pslegalcompliance.form_handler.general')]
+        FormHandlerInterface $generalFormHandler,
+        #[Autowire(service: 'pslegalcompliance.form_handler.cms')]
+        FormHandlerInterface $cmsFormHandler,
+        #[Autowire(service: 'pslegalcompliance.form_handler.email')]
+        FormHandlerInterface $emailFormHandler,
+    ): Response {
         if (!$this->module->isLicensed()) {
             return $this->redirectToRoute('ps_legalcompliance_license');
         }
 
-        $configurationForm = $this->createForm(
-            ConfigurationType::class,
-            $this->getConfigurationData()
-        );
-
-        $configurationForm->handleRequest($request);
-
-        if (
-            $configurationForm->isSubmitted()
-            && $configurationForm->isValid()
-        ) {
-            $formData = $configurationForm->getData();
-
-            if ($this->handleForm($formData)) {
-                $this->addFlash('success', $this->trans('Settings saved!', 'Modules.Pslegalcompliance.Admin'));
-
-                $this->redirectToRoute('ps_legalcompliance_configuration');
-            }
-        }
-
-        $paymentForm = $this->processAndGetPaymentForm($request);
-
-        $labelForm = $this->getLabelFormHandler()->getForm();
-        $virtualForm = $this->getVirtualFormHandler()->getForm();
-        $generalForm = $this->getGeneralFormHandler()->getForm();
-        $cmsForm = $this->getCmsFormHandler()->getForm();
-        $emailForm = $this->getEmailFormHandler()->getForm();
+        $labelForm = $labelFormHandler->getForm();
+        $virtualForm = $virtualFormHandler->getForm();
+        $generalForm = $generalFormHandler->getForm();
+        $cmsForm = $cmsFormHandler->getForm();
+        $emailForm = $emailFormHandler->getForm();
 
         return $this->render('views/templates/admin/configuration.html.twig', [
-            'configurationForm' => $configurationForm->createView(),
             'labelForm' => $labelForm->createView(),
             'virtualForm' => $virtualForm->createView(),
             'generalForm' => $generalForm->createView(),
             'cmsForm' => $cmsForm->createView(),
             'emailForm' => $emailForm->createView(),
             'emailTemplatesMissing' => $this->module->getNewEmailTemplates(),
-            'paymentForm' => $paymentForm !== null ? $paymentForm->createView() : null,
         ]);
     }
 
-    private function handleForm($datas): bool
-    {
-        $result = true;
-
-        /* process form here */
-        // $this->updateConfiguration('CONFIG_VALUE', 'config_value', (int) $datas['config_value']);
-
-        return $result;
-    }
-
-    private function getConfigurationData(): array
-    {
-        return [
-            // 'config_value' => (int) $this->config->get('CONFIG_VALUE'),
-        ];
-    }
-
-    public function processLabelFormAction(Request $request)
-    {
+    public function processLabelFormAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.label')]
+        FormHandlerInterface $formHandler,
+    ) {
         return $this->processForm(
             $request,
-            $this->getLabelFormHandler(),
-            'Label'
+            $formHandler,
         );
     }
 
-    public function processVirtualFormAction(Request $request)
-    {
+    public function processVirtualFormAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.virtual')]
+        FormHandlerInterface $formHandler,
+    ) {
         return $this->processForm(
             $request,
-            $this->getVirtualFormHandler(),
-            'Virtual'
+            $formHandler,
         );
     }
 
-    public function processGeneralFormAction(Request $request)
-    {
+    public function processGeneralFormAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.general')]
+        FormHandlerInterface $formHandler,
+    ) {
         return $this->processForm(
             $request,
-            $this->getGeneralFormHandler(),
-            'General'
+            $formHandler,
         );
     }
 
-    public function processCmsFormAction(Request $request)
-    {
+    public function processCmsFormAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.cms')]
+        FormHandlerInterface $formHandler,
+    ) {
         return $this->processForm(
             $request,
-            $this->getCmsFormHandler(),
-            'Cms'
+            $formHandler,
         );
     }
 
-    public function processEmailFormAction(Request $request)
-    {
+    public function processEmailFormAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.email')]
+        FormHandlerInterface $formHandler,
+    ) {
         return $this->processForm(
             $request,
-            $this->getEmailFormHandler(),
-            'Email'
+            $formHandler,
         );
-    }
-
-    protected function processForm(Request $request, FormHandlerInterface $formHandler, string $hookName)
-    {
-        $this->dispatchHook(
-            'actionAdminLegalcomplianceControllerPostProcess' . $hookName . 'Before',
-            ['controller' => $this]
-        );
-
-        $this->dispatchHook('actionAdminLegalcomplianceControllerPostProcessBefore', ['controller' => $this]);
-
-        $form = $formHandler->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $data = $form->getData();
-
-            if ($form->getName() == 'email') {
-                $this->saveEmailForm($request, $data);
-            } else {
-                $errors = $formHandler->save($data);
-            }
-
-            if (!empty($errors)) {
-                $this->flashErrors($errors);
-
-                return $this->redirectToRoute('legalcompliance');
-            }
-
-            $this->addFlash('success', $this->trans('Update successful', 'Admin.Notifications.Success'));
-        }
-
-        return $this->redirectToRoute('legalcompliance');
     }
 
     protected function saveEmailForm(Request $request, array $data)
@@ -197,30 +145,5 @@ class ConfigurationAdminController extends AdminController
         }
 
         $this->configuration->set('AEUC_PDF_ATTACHMENT', serialize(array_keys($parameters['pdf_attachment'] ?? [])));
-    }
-
-    protected function getLabelFormHandler(): FormHandlerInterface
-    {
-        return $this->get('pslegalcompliance.form_handler.label');
-    }
-
-    protected function getVirtualFormHandler(): FormHandlerInterface
-    {
-        return $this->get('pslegalcompliance.form_handler.virtual');
-    }
-
-    protected function getGeneralFormHandler(): FormHandlerInterface
-    {
-        return $this->get('pslegalcompliance.form_handler.general');
-    }
-
-    protected function getCmsFormHandler(): FormHandlerInterface
-    {
-        return $this->get('pslegalcompliance.form_handler.cms');
-    }
-
-    protected function getEmailFormHandler(): FormHandlerInterface
-    {
-        return $this->get('pslegalcompliance.form_handler.email');
     }
 }

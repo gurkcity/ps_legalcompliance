@@ -43,7 +43,7 @@ class VirtualDataProvider implements FormDataProviderInterface
         $label_text = [];
 
         foreach ($this->languages as $lang) {
-            $label_text[(int) $lang['id_lang']] = trim($data['AEUC_VP_LABEL_TEXT_' . (int) $lang['id_lang']] ?? '');
+            $label_text[(int) $lang['id_lang']] = trim($data['AEUC_VP_LABEL_TEXT'][$lang['id_lang']] ?? '');
         }
 
         $this->configuration->set('AEUC_VP_ACTIVE', (bool) $data['AEUC_VP_ACTIVE']);

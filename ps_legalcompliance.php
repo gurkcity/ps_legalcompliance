@@ -27,7 +27,7 @@ if (!defined('_PS_VERSION_')) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-class PS_Legalcompliance extends PaymentModule
+class PS_Legalcompliance extends Module
 {
     use ModuleTrait;
     use ModuleHelperTrait;
@@ -35,18 +35,18 @@ class PS_Legalcompliance extends PaymentModule
     use ModulePaymentTrait;
 
     const GC_VERSION = '9.0.0';
-    const GC_SUBVERSION = '39';
+    const GC_SUBVERSION = '41';
 
     public function __construct()
     {
-        $this->version = '9.0.1';
+        $this->version = '9.0.2';
 
         $this->name = 'ps_legalcompliance';
 
         $this->author = 'Gurkcity';
 
         $this->ps_versions_compliancy = [
-            'min' => '8.1.0',
+            'min' => '9.0.0',
             'max' => _PS_VERSION_,
         ];
 
@@ -63,14 +63,14 @@ class PS_Legalcompliance extends PaymentModule
         $this->initModule();
     }
 
-    public function enablePost()
+    public function enable($force_all = false)
     {
-        return Configuration::updateValue('PS_ATCP_SHIPWRAP', true);
+        return parent::enable($force_all) && Configuration::updateValue('PS_ATCP_SHIPWRAP', true);
     }
 
-    public function disablePost()
+    public function disable($force_all = false)
     {
-        return Configuration::updateValue('PS_ATCP_SHIPWRAP', false);
+        return parent::disable($force_all) && Configuration::updateValue('PS_ATCP_SHIPWRAP', false);
     }
 
     public function hookDisplayCartTotalPriceLabel($param)
@@ -1046,5 +1046,20 @@ class PS_Legalcompliance extends PaymentModule
         }
 
         return $pdf_attachment;
+    }
+
+    public function parentHookActionAdminControllerSetMedia(array $params)
+    {
+        $route = '';
+
+        if (!empty($params['request'])) {
+            $route = $params['request']->attributes->get('_route');
+        }
+
+        if (strpos($route, $this->name) !== false) {
+            $context = \Context::getContext();
+
+            $context->controller->addJs($this->getPathUri() . 'views/js/admin/email_attachment.js');
+        }
     }
 }

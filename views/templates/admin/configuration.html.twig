@@ -8,8 +8,9 @@
  *#}
 
 {% extends '@Modules/ps_legalcompliance/views/templates/admin/header/moduleheader.html.twig' %}
-{% form_theme configurationForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+
 {% trans_default_domain "Modules.Pslegalcompliance.Admin" %}
+
 {% form_theme labelForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
 {% form_theme virtualForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
 {% form_theme generalForm '@Modules/ps_legalcompliance/views/templates/admin/form_ui_kit.html.twig' %}
@@ -34,7 +35,7 @@
       </div>
     </div>
   </div>
-  {{ form_widget(labelForm) }}
+  {{ form_end(labelForm) }}
 
   {{ form_start(virtualForm, {action: path('legalcompliance_virtual_save') }) }}
   <div class="card" id="pslegalcompliance_virtual_form">

@@ -13,6 +13,7 @@ $modulesDir = _PS_MODULE_DIR_;
 
 $moduleTitle = Tools::getValue('title'); // Module Name
 $folder = Tools::getValue('folder'); // Module Folder
+$prefix = strtolower(Tools::getValue('prefix', 'gc')); // Module Prefix
 
 if (empty($moduleTitle) || !preg_match('/^[a-z]+( [a-z]{3,})?$/i', $moduleTitle)) {
     throw new Exception('Module title is empty or invalid');
@@ -42,13 +43,13 @@ $stringFrom = [
 ];
 
 $stringTo = [
-    'PS_' . $moduleTitlePre . $moduleTitlePost,
-    'Ps' . $moduleTitlePre . $moduleTitlePost,
+    strtoupper($prefix) . '_' . $moduleTitlePre . $moduleTitlePost,
+    ucfirst($prefix) . $moduleTitlePre . $moduleTitlePost,
     $moduleTitlePre . $moduleTitlePost,
-    'ps_' . strtolower($moduleTitlePre . $moduleTitlePost),
-    'PS ' . $moduleTitlePre . ' ' . $moduleTitlePost,
+    $prefix . '_' . strtolower($moduleTitlePre . $moduleTitlePost),
+    strtoupper($prefix) . ' ' . $moduleTitlePre . ' ' . $moduleTitlePost,
     $moduleTitlePre . ' ' . $moduleTitlePost,
-    'Ps' . strtolower($moduleTitlePre . $moduleTitlePost),
+    ucfirst($prefix) . strtolower($moduleTitlePre . $moduleTitlePost),
     strtolower($moduleTitlePre . $moduleTitlePost),
 ];
 

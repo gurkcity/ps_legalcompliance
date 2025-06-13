@@ -3,20 +3,22 @@
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider;
 
 use PrestaShop\PrestaShop\Adapter\Configuration;
-use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
+use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 
 class CmsDataProvider implements FormDataProviderInterface
 {
     private $configuration;
+    private $entityManager;
     private $cmsRoleRepository;
     private $roles;
 
-    public function __construct(Configuration $configuration)
+    public function __construct(Configuration $configuration, EntityManager $entity_manager)
     {
         $this->configuration = $configuration;
-        $this->cmsRoleRepository = ServiceLocator::get('\\PrestaShop\\PrestaShop\\Core\\Foundation\\Database\\EntityManager')->getRepository('CMSRole');
+        $this->entityManager = $entity_manager;
+        $this->cmsRoleRepository = $this->entityManager->getRepository('CMSRole');
         $this->roles = Roles::getAll();
     }
 

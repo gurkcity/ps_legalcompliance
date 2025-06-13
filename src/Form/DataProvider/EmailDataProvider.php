@@ -9,21 +9,25 @@ use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShopBundle\Translation\TranslatorInterface;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class EmailDataProvider implements FormDataProviderInterface
 {
     private $configuration;
     private $translator;
     private $em;
+    private $requestStack;
 
     public function __construct(
         Configuration $configuration,
         TranslatorInterface $translator,
-        EntityManager $entity_manager
+        EntityManager $entity_manager,
+        RequestStack $requestStack
     ) {
         $this->configuration = $configuration;
         $this->translator = $translator;
         $this->em = $entity_manager;
+        $this->requestStack = $requestStack;
     }
 
     public function getData()
@@ -63,6 +67,31 @@ class EmailDataProvider implements FormDataProviderInterface
 
     public function setData(array $data)
     {
+        $mailsAvailable = $data['mails_available'];
+        $legalOptions = $data['legal_options'];
+
+        $parameters = $this->requestStack->getCurrentRequest()->request->all();
+
+        AeucCMSRoleEmailEntity::truncate();
+
+        foreach ($mailsAvailable as $mailAvailable) {
+            foreach ($legalOptions as $legalOption) {
+                $idMail = (int) $mailAvailable['id_mail'];
+                $idRole = (int) $legalOption['id'];
+
+                if (empty($parameters['attach_' . $idMail . '_' . $idRole])) {
+                    continue;
+                }
+
+                $assoc_obj = new AeucCMSRoleEmailEntity();
+                $assoc_obj->id_mail = $idMail;
+                $assoc_obj->id_cms_role = $idRole;
+                $assoc_obj->save();
+            }
+        }
+
+        $this->configuration->set('AEUC_PDF_ATTACHMENT', serialize(array_keys($parameters['pdf_attachment'] ?? [])));
+
         return [];
     }
 

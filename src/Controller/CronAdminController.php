@@ -11,9 +11,12 @@
 
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller;
 
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type\CronType;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronPresenter;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Cron\CronQueueRepository;
+use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
 use PrestaShopBundle\Security\Annotation\ModuleActivated;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,47 +30,26 @@ class CronAdminController extends AdminController
      *     message="Access denied."
      * )
      */
-    public function cronAction(Request $request)
-    {
+    public function cronAction(
+        Request $request,
+        CronPresenter $cronPresenter,
+        CronQueueRepository $cronQueueRepository,
+        #[Autowire(service: 'onlineshopmodule.module.legalcompliance.form.handler.cron')]
+        FormHandlerInterface $cronFormHandler,
+    ) {
         $usingQueue = $this->module->getSettings()->isCronUsingQueue();
-
-        $cronForm = $this->createForm(CronType::class, [
-            'maintenance' => (bool) $this->config->getGlobal('CRON_MAINTENANCE'),
-            'rows_per_run' => (int) $this->config->getGlobal('CRON_ROWS_PER_RUN'),
-            'using_queue' => $usingQueue,
-        ]);
-
-        $cronForm->handleRequest($request);
-
-        if (
-            $cronForm->isSubmitted()
-            && $cronForm->isValid()
-        ) {
-            $formData = $cronForm->getData();
-
-            $this->config->setGlobal('CRON_MAINTENANCE', $formData['maintenance']);
-
-            if ($usingQueue) {
-                $this->config->setGlobal('CRON_ROWS_PER_RUN', $formData['rows_per_run']);
-            }
-
-            $this->addFlash('success', $this->trans('Settings saved!', 'Modules.Pslegalcompliance.Admin'));
-
-            return $this->redirectToRoute('ps_legalcompliance_cron');
-        }
-
-        $cronPresenter = $this->get('onlineshopmodule.module.legalcompliance.cronpresenter');
         $cronSettings = $this->module->getSettings()->getCron();
 
-        $presentedCron = $cronPresenter->present($cronSettings);
-
-        $cronQueueRepository = $this->get('onlineshopmodule.module.legalcompliance.cronqueuerepository');
-
-        return $this->render('views/templates/admin/cron/cron.html.twig', [
-            'cronForm' => $cronForm->createView(),
-            'cronJobs' => $presentedCron,
-            'usingQueue' => $usingQueue,
-            'cronQueue' => $usingQueue ? $cronQueueRepository->getStats() : [],
-        ]);
+        return $this->processForm(
+            $request,
+            $cronFormHandler,
+            'ps_legalcompliance_cron',
+            'views/templates/admin/cron/cron.html.twig',
+            [
+                'cronJobs' => $cronPresenter->present($cronSettings),
+                'usingQueue' => $usingQueue,
+                'cronQueue' => $usingQueue ? $cronQueueRepository->getStats() : [],
+            ]
+        );
     }
 }

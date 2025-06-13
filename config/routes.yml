@@ -26,6 +26,15 @@ ps_legalcompliance_configuration:
     _legacy_controller: 'PsLegalcomplianceConfigurationAdminController'
     _legacy_link: 'PsLegalcomplianceConfigurationAdminController'
 
+# Payment
+ps_legalcompliance_payment:
+  path: ps_legalcompliance/payment
+  methods: [GET, POST, PATCH]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\PaymentAdminController::indexAction
+    _legacy_controller: 'PsLegalcompliancePaymentAdminController'
+    _legacy_link: 'PsLegalcompliancePaymentAdminController'
+
 # Cron
 ps_legalcompliance_cron:
   path: ps_legalcompliance/cron
@@ -135,7 +144,7 @@ legalcompliance_label_save:
   path: legalcompliance/label
   methods: [ POST ]
   defaults:
-    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processLabelFormAction'
+    _controller: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::processLabelFormAction'
     _legacy_controller: PSLegalcomplianceConfigurationAdminController
     _legacy_link: PSLegalcomplianceConfigurationAdminController
 
@@ -143,7 +152,7 @@ legalcompliance_virtual_save:
   path: legalcompliance/virtual
   methods: [ POST ]
   defaults:
-    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processVirtualFormAction'
+    _controller: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::processVirtualFormAction'
     _legacy_controller: PSLegalcomplianceConfigurationAdminController
     _legacy_link: PSLegalcomplianceConfigurationAdminController
 
@@ -151,7 +160,7 @@ legalcompliance_general_save:
   path: legalcompliance/general
   methods: [ POST ]
   defaults:
-    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processGeneralFormAction'
+    _controller: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::processGeneralFormAction'
     _legacy_controller: PSLegalcomplianceConfigurationAdminController
     _legacy_link: PSLegalcomplianceConfigurationAdminController
 
@@ -159,7 +168,7 @@ legalcompliance_cms_save:
   path: legalcompliance/cms
   methods: [ POST ]
   defaults:
-    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processCmsFormAction'
+    _controller: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::processCmsFormAction'
     _legacy_controller: PSLegalcomplianceConfigurationAdminController
     _legacy_link: PSLegalcomplianceConfigurationAdminController
 
@@ -167,6 +176,6 @@ legalcompliance_email_save:
   path: legalcompliance/email
   methods: [ POST ]
   defaults:
-    _controller: 'PSLegalcompliance\Controller\ConfigurationAdminController::processEmailFormAction'
+    _controller: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::processEmailFormAction'
     _legacy_controller: PSLegalcomplianceConfigurationAdminController
     _legacy_link: PSLegalcomplianceConfigurationAdminController
