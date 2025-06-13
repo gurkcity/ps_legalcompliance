@@ -242,7 +242,7 @@ class PS_Legalcompliance extends Module
         return $this->fetch($template, $cacheId);
     }
 
-    private function getCmsRolesForMailtemplate($tpl_name, $id_lang)
+    private function getCmsRolesForMailtemplate($tpl_name)
     {
         $tpl_name_exploded = explode('.', $tpl_name);
 
@@ -269,11 +269,10 @@ class PS_Legalcompliance extends Module
 
     public function hookActionEmailSendBefore($params)
     {
-        if (!isset($params['template'])) {
-            return;
-        }
+        $template = $params['template'];
+        $idLang = $params['idLang'];
 
-        $cms_roles = $this->getCmsRolesForMailTemplate((string) $params['template'], (int) $params['idLang']);
+        $cms_roles = $this->getCmsRolesForMailTemplate($template);
         $cms_repo = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
         $pdf_attachment = $this->getPDFAttachmentOptions();
 
@@ -288,7 +287,7 @@ class PS_Legalcompliance extends Module
 
             $cms_page = $cms_repo->i10nFindOneById(
                 (int) $cms_role->id_cms,
-                (int) $params['idLang'],
+                $idLang,
                 $this->context->shop->id
             );
 
@@ -300,7 +299,7 @@ class PS_Legalcompliance extends Module
 
             $params['fileAttachment']['cms_' . $cms_page->id] = [
                 'content' => $pdf->render('S'),
-                'name' => $cms_page->meta_title . '.pdf',
+                'name' => Tools::str2url($cms_page->meta_title) . '.pdf',
                 'mime' => 'application/pdf'
             ];
         }
@@ -308,16 +307,8 @@ class PS_Legalcompliance extends Module
 
     public function hookActionEmailAddAfterContent($param)
     {
-        if (
-            !isset($param['template'])
-            || !isset($param['template_html'])
-            || !isset($param['template_txt'])
-        ) {
-            return;
-        }
-
         $id_lang = (int) $param['id_lang'];
-        $cms_roles = $this->getCmsRolesForMailTemplate((string) $param['template'], (int) $param['id_lang']);
+        $cms_roles = $this->getCmsRolesForMailTemplate((string) $param['template'], $id_lang);
 
         $cms_repo = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
         $cms_contents = [];
@@ -425,7 +416,10 @@ class PS_Legalcompliance extends Module
 
     public function hookSendMailAlterTemplateVars($param)
     {
-        if (!isset($param['template']) && !isset($param['{carrier}'])) {
+        if (
+            !isset($param['template_vars']['{carrier}'])
+            || !isset($param['template_vars']['{id_order}'])
+        ) {
             return;
         }
 
@@ -440,15 +434,19 @@ class PS_Legalcompliance extends Module
             return;
         }
 
-        $carrier = new Carrier((int) $param['cart']->id_carrier);
+        $order = new Order((int) $param['template_vars']['{id_order}']);
+        $carrier = new Carrier((int) $order->id_carrier);
 
-        if (!Validate::isLoadedObject($carrier)) {
+        if (
+            !Validate::isLoadedObject($carrier)
+            || !Validate::isLoadedObject($order)
+        ) {
             return;
         }
 
-        $delay = $carrier->delay[(int) $param['cart']->id_lang] ?? '';
+        $delay = $carrier->delay[(int) $order->id_lang] ?? '';
 
-        if ($delay == '') {
+        if ($delay === '') {
             return;
         }
 
