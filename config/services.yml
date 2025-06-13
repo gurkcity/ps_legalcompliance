@@ -418,6 +418,7 @@ services:
     arguments:
       - "@=service('prestashop.adapter.legacy.context').getContext().shop.id"
       - "@=service('prestashop.adapter.legacy.context').getContext().language.id"
+      - '@pslegalcompliance.entitymanager'
     tags:
       - { name: form.type }
 
@@ -434,6 +435,8 @@ services:
     public: true
     arguments:
       - "@=service('prestashop.adapter.legacy.context').getContext().shop.id"
+      - "@=service('prestashop.adapter.legacy.context').getContext().language.id"
+      - '@pslegalcompliance.entitymanager'
     tags:
       - { name: form.type }
 

@@ -23,27 +23,27 @@
  *  International Registered Trademark & Property of PrestaShop SA
  *}
 
+{if $delivery_additional_information || $display_tax_information}
 <div class="aeuc_footer_info">
-	{if isset($delivery_additional_information) && trim($delivery_additional_information) !== ''}
+	{if $delivery_additional_information}
 		* {$delivery_additional_information}
-		<a href="{$link_shipping}">{l s='Shipping and payment' d='Modules.Legalcompliance.Shop'}</a>
+		{if $link_shipping}<a href="{$link_shipping}">{l s='Shipping and payment' d='Modules.Legalcompliance.Shop'}</a>{/if}
 	{/if}
-	{if isset($display_tax_information) && $display_tax_information}
-		<br/>
+
+	{if $display_tax_information}
+		{if $delivery_additional_information}<br/>{/if}
 		{if $tax_included}
 			{l s='All prices are mentioned tax included' d='Modules.Legalcompliance.Shop'}
 		{else}
 			{l s='All prices are mentioned tax excluded' d='Modules.Legalcompliance.Shop'}
 		{/if}
+
 		{if $show_shipping}
 			{l s='and' d='Modules.Legalcompliance.Shop'}
-			{if $link_shipping}
-				<a href="{$link_shipping}">
-			{/if}
+			{if $link_shipping}<a href="{$link_shipping}">{/if}
 			{l s='shipping excluded' d='Modules.Legalcompliance.Shop'}
-			{if $link_shipping}
-				</a>
-			{/if}
+			{if $link_shipping}</a>{/if}
 		{/if}
 	{/if}
 </div>
+{/if}

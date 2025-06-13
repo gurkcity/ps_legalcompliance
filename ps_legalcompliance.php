@@ -92,7 +92,7 @@ class PS_Legalcompliance extends Module
         return $this->fetch($template, $cacheId);
     }
 
-    public function hookDisplayReassurance($param)
+    public function hookDisplayReassurance($params)
     {
         $context = Context::getContext();
 
@@ -117,7 +117,7 @@ class PS_Legalcompliance extends Module
         return $this->fetch($template, $cacheId);
     }
 
-    public function hookDisplayFooter($param)
+    public function hookDisplayFooter($params)
     {
         if (!Configuration::get('AEUC_LINKBLOCK_FOOTER')) {
             return;
@@ -138,28 +138,29 @@ class PS_Legalcompliance extends Module
 
             $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
             $cms_pages_associated = $cms_role_repository->findByName($cms_roles_to_be_displayed);
-            $is_ssl_enabled = (bool) Configuration::get('PS_SSL_ENABLED');
             $cms_links = [];
 
             foreach ($cms_pages_associated as $cms_page_associated) {
                 if (
-                    ($cms_page_associated instanceof CMSRole)
-                    && $cms_page_associated->id_cms > 0
+                    !($cms_page_associated instanceof CMSRole)
+                    || !$cms_page_associated->id_cms
                 ) {
-                    $cms = new CMS((int) $cms_page_associated->id_cms);
-
-                    if (!Validate::isLoadedObject($cms)) {
-                        // skip non loaded object
-                        continue;
-                    }
-
-                    $cms_links[] = [
-                        'link' => $this->context->link->getCMSLink($cms->id, null, $is_ssl_enabled),
-                        'id' => 'cms-page-' . $cms->id,
-                        'title' => $cms->meta_title[$this->context->language->id],
-                        'desc' => $cms->meta_description[$this->context->language->id],
-                    ];
+                    continue;
                 }
+
+                $cms = new CMS((int) $cms_page_associated->id_cms);
+
+                if (!Validate::isLoadedObject($cms)) {
+                    // skip non loaded object
+                    continue;
+                }
+
+                $cms_links[] = [
+                    'link' => $this->context->link->getCMSLink($cms->id, null),
+                    'id' => 'cms-page-' . $cms->id,
+                    'title' => $cms->meta_title[$this->context->language->id],
+                    'desc' => $cms->meta_description[$this->context->language->id],
+                ];
             }
 
             $this->smarty->assign([
@@ -189,9 +190,9 @@ class PS_Legalcompliance extends Module
             $cmsRoleRepository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
             $cmsPageShippingPay = $cmsRoleRepository->findOneByName(Roles::SHIP_PAY);
 
-            $link_shipping = false;
+            $link_shipping = '';
 
-            if ($cmsPageShippingPay->id_cms > 0) {
+            if ($cmsPageShippingPay->id_cms) {
                 $cms_shipping_pay = $cmsRepository->i10nFindOneById(
                     (int) $cmsPageShippingPay->id_cms,
                     (int) $this->context->language->id,
@@ -207,13 +208,11 @@ class PS_Legalcompliance extends Module
                 }
             }
 
-            if (
-                $this->context->controller->php_self == 'product'
-                && (int) Configuration::get('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL') == 1
-            ) {
-                $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
+            $delivery_addtional_info = '';
 
-                $this->smarty->assign('delivery_additional_information', $delivery_addtional_info);
+            if ($this->context->controller instanceof ProductController) {
+                $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
+                $delivery_addtional_info = trim($delivery_addtional_info);
             }
 
             $customer_default_group = new Group((int) $this->context->customer->id_default_group);
@@ -236,6 +235,7 @@ class PS_Legalcompliance extends Module
                 'link_shipping' => $link_shipping,
                 'tax_included' => $tax_included,
                 'display_tax_information' => Configuration::get('AEUC_LABEL_TAX_FOOTER'),
+                'delivery_additional_information' => $delivery_addtional_info,
             ]);
         }
 

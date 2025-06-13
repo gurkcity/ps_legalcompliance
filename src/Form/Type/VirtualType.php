@@ -3,6 +3,7 @@
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type;
 
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
+use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShopBundle\Form\Admin\Type\MultistoreConfigurationType;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
 use PrestaShopBundle\Form\Admin\Type\TranslatableType;
@@ -16,19 +17,21 @@ class VirtualType extends TranslatorAwareType
     private $cmsRepository;
     private $idShop;
     private $idLang;
+    private $entityManager;
 
     public function __construct(
         TranslatorInterface $translator,
         array $locales,
         int $idShop,
-        int $idLang
+        int $idLang,
+        EntityManager $entityManager
     ) {
         parent::__construct($translator, $locales);
 
         $this->idShop = $idShop;
         $this->idLang = $idLang;
-
-        $this->cmsRepository = ServiceLocator::get('\\PrestaShop\\PrestaShop\\Core\\Foundation\\Database\\EntityManager')->getRepository('CMS');
+        $this->entityManager = $entityManager;
+        $this->cmsRepository = $this->entityManager->getRepository('CMS');
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
