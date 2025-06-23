@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ */
+
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance;
 
-use AeucEmailEntity;
-use Configuration;
-use Language;
-use LegalcomplianceException;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 
 class EmailTemplateFinder
@@ -28,7 +33,7 @@ class EmailTemplateFinder
     public function getAllAvailableEmailTemplates(string $emailPath): array
     {
         if (!is_dir($emailPath)) {
-            throw new LegalcomplianceException(sprintf('Email template path %s is not vaild', $emailPath));
+            throw new \LegalcomplianceException(sprintf('Email template path %s is not vaild', $emailPath));
         }
 
         return $this->emailLister->getAvailableMails($emailPath);
@@ -52,9 +57,9 @@ class EmailTemplateFinder
 
     protected function getIsoFromDefaultLanguage(): string
     {
-        $idLangDefault = (int) Configuration::get('PS_LANG_DEFAULT');
+        $idLangDefault = (int) \Configuration::get('PS_LANG_DEFAULT');
 
-        return Language::getIsoById($idLangDefault);
+        return \Language::getIsoById($idLangDefault);
     }
 
     protected function filterNewEmailTemplates(array $emailTemplates): array
@@ -66,9 +71,9 @@ class EmailTemplateFinder
 
     protected function getStoredEmailTemplates(): array
     {
-        $allEmailTemplates = AeucEmailEntity::getAll();
+        $allEmailTemplates = \AeucEmailEntity::getAll();
 
-        return array_map(function ( $emailTemplate) {
+        return array_map(function ($emailTemplate) {
             return $emailTemplate['filename'];
         }, $allEmailTemplates);
     }

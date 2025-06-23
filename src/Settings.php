@@ -11,17 +11,11 @@
 
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance;
 
-use AeucCMSRoleEmailEntity;
-use AeucEmailEntity;
 use Doctrine\DBAL\Schema\Schema;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\EmailTemplateFinder;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module\AbstractSettings;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Config;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Controller;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Hook;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Sql;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Tab;
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
@@ -169,14 +163,13 @@ class Settings extends AbstractSettings
 
             // Fill-in aeuc_mail table
             foreach ($emailTemplateFinder->getAllAvailableEmailTemplates($defaultEmailTemplatePath) as $mail) {
-                $new_email = new AeucEmailEntity();
+                $new_email = new \AeucEmailEntity();
                 $new_email->filename = (string) $mail;
                 $new_email->display_name = $emailLister->getCleanedMailName($mail);
                 $new_email->save();
 
                 unset($new_email);
             }
-
 
             $cms_role_repository = $entityManager->getRepository('CMSRole');
             $cms_roles_associated = $cms_role_repository->getCMSRolesAssociated();
@@ -212,7 +205,7 @@ class Settings extends AbstractSettings
                 'refund',
             ];
 
-            foreach (AeucEmailEntity::getAll() as $email) {
+            foreach (\AeucEmailEntity::getAll() as $email) {
                 if (in_array($email['filename'], $email_filenames)) {
                     $email_ids_to_set[] = $email['id_mail'];
                 }
@@ -225,17 +218,17 @@ class Settings extends AbstractSettings
                 'password_query',
             ];
 
-            foreach (AeucEmailEntity::getAll() as $email) {
+            foreach (\AeucEmailEntity::getAll() as $email) {
                 if (in_array($email['filename'], $account_newsletter_mail_filenames)) {
                     $account_email_ids_to_set[] = $email['id_mail'];
                 }
             }
 
-            AeucCMSRoleEmailEntity::truncate();
+            \AeucCMSRoleEmailEntity::truncate();
 
             foreach ($role_ids_to_set as $role_id) {
                 foreach ($email_ids_to_set as $email_id) {
-                    $assoc_obj = new AeucCMSRoleEmailEntity();
+                    $assoc_obj = new \AeucCMSRoleEmailEntity();
                     $assoc_obj->id_mail = (int) $email_id;
                     $assoc_obj->id_cms_role = (int) $role_id;
                     $assoc_obj->save();
@@ -244,7 +237,7 @@ class Settings extends AbstractSettings
 
             if ($role_id_legal_notice) {
                 foreach ($account_email_ids_to_set as $email_id) {
-                    $assoc_obj = new AeucCMSRoleEmailEntity();
+                    $assoc_obj = new \AeucCMSRoleEmailEntity();
                     $assoc_obj->id_mail = (int) $email_id;
                     $assoc_obj->id_cms_role = (int) $role_id_legal_notice;
                     $assoc_obj->save();

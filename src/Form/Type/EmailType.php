@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ */
+
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type;
 
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
@@ -26,6 +35,4 @@ class EmailType extends TranslatorAwareType
         $resolver->setAllowedTypes('mails_available', ['array']);
         $resolver->setAllowedTypes('pdf_attachment', ['array']);
     }
-
-
 }

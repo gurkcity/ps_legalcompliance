@@ -9,7 +9,6 @@
  * @license   commercial, see licence.txt
  */
 
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\EmailTemplateFinder;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleHelperTrait;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleLicenseTrait;
@@ -18,7 +17,6 @@ use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleTrait;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\VirtualCart;
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Checkout\TermsAndConditions;
-use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 
 if (!defined('_PS_VERSION_')) {
@@ -270,7 +268,7 @@ class PS_Legalcompliance extends Module
     public function hookActionEmailSendBefore($params)
     {
         $template = $params['template'];
-        $idLang = $params['idLang'];
+        $idLang = (int) $params['idLang'];
 
         $cms_roles = $this->getCmsRolesForMailTemplate($template);
         $cms_repo = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
@@ -285,6 +283,9 @@ class PS_Legalcompliance extends Module
                 continue;
             }
 
+            /**
+             * @var CMS $cms_page
+             */
             $cms_page = $cms_repo->i10nFindOneById(
                 (int) $cms_role->id_cms,
                 $idLang,
@@ -300,7 +301,7 @@ class PS_Legalcompliance extends Module
             $params['fileAttachment']['cms_' . $cms_page->id] = [
                 'content' => $pdf->render('S'),
                 'name' => Tools::str2url($cms_page->meta_title) . '.pdf',
-                'mime' => 'application/pdf'
+                'mime' => 'application/pdf',
             ];
         }
     }
@@ -308,7 +309,7 @@ class PS_Legalcompliance extends Module
     public function hookActionEmailAddAfterContent($param)
     {
         $id_lang = (int) $param['id_lang'];
-        $cms_roles = $this->getCmsRolesForMailTemplate((string) $param['template'], $id_lang);
+        $cms_roles = $this->getCmsRolesForMailTemplate((string) $param['template']);
 
         $cms_repo = ServiceLocator::get(EntityManager::class)->getRepository('CMS');
         $cms_contents = [];
@@ -327,7 +328,7 @@ class PS_Legalcompliance extends Module
             }
 
             $cms_contents[] = $cms_page->content;
-            $param['template_txt'] .= strip_tags($cms_page->content, true);
+            $param['template_txt'] .= strip_tags($cms_page->content);
         }
 
         $this->context->smarty->assign([
@@ -351,18 +352,18 @@ class PS_Legalcompliance extends Module
             $footer_doc = new DOMDocument();
 
             if (Configuration::get('PS_MAIL_THEME') == 'classic') {
-                $wrapper = $doc->getElementsByTagName('table')->item(0); //selects tbody
+                $wrapper = $doc->getElementsByTagName('table')->item(0); // selects tbody
 
                 // escape "&" to "&amp;"
                 $hook_email_wrapper = preg_replace('/&(?!amp)/', '&amp;', $this->display(__FILE__, 'hook-email-wrapper_classic.tpl'));
 
                 $footer_doc->loadHTML('<!DOCTYPE html>
-                    <html lang="' . (new Language($id_lang))->iso_code .'">
+                    <html lang="' . (new Language($id_lang))->iso_code . '">
                         <head><meta charset="utf-8"></head><body>' . $hook_email_wrapper . '</body></html>');
 
                 $wrapper->appendChild($footer_doc);
             } else {
-                $divs = $doc->getElementsByTagName('div'); //selects first wrapping div
+                $divs = $doc->getElementsByTagName('div'); // selects first wrapping div
                 $k = 0;
 
                 foreach ($divs as $div) {
@@ -372,24 +373,24 @@ class PS_Legalcompliance extends Module
                         $wrapper = $divs->item($k);
                     }
 
-                    $k++;
+                    ++$k;
                 }
 
                 // escape "&" to "&amp;"
                 $hook_email_wrapper = preg_replace('/&(?!amp)/', '&amp;', $this->display(__FILE__, 'hook-email-wrapper.tpl'));
 
                 $footer_doc->loadHTML('<!DOCTYPE html>
-                    <html lang="' . (new Language($id_lang))->iso_code .'">
+                    <html lang="' . (new Language($id_lang))->iso_code . '">
                         <head><meta charset="utf-8"></head><body>' . $hook_email_wrapper . '</body></html>');
 
-                for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; $index++) {
+                for ($index = 0; $index < $footer_doc->getElementsByTagName('div')->length; ++$index) {
                     $clone_node = $doc->importNode(
                         $footer_doc->getElementsByTagName('div')->item($index)->cloneNode(true),
                         true
                     );
 
-                    $tr = $doc->createElement("tr");
-                    $td = $doc->createElement("td");
+                    $tr = $doc->createElement('tr');
+                    $td = $doc->createElement('td');
                     $tr->appendChild($td);
 
                     if (isset($wrapper)) {
@@ -460,7 +461,7 @@ class PS_Legalcompliance extends Module
             'modules/' . $this->name . '/views/css/aeuc_front.css',
             [
                 'media' => 'all',
-                'priority' => 150
+                'priority' => 150,
             ]
         );
 
@@ -475,7 +476,7 @@ class PS_Legalcompliance extends Module
                 'modules/' . $this->name . '/views/css/aeuc_print.css',
                 [
                     'media' => 'print',
-                    'priority' => 150
+                    'priority' => 150,
                 ]
             );
         }
@@ -483,21 +484,21 @@ class PS_Legalcompliance extends Module
         if (Tools::getValue('direct_print') == '1') {
             $this->context->controller->registerJavascript(
                 'modules-fo_aeuc_print',
-                'modules/'.$this->name.'/views/js/fo_aeuc_print.js',
+                'modules/' . $this->name . '/views/js/fo_aeuc_print.js',
                 [
                     'position' => 'bottom',
-                    'priority' => 150
+                    'priority' => 150,
                 ]
             );
         }
 
         $this->context->controller->registerJavascript(
             'modules-fo_aeuc_tnc',
-            'modules/'.$this->name.'/views/js/fo_aeuc_tnc.js',
+            'modules/' . $this->name . '/views/js/fo_aeuc_tnc.js',
             [
                 'position' => 'bottom',
                 'priority' => 150,
-                'attributes' => 'defer'
+                'attributes' => 'defer',
             ]
         );
 
@@ -654,7 +655,7 @@ class PS_Legalcompliance extends Module
                 );
 
                 $termsAndConditions->setText(
-                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') ,
+                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
                     $link_conditions,
                     $link_revocation,
                     $link_privacy
@@ -744,13 +745,13 @@ class PS_Legalcompliance extends Module
             empty($param['product'])
             || empty($param['type'])
             || !in_array($param['type'], [
-                    'before_price',
-                    'old_price',
-                    'price',
-                    'after_price',
-                    'list_taxes',
-                    'unit_price'
-                ])
+                'before_price',
+                'old_price',
+                'price',
+                'after_price',
+                'list_taxes',
+                'unit_price',
+            ])
         ) {
             return '';
         }
@@ -794,7 +795,7 @@ class PS_Legalcompliance extends Module
                 }
             }
 
-            /* Handle Specific Price label*/
+            /* Handle Specific Price label */
             if (
                 $type == 'old_price'
                 && Configuration::get('AEUC_LABEL_SPECIFIC_PRICE')
@@ -803,7 +804,7 @@ class PS_Legalcompliance extends Module
                 $smartyVars['old_price']['before_str_i18n'] = $this->trans('Our previous price', [], 'Modules.Legalcompliance.Shop');
             }
 
-            /* Handle Shipping Inc./Exc.*/
+            /* Handle Shipping Inc./Exc. */
             if ($type == 'price') {
                 $smartyVars['price'] = [];
 
@@ -827,10 +828,7 @@ class PS_Legalcompliance extends Module
                             $smartyVars['ship']['link_ship_pay'] = $link_ship_pay;
                             $smartyVars['ship']['ship_str_i18n'] = $this->trans('Shipping excluded', [], 'Modules.Legalcompliance.Shop');
                         }
-                    } elseif (
-                        $product['is_virtual']
-                        && Configuration::get('AEUC_VP_ACTIVE')
-                    ) {
+                    } elseif (Configuration::get('AEUC_VP_ACTIVE')) {
                         $cms_ship_pay_id = (int) Configuration::get('AEUC_VP_CMS_ID');
 
                         if ($cms_ship_pay_id) {
@@ -838,14 +836,14 @@ class PS_Legalcompliance extends Module
                                 ->getRepository('CMS')
                                 ->i10nFindOneById($cms_ship_pay_id, $this->context->language->id, $this->context->shop->id);
 
-                            $smartyVars['ship'] = array(
+                            $smartyVars['ship'] = [
                                 'link_ship_pay' => $this->context->link->getCMSLink(
-                                        $cms_ship_pay,
-                                        $cms_ship_pay->link_rewrite,
-                                        (bool) Configuration::get('PS_SSL_ENABLED')
-                                    ),
-                                'ship_str_i18n' => Configuration::get('AEUC_VP_LABEL_TEXT', $this->context->language->id)
-                            );
+                                    $cms_ship_pay,
+                                    $cms_ship_pay->link_rewrite,
+                                    (bool) Configuration::get('PS_SSL_ENABLED')
+                                ),
+                                'ship_str_i18n' => Configuration::get('AEUC_VP_LABEL_TEXT', $this->context->language->id),
+                            ];
                         }
                     } else {
                         $cms_role_repository = ServiceLocator::get(EntityManager::class)->getRepository('CMSRole');
@@ -883,7 +881,7 @@ class PS_Legalcompliance extends Module
                 }
             }
 
-            /* Handle Taxes Inc./Exc.*/
+            /* Handle Taxes Inc./Exc. */
             if ($type == 'list_taxes') {
                 $smartyVars['list_taxes'] = [];
 
@@ -911,12 +909,12 @@ class PS_Legalcompliance extends Module
                 $unit_price = $product['unit_price_tax_included'] ?? 0;
 
                 if (Configuration::get('AEUC_LABEL_UNIT_PRICE') && $unit_price > 0) {
-                    $smartyVars['unit_price'] = (new \PrestaShop\PrestaShop\Adapter\Product\PriceFormatter)
+                    $smartyVars['unit_price'] = (new PrestaShop\PrestaShop\Adapter\Product\PriceFormatter())
                     ->format($unit_price) . ' ' . $product['unity'];
 
                     if (Module::isEnabled('gc_unitprice')) {
-                        /** @var GC_Unitprice $gc_unitprice */
                         $gc_unitprice = Module::getInstanceByName('gc_unitprice');
+                        // @phpstan-ignore class.notFound
                         $smartyVars['unit_price'] = $gc_unitprice->getFullUnitPrice($smartyVars['unit_price'], $product->unity);
                     }
                 }
@@ -975,7 +973,7 @@ class PS_Legalcompliance extends Module
         }
 
         if (strpos($route, $this->name) !== false) {
-            $context = \Context::getContext();
+            $context = Context::getContext();
 
             $context->controller->addJs($this->getPathUri() . 'views/js/admin/email_attachment.js');
         }

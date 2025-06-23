@@ -8,9 +8,6 @@
  * @copyright Copyright (c) 2025, Onlineshop-Module.de
  * @license   commercial, see licence.txt
  */
-
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\Maintenance;
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }

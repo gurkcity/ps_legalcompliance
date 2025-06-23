@@ -1,14 +1,21 @@
 <?php
 
+/**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ */
+
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\DataProvider;
 
-use AeucCMSRoleEmailEntity;
-use AeucEmailEntity;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 use PrestaShop\PrestaShop\Adapter\Configuration;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShopBundle\Translation\TranslatorInterface;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class EmailDataProvider implements FormDataProviderInterface
@@ -40,7 +47,7 @@ class EmailDataProvider implements FormDataProviderInterface
         $cleaned_mails_names = [];
 
         foreach ($cms_roles_associated as $role) {
-            $list_id_mail_assoc = AeucCMSRoleEmailEntity::getIdEmailFromCMSRoleId((int) $role->id);
+            $list_id_mail_assoc = \AeucCMSRoleEmailEntity::getIdEmailFromCMSRoleId((int) $role->id);
             $clean_list = [];
 
             foreach ($list_id_mail_assoc as $list_id_mail_assoc) {
@@ -54,7 +61,7 @@ class EmailDataProvider implements FormDataProviderInterface
             ];
         }
 
-        foreach (AeucEmailEntity::getAll() as $email) {
+        foreach (\AeucEmailEntity::getAll() as $email) {
             $cleaned_mails_names[] = $email;
         }
 
@@ -72,7 +79,7 @@ class EmailDataProvider implements FormDataProviderInterface
 
         $parameters = $this->requestStack->getCurrentRequest()->request->all();
 
-        AeucCMSRoleEmailEntity::truncate();
+        \AeucCMSRoleEmailEntity::truncate();
 
         foreach ($mailsAvailable as $mailAvailable) {
             foreach ($legalOptions as $legalOption) {
@@ -83,7 +90,7 @@ class EmailDataProvider implements FormDataProviderInterface
                     continue;
                 }
 
-                $assoc_obj = new AeucCMSRoleEmailEntity();
+                $assoc_obj = new \AeucCMSRoleEmailEntity();
                 $assoc_obj->id_mail = $idMail;
                 $assoc_obj->id_cms_role = $idRole;
                 $assoc_obj->save();

@@ -11,7 +11,6 @@
 
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller;
 
-use AeucCMSRoleEmailEntity;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\EmailTemplateFinder;
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
@@ -127,7 +126,7 @@ class ConfigurationAdminController extends AdminController
 
         $parameters = $request->request->all();
 
-        AeucCMSRoleEmailEntity::truncate();
+        \AeucCMSRoleEmailEntity::truncate();
 
         foreach ($mailsAvailable as $mailAvailable) {
             foreach ($legalOptions as $legalOption) {
@@ -138,14 +137,20 @@ class ConfigurationAdminController extends AdminController
                     continue;
                 }
 
-                $assoc_obj = new AeucCMSRoleEmailEntity();
+                $assoc_obj = new \AeucCMSRoleEmailEntity();
                 $assoc_obj->id_mail = $idMail;
                 $assoc_obj->id_cms_role = $idRole;
                 $assoc_obj->save();
             }
         }
 
-        $this->configuration->set('AEUC_PDF_ATTACHMENT', serialize(array_keys($parameters['pdf_attachment'] ?? [])));
+        $this->config->set(
+            'AEUC_PDF_ATTACHMENT',
+            serialize(array_keys($parameters['pdf_attachment'] ?? [])),
+            false,
+            null,
+            false
+        );
     }
 
     protected function getNewEmailTemplates(): array

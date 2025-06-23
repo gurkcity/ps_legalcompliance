@@ -1,12 +1,19 @@
 <?php
 
-namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance;
+/**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ */
 
-use Cart;
+namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance;
 
 class VirtualCart
 {
-    public static function hasCartVirtualProduct(Cart $cart): bool
+    public static function hasCartVirtualProduct(\Cart $cart): bool
     {
         $products = $cart->getProducts();
 

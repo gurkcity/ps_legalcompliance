@@ -1,13 +1,20 @@
 <?php
 
+/**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ */
+
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Form\Type;
 
-use PrestaShop\PrestaShop\Adapter\ServiceLocator;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
+use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
-use PrestaShop\PrestaShop\Core\CMS\CMSRepository;
-use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
