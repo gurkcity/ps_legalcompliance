@@ -69,3 +69,4 @@ Version	Datum     	Bemerkung
 3.0.18	07.01.2025	fix: use TranslatorInterface for typehint
 					fix: ps_legalcompliancy check for required file
 9.0.0   01.01.2025  update to version 9.0
+9.0.2   23.06.2025  Optimized version for PS 9.0.0
