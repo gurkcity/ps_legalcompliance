@@ -7,12 +7,12 @@
  * @license   commercial, see licence.txt
  *#}
 
-{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{% extends '@Modules/ps_legalcompliance/views/templates/admin/header/moduleheader.html.twig' %}
 {% form_theme form '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
 
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-xl-5">
+  <div class="col-xl-6">
     <div class="card">
       <h3 class="card-header">
         <i class="material-icons">assignment</i> {{ 'Existing Logs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
@@ -51,7 +51,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-5">
+  <div class="col-xl-6">
     {{ form_start(form) }}
     <div class="card">
       <h3 class="card-header">

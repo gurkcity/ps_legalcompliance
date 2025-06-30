@@ -17,17 +17,16 @@
       <p>{{ 'The SQL schema and all differences to the current database are shown here.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
 
       {% if sql.tables is not empty %}
-      <table class="sql_list table">
+      <table class="sql_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Table Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
             <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Table Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for table in sql.tables %}
           <tr>
-            <td>{{ table.name }}</td>
             <td>
               {% if not table.valid %}
               <span class="badge badge-warning">{{ 'failure!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
@@ -35,6 +34,7 @@
               <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
               {% endif %}
             </td>
+            <td>{{ table.name }}</td>
           </tr>
           {% endfor %}
         </tbody>

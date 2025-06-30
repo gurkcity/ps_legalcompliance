@@ -13,10 +13,14 @@
   background: white;
 }
 
+.info_panel.closed {
+  grid-template-rows: auto 8px auto;
+}
+
 .info_panel .panel-body {
   background: #0b3d65;
   background: linear-gradient(#0b3d65, #236c9a);
-  padding: 2rem;
+  padding: 1rem 1rem 0;
 }
 
 .info_panel .panel-separator {
@@ -31,6 +35,11 @@
 .info_panel td {
   color: #fff;
 }
+.info_panel p,
+.info_panel address {
+  font-size: 12px;
+  margin-bottom: 0.4rem;
+}
 
 .info_panel h1 {
   font-size: 2.5em
@@ -39,30 +48,16 @@
 .info_panel h1 span {
   color: #FAE20B
 }
-
 .info_panel .info_logo {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto 1fr;
-  gap: 0px 0px;
-  grid-template-areas:
-    "logo title"
-    "logo description"
-    "fulldescription fulldescription";
+  margin-bottom: 0.6rem;
 }
-
-.info_panel .info_logo h1 {
-  grid-area: title;
-}
-
 .info_panel .info_logo h2 {
-  margin-bottom: 20px;
-  font-size: 1rem;
-  grid-area: description;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .info_panel .info_logo img {
-  grid-area: logo;
+  float: left;
   display: block;
   background: white;
   border-radius: 52px;
@@ -73,13 +68,14 @@
   margin: 0 1rem 1rem 0;
 }
 
-.info_panel .info_logo p {
-  grid-area: fulldescription;
-}
-
 .info_panel tbody > tr > td {
   border-bottom: 1px solid #ffffff25;
-  padding: 0.3rem;
+  padding: 0.2rem;
+  font-size: 12px;
+}
+
+.info_panel tbody > tr > td .material-icons {
+  font-size: 14px;
 }
 
 .info_panel tbody > tr:last-child > td {
@@ -95,15 +91,14 @@
 }
 
 .info_panel .panel-footer {
-  padding: 0.5rem 1rem;
-  display: grid;
-  grid-template-columns: auto auto auto;
+  padding: 0 1rem 0.5rem;
+  display: flex;
   justify-content: space-between;
   align-items: end;
 }
 
-.info_panel.closed {
-  grid-template-rows: auto;
+.info_panel.closed .panel-footer {
+  padding: 0.5rem 1rem;
 }
 
 .info_panel.closed .panel-body,
@@ -111,12 +106,10 @@
   display: none;
 }
 
-.info_panel.closed .panel-footer {
-  align-items: center;
-}
-
-.info_panel.closed .panel-footer img {
-  max-width: 120px;
+.info_panel .panel-footer img {
+  height: 28px;
+  width: auto;
+  padding-left: 115px;
 }
 
 .cronjobs .wrap {
@@ -146,8 +139,3 @@
 }
 
 /* Custom styles here: */
-
-table.accesses tfoot {
-  font-weight: bold;
-  background-color: aliceblue;
-}

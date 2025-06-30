@@ -17,17 +17,16 @@
       <p>{{ 'This list shows the controller that installs this module. If a controller values are not installed correctly, you can reset them here.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
 
       {% if controller is not empty %}
-      <table class="controller_list table">
+      <table class="controller_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
             <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for value in controller %}
           <tr>
-            <td>{{ value.name }}</td>
             <td>
               {% if not value.valid %}
               <span class="badge badge-warning">{{ 'missing!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
@@ -35,6 +34,7 @@
               <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
               {% endif %}
             </td>
+            <td>{{ value.name }}</td>
           </tr>
           {% endfor %}
         </tbody>

@@ -69,7 +69,40 @@ const ps_legalcompliance = {
         return false;
       }
     });
-  }
+
+    $('input[name="payment[awaiting_payment]"]').on('change', (e) => {
+      ps_legalcompliance.togglePaymentRow();
+    });
+
+    $('input[name="payment[show_payment_logo]"]').on('change', (e) => {
+      ps_legalcompliance.toggleLogoRow();
+    });
+
+    ps_legalcompliance.togglePaymentRow();
+    ps_legalcompliance.toggleLogoRow();
+  },
+
+  togglePaymentRow: () => {
+    ps_legalcompliance.toggleRow('input[name="payment[awaiting_payment]"]', '.awaiting_payment_os_row');
+  },
+
+  toggleLogoRow: () => {
+    ps_legalcompliance.toggleRow('input[name="payment[show_payment_logo]"]', '.payment_logo_row');
+  },
+
+  toggleRow: (radioSelector, rowSelector) => {
+    if ($(radioSelector).length === 0) {
+      return;
+    }
+
+    let value = $(radioSelector + ':checked').val();
+
+    if (value === '1') {
+      $(rowSelector).show();
+    } else {
+      $(rowSelector).hide();
+    }
+  },
 }
 
 $(() => {

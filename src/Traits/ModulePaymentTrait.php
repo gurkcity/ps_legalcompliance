@@ -154,7 +154,7 @@ trait ModulePaymentTrait
     {
         $validOrderSates = [
             $this->getConfig()->get('OS'),
-            \Configuration::get('OS_NEWORDER'),
+            $this->getConfig()->get('OS_NEWORDER'),
             \Configuration::get('PS_OS_OUTOFSTOCK'),
             \Configuration::get('PS_OS_OUTOFSTOCK_UNPAID'),
         ];

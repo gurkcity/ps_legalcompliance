@@ -27,17 +27,17 @@ class MailPartialTemplateRenderer
     public function render($partialTemplateName, LanguageInterface $language, array $variables = [], $cleanComments = false)
     {
         $potentialPaths = [
-            _PS_THEME_DIR_ . 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . $language->getIsoCode() . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_MODULE_DIR_ . $this->moduleName . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . $language->getIsoCode() . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_THEME_DIR_ . 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_MODULE_DIR_ . $this->moduleName . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_MAIL_DIR_ . 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . '_partials' . DIRECTORY_SEPARATOR . $partialTemplateName,
+            implode(DIRECTORY_SEPARATOR, [_PS_THEME_DIR_ . 'modules', $this->moduleName, 'mails', $language->getIsoCode(), $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_MODULE_DIR_ . $this->moduleName, 'mails', $language->getIsoCode(), $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_THEME_DIR_ . 'modules', $this->moduleName, 'mails', 'en', $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_MODULE_DIR_ . $this->moduleName, 'mails', 'en', $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_MODULE_DIR_ . $this->moduleName, 'mails', '_partials', $partialTemplateName]),
 
-            _PS_THEME_DIR_ . 'mails' . DIRECTORY_SEPARATOR . $language->getIsoCode() . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_MAIL_DIR_ . $language->getIsoCode() . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_THEME_DIR_ . 'mails' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_MAIL_DIR_ . 'en' . DIRECTORY_SEPARATOR . $partialTemplateName,
-            _PS_MAIL_DIR_ . '_partials' . DIRECTORY_SEPARATOR . $partialTemplateName,
+            implode(DIRECTORY_SEPARATOR, [_PS_THEME_DIR_ . 'mails', $language->getIsoCode(), $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_MAIL_DIR_ . $language->getIsoCode(), $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_THEME_DIR_ . 'mails', 'en', $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_MAIL_DIR_ . 'en', $partialTemplateName]),
+            implode(DIRECTORY_SEPARATOR, [_PS_MAIL_DIR_ . '_partials', $partialTemplateName]),
         ];
 
         foreach ($potentialPaths as $path) {

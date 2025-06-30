@@ -11,6 +11,7 @@
 
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module;
 
+use Monolog\Logger as Monolog;
 use PrestaShop\PrestaShop\Adapter\Configuration as ConfigurationAdapterPrestaShop;
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 
@@ -18,15 +19,26 @@ class Install
 {
     private $module;
     private $settings;
+    private $logger;
 
     public function __construct(\PS_Legalcompliance $module, AbstractSettings $settings)
     {
         $this->module = $module;
         $this->settings = $settings;
+
+        $loggerInstance = $this->module->getLogger();
+        $loggerInstance->setLevel(
+            Monolog::INFO,
+            'install'
+        );
+
+        $this->logger = $loggerInstance->getInstanceOrCreate('install');
     }
 
     public function installModule(): bool
     {
+        $this->logger->info('Starting installation of module');
+
         if (\Shop::isFeatureActive()) {
             \Shop::setContext(\Shop::CONTEXT_ALL);
         }
@@ -40,6 +52,8 @@ class Install
         $this->installOrderStates();
         $this->installFixtures();
 
+        $this->logger->info('Ending installation of module');
+
         return true;
     }
 
@@ -47,8 +61,17 @@ class Install
     {
         $sqlQueries = $this->settings->getSqlInstall();
 
+        $this->logger->info(sprintf(
+            'Installing %s SQL queries',
+            count($sqlQueries)
+        ));
+
         foreach ($sqlQueries as $query) {
-            \Db::getInstance()->execute($query);
+            try {
+                \Db::getInstance()->execute($query);
+            } catch (\Exception $e) {
+                $this->logger->error('SQL query failed: ' . $e->getMessage());
+            }
         }
 
         return true;
@@ -58,8 +81,17 @@ class Install
     {
         $hooks = $this->settings->getHooks();
 
+        $this->logger->info(sprintf(
+            'Installing %s hooks',
+            count($hooks)
+        ));
+
         foreach ($hooks as $hook) {
-            $this->module->registerHook((string) $hook);
+            try {
+                $this->module->registerHook((string) $hook);
+            } catch (\Exception $e) {
+                $this->logger->error('Hook installation failed: ' . $e->getMessage());
+            }
         }
 
         return true;
@@ -90,7 +122,14 @@ class Install
         $languages = \Language::getLanguages(false);
         $languageMapping = array_column($languages, 'id_lang', 'iso_code');
 
-        foreach ($this->settings->getConfig() as $config) {
+        $configs = $this->settings->getConfig();
+
+        $this->logger->info(sprintf(
+            'Installing %s configuration settings',
+            count($configs)
+        ));
+
+        foreach ($configs as $config) {
             $name = $config->getName();
             $value = $config->getValue();
             $withPrefix = $config->usePrefix();
@@ -112,9 +151,16 @@ class Install
             }
 
             if ($config->isGlobal()) {
-                $configurationadapter->setGlobal($name, $value, $config->isHtml(), $withPrefix);
+                $result = $configurationadapter->setGlobal($name, $value, $config->isHtml(), $withPrefix);
             } else {
-                $configurationadapter->set($name, $value, $config->isHtml(), null, $withPrefix);
+                $result = $configurationadapter->set($name, $value, $config->isHtml(), null, $withPrefix);
+            }
+
+            if (!$result) {
+                $this->logger->error(sprintf(
+                    'Configuration setting "%s" could not be installed',
+                    $name
+                ));
             }
         }
 
@@ -125,6 +171,11 @@ class Install
     {
         $orderStates = $this->settings->getOrderStates();
         $config = $this->module->getConfig();
+
+        $this->logger->info(sprintf(
+            'Installing %s order states',
+            count($orderStates)
+        ));
 
         foreach ($orderStates as $orderState) {
             $id = $orderState->getId();
@@ -137,6 +188,13 @@ class Install
 
                 if (\Validate::isLoadedObject($newOrderState)) {
                     $config->set('OS_NEWORDER', (int) $newOrderState->id);
+
+                    $this->logger->info(sprintf(
+                        'Order state "%s" already exists with ID %d, skipping installation',
+                        $id,
+                        $newOrderState->id
+                    ));
+
                     continue;
                 }
             }
@@ -144,14 +202,25 @@ class Install
             $object = $orderState->getObject();
 
             if (!$object->save()) {
+                $this->logger->error(sprintf(
+                    'Order state "%s" could not be installed',
+                    $id
+                ));
+
                 continue;
             }
 
-            if (is_file($this->module->getLocalPath() . 'views/img/os.gif')) {
-                @copy(
+            if (
+                is_file($this->module->getLocalPath() . 'views/img/os.gif')
+                && !@copy(
                     $this->module->getLocalPath() . 'views/img/os.gif',
                     _PS_IMG_DIR_ . 'os/' . (int) $object->id . '.gif'
-                );
+                )
+            ) {
+                $this->logger->error(sprintf(
+                    'Order state "%s" icon could not be copied',
+                    $id
+                ));
             }
 
             $mails = [];
@@ -167,10 +236,17 @@ class Install
                     $filename = $this->module->getLocalPath() . 'mails/' . $isoCode . '/' . $template . '.' . $fileEnding;
 
                     if (is_file($filename)) {
-                        @copy(
+                        if (!@copy(
                             $filename,
                             _PS_MAIL_DIR_ . $isoCode . '/' . $template . '.' . $fileEnding
-                        );
+                        )) {
+                            $this->logger->error(sprintf(
+                                'Order state "%s" email template "%s.%s" could not be copied',
+                                $id,
+                                $template,
+                                $fileEnding
+                            ));
+                        }
 
                         $mails[] = $template;
                     }
@@ -215,17 +291,27 @@ class Install
     {
         $callable = $this->settings->getFixtures();
 
-        return $callable();
+        try {
+            return $callable();
+        } catch (\Exception $e) {
+            $this->logger->error('Fixtures installation failed: ' . $e->getMessage());
+
+            return false;
+        }
     }
 
     public function uninstallModule(): bool
     {
+        $this->logger->info('Starting uninstallation of module');
+
         $this->uninstallFixtures();
         $this->uninstallOrderStates();
         $this->uninstallConfig();
         $this->uninstallTabs();
         $this->uninstallHooks();
         $this->uninstallSql();
+
+        $this->logger->info('Ending uninstallation of module');
 
         return true;
     }

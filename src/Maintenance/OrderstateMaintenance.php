@@ -57,6 +57,7 @@ class OrderstateMaintenance implements MaintenanceInterface
 
             if ($orderState->getId() === 'new_order') {
                 \Configuration::updateValue('OS_NEWORDER', (int) $object->id);
+                $config->set('OS_NEWORDER', (int) $object->id);
             } elseif ($orderState->getId() === 'awaiting_payment') {
                 $config->set('OS', (int) $object->id);
                 $config->set('AWAITING_PAYMENT', 1);

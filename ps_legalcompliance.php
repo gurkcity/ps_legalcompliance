@@ -32,12 +32,9 @@ class PS_Legalcompliance extends Module
     use ModuleLicenseTrait;
     use ModulePaymentTrait;
 
-    const GC_VERSION = '9.0.0';
-    const GC_SUBVERSION = '41';
-
     public function __construct()
     {
-        $this->version = '9.0.2';
+        $this->version = '9.0.3';
 
         $this->name = 'ps_legalcompliance';
 

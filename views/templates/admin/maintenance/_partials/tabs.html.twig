@@ -17,18 +17,17 @@
       <p>{{ 'This list shows all admin tabs of the module that should be registered. If not all tabs are registered, you can fix this with the button below.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
 
       {% if tabs.module is not empty %}
-      <table class="tabs_list table">
+      <table class="tabs_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
             <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
             <th>{{ 'Roles'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for tab in tabs.module %}
           <tr>
-            <td>{{ tab.class_name }}</td>
             <td>
               {% if not tab.valid %}
               <span class="badge badge-warning">{{ 'not registered!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
@@ -36,6 +35,7 @@
               <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
               {% endif %}
             </td>
+            <td>{{ tab.class_name }}</td>
             <td>
               {%- for role in tab.roles -%}
                 <span class="role {% if role.id == 0 %}corrupt{% endif %}">{{ role.role[:1] }}</span>
@@ -51,18 +51,18 @@
 
       {% if tabs.unnecessary is not empty %}
       <p>{{ 'This list shows admin tabs that are no longer needed'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
-      <table class="tabs_list table">
+      <table class="tabs_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
             <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for tab in tabs.unnecessary %}
           <tr>
-            <td>{{ tab.class_name }}</td>
             <td><span class="badge badge-warning">{{ 'unecessary'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span></td>
+            <td>{{ tab.class_name }}</td>
           </tr>
           {% endfor %}
         </tbody>

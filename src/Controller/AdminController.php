@@ -75,6 +75,8 @@ class AdminController extends PrestaShopAdminController
 
     protected function getToolbarButtons(): array
     {
+        $languageContext = $this->getLanguageContext();
+
         return [
             'hooks' => [
                 'href' => $this->generateUrl('admin_modules_positions', ['show_modules' => (int) $this->module->id]),
@@ -83,7 +85,15 @@ class AdminController extends PrestaShopAdminController
                 'class' => 'btn-default',
             ],
             'translation' => [
-                'href' => $this->generateUrl('admin_international_translations_show_settings'),
+                'href' => $this->generateUrl(
+                    'admin_international_translation_overview',
+                    [
+                        'lang' => $languageContext->getIsocode(),
+                        'type' => 'modules',
+                        'locale' => $languageContext->getLocale(),
+                        'selected' => $this->module->name
+                    ]
+                ),
                 'desc' => $this->trans('Translate', [], 'Modules.Pslegalcompliance.Admin'),
                 'icon' => 'flag',
                 'class' => 'btn-default',

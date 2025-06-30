@@ -17,17 +17,24 @@
       <p>{{ 'This list shows the configuration that installs this module. If the configuration values are not installed correctly, you can reset them here.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
 
       {% if config is not empty %}
-      <table class="config_list table">
+      <table class="config_list table table-sm table-responsive">
         <thead>
           <tr>
+            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
             <th>{{ 'Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
             <th>{{ 'Value'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for value in config %}
           <tr>
+            <td>
+              {% if not value.valid %}
+              <span class="badge badge-warning">{{ 'missing!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              {% else %}
+              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              {% endif %}
+            </td>
             <td>{{ value.name }}</td>
             <td>
               {% if value.value is iterable %}
@@ -43,13 +50,6 @@
                 {{ value.value|slice(0,200) }} ...
               {% else %}
                 {{ value.value }}
-              {% endif %}
-            </td>
-            <td>
-              {% if not value.valid %}
-              <span class="badge badge-warning">{{ 'missing!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
-              {% else %}
-              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
               {% endif %}
             </td>
           </tr>

@@ -276,6 +276,11 @@ class TabMaintenance implements MaintenanceInterface
 
     protected function getUnnecassaryTabs(): array
     {
+        /*
+         * Disable this functionality for now, because it is not needed
+         */
+        return [];
+
         $allTabClassNames = [];
 
         foreach ($this->getTabs() as $tab) {

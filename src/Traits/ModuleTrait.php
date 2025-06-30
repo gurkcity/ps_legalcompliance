@@ -31,6 +31,9 @@ use Symfony\Component\Finder\Finder;
 
 trait ModuleTrait
 {
+    const GC_VERSION = '9.0.2';
+    const GC_SUBVERSION = '46';
+
     public $config;
     public $displayNamePre = '';
     public $displayNamePost = '';
@@ -266,10 +269,10 @@ trait ModuleTrait
         }
     }
 
-    public function hookSendMailAlterTemplateVars($params)
+    public function hookActionGetExtraMailTemplateVars($params)
     {
         if (!in_array($params['template'], $this->templatesForEmailVars)) {
-            return;
+            return [];
         }
 
         $idOrder = (int) ($params['template_vars']['{id_order}'] ?? 0);
@@ -277,14 +280,11 @@ trait ModuleTrait
         $order = new \Order($idOrder);
 
         if (\Validate::isLoadedObject($order)) {
-            $params['template_vars'] = array_merge(
-                $params['template_vars'],
-                $this->getExtraMailVars($order)
-            );
+            $params['extra_template_vars'] = $this->getOrderExtraMailVars($order);
         }
 
-        if (method_exists($this, 'parentHookSendMailAlterTemplateVars')) {
-            $this->parentHookSendMailAlterTemplateVars($params);
+        if (method_exists($this, 'parentHookActionGetExtraMailTemplateVars')) {
+            $params['extra_template_vars'] = $this->parentHookActionGetExtraMailTemplateVars($params, $params['template_vars'], $params['extra_template_vars']);
         }
     }
 
@@ -336,7 +336,7 @@ trait ModuleTrait
         }
     }
 
-    public function getExtraMailVars(\Order $order)
+    public function getOrderExtraMailVars(\Order $order)
     {
         $data = [];
 
@@ -422,8 +422,8 @@ trait ModuleTrait
         $productListHtml = '';
 
         if (count($productVarTplList) > 0) {
-            $productListTxt = $this->renderPartialEmailTemplate('order_conf_product_list.txt', \Mail::TYPE_TEXT, $productVarTplList);
-            $productListHtml = $this->renderPartialEmailTemplate('order_conf_product_list.tpl', \Mail::TYPE_HTML, $productVarTplList);
+            $productListTxt = $this->renderPartialEmailTemplate('order_conf_product_list.txt', \Mail::TYPE_TEXT, ['list' => $productVarTplList]);
+            $productListHtml = $this->renderPartialEmailTemplate('order_conf_product_list.tpl', \Mail::TYPE_HTML, ['list' => $productVarTplList]);
         }
 
         $cartRulesList = [];
@@ -444,8 +444,8 @@ trait ModuleTrait
         $cartRulesListHtml = '';
 
         if (count($cartRulesList) > 0) {
-            $cartRulesListTxt = $this->renderPartialEmailTemplate('order_conf_cart_rules.txt', \Mail::TYPE_TEXT, $cartRulesList);
-            $cartRulesListHtml = $this->renderPartialEmailTemplate('order_conf_cart_rules.tpl', \Mail::TYPE_HTML, $cartRulesList);
+            $cartRulesListTxt = $this->renderPartialEmailTemplate('order_conf_cart_rules.txt', \Mail::TYPE_TEXT, ['list' => $cartRulesList]);
+            $cartRulesListHtml = $this->renderPartialEmailTemplate('order_conf_cart_rules.tpl', \Mail::TYPE_HTML, ['list' => $cartRulesList]);
         }
 
         $data = [
@@ -521,8 +521,8 @@ trait ModuleTrait
         $context->language = $currentLanguage;
         $context->getTranslator()->setLocale($currentLanguage->locale);
 
-        if (method_exists($this, 'parentGetExtraMailVars')) {
-            $data = $this->parentGetExtraMailVars($data);
+        if (method_exists($this, 'parentGetOrderExtraMailVars')) {
+            $data = $this->parentGetOrderExtraMailVars($data, $order);
         }
 
         return $data;

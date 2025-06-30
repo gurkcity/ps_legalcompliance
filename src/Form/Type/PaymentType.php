@@ -52,6 +52,47 @@ class PaymentType extends TranslatorAwareType
         $width = $size[0] ?? 0;
         $height = $size[1] ?? 0;
 
+        $builder->add('os_neworder', ChoiceType::class, [
+            'label' => $this->trans('Order State after placing an order', 'Modules.Pslegalcompliance.Admin'),
+            'choices' => $orderStatesChoicesList,
+            'help' => $this->trans('The order state after a customer placed an order.', 'Modules.Pslegalcompliance.Admin'),
+            'constraints' => [
+                new Choice([
+                    'choices' => $orderStatesChoicesList,
+                    'message' => $this->trans('Please select a valid order state.', 'Modules.Pslegalcompliance.Admin'),
+                ]),
+            ],
+            'multistore_configuration_key' => $this->config->getName('OS_NEWORDER'),
+            'required' => false,
+        ]);
+        $builder->add('awaiting_payment', SwitchType::class, [
+            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Pslegalcompliance.Admin'),
+            'help' => $this->trans('Automatically set the order state to \'awaiting payment\' after order was created.', 'Modules.Pslegalcompliance.Admin'),
+            'multistore_configuration_key' => $this->config->getName('AWAITING_PAYMENT'),
+            'required' => false,
+        ]);
+        $builder->add('os', ChoiceType::class, [
+            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Pslegalcompliance.Admin'),
+            'choices' => $orderStatesChoicesList,
+            'help' => $this->trans('The order state after customer placed an order and waiting for payment.', 'Modules.Pslegalcompliance.Admin'),
+            'constraints' => [
+                new Choice([
+                    'choices' => $orderStatesChoicesList,
+                    'message' => $this->trans('Please select a valid order state.', 'Modules.Pslegalcompliance.Admin'),
+                ]),
+            ],
+            'multistore_configuration_key' => $this->config->getName('OS'),
+            'row_attr' => [
+                'class' => 'awaiting_payment_os_row',
+            ],
+            'required' => false,
+        ]);
+        $builder->add('show_payment_logo', SwitchType::class, [
+            'label' => $this->trans('Show Payment Logo', 'Modules.Pslegalcompliance.Admin'),
+            'help' => $this->trans('Display the payment logo on checkout payment selection.', 'Modules.Pslegalcompliance.Admin'),
+            'multistore_configuration_key' => $this->config->getName('SHOW_PAYMENT_LOGO'),
+            'required' => false,
+        ]);
         $builder->add('payment_logo', ImageFileType::class, [
             'label' => $this->trans('Payment Logo', 'Modules.Pslegalcompliance.Admin'),
             'help' => $this->trans('Upload custom payment logo. The logo will appear on the checkout page', 'Modules.Pslegalcompliance.Admin'),
@@ -68,40 +109,10 @@ class PaymentType extends TranslatorAwareType
             'image_file' => $paymentLogo->getFilePathUri(),
             'image_width' => $width,
             'image_height' => $height,
-        ]);
-        $builder->add('os_neworder', ChoiceType::class, [
-            'label' => $this->trans('Order State after placing an order', 'Modules.Pslegalcompliance.Admin'),
-            'choices' => $orderStatesChoicesList,
-            'help' => $this->trans('The order state after a customer placed an order.', 'Modules.Pslegalcompliance.Admin'),
-            'constraints' => [
-                new Choice([
-                    'choices' => $orderStatesChoicesList,
-                    'message' => $this->trans('Please select a valid order state.', 'Modules.Pslegalcompliance.Admin'),
-                ]),
+            'row_attr' => [
+                'class' => 'payment_logo_row',
             ],
-            'multistore_configuration_key' => $this->config->getName('OS_NEWORDER'),
-        ]);
-        $builder->add('awaiting_payment', SwitchType::class, [
-            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Pslegalcompliance.Admin'),
-            'help' => $this->trans('Automatically set the order state to \'awaiting payment\' after order was created.', 'Modules.Pslegalcompliance.Admin'),
-            'multistore_configuration_key' => $this->config->getName('AWAITING_PAYMENT'),
-        ]);
-        $builder->add('os', ChoiceType::class, [
-            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Pslegalcompliance.Admin'),
-            'choices' => $orderStatesChoicesList,
-            'help' => $this->trans('The order state after customer placed an order and waiting for payment.', 'Modules.Pslegalcompliance.Admin'),
-            'constraints' => [
-                new Choice([
-                    'choices' => $orderStatesChoicesList,
-                    'message' => $this->trans('Please select a valid order state.', 'Modules.Pslegalcompliance.Admin'),
-                ]),
-            ],
-            'multistore_configuration_key' => $this->config->getName('OS'),
-        ]);
-        $builder->add('show_payment_logo', SwitchType::class, [
-            'label' => $this->trans('Show Payment Logo', 'Modules.Pslegalcompliance.Admin'),
-            'help' => $this->trans('Display the payment logo on checkout payment selection.', 'Modules.Pslegalcompliance.Admin'),
-            'multistore_configuration_key' => $this->config->getName('SHOW_PAYMENT_LOGO'),
+            'required' => false,
         ]);
     }
 

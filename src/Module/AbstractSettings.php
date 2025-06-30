@@ -144,7 +144,7 @@ abstract class AbstractSettings
         if ($this->module->isPayment()) {
             $hooks[] = new Hook('paymentOptions');
             $hooks[] = new Hook('displayPaymentReturn');
-            $hooks[] = new Hook('sendMailAlterTemplateVars');
+            $hooks[] = new Hook('actionGetExtraMailTemplateVars');
             $hooks[] = new Hook('actionEmailSendBefore');
         }
 
@@ -184,6 +184,8 @@ abstract class AbstractSettings
 
                 if (is_file($this->module->getLocalPath() . 'mails/' . $language['iso_code'] . '/' . $this->module->name . '_payment.html')) {
                     $osObject->template[$language['id_lang']] = $this->module->name . '_payment';
+
+                    $sendEmail = true;
                 }
             }
 
@@ -333,7 +335,7 @@ abstract class AbstractSettings
                 'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
                 'name' => [
                     'en' => 'Payment',
-                    'de' => 'Bezahl-Einstellungen',
+                    'de' => 'Status & Zahlung',
                 ],
             ]);
         }
