@@ -70,3 +70,4 @@ Version	Datum     	Bemerkung
 					fix: ps_legalcompliancy check for required file
 9.0.0   01.01.2025  update to version 9.0
 9.0.2   23.06.2025  Optimized version for PS 9.0.0
+9.0.3   30.06.2025  fix: empty configuration for multilang input field
