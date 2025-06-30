@@ -27,10 +27,16 @@ class GeneralDataProvider implements FormDataProviderInterface
 
     public function getData()
     {
+        $legalMailFooter = $this->configuration->get('LEGAL_MAIL_FOOTER');
+
+        if (empty( $legalMailFooter)) {
+            $legalMailFooter = [];
+        }
+
         return [
             'AEUC_FEAT_REORDER' => !$this->configuration->get('PS_DISALLOW_HISTORY_REORDERING'),
             'PS_ATCP_SHIPWRAP' => $this->configuration->get('PS_ATCP_SHIPWRAP'),
-            'LEGAL_MAIL_FOOTER' => $this->configuration->get('LEGAL_MAIL_FOOTER'),
+            'LEGAL_MAIL_FOOTER' => $legalMailFooter,
         ];
     }
 
