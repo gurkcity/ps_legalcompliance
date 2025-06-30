@@ -36,7 +36,7 @@ class PaymentAdminController extends AdminController
         #[Autowire(service: 'onlineshopmodule.module.legalcompliance.form.handler.payment')]
         FormHandlerInterface $paymentFormHandler,
     ): Response {
-        if (!$this->module->isLicensed()) {
+        if (!$this->module->isLicensed() && !$this->module->isDevMode()) {
             return $this->redirectToRoute('ps_legalcompliance_license');
         }
 

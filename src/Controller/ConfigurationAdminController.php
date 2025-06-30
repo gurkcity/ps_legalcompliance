@@ -44,7 +44,7 @@ class ConfigurationAdminController extends AdminController
         #[Autowire(service: 'pslegalcompliance.form_handler.email')]
         FormHandlerInterface $emailFormHandler,
     ): Response {
-        if (!$this->module->isLicensed()) {
+        if (!$this->module->isLicensed() && !$this->module->isDevMode()) {
             return $this->redirectToRoute('ps_legalcompliance_license');
         }
 

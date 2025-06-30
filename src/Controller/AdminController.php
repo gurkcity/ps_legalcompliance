@@ -37,7 +37,7 @@ class AdminController extends PrestaShopAdminController
         string $template = '',
         array $templateParameters = []
     ): Response {
-        if (!$this->module->isLicensed()) {
+        if (!$this->module->isLicensed() && !$this->module->isDevMode()) {
             return $this->redirectToRoute('ps_legalcompliance_license');
         }
 
@@ -103,6 +103,12 @@ class AdminController extends PrestaShopAdminController
 
     protected function getHeaderVars(): array
     {
+        $licenseKey = $this->module->getLicenseKey();
+
+        if ($this->module->isDevMode()) {
+            $licenseKey = $this->trans('DEMO MODE', [], 'Modules.Pslegalcompliance.Admin');
+        }
+
         return [
             'module' => [
                 'name' => $this->module->name,
@@ -115,7 +121,7 @@ class AdminController extends PrestaShopAdminController
                 'author' => $this->module->author,
                 'gc_module_version' => $this->module->getGCModuleVersion(),
                 'logo' => $this->module->getPathUri() . 'logo.png',
-                'license_key' => $this->module->getLicenseKey(),
+                'license_key' => $licenseKey,
                 'path' => $this->module->getPathUri(),
             ],
             'layoutHeaderToolbarBtn' => $this->getToolbarButtons(),
