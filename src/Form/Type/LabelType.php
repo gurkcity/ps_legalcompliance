@@ -30,6 +30,9 @@ class LabelType extends TranslatorAwareType
                 'label' => $this->trans('Hint', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('If you specified a delivery time, this additional information is displayed in the footer of product pages with a link to the "Shipping & Payment" Page. Leave the field empty to disable.', 'Modules.Legalcompliance.Admin'),
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'label_delivery_additional',
+                ],
             ])
             ->add('AEUC_LABEL_SPECIFIC_PRICE', SwitchType::class, [
                 'label' => $this->trans('\'Our previous price\' label', 'Modules.Legalcompliance.Admin'),

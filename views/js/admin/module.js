@@ -107,4 +107,10 @@ const ps_legalcompliance = {
 
 $(() => {
   ps_legalcompliance.init();
+
+  $('input[name="label[AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL]"]').on('change', (e) => {
+    ps_legalcompliance.toggleRow('input[name="label[AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL]"]', '.label_delivery_additional');
+  });
+
+  ps_legalcompliance.toggleRow('input[name="label[AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL]"]', '.label_delivery_additional');;
 });
