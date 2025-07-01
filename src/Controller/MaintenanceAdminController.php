@@ -52,9 +52,9 @@ class MaintenanceAdminController extends AdminController
     public function maintenanceHooksResetAction(Request $request, Maintenance $maintenance)
     {
         if (!$maintenance->resetHooks()) {
-            $this->addFlash('error', $this->trans('Reset failed on some hooks!', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Reset failed on some hooks!', [], 'Modules.Legalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('All hooks have been reset successfully', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('All hooks have been reset successfully', [], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -69,9 +69,9 @@ class MaintenanceAdminController extends AdminController
     public function maintenanceTabsResetAction(Request $request, Maintenance $maintenance)
     {
         if (!$maintenance->resetTabs()) {
-            $this->addFlash('error', $this->trans('Reset failed on some tabs!', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Reset failed on some tabs!', [], 'Modules.Legalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('All tabs have been reset successfully', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('All tabs have been reset successfully', [], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -88,9 +88,9 @@ class MaintenanceAdminController extends AdminController
         try {
             $maintenance->resetSql();
 
-            $this->addFlash('success', $this->trans('SQL queries has been executed successfully', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('SQL queries has been executed successfully', [], 'Modules.Legalcompliance.Admin'));
         } catch (\Throwable $e) {
-            $this->addFlash('error', $this->trans('Reset SQL failed! %error%', ['%error%' => $e->getMessage()], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Reset SQL failed! %error%', ['%error%' => $e->getMessage()], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -105,9 +105,9 @@ class MaintenanceAdminController extends AdminController
     public function maintenanceConfigResetAction(Request $request, Maintenance $maintenance)
     {
         if (!$maintenance->resetConfig()) {
-            $this->addFlash('error', $this->trans('Install missing configuration failed!', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Install missing configuration failed!', [], 'Modules.Legalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Missing configuration installed successfully', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Missing configuration installed successfully', [], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -122,9 +122,9 @@ class MaintenanceAdminController extends AdminController
     public function maintenanceControllerResetAction(Request $request, Maintenance $maintenance)
     {
         if (!$maintenance->resetController()) {
-            $this->addFlash('error', $this->trans('Reset of controller failed!', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Reset of controller failed!', [], 'Modules.Legalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Controller reseted successfully', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Controller reseted successfully', [], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
@@ -139,9 +139,9 @@ class MaintenanceAdminController extends AdminController
     public function maintenanceOrderstatesResetAction(Request $request, Maintenance $maintenance)
     {
         if (!$maintenance->resetOrderstates()) {
-            $this->addFlash('error', $this->trans('Reset of order states failed!', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Reset of order states failed!', [], 'Modules.Legalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Order states reseted successfully', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Order states reseted successfully', [], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');

@@ -14,20 +14,20 @@
   <div class="col-xl-12">
     <div class="card">
       <h3 class="card-header">
-        <i class="material-icons">list</i> {{ 'Cron Queue'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+        <i class="material-icons">list</i> {{ 'Cron Queue'|trans({}, 'Modules.Legalcompliance.Admin') }}
       </h3>
 
       <div class="card-body">
         {% if not usingQueue %}
-        {{'No stats about the cron queue available'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+        {{'No stats about the cron queue available'|trans({}, 'Modules.Legalcompliance.Admin') }}
         {% else %}
         <table class="table">
           <thead>
             <tr>
-              <th>{{'Type'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
-              <th>{{'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
-              <th>{{'Runtime [s] (avg / min / max)'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
-              <th>{{'Count Rows'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+              <th>{{'Type'|trans({}, 'Modules.Legalcompliance.Admin') }}
+              <th>{{'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}
+              <th>{{'Runtime [s] (avg / min / max)'|trans({}, 'Modules.Legalcompliance.Admin') }}
+              <th>{{'Count Rows'|trans({}, 'Modules.Legalcompliance.Admin') }}
             </tr>
           </thead>
           <tbody>
@@ -36,11 +36,11 @@
               <td>{{ statRow.type }}</td>
               <td>
                 {% if statRow.executed == '-1' %}
-                {{ 'In Execution'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+                {{ 'In Execution'|trans({}, 'Modules.Legalcompliance.Admin') }}
                 {% elseif statRow.executed == '-1' %}
-                {{'Executed'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+                {{'Executed'|trans({}, 'Modules.Legalcompliance.Admin') }}
                 {% else %}
-                {{ 'Waiting'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+                {{ 'Waiting'|trans({}, 'Modules.Legalcompliance.Admin') }}
                 {% endif %}
               </td>
               <td>
@@ -64,7 +64,7 @@
   <div class="col-xl-6">
     <div class="card">
       <h3 class="card-header">
-        <i class="material-icons">schedule</i> {{ 'Cronjobs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+        <i class="material-icons">schedule</i> {{ 'Cronjobs'|trans({}, 'Modules.Legalcompliance.Admin') }}
       </h3>
 
       <div class="card-body">
@@ -73,16 +73,16 @@
           <div class="job_header">
             <h2>{{ job.title }}</h2>
             <p>{{ job.description }}</p>
-            <a href="#" class="btn btn-sm btn-default job_open">{{ 'Show cronjob properties'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+            <a href="#" class="btn btn-sm btn-default job_open">{{ 'Show cronjob properties'|trans({}, 'Modules.Legalcompliance.Admin') }}</a>
           </div>
           <div class="job_body" style="display:none;">
-            <p>{{ 'Possible cron calls'|trans({}, 'Modules.Pslegalcompliance.Admin') }}:</p>
+            <p>{{ 'Possible cron calls'|trans({}, 'Modules.Legalcompliance.Admin') }}:</p>
 
             <table class="table">
               <thead>
                 <tr>
-                  <th>{{ 'Method'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-                  <th>{{ 'Call'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+                  <th>{{ 'Method'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+                  <th>{{ 'Call'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,13 +96,13 @@
             </table>
 
             {% if job.params is not empty %}
-            <p>{{ 'Additional parameters'|trans({}, 'Modules.Pslegalcompliance.Admin') }}:</p>
+            <p>{{ 'Additional parameters'|trans({}, 'Modules.Legalcompliance.Admin') }}:</p>
             <table class="table">
               <thead>
                 <tr>
-                  <th>{{ 'Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-                  <th>{{ 'Values'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-                  <th>{{ 'Description'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+                  <th>{{ 'Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+                  <th>{{ 'Values'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+                  <th>{{ 'Description'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -115,7 +115,7 @@
                   {% for value, description in param.values %}
                     <b class="cron_param">{{ value }}</b><br>
                     {{ description }}<br>
-                    {{ 'Add this'|trans({}, 'Modules.Pslegalcompliance.Admin') }}: <i class="monospace">&amp;{{ param.name }}={{ value }}</i>
+                    {{ 'Add this'|trans({}, 'Modules.Legalcompliance.Admin') }}: <i class="monospace">&amp;{{ param.name }}={{ value }}</i>
                     <br>
                   {% endfor %}
                   </td>
@@ -127,8 +127,8 @@
             {% endif %}
 
             <p>
-              <a href="#" class="btn btn-default job_close">{{ 'close'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
-              <a href="{{ job.url_wget }}" target="_blank" class="btn btn-primary">{{ 'Execute cron \'%cron_name%\' now!'|trans({'%cron_name%': job.title}, 'Modules.Pslegalcompliance.Admin') }}</a>
+              <a href="#" class="btn btn-default job_close">{{ 'close'|trans({}, 'Modules.Legalcompliance.Admin') }}</a>
+              <a href="{{ job.url_wget }}" target="_blank" class="btn btn-primary">{{ 'Execute cron \'%cron_name%\' now!'|trans({'%cron_name%': job.title}, 'Modules.Legalcompliance.Admin') }}</a>
             </p>
           </div>
         </div>
@@ -141,7 +141,7 @@
     {{ form_start(form) }}
     <div class="card">
       <h3 class="card-header">
-        <i class="material-icons">settings</i> {{ 'Settings'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+        <i class="material-icons">settings</i> {{ 'Settings'|trans({}, 'Modules.Legalcompliance.Admin') }}
       </h3>
 
       <div class="card-body">
@@ -151,7 +151,7 @@
       </div>
       <div class="card-footer">
         <div class="d-flex justify-content-end">
-          <button class="btn btn-primary">{{ 'Save'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</button>
+          <button class="btn btn-primary">{{ 'Save'|trans({}, 'Modules.Legalcompliance.Admin') }}</button>
         </div>
       </div>
     </div>

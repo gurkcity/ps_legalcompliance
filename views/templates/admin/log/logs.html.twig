@@ -15,7 +15,7 @@
   <div class="col-xl-6">
     <div class="card">
       <h3 class="card-header">
-        <i class="material-icons">assignment</i> {{ 'Existing Logs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+        <i class="material-icons">assignment</i> {{ 'Existing Logs'|trans({}, 'Modules.Legalcompliance.Admin') }}
       </h3>
 
       <div class="card-body">
@@ -23,9 +23,9 @@
         <table class="table log_files_list">
           <thead>
             <tr>
-              <th>{{ 'File'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-              <th>{{ 'Size'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-              <th>{{ 'Action'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+              <th>{{ 'File'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+              <th>{{ 'Size'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+              <th>{{ 'Action'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -33,19 +33,19 @@
             <tr>
               <td><a href="{{ path('ps_legalcompliance_logs_view', {'filename': file.filename}) }}" target="_blank">{{ file.filename }}</a></td>
               <td>{{ file.size }}</td>
-              <td><a href="{{ path('ps_legalcompliance_logs_delete', {'filename': file.filename}) }}" title="{{ 'delete'|trans({}, 'Modules.Pslegalcompliance.Admin') }}"><i class="material-icons">delete</i></a></td>
+              <td><a href="{{ path('ps_legalcompliance_logs_delete', {'filename': file.filename}) }}" title="{{ 'delete'|trans({}, 'Modules.Legalcompliance.Admin') }}"><i class="material-icons">delete</i></a></td>
             </tr>
           {% endfor %}
           </tbody>
         </table>
         {% else %}
-        <p class="alert alert-info">{{ 'There are no logfiles yet'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+        <p class="alert alert-info">{{ 'There are no logfiles yet'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
         {% endif %}
       </div>
       <div class="card-footer">
         <div class="d-flex justify-content-end">
           {% if logFiles is not empty %}
-          <a class="btn btn-primary" href="{{ path('ps_legalcompliance_logs_clear') }}">{{ 'Clear Logs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+          <a class="btn btn-primary" href="{{ path('ps_legalcompliance_logs_clear') }}">{{ 'Clear Logs'|trans({}, 'Modules.Legalcompliance.Admin') }}</a>
           {% endif %}
         </div>
       </div>
@@ -55,7 +55,7 @@
     {{ form_start(form) }}
     <div class="card">
       <h3 class="card-header">
-        <i class="material-icons">settings</i> {{ 'Log Settings'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+        <i class="material-icons">settings</i> {{ 'Log Settings'|trans({}, 'Modules.Legalcompliance.Admin') }}
       </h3>
 
       <div class="card-body">
@@ -65,7 +65,7 @@
       </div>
       <div class="card-footer">
         <div class="d-flex justify-content-end">
-          <button class="btn btn-primary">{{ 'Save'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</button>
+          <button class="btn btn-primary">{{ 'Save'|trans({}, 'Modules.Legalcompliance.Admin') }}</button>
         </div>
       </div>
     </div>

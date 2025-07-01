@@ -180,7 +180,7 @@ abstract class AbstractSettings
             $sendEmail = false;
 
             foreach (\Language::getLanguages() as $language) {
-                $osObject->name[$language['id_lang']] = $this->translator->trans('Awaiting payment: Legalcompliance', [], 'Modules.Pslegalcompliance.Admin');
+                $osObject->name[$language['id_lang']] = $this->translator->trans('Awaiting payment: Legalcompliance', [], 'Modules.Legalcompliance.Admin');
 
                 if (is_file($this->module->getLocalPath() . 'mails/' . $language['iso_code'] . '/' . $this->module->name . '_payment.html')) {
                     $osObject->template[$language['id_lang']] = $this->module->name . '_payment';
@@ -205,7 +205,7 @@ abstract class AbstractSettings
         }
 
         $orderStates['awaiting_payment'] = new Orderstate(
-            $this->translator->trans('Awaiting Payment', [], 'Modules.Pslegalcompliance.Admin'),
+            $this->translator->trans('Awaiting Payment', [], 'Modules.Legalcompliance.Admin'),
             'awaiting_payment',
             $osObject
         );
@@ -219,7 +219,7 @@ abstract class AbstractSettings
             $osObject->template = [];
 
             foreach (\Language::getLanguages() as $language) {
-                $osObject->name[$language['id_lang']] = $this->translator->trans('Order placed', [], 'Modules.Pslegalcompliance.Shop');
+                $osObject->name[$language['id_lang']] = $this->translator->trans('Order placed', [], 'Modules.Legalcompliance.Shop');
             }
 
             $osObject->send_email = false;
@@ -238,7 +238,7 @@ abstract class AbstractSettings
         }
 
         $orderStates['new_order'] = new Orderstate(
-            $this->translator->trans('Order placed', [], 'Modules.Pslegalcompliance.Admin'),
+            $this->translator->trans('Order placed', [], 'Modules.Legalcompliance.Admin'),
             'new_order',
             $osObject
         );
@@ -295,7 +295,7 @@ abstract class AbstractSettings
             'route_name' => 'ps_legalcompliance',
             'icon' => '',
             'wording' => 'Legalcompliance Module',
-            'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+            'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => false,
             'parent_class_name' => 'AdminParentModulesSf',
             'name' => [
@@ -315,7 +315,7 @@ abstract class AbstractSettings
             'route_name' => 'ps_legalcompliance_configuration',
             'icon' => '',
             'wording' => 'Configuration',
-            'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+            'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => true,
             'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
             'name' => [
@@ -330,7 +330,7 @@ abstract class AbstractSettings
                 'route_name' => 'ps_legalcompliance_payment',
                 'icon' => '',
                 'wording' => 'Payment',
-                'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+                'wording_domain' => 'Modules.Legalcompliance.Admin',
                 'visible' => true,
                 'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
                 'name' => [
@@ -346,7 +346,7 @@ abstract class AbstractSettings
                 'route_name' => 'ps_legalcompliance_cron',
                 'icon' => '',
                 'wording' => 'Cron',
-                'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+                'wording_domain' => 'Modules.Legalcompliance.Admin',
                 'visible' => true,
                 'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
                 'name' => [
@@ -361,7 +361,7 @@ abstract class AbstractSettings
             'route_name' => 'ps_legalcompliance_logs',
             'icon' => '',
             'wording' => 'Logs',
-            'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+            'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => true,
             'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
             'name' => [
@@ -375,7 +375,7 @@ abstract class AbstractSettings
             'route_name' => 'ps_legalcompliance_maintenance',
             'icon' => '',
             'wording' => 'Maintenance',
-            'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+            'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => true,
             'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
             'name' => [
@@ -389,7 +389,7 @@ abstract class AbstractSettings
             'route_name' => 'ps_legalcompliance_license',
             'icon' => '',
             'wording' => 'License',
-            'wording_domain' => 'Modules.Pslegalcompliance.Admin',
+            'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => false,
             'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
             'name' => [

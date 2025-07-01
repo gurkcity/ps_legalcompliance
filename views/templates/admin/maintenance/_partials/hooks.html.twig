@@ -10,18 +10,18 @@
   <div class="card">
 
     <h3 class="card-header">
-      <i class="material-icons">anchor</i> {{ 'Hooks'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+      <i class="material-icons">anchor</i> {{ 'Hooks'|trans({}, 'Modules.Legalcompliance.Admin') }}
     </h3>
 
     <div class="card-body">
-      <p>{{ 'This list shows all hooks used by the module. If not all hooks are registered, you can fix this with the button below.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p>{{ 'This list shows all hooks used by the module. If not all hooks are registered, you can fix this with the button below.'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
 
       {% if hooks.module is not empty %}
       <table class="hooks_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Hook Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Hook Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -29,9 +29,9 @@
           <tr>
             <td>
               {% if not hook.registered %}
-              <span class="badge badge-danger">{{ 'not registered!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-danger">{{ 'not registered!'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% else %}
-              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% endif %}
             </td>
             <td>{{ hook.name }}</td>
@@ -40,22 +40,22 @@
         </tbody>
       </table>
       {% else %}
-      <p class="alert alert-info">{{ 'There are no hooks for this module to register'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p class="alert alert-info">{{ 'There are no hooks for this module to register'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
       {% endif %}
 
       {% if hooks.unnecessary is not empty %}
       <table class="hooks_list_unnecessary table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Hook Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Hook Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for hook_name in hooks.unnecessary %}
           <tr>
             <td>
-              <span class="badge badge-warning">{{ 'registerd but unnecessary!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-warning">{{ 'registerd but unnecessary!'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
             </td>
             <td>{{ hook_name }}</td>
           </tr>
@@ -67,7 +67,7 @@
 
     <div class="card-footer">
       <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_hooks_reset') }}">{{ 'Reset missing hooks'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_hooks_reset') }}">{{ 'Reset missing hooks'|trans({}, 'Modules.Legalcompliance.Admin') }}</a>
       </div>
     </div>
 

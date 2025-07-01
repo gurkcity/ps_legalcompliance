@@ -47,7 +47,7 @@ class CronPresenter implements PresenterInterface
     {
         $cron['title'] = $cron['title'] ?? '';
         $cron['method'] = $methodName;
-        $cron['description'] = $cron['description'] ?? $this->translator->trans('Take this cron url to prepare the cronjob for the action \'%action_name%\'', ['%action_name%' => $cron['title']], 'Modules.Pslegalcompliance.Admin');
+        $cron['description'] = $cron['description'] ?? $this->translator->trans('Take this cron url to prepare the cronjob for the action \'%action_name%\'', ['%action_name%' => $cron['title']], 'Modules.Legalcompliance.Admin');
         $cron['params'] = $cron['params'] ?? [];
 
         $shopUrl = \Tools::getShopProtocol() . $this->context->shop->domain . $this->context->shop->getBaseURI();

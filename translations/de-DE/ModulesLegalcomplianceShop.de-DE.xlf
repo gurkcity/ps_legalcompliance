@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesLegalcomplianceShop.xlf" source-language="de-DE" target-language="de-DE" datatype="plaintext">
+    <body>
+      <trans-unit id="6af90b162bd8ab1c547c76492d8a2380">
+        <source>(Under conditions)</source>
+        <target>(Unter bestimmten Bedingungen)</target>
+      </trans-unit>
+      <trans-unit id="ceae7caad3d61341d1ddc4c78b21546c">
+        <source>All prices are mentioned tax excluded</source>
+        <target>Preisangaben zzgl. gesetzl. MwSt.</target>
+      </trans-unit>
+      <trans-unit id="361e7fe59f227267dd4a926de69fc658">
+        <source>All prices are mentioned tax included</source>
+        <target>Alle Preise verstehen sich inklusive Mehrwertsteuer</target>
+      </trans-unit>
+      <trans-unit id="a9fb186400bb35ec7c0aa89ba8e024ce">
+        <source>Download Info</source>
+        <target>Download Info</target>
+      </trans-unit>
+      <trans-unit id="5da618e8e4b89c66fe86e32cdafde142">
+        <source>From</source>
+        <target>Ab</target>
+      </trans-unit>
+      <trans-unit id="cd18220ba24e07df2d859c30cb5809a9">
+        <source>I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.</source>
+        <target>Ich habe die [Allgemeinen Geschäftsbedingungen], mein [Widerrufsrecht] und die [Datenschutzerklärung] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
+      </trans-unit>
+      <trans-unit id="a82be0f551b8708bc08eb33cd9ded0cf">
+        <source>Information</source>
+        <target>Informationen</target>
+      </trans-unit>
+      <trans-unit id="ded564687a6602917eb07c460577f456">
+        <source>Information regarding online dispute resolution pursuant to Art. 14 Para. 1 of the ODR (Online Dispute Resolution Regulation):</source>
+        <target>Information zur Online-Streitbeilegung gemäß Art. 14 § 1 ODR-VO (Online-Streibeilegungs-Verordnung):</target>
+      </trans-unit>
+      <trans-unit id="59a297091dace235b4bce5af7b86ead6">
+        <source>My shopping cart</source>
+        <target>Mein Warenkorb</target>
+      </trans-unit>
+      <trans-unit id="cc9faa30860743d9bc05e174d1c674b1">
+        <source>Order placed</source>
+        <target>Bestellung eingegangen</target>
+      </trans-unit>
+      <trans-unit id="569fd05bdafa1712c4f6be5b153b8418">
+        <source>Other payment methods</source>
+        <target>Andere Zahlungsmethoden</target>
+      </trans-unit>
+      <trans-unit id="16b24a264ab76a36917095bf6e41ef62">
+        <source>Our previous price</source>
+        <target>Vorher</target>
+      </trans-unit>
+      <trans-unit id="f82d82b3ecc6482c1b39197de737307d">
+        <source>Pay by %module_name%</source>
+        <target>Mit %module_name% bezahlen</target>
+      </trans-unit>
+      <trans-unit id="31c57e08eb3defa2f15de9d706387465">
+        <source>Payment with Legalcompliance</source>
+        <target>Bezahlung per Legalcompliance</target>
+      </trans-unit>
+      <trans-unit id="baa62374832554652160fe5a827b2741">
+        <source>Place my order</source>
+        <target>Kaufen</target>
+      </trans-unit>
+      <trans-unit id="ba242afc28d084a94011536b466e0cf4">
+        <source>Please confirm your order by clicking "Place my order"</source>
+        <target>Bitte bestätigen Sie Ihre Bestellung, indem Sie auf "Kaufen" klicken.</target>
+      </trans-unit>
+      <trans-unit id="6a91d7d52c586b57ca8f2a425434b5c6">
+        <source>Please note our [%terms_and_conditions%] and [%revocation%]</source>
+        <target>Bitte beachten Sie unsere [%terms_and_conditions%] und [%revocation%]</target>
+      </trans-unit>
+      <trans-unit id="427e29628d9f5d9bfde0e58b32569619">
+        <source>Print this page</source>
+        <target>Seite drucken</target>
+      </trans-unit>
+      <trans-unit id="5fb4f05f62f9967052977077d783fc2d">
+        <source>Shipping and payment</source>
+        <target>Versand und Zahlung</target>
+      </trans-unit>
+      <trans-unit id="89bea8045e50a337d8ce9849a4e1633c">
+        <source>Shipping excluded</source>
+        <target>zzgl. Versand</target>
+      </trans-unit>
+      <trans-unit id="29bd9770285cd28ad9e55714db33e8bd">
+        <source>The European Commission gives consumers the opportunity to resolve online disputes pursuant to Art. 14 Para. 1 of the ODR on one of their platforms. The platform ([1]http://ec.europa.eu/consumers/odr[/1]) serves as a site where consumers can try to reach out-of-court settlements of disputes arising from online purchases and contracts for services.</source>
+        <target>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie hier finden: ([1]https://ec.europa.eu/consumers/odr[/1]. Verbraucher haben die Möglichkeit, diese Plattform für die Beilegung von Streitigkeiten über online getätigte Käufe oder abgeschlossene Dienstleistungsverträge zu nutzen.</target>
+      </trans-unit>
+      <trans-unit id="e2867a925cba382f1436d1834bb52a1c">
+        <source>The total amount of your order is</source>
+        <target>Der Gesamtbetrag der Bestellung ist</target>
+      </trans-unit>
+      <trans-unit id="8906c9d6b67614655b35ed043067aecb">
+        <source>You have chosen to pay by Legalcompliance.</source>
+        <target>Sie haben sich für die Bezahlung per Legalcompliance entschieden.</target>
+      </trans-unit>
+      <trans-unit id="24e1d16d27968fa62b5bde3d087e3978">
+        <source>You pay with Legalcompliance</source>
+        <target>Sie bezahlen mit Legalcompliance</target>
+      </trans-unit>
+      <trans-unit id="6f06a13b9608ee5f2da343a3ca049f31">
+        <source>[1]For digital goods:[/1] I want immediate access to the digital content and I acknowledge that thereby I lose my right to cancel once the service has begun.[2][1]For services:[/1] I agree to the starting of the service and I acknowledge that I lose my right to cancel once the service has been fully performed.</source>
+        <target>[1]Bei Erwerb digitaler Inhalte:[/1] Ich stimme der Ausführung des Vertrages vor Ablauf der Widerrufsfrist ausdrücklich zu. Ich habe zur Kenntnis genommen, dass das Widerrufsrecht mit Beginn der Ausführung des Vertrages erlischt.[2][1]Bei Erwerb von Dienstleistungen:[/1] Ich verlange ausdrücklich und stimme gleichzeitig zu, dass Sie mit der in Auftrag gegebenen Dienstleistung vor Ablauf der Widerrufsfrist beginnen. Ich weiß, dass mein Widerrufsrecht bei vollständiger Erfüllung des Vertrages erlischt.</target>
+      </trans-unit>
+      <trans-unit id="be5d5d37542d75f93a87094459f76678">
+        <source>and</source>
+        <target>und</target>
+      </trans-unit>
+      <trans-unit id="de95b43bceeb4b998aed4aed5cef1ae7">
+        <source>edit</source>
+        <target>bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="53ae8b43aace8a1d1349d659c150d99f">
+        <source>shipping excluded</source>
+        <target>zzgl. Versand</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

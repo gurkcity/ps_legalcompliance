@@ -10,19 +10,19 @@
   <div class="card">
 
     <h3 class="card-header">
-      <i class="material-icons">list</i> {{ 'Tabs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+      <i class="material-icons">list</i> {{ 'Tabs'|trans({}, 'Modules.Legalcompliance.Admin') }}
     </h3>
 
     <div class="card-body">
-      <p>{{ 'This list shows all admin tabs of the module that should be registered. If not all tabs are registered, you can fix this with the button below.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p>{{ 'This list shows all admin tabs of the module that should be registered. If not all tabs are registered, you can fix this with the button below.'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
 
       {% if tabs.module is not empty %}
       <table class="tabs_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Roles'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Tab Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Roles'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -30,9 +30,9 @@
           <tr>
             <td>
               {% if not tab.valid %}
-              <span class="badge badge-warning">{{ 'not registered!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-warning">{{ 'not registered!'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% else %}
-              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% endif %}
             </td>
             <td>{{ tab.class_name }}</td>
@@ -46,22 +46,22 @@
         </tbody>
       </table>
       {% else %}
-      <p class="alert alert-info">{{ 'There are no tabs for this module to register'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p class="alert alert-info">{{ 'There are no tabs for this module to register'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
       {% endif %}
 
       {% if tabs.unnecessary is not empty %}
-      <p>{{ 'This list shows admin tabs that are no longer needed'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p>{{ 'This list shows admin tabs that are no longer needed'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
       <table class="tabs_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Tab Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Tab Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for tab in tabs.unnecessary %}
           <tr>
-            <td><span class="badge badge-warning">{{ 'unecessary'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span></td>
+            <td><span class="badge badge-warning">{{ 'unecessary'|trans({}, 'Modules.Legalcompliance.Admin') }}</span></td>
             <td>{{ tab.class_name }}</td>
           </tr>
           {% endfor %}
@@ -72,7 +72,7 @@
 
     <div class="card-footer">
       <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_tabs_reset') }}">{{ 'Reset tabs'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_tabs_reset') }}">{{ 'Reset tabs'|trans({}, 'Modules.Legalcompliance.Admin') }}</a>
       </div>
     </div>
 

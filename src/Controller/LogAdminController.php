@@ -77,9 +77,9 @@ class LogAdminController extends AdminController
         $result = $logRepository->clear();
 
         if (!$result) {
-            $this->addFlash('error', $this->trans('Log files could not be deleted!', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Log files could not be deleted!', [], 'Modules.Legalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Log files have been cleared', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Log files have been cleared', [], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_logs');
@@ -96,9 +96,9 @@ class LogAdminController extends AdminController
         $result = $logRepository->delete($filename);
 
         if (!$result) {
-            $this->addFlash('error', $this->trans('Log file could not be deleted!', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('error', $this->trans('Log file could not be deleted!', [], 'Modules.Legalcompliance.Admin'));
         } else {
-            $this->addFlash('success', $this->trans('Log fils have been deleted', [], 'Modules.Pslegalcompliance.Admin'));
+            $this->addFlash('success', $this->trans('Log fils have been deleted', [], 'Modules.Legalcompliance.Admin'));
         }
 
         return $this->redirectToRoute('ps_legalcompliance_logs');

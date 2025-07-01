@@ -10,19 +10,19 @@
   <div class="card">
 
     <h3 class="card-header">
-      <i class="material-icons">settings</i> {{ 'Configuration'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+      <i class="material-icons">settings</i> {{ 'Configuration'|trans({}, 'Modules.Legalcompliance.Admin') }}
     </h3>
 
     <div class="card-body">
-      <p>{{ 'This list shows the configuration that installs this module. If the configuration values are not installed correctly, you can reset them here.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p>{{ 'This list shows the configuration that installs this module. If the configuration values are not installed correctly, you can reset them here.'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
 
       {% if config is not empty %}
       <table class="config_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Value'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Value'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -30,9 +30,9 @@
           <tr>
             <td>
               {% if not value.valid %}
-              <span class="badge badge-warning">{{ 'missing!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-warning">{{ 'missing!'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% else %}
-              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% endif %}
             </td>
             <td>{{ value.name }}</td>
@@ -57,13 +57,13 @@
         </tbody>
       </table>
       {% else %}
-      <p class="alert alert-info">{{ 'There is no configuration for this module to install'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p class="alert alert-info">{{ 'There is no configuration for this module to install'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
       {% endif %}
     </div>
 
     <div class="card-footer">
       <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_config_reset') }}">{{ 'Install missing configuration'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_config_reset') }}">{{ 'Install missing configuration'|trans({}, 'Modules.Legalcompliance.Admin') }}</a>
       </div>
     </div>
 

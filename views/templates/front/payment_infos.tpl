@@ -7,4 +7,4 @@
  * @license   commercial, see licence.txt
  *}
 
-<p>{l s='You pay with Legalcompliance' d='Modules.Pslegalcompliance.Shop'}</p>
+<p>{l s='You pay with Legalcompliance' d='Modules.Legalcompliance.Shop'}</p>

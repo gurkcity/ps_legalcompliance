@@ -23,9 +23,9 @@ class LogType extends TranslatorAwareType
         $logLevels = Logger::getLevels();
 
         $builder->add('loglevel', ChoiceType::class, [
-            'label' => $this->trans('Log Level', 'Modules.Pslegalcompliance.Admin'),
+            'label' => $this->trans('Log Level', 'Modules.Legalcompliance.Admin'),
             'choices' => $logLevels,
-            'help' => $this->trans('Determine from which log level the messages should be recorded. Set the log level lower than WARNING only for debug purposes, otherwise the files will be too large.', 'Modules.Pslegalcompliance.Admin'),
+            'help' => $this->trans('Determine from which log level the messages should be recorded. Set the log level lower than WARNING only for debug purposes, otherwise the files will be too large.', 'Modules.Legalcompliance.Admin'),
         ]);
     }
 }

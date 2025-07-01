@@ -10,18 +10,18 @@
   <div class="card">
 
     <h3 class="card-header">
-      <i class="material-icons">inventory</i> {{ 'Database'|trans({}, 'Modules.Pslegalcompliance.Admin') }}
+      <i class="material-icons">inventory</i> {{ 'Database'|trans({}, 'Modules.Legalcompliance.Admin') }}
     </h3>
 
     <div class="card-body">
-      <p>{{ 'The SQL schema and all differences to the current database are shown here.'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p>{{ 'The SQL schema and all differences to the current database are shown here.'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
 
       {% if sql.tables is not empty %}
       <table class="sql_list table table-sm table-responsive">
         <thead>
           <tr>
-            <th>{{ 'Status'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
-            <th>{{ 'Table Name'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</th>
+            <th>{{ 'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            <th>{{ 'Table Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -29,9 +29,9 @@
           <tr>
             <td>
               {% if not table.valid %}
-              <span class="badge badge-warning">{{ 'failure!'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-warning">{{ 'failure!'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% else %}
-              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</span>
+              <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% endif %}
             </td>
             <td>{{ table.name }}</td>
@@ -40,12 +40,12 @@
         </tbody>
       </table>
       {% else %}
-      <p class="alert alert-info">{{ 'There is no SQL to install for this module'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+      <p class="alert alert-info">{{ 'There is no SQL to install for this module'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
       {% endif %}
 
       {% if sql.differences is not empty %}
       <div class="alert alert-warning">
-        <p>{{ 'Differences:'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</p>
+        <p>{{ 'Differences:'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
 
         {% for difference in sql.differences %}
           <code>{{ difference }};</code><br>
@@ -57,7 +57,7 @@
 
     <div class="card-footer">
       <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_sql_reset') }}">{{ 'Reset SQL'|trans({}, 'Modules.Pslegalcompliance.Admin') }}</a>
+        <a class="btn btn-primary" href="{{ path('ps_legalcompliance_maintenance_sql_reset') }}">{{ 'Reset SQL'|trans({}, 'Modules.Legalcompliance.Admin') }}</a>
       </div>
     </div>
 

@@ -66,14 +66,14 @@ class PaymentAdminController extends AdminController
 
                     $formData['payment_logo'] = $fileName;
                 } catch (FileException $e) {
-                    $saveErrors[] = $this->trans('Could not upload logo file', [], 'Modules.Pslegalcompliance.Admin');
+                    $saveErrors[] = $this->trans('Could not upload logo file', [], 'Modules.Legalcompliance.Admin');
                 }
             }
 
             $saveErrors = $paymentFormHandler->save($formData);
 
             if (0 === count($saveErrors)) {
-                $this->addFlash('success', $this->trans('Settings saved!', [], 'Modules.Pslegalcompliance.Admin'));
+                $this->addFlash('success', $this->trans('Settings saved!', [], 'Modules.Legalcompliance.Admin'));
 
                 return $this->redirectToRoute('ps_legalcompliance_payment');
             } else {

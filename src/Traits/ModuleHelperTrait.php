@@ -36,7 +36,7 @@ trait ModuleHelperTrait
     public function getContent()
     {
         if (!\Module::isEnabled($this->name)) {
-            return '<div class="alert alert-warning">' . $this->trans('This module is disabled. Please enable it.', [], 'Modules.Pslegalcompliance.Admin') . '</div>';
+            return '<div class="alert alert-warning">' . $this->trans('This module is disabled. Please enable it.', [], 'Modules.Legalcompliance.Admin') . '</div>';
         }
 
         \Tools::redirectAdmin(

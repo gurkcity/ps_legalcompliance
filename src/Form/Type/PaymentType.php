@@ -53,32 +53,32 @@ class PaymentType extends TranslatorAwareType
         $height = $size[1] ?? 0;
 
         $builder->add('os_neworder', ChoiceType::class, [
-            'label' => $this->trans('Order State after placing an order', 'Modules.Pslegalcompliance.Admin'),
+            'label' => $this->trans('Order State after placing an order', 'Modules.Legalcompliance.Admin'),
             'choices' => $orderStatesChoicesList,
-            'help' => $this->trans('The order state after a customer placed an order.', 'Modules.Pslegalcompliance.Admin'),
+            'help' => $this->trans('The order state after a customer placed an order.', 'Modules.Legalcompliance.Admin'),
             'constraints' => [
                 new Choice([
                     'choices' => $orderStatesChoicesList,
-                    'message' => $this->trans('Please select a valid order state.', 'Modules.Pslegalcompliance.Admin'),
+                    'message' => $this->trans('Please select a valid order state.', 'Modules.Legalcompliance.Admin'),
                 ]),
             ],
             'multistore_configuration_key' => $this->config->getName('OS_NEWORDER'),
             'required' => false,
         ]);
         $builder->add('awaiting_payment', SwitchType::class, [
-            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Pslegalcompliance.Admin'),
-            'help' => $this->trans('Automatically set the order state to \'awaiting payment\' after order was created.', 'Modules.Pslegalcompliance.Admin'),
+            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Legalcompliance.Admin'),
+            'help' => $this->trans('Automatically set the order state to \'awaiting payment\' after order was created.', 'Modules.Legalcompliance.Admin'),
             'multistore_configuration_key' => $this->config->getName('AWAITING_PAYMENT'),
             'required' => false,
         ]);
         $builder->add('os', ChoiceType::class, [
-            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Pslegalcompliance.Admin'),
+            'label' => $this->trans('Order State Awaiting Payment', 'Modules.Legalcompliance.Admin'),
             'choices' => $orderStatesChoicesList,
-            'help' => $this->trans('The order state after customer placed an order and waiting for payment.', 'Modules.Pslegalcompliance.Admin'),
+            'help' => $this->trans('The order state after customer placed an order and waiting for payment.', 'Modules.Legalcompliance.Admin'),
             'constraints' => [
                 new Choice([
                     'choices' => $orderStatesChoicesList,
-                    'message' => $this->trans('Please select a valid order state.', 'Modules.Pslegalcompliance.Admin'),
+                    'message' => $this->trans('Please select a valid order state.', 'Modules.Legalcompliance.Admin'),
                 ]),
             ],
             'multistore_configuration_key' => $this->config->getName('OS'),
@@ -88,21 +88,21 @@ class PaymentType extends TranslatorAwareType
             'required' => false,
         ]);
         $builder->add('show_payment_logo', SwitchType::class, [
-            'label' => $this->trans('Show Payment Logo', 'Modules.Pslegalcompliance.Admin'),
-            'help' => $this->trans('Display the payment logo on checkout payment selection.', 'Modules.Pslegalcompliance.Admin'),
+            'label' => $this->trans('Show Payment Logo', 'Modules.Legalcompliance.Admin'),
+            'help' => $this->trans('Display the payment logo on checkout payment selection.', 'Modules.Legalcompliance.Admin'),
             'multistore_configuration_key' => $this->config->getName('SHOW_PAYMENT_LOGO'),
             'required' => false,
         ]);
         $builder->add('payment_logo', ImageFileType::class, [
-            'label' => $this->trans('Payment Logo', 'Modules.Pslegalcompliance.Admin'),
-            'help' => $this->trans('Upload custom payment logo. The logo will appear on the checkout page', 'Modules.Pslegalcompliance.Admin'),
+            'label' => $this->trans('Payment Logo', 'Modules.Legalcompliance.Admin'),
+            'help' => $this->trans('Upload custom payment logo. The logo will appear on the checkout page', 'Modules.Legalcompliance.Admin'),
             'constraints' => [
                 new File([
                     'maxSize' => '5000k',
                     'mimeTypes' => [
                         'image/*',
                     ],
-                    'mimeTypesMessage' => $this->trans('Please upload a valid image file', 'Modules.Pslegalcompliance.Admin'),
+                    'mimeTypesMessage' => $this->trans('Please upload a valid image file', 'Modules.Legalcompliance.Admin'),
                 ]),
             ],
             'mapped' => false,

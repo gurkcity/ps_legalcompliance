@@ -22,20 +22,20 @@ class CronType extends TranslatorAwareType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('maintenance', SwitchType::class, [
-            'label' => $this->trans('Cron run on maintenance', 'Modules.Pslegalcompliance.Admin'),
-            'help' => $this->trans('Run cronjobs even maintenance mode is on.', 'Modules.Pslegalcompliance.Admin'),
+            'label' => $this->trans('Cron run on maintenance', 'Modules.Legalcompliance.Admin'),
+            'help' => $this->trans('Run cronjobs even maintenance mode is on.', 'Modules.Legalcompliance.Admin'),
         ]);
 
         if (!empty($options['data']['using_queue'])) {
             $builder->add('rows_per_run', NumberType::class, [
-                'label' => $this->trans('Rows per run', 'Modules.Pslegalcompliance.Admin'),
+                'label' => $this->trans('Rows per run', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans(
                     'How many lines should be processed per cronjob call? Please note the average runtime of the cron jobs in relation to the execution interval.',
-                    'Modules.Pslegalcompliance.Admin'
+                    'Modules.Legalcompliance.Admin'
                 ),
                 'constraints' => [
                     new PositiveOrZero([
-                        'message' => $this->trans('Please select a number greater than zero.', 'Modules.Pslegalcompliance.Admin'),
+                        'message' => $this->trans('Please select a number greater than zero.', 'Modules.Legalcompliance.Admin'),
                     ]),
                 ],
             ]);

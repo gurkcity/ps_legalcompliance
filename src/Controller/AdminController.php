@@ -51,7 +51,7 @@ class AdminController extends PrestaShopAdminController
             $saveErrors = $formHandler->save($form->getData());
 
             if (0 === count($saveErrors)) {
-                $this->addFlash('success', $this->trans('Settings saved!', [], 'Modules.Pslegalcompliance.Admin'));
+                $this->addFlash('success', $this->trans('Settings saved!', [], 'Modules.Legalcompliance.Admin'));
 
                 return $this->redirectToRoute($redirectRoute);
             } else {
@@ -80,7 +80,7 @@ class AdminController extends PrestaShopAdminController
         return [
             'hooks' => [
                 'href' => $this->generateUrl('admin_modules_positions', ['show_modules' => (int) $this->module->id]),
-                'desc' => $this->trans('Manage hooks', [], 'Modules.Pslegalcompliance.Admin'),
+                'desc' => $this->trans('Manage hooks', [], 'Modules.Legalcompliance.Admin'),
                 'icon' => 'anchor',
                 'class' => 'btn-default',
             ],
@@ -94,7 +94,7 @@ class AdminController extends PrestaShopAdminController
                         'selected' => $this->module->name
                     ]
                 ),
-                'desc' => $this->trans('Translate', [], 'Modules.Pslegalcompliance.Admin'),
+                'desc' => $this->trans('Translate', [], 'Modules.Legalcompliance.Admin'),
                 'icon' => 'flag',
                 'class' => 'btn-default',
             ],
@@ -106,7 +106,7 @@ class AdminController extends PrestaShopAdminController
         $licenseKey = $this->module->getLicenseKey();
 
         if ($this->module->isDevMode()) {
-            $licenseKey = $this->trans('DEMO MODE', [], 'Modules.Pslegalcompliance.Admin');
+            $licenseKey = $this->trans('DEMO MODE', [], 'Modules.Legalcompliance.Admin');
         }
 
         return [

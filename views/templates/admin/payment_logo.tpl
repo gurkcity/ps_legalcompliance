@@ -16,11 +16,11 @@
     {if $is_uploaded_logo}
         <div class="form-group">
             <div class="col-md-12">
-                <a href="{$removeLogoUrl}" class="btn btn-danger" onclick="return confirm('{l s='Are you sure want delete the logo?' d='Modules.Pslegalcompliance.Admin'}');">{l s='Delete' d='Admin.Actions'}</a>
-                <div class="help-block">{l s='If delete an uploaded logo, it will be replaced by default.' d='Modules.Pslegalcompliance.Admin'}</div>
+                <a href="{$removeLogoUrl}" class="btn btn-danger" onclick="return confirm('{l s='Are you sure want delete the logo?' d='Modules.Legalcompliance.Admin'}');">{l s='Delete' d='Admin.Actions'}</a>
+                <div class="help-block">{l s='If delete an uploaded logo, it will be replaced by default.' d='Modules.Legalcompliance.Admin'}</div>
             </div>
         </div>
     {/if}
     <input type="file" name="payment_logo" class="form-control" accept=".png,.jpg"/>
-    <div class="help-block">{l s='Upload custom payment logo. The logo will appear on the checkout page' d='Modules.Pslegalcompliance.Admin'}</div>
+    <div class="help-block">{l s='Upload custom payment logo. The logo will appear on the checkout page' d='Modules.Legalcompliance.Admin'}</div>
 </div>

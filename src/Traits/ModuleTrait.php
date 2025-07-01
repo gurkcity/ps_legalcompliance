@@ -205,7 +205,7 @@ trait ModuleTrait
             $context->controller->addJs($this->getPathUri() . 'views/js/admin/module.js');
 
             \Media::addJsDef([
-                'txtUpdateLicenseCode' => $this->trans('Do you really want to update the license code for this module?', [], 'Modules.Pslegalcompliance.Admin'),
+                'txtUpdateLicenseCode' => $this->trans('Do you really want to update the license code for this module?', [], 'Modules.Legalcompliance.Admin'),
             ]);
         }
 
@@ -397,7 +397,7 @@ trait ModuleTrait
                     }
 
                     if (isset($customization['datas'][\Product::CUSTOMIZE_FILE])) {
-                        $customizationText .= $this->trans('%count% image(s)', ['%count%' => count($customization['datas'][\Product::CUSTOMIZE_FILE])], 'Modules.Pslegalcompliance.Admin') . '<br />';
+                        $customizationText .= $this->trans('%count% image(s)', ['%count%' => count($customization['datas'][\Product::CUSTOMIZE_FILE])], 'Modules.Legalcompliance.Admin') . '<br />';
                     }
 
                     $customizationCuantity = (int) $product['product_quantity'];
@@ -489,8 +489,8 @@ trait ModuleTrait
             '{id_order}' => $order->id,
             '{date}' => \Tools::displayDate($order->date_add, true),
             '{now}' => \Tools::displayDate(date('Y-m-d')),
-            '{carrier}' => ($order->isVirtual() || $carrier->name == '') ? $this->trans('No carrier', [], 'Modules.Pslegalcompliance.Admin') : $carrier->name,
-            '{payment}' => \Tools::substr($order->payment, 0, 255) . ($order->hasBeenPaid() ? '' : '&nbsp;' . $this->trans('(waiting for validation)', [], 'Modules.Pslegalcompliance.Admin')),
+            '{carrier}' => ($order->isVirtual() || $carrier->name == '') ? $this->trans('No carrier', [], 'Modules.Legalcompliance.Admin') : $carrier->name,
+            '{payment}' => \Tools::substr($order->payment, 0, 255) . ($order->hasBeenPaid() ? '' : '&nbsp;' . $this->trans('(waiting for validation)', [], 'Modules.Legalcompliance.Admin')),
             '{products}' => $productListHtml,
             '{products_txt}' => $productListTxt,
             '{discounts}' => $cartRulesListHtml,
@@ -499,7 +499,7 @@ trait ModuleTrait
             '{total_shipping_tax_excl}' => $currentLocale->formatPrice($order->total_shipping_tax_excl, $currency->iso_code),
             '{total_shipping_tax_incl}' => $currentLocale->formatPrice($order->total_shipping_tax_incl, $currency->iso_code),
             '{total_tax_paid}' => $currentLocale->formatPrice($order->total_paid_tax_incl - $order->total_paid_tax_excl, $currency->iso_code),
-            '{recycled_packaging_label}' => $order->recyclable ? $this->trans('Yes', [], 'Modules.Pslegalcompliance.Admin') : $this->trans('No', [], 'Modules.Pslegalcompliance.Admin'),
+            '{recycled_packaging_label}' => $order->recyclable ? $this->trans('Yes', [], 'Modules.Legalcompliance.Admin') : $this->trans('No', [], 'Modules.Legalcompliance.Admin'),
         ];
 
         if (\Product::getTaxCalculationMethod() == PS_TAX_EXC) {

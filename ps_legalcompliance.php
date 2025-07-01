@@ -47,11 +47,11 @@ class PS_Legalcompliance extends Module
 
         $this->tab = 'front_office_features';
 
-        $this->displayName = $this->trans('Legal Compliance', [], 'Modules.Pslegalcompliance.Admin');
-        $this->displayNamePre = $this->trans('Legal', [], 'Modules.Pslegalcompliance.Admin');
-        $this->displayNamePost = $this->trans('Compliance', [], 'Modules.Pslegalcompliance.Admin');
-        $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', [], 'Modules.Pslegalcompliance.Admin');
-        $this->description_full = $this->trans('Continue to cultivate the growth of your business with a sense of calm and peace of mind. Expand your reach across the diverse markets of Europe, offering your products or services successfully in all regions. Simultaneously, maintain a steadfast commitment to adhering to all relevant e-commerce regulations, ensuring a solid and legally sound foundation for your expansion. This approach allows you to focus serenely on the ongoing development of your enterprise while providing a trustworthy and compliant shopping experience for your customers throughout Europe.', [], 'Modules.Pslegalcompliance.Admin');
+        $this->displayName = $this->trans('Legal Compliance', [], 'Modules.Legalcompliance.Admin');
+        $this->displayNamePre = $this->trans('Legal', [], 'Modules.Legalcompliance.Admin');
+        $this->displayNamePost = $this->trans('Compliance', [], 'Modules.Legalcompliance.Admin');
+        $this->description = $this->trans('Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.', [], 'Modules.Legalcompliance.Admin');
+        $this->description_full = $this->trans('Continue to cultivate the growth of your business with a sense of calm and peace of mind. Expand your reach across the diverse markets of Europe, offering your products or services successfully in all regions. Simultaneously, maintain a steadfast commitment to adhering to all relevant e-commerce regulations, ensuring a solid and legally sound foundation for your expansion. This approach allows you to focus serenely on the ongoing development of your enterprise while providing a trustworthy and compliant shopping experience for your customers throughout Europe.', [], 'Modules.Legalcompliance.Admin');
 
         parent::__construct();
 

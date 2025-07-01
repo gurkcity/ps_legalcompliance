@@ -55,7 +55,7 @@ class LicenseAdminController extends AdminController
             $saveErrors = $formHandler->save($form->getData());
 
             if (0 === count($saveErrors)) {
-                $this->addFlash('success', $this->trans('Settings saved!', [], 'Modules.Pslegalcompliance.Admin'));
+                $this->addFlash('success', $this->trans('Settings saved!', [], 'Modules.Legalcompliance.Admin'));
 
                 return $this->redirectToRoute($redirectRoute);
             } else {

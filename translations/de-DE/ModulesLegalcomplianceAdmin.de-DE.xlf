@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesLegalcomplianceAdmin.xlf" source-language="de-DE" target-language="de-DE" datatype="plaintext">
+    <body>
+      <trans-unit id="83c8b8fa47a5a4b4b750ac3eba10b0f6">
+        <source>%count% image(s)</source>
+        <target>%count% Bild(er)</target>
+      </trans-unit>
+      <trans-unit id="1c37d3c4d123c1b8332711a1c14ac232">
+        <source>'From' price label (when combinations)</source>
+        <target>"Ab Preis"-Anzeige (falls Varianten vorhanden)</target>
+      </trans-unit>
+      <trans-unit id="6704c80e4c195b11dffdf24a4c1661f9">
+        <source>'Our previous price' label</source>
+        <target>Label „bisheriger Preis“</target>
+      </trans-unit>
+      <trans-unit id="68efcb6dada7227cc184a87a6405532e">
+        <source>'Shipping fees excl.' label</source>
+        <target>Label 'zzgl. Versand'</target>
+      </trans-unit>
+      <trans-unit id="44aa13304026bb46ad79f4151f16634a">
+        <source>(waiting for validation)</source>
+        <target>(warten auf Validierung)</target>
+      </trans-unit>
+      <trans-unit id="1c31ecef6ff3e355e9526bdb32b75d18">
+        <source>-- Select a CMS page --</source>
+        <target>-- Wählen Sie eine CMS-Seite aus --</target>
+      </trans-unit>
+      <trans-unit id="004bf6c9a40003140292e97330236c53">
+        <source>Action</source>
+        <target>Aktion</target>
+      </trans-unit>
+      <trans-unit id="3a1d5ff0ed27045fc25776f283afba53">
+        <source>Add this</source>
+        <target>das hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="a2410748e3bc571307a8a8fcc3aa121b">
+        <source>Additional HTML in Mail-Templates</source>
+        <target>Zusätzlicher HTML-Code in Mail-Templates</target>
+      </trans-unit>
+      <trans-unit id="bdd4f0a0fbdc23d1d20e027c2f3050ee">
+        <source>Additional information about delivery time</source>
+        <target>Zusätzlicher Hinweis zur Lieferzeit</target>
+      </trans-unit>
+      <trans-unit id="69a22d68d6268a3a95315d0575f0770d">
+        <source>Additional parameters</source>
+        <target>Zusätzliche Parameter</target>
+      </trans-unit>
+      <trans-unit id="4a45c80a18900618e6c2f690f08b58ec">
+        <source>Adds a mandatory checkbox when the cart contains a virtual product. Use it to ensure customers are aware that a virtual product cannot be returned.</source>
+        <target>Pflicht-Checkbox einfügen, falls der Warenkorb virtuelle Artikel enthält. Stellen Sie so sicher, dass der Kunde weiß, dass ein virtueller Artikel nicht zurückgenommen wird.</target>
+      </trans-unit>
+      <trans-unit id="9dfc5d5738312210c3c75e68a468691d">
+        <source>Advanced Options</source>
+        <target>Erweiterte Optionen</target>
+      </trans-unit>
+      <trans-unit id="951814b8ca7eecd573fa16cf83fee1e6">
+        <source>All hooks have been reset successfully</source>
+        <target>Alle Hooks wurden erfolgreich zurückgesetzt</target>
+      </trans-unit>
+      <trans-unit id="4fb02e115743467cfbf305c9f70d3ef8">
+        <source>All tabs have been reset successfully</source>
+        <target>Alle Menüeinträge wurden erfolgreich zurückgesetzt</target>
+      </trans-unit>
+      <trans-unit id="3c08d442e9d2a133f43571da3d963524">
+        <source>Are you sure want delete the logo?</source>
+        <target>Möchten Sie das Logo wirklich löschen?</target>
+      </trans-unit>
+      <trans-unit id="90f65f88c715939163cceeff23d1aa06">
+        <source>Automatically set the order state to 'awaiting payment' after order was created.</source>
+        <target>Setzt den Bestellstatus automatisch auf 'Warten auf Zahlungseingang' nachdem die Bestellung aufgegeben wurde.</target>
+      </trans-unit>
+      <trans-unit id="100bec232301c3a73f42492a79ebf085">
+        <source>Awaiting Payment</source>
+        <target>Warten auf Zahlungseingang</target>
+      </trans-unit>
+      <trans-unit id="42f4eb6aa685f04ee08e8149db63b5fd">
+        <source>Awaiting payment: Legalcompliance</source>
+        <target>Warten auf Zahlungseingang: Legalcompliance</target>
+      </trans-unit>
+      <trans-unit id="71b16ec913e2b2febe4542160717aaeb">
+        <source>CMS Pages</source>
+        <target>CMS Seiten</target>
+      </trans-unit>
+      <trans-unit id="c3755e61202abd74da5885d2e9c9160e">
+        <source>Call</source>
+        <target>Aufruf</target>
+      </trans-unit>
+      <trans-unit id="006449f62dd9df8f8144fe3f79852a1c">
+        <source>Change license code</source>
+        <target>Lizenzschlüssel ändern</target>
+      </trans-unit>
+      <trans-unit id="67fd6c2ed402914b08701f21af350cc5">
+        <source>Clear Logs</source>
+        <target>Logdateien löschen</target>
+      </trans-unit>
+      <trans-unit id="9c0408c775a2b61052a2e700a89f396f">
+        <source>Compliance</source>
+        <target>Compliance</target>
+      </trans-unit>
+      <trans-unit id="254f642527b45bc260048e30704edb39">
+        <source>Configuration</source>
+        <target>Einstellung</target>
+      </trans-unit>
+      <trans-unit id="b41e135ac2d4c51310c7606965fbb402">
+        <source>Continue to cultivate the growth of your business with a sense of calm and peace of mind. Expand your reach across the diverse markets of Europe, offering your products or services successfully in all regions. Simultaneously, maintain a steadfast commitment to adhering to all relevant e-commerce regulations, ensuring a solid and legally sound foundation for your expansion. This approach allows you to focus serenely on the ongoing development of your enterprise while providing a trustworthy and compliant shopping experience for your customers throughout Europe.</source>
+        <target>Fördern Sie das Wachstum Ihres Unternehmens mit Gelassenheit. Erweitern Sie Ihre Reichweite in den vielfältigen Märkten Europas und bieten Sie Ihre Produkte und Dienstleistungen erfolgreich in allen Regionen an. Halten Sie gleichzeitig alle relevanten E-Commerce-Vorschriften ein und schaffen Sie so eine solide und rechtlich abgesicherte Grundlage für Ihre Expansion. So können Sie sich beruhigt auf die Weiterentwicklung Ihres Unternehmens konzentrieren und Ihren Kunden in ganz Europa ein vertrauenswürdiges und konformes Einkaufserlebnis bieten.</target>
+      </trans-unit>
+      <trans-unit id="9bbf373797bf7cf7ba62c80023682e25">
+        <source>Controller</source>
+        <target>Controller</target>
+      </trans-unit>
+      <trans-unit id="ae83b33500f049643d8056bfcb1172c2">
+        <source>Controller reseted successfully</source>
+        <target>Controller erfolgreich zurückgesetzt</target>
+      </trans-unit>
+      <trans-unit id="93586ae5a6b28ad6f7065a2d4612471a">
+        <source>Could not upload logo file</source>
+        <target>Die Logodatei konnte nicht hochgeladen werden.</target>
+      </trans-unit>
+      <trans-unit id="e2bca7a52e8f759b23a1d4781ac22913">
+        <source>Count Rows</source>
+        <target>Anzahl Zeilen</target>
+      </trans-unit>
+      <trans-unit id="dece56930ee76a163856963cc6c6b953">
+        <source>Cron Queue</source>
+        <target>Cron Warteschlange</target>
+      </trans-unit>
+      <trans-unit id="b5e29765c117848c3c26f57906560a73">
+        <source>Cron run on maintenance</source>
+        <target>Cron wird im Wartungsmodus ausgeführt</target>
+      </trans-unit>
+      <trans-unit id="7b596b44ed412bb168741e7230b03d8b">
+        <source>Cronjobs</source>
+        <target>Cronjobs</target>
+      </trans-unit>
+      <trans-unit id="ccefb967cfedec2f7395fd015acd3727">
+        <source>Custom text in shopping cart page</source>
+        <target>Freitext in Warenkorbseite</target>
+      </trans-unit>
+      <trans-unit id="66881ad325a84daeddad461773c3394f">
+        <source>DEMO MODE</source>
+        <target>DEMO MODE</target>
+      </trans-unit>
+      <trans-unit id="e307db07b3975fef922a80d07455ee5e">
+        <source>Database</source>
+        <target>Datenbank</target>
+      </trans-unit>
+      <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39">
+        <source>Description</source>
+        <target>Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="6ddef5412b550d449a068abae66205a2">
+        <source>Determine from which log level the messages should be recorded. Set the log level lower than WARNING only for debug purposes, otherwise the files will be too large.</source>
+        <target>Legen Sie fest, ab welchem Level die Logs aufgezeichnet werden sollen. Stellen Sie die Protokollstufe nur für Debugzwecke auf einen niedrigeren Wert als WARNUNG ein, da die Dateien sonst zu groß werden.</target>
+      </trans-unit>
+      <trans-unit id="2263b2d7b770509a501b4a82237e2ad5">
+        <source>Differences:</source>
+        <target>Unterschiede:</target>
+      </trans-unit>
+      <trans-unit id="f1d5c4f212e4e7b6fb264d35adc1e9ac">
+        <source>Display Information block in footer</source>
+        <target>Informationsblock in der Fußzeile anzeigen</target>
+      </trans-unit>
+      <trans-unit id="1603225cfa44756ab586b211e0fd8a71">
+        <source>Display tax in footer</source>
+        <target>Steuer im Footer anzeigen</target>
+      </trans-unit>
+      <trans-unit id="2fc0fa62169d1294266a8e86e179fde1">
+        <source>Display the payment logo on checkout payment selection.</source>
+        <target>Zeigen Sie das Zahlungslogo bei der Zahlungsauswahl an der Kasse an.</target>
+      </trans-unit>
+      <trans-unit id="f6f7eb6f0c585ab51533c31dd4b1f488">
+        <source>Displays a 'From' label before the price on products with combinations.</source>
+        <target>"Ab"-Label auch vor dem Artikelpreis von Varianten einfügen.</target>
+      </trans-unit>
+      <trans-unit id="979516139081495e903a48ed1489415c">
+        <source>Displays a label next to the product price ('Shipping excluded') and adds a short mention in the footer of other pages.</source>
+        <target>Zeigt neben dem Artikelpreis ein Label ("zzgl. Versandkosten") an und fügt einen kurzen Hinweis in die Fußzeile anderer Seiten hinzu.</target>
+      </trans-unit>
+      <trans-unit id="5aac2cfef2db67f28a2e3fa15a8b4932">
+        <source>Displays the legal cms-pages links as a separate block in the footer (hook displayFooter). If you switch to no, please keep in mind to add your legal text in your own link blocks on every page.</source>
+        <target>Zeigt die rechtlichen CMS-Seiten-Links als separaten Block in der Fußzeile an (Hook displayFooter). Wenn Sie auf „Nein“ umstellen, denken Sie bitte daran, Ihren Rechtstext auf jeder Seite in eigene Linkblöcke einzufügen.</target>
+      </trans-unit>
+      <trans-unit id="eb64e5149bb0ff0af3655aa8ba8d38f0">
+        <source>Displays the tax informations in the footer.</source>
+        <target>Zeigt die Steuerinformationen im Footer-Bereich an.</target>
+      </trans-unit>
+      <trans-unit id="3acf85f0ce1d57facc75620d5b536c68">
+        <source>Displays whether the tax is included on the product page ('Tax incl./excl.' label) and adds a short mention in the footer of other pages.</source>
+        <target>Zeigt neben dem Preis einen Steuerzusatz (zzgl./inkl. MwSt). auf der Artikelseite an und in der Listenansicht einen mit einem Sternchen hinter dem Preis verknüpften Hinweis in der Fußzeile.</target>
+      </trans-unit>
+      <trans-unit id="c0f7fb0de01d83f207df1eb47b415b75">
+        <source>Do you really want to update the license code for this module?</source>
+        <target>Möchten Sie den Lizenzcode für dieses Modul wirklich aktualisieren?</target>
+      </trans-unit>
+      <trans-unit id="b08100205abea27ec0fdb7cd9369f028">
+        <source>Enable 'Reordering' feature</source>
+        <target>Nachbestellen aktivieren</target>
+      </trans-unit>
+      <trans-unit id="b305968eb47e25015e2cebf313f70842">
+        <source>Environmental notice</source>
+        <target>Umweltschutz-Hinweise</target>
+      </trans-unit>
+      <trans-unit id="175e26e2089a9f065b191925948bb4d2">
+        <source>Execute cron '%cron_name%' now!</source>
+        <target>Cronjob '%cron_name%' jetzt ausführen!</target>
+      </trans-unit>
+      <trans-unit id="37ae3959ff931a36a5157d1d971d964c">
+        <source>Executed</source>
+        <target>Ausgeführt</target>
+      </trans-unit>
+      <trans-unit id="9cc09ef9672a0c4d96f86bb1157329b1">
+        <source>Existing Logs</source>
+        <target>Vorhandene Logs</target>
+      </trans-unit>
+      <trans-unit id="98f770b0af18ca763421bac22b4b6805">
+        <source>Features</source>
+        <target>Eigenschaften</target>
+      </trans-unit>
+      <trans-unit id="0b27918290ff5323bea1e3b78a9cf04e">
+        <source>File</source>
+        <target>Datei</target>
+      </trans-unit>
+      <trans-unit id="e087a70de5566015c0b9d3f54318a606">
+        <source>For each of the topics below, first indicate which of your Pages contains the required information:</source>
+        <target>Bitte ordnen Sie jedem der folgenden Templaten - soweit erforderlich - die Seite zu, die die benötigten Informationen enthält:</target>
+      </trans-unit>
+      <trans-unit id="96103eb82bd7f00ef55fac85c2f0a410">
+        <source>For each type of email, you can define which content you would like to include.</source>
+        <target>Sie können für jede Shop-Mail separat festlegen, welche zusätzlichen Informationen übermittelt werden sollen.</target>
+      </trans-unit>
+      <trans-unit id="13d6aa5a5722145453f2f045a2030dfd">
+        <source>Get more information from the links below.</source>
+        <target>Erfahren Sie mehr über die folgenden Links.</target>
+      </trans-unit>
+      <trans-unit id="4221666818938f328c482cda04c53fdc">
+        <source>Gurkcity creates professional and individual modules and addons for PrestaShop onlinestores since 2010.</source>
+        <target>Gurkcity entwickelt seit 2010 professionelle und individuelle Module und Add-ons für PrestaShop-Onlineshops.</target>
+      </trans-unit>
+      <trans-unit id="d11c7e9c409c6ca80008c5dd01d44d1e">
+        <source>Hint</source>
+        <target>Hinweis</target>
+      </trans-unit>
+      <trans-unit id="97302e3d521f43eea39a3f151a75aafd">
+        <source>Hook Name</source>
+        <target>Hook Name</target>
+      </trans-unit>
+      <trans-unit id="35ad48797a780091740cbcf14ebc094d">
+        <source>Hooks</source>
+        <target>Hooks</target>
+      </trans-unit>
+      <trans-unit id="f514f587af7e1266dc94dc9a8f50a80c">
+        <source>How many lines should be processed per cronjob call? Please note the average runtime of the cron jobs in relation to the execution interval.</source>
+        <target>Wie viele Zeilen sollen pro Cronjob-Aufruf verarbeitet werden? Bitte beachten Sie die durchschnittliche Laufzeit der Cronjobs im Verhältnis zum Ausführungsintervall.</target>
+      </trans-unit>
+      <trans-unit id="3f9e6407d82977ad20a7815fcaa65e47">
+        <source>If available, displays the price per unit everywhere the product price is listed.</source>
+        <target>Falls verfügbar, wird die Grundpreisangabe beim Artikelpreis angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="4d401a6d9d2e8beb4275cc0dfeb9ef0f">
+        <source>If delete an uploaded logo, it will be replaced by default.</source>
+        <target>Wenn Sie ein hochgeladenes Logo löschen, wird es standardmäßig ersetzt.</target>
+      </trans-unit>
+      <trans-unit id="86d3bd315b7853f4a5a98a37fc0311c2">
+        <source>If you click on 'save and continue' some parameters of your onlinestore will be send to the domain https://www.onlineshop-module.de and your license will be activatet. This parameters contains: Licensecode, referer of your Browser, domain of your onlienestore, version of this module.</source>
+        <target>Wenn Sie auf „Speichern und fortfahren“ klicken, werden einige Parameter Ihres Onlineshops an die Domain https://www.onlineshop-module.de gesendet und Ihre Lizenz aktiviert. Diese Parameter enthalten: Lizenzschlüssel, Referrer Ihres Browsers, Domain Ihres Onlineshops, Version dieses Moduls.</target>
+      </trans-unit>
+      <trans-unit id="b0c2a88bea1ad0728e3901bce50f1d69">
+        <source><![CDATA[If you specified a delivery time, this additional information is displayed in the footer of product pages with a link to the "Shipping & Payment" Page. Leave the field empty to disable.]]></source>
+        <target><![CDATA[Wenn Sie eine Lieferzeit angegeben haben, wird diese zusätzliche Information im Footer der Produktseiten mit einem Link zur Seite "Versand & Zahlung" angezeigt. Lassen Sie das Feld leer, um die Option zu deaktivieren.]]></target>
+      </trans-unit>
+      <trans-unit id="6885dbb8e1aae77efb664bd3ce81a31e">
+        <source>If you specified a delivery time...</source>
+        <target>Wenn Sie eine Lieferzeit angegeben haben...</target>
+      </trans-unit>
+      <trans-unit id="91d8309ff86435f6c2be2c9765ac5889">
+        <source>If you want to use this Module, please enter your license code here. You can get it in your customer account at Onlineshop-Module.de %tag_start%"Onlineshop-module.de"%tag_end%.</source>
+        <target>Wollen Sie die kompletten Features dieses Moduls verwenden, müssen Sie hier Ihren erworbenen Lizenzschlüssel eingeben. Sie erhalten diesen in Ihrem Kundenkonto auf %tag_start%Onlineshop-module.de%tag_end%.</target>
+      </trans-unit>
+      <trans-unit id="a1bd42dd3b0a7c93e8ea528a74d97abd">
+        <source>In Execution</source>
+        <target>In Ausführung</target>
+      </trans-unit>
+      <trans-unit id="bdf4cbf3cdbf8a0e03aad7f4910c1b57">
+        <source>Includes content from the Revocation Terms page within the Terms of Services (ToS).</source>
+        <target>Link zur Widerrufsbelehrung zur AGB-Bestätigung hinzufügen.</target>
+      </trans-unit>
+      <trans-unit id="469c743f88f35c76132ba80289a4dd2d">
+        <source>Insert new email templates</source>
+        <target>Neue E-Mail-Vorlagen einfügen</target>
+      </trans-unit>
+      <trans-unit id="2d652d543e567cfc4f3b693448d4cebd">
+        <source>Install missing configuration</source>
+        <target>Fehlende Konfiguration installieren</target>
+      </trans-unit>
+      <trans-unit id="89fda1440e8bd51f913dca480cc7cadc">
+        <source>Install missing configuration failed!</source>
+        <target>Die Installation der fehlenden Konfiguration ist fehlgeschlagen!</target>
+      </trans-unit>
+      <trans-unit id="40fc12ca96502f1c9228916beb60ca5c">
+        <source>Install missing controller</source>
+        <target>Fehlende Controller installieren</target>
+      </trans-unit>
+      <trans-unit id="5387c28120de384b094f789f50e94884">
+        <source>Install missing orderstates</source>
+        <target>Fehlende Bestellstatus installieren</target>
+      </trans-unit>
+      <trans-unit id="fb7371d3a9751d20d1e07fe514a5c4ec">
+        <source>Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.</source>
+        <target>Schützen Sie sich vor Abmahnungen, verkaufen Sie in ganz Europa und halten Sie sich dabei an die geltenden E-Commerce-Gesetze.</target>
+      </trans-unit>
+      <trans-unit id="5220edd36a6fc0fbdea5b7852f48879e">
+        <source>Label "Virtual Product"</source>
+        <target>Label „Virtuelles Produkt“</target>
+      </trans-unit>
+      <trans-unit id="d0d80ec46a2373752254b64dccf24ac8">
+        <source>Label Options</source>
+        <target>Label Optionen</target>
+      </trans-unit>
+      <trans-unit id="3ad6cb6100190c8f81e99fd52debf7ef">
+        <source>Labels</source>
+        <target>Label-Optionen</target>
+      </trans-unit>
+      <trans-unit id="63e23474e2c348ba5125d9d2cd7c8e00">
+        <source>Labeltext "Virtual Product"</source>
+        <target>Beschriftungstext „Virtuelles Produkt“</target>
+      </trans-unit>
+      <trans-unit id="a10a9bcd450087de1ce1f80b35f44883">
+        <source>Legal</source>
+        <target>Rechtssicherheit</target>
+      </trans-unit>
+      <trans-unit id="de2cd9f1dfad85516edd95679af377fd">
+        <source>Legal Compliance</source>
+        <target>Rechtssicherheit</target>
+      </trans-unit>
+      <trans-unit id="23e162ba6bf36c7560ebbc868d9e2552">
+        <source>Legal notice</source>
+        <target>Impressum</target>
+      </trans-unit>
+      <trans-unit id="88604cba295e1865f4411f96e99a3a69">
+        <source>License Code</source>
+        <target>Lizenzschlüssel</target>
+      </trans-unit>
+      <trans-unit id="a718d6ad4ccf69d250b8feefacd6bed2">
+        <source>License agreement</source>
+        <target>Lizenzvereinbarung</target>
+      </trans-unit>
+      <trans-unit id="a77d1540925b8613ddf32b875e4c4685">
+        <source>License key</source>
+        <target>Lizenzschlüssel</target>
+      </trans-unit>
+      <trans-unit id="a74ccc444d6b765cef99475095bcbaaa">
+        <source>Log Level</source>
+        <target>Log Level</target>
+      </trans-unit>
+      <trans-unit id="7352599cad1d58e5d229643e93a9c709">
+        <source>Log Settings</source>
+        <target>Log Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="e917952bbff398b5e9eae100e28d0e5b">
+        <source>Log file could not be deleted!</source>
+        <target>Logdateien konnten nicht gelöscht werden!</target>
+      </trans-unit>
+      <trans-unit id="06afcfe30b5ceaf64f68d967965359e7">
+        <source>Log files could not be deleted!</source>
+        <target>Logdateien konnten nicht gelöscht werden!</target>
+      </trans-unit>
+      <trans-unit id="2737aad061ceb54df515ab92fbc2dc85">
+        <source>Log files have been cleared</source>
+        <target>Logdateien wurden gelöscht</target>
+      </trans-unit>
+      <trans-unit id="f31bec38dddfcb51c4712b10de8b55df">
+        <source>Log fils have been deleted</source>
+        <target>Logdateien wurden gelöscht</target>
+      </trans-unit>
+      <trans-unit id="1fa508d743a9f464f8b4510257ca492a">
+        <source>Make sure you comply with your local legislation before enabling: it can be considered as unsolicited goods.</source>
+        <target>Vor Aktivierung sollten Sie sich vergewissern, ob dies unter den rechtlichen Bedingungen Ihres Landes nicht als unaufgefordert zugesandte Ware angesehen wird.</target>
+      </trans-unit>
+      <trans-unit id="53103fcc4656f55c219b600ded3c7438">
+        <source>Manage hooks</source>
+        <target>Hooks verwalten</target>
+      </trans-unit>
+      <trans-unit id="4c3880bb027f159e801041b1021e88e8">
+        <source>Method</source>
+        <target>Methode</target>
+      </trans-unit>
+      <trans-unit id="9e766ca86cd6fb4092f690b503020730">
+        <source>Missing configuration installed successfully</source>
+        <target>Fehlende Konfiguration erfolgreich installiert</target>
+      </trans-unit>
+      <trans-unit id="49ee3087348e8d44e1feda1917443987">
+        <source>Name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+        <source>No</source>
+        <target>Nein</target>
+      </trans-unit>
+      <trans-unit id="ed13b3693357ebed3751cb71cb639e65">
+        <source>No carrier</source>
+        <target>Kein Lieferant</target>
+      </trans-unit>
+      <trans-unit id="a22452e6fbb65bc8e1b204ef4f633149">
+        <source>No stats about the cron queue available</source>
+        <target>Keine Statistiken zur Cron-Warteschlange verfügbar</target>
+      </trans-unit>
+      <trans-unit id="86514803e5a513ddace2adbf4bb0d111">
+        <source>Order State Awaiting Payment</source>
+        <target>Warten auf Zahlungseingang</target>
+      </trans-unit>
+      <trans-unit id="78328bd27c031bf7ff7e23e21d61a535">
+        <source>Order State after placing an order</source>
+        <target>Bestellstatus, nachdem die Bestellung aufgegeben wurde</target>
+      </trans-unit>
+      <trans-unit id="5dc837808ce6d5f248b62ae205489a4a">
+        <source>Order States</source>
+        <target>Bestellstatus</target>
+      </trans-unit>
+      <trans-unit id="cc9faa30860743d9bc05e174d1c674b1">
+        <source>Order placed</source>
+        <target>Bestellung aufgegeben</target>
+      </trans-unit>
+      <trans-unit id="6e0a80eba68a33ccc76362dcff60dc9e">
+        <source>Order states reseted successfully</source>
+        <target>Bestellstatus erfolgreich zurückgesetzt</target>
+      </trans-unit>
+      <trans-unit id="4a04490d2817c00012562df7bc43299d">
+        <source>Payment Configuration</source>
+        <target>Einstellungen für die Bezahlung</target>
+      </trans-unit>
+      <trans-unit id="cd55b459168f87c49895bd670075f7ad">
+        <source>Payment Logo</source>
+        <target>Zahlungslogo</target>
+      </trans-unit>
+      <trans-unit id="589d13eaaa57a7987e2846e4795573e5">
+        <source>Please accept the privacy policy</source>
+        <target>Bitte akzeptieren Sie die Datenschutzerklärung</target>
+      </trans-unit>
+      <trans-unit id="5e850cf22d2b219f0f9a1a81030faaf7">
+        <source>Please consider our license disclaimer.</source>
+        <target>Bitte beachten Sie unsere Lizenzbedingungen</target>
+      </trans-unit>
+      <trans-unit id="c9df1aa2176c7f1e5aaf355ef51d3fee">
+        <source>Please select a number greater than zero.</source>
+        <target>Bitte wählen Sie eine Zahl größer als Null.</target>
+      </trans-unit>
+      <trans-unit id="5e50809b704cfa2e87ed916bfa56a1b3">
+        <source>Please select a valid order state.</source>
+        <target>Bitte wählen Sie einen gültigen Bestellstatus aus.</target>
+      </trans-unit>
+      <trans-unit id="51fbbba18f841cf85f1e51bece4e0bae">
+        <source>Please upload a valid image file</source>
+        <target>Bitte laden Sie eine gültige Bilddatei hoch</target>
+      </trans-unit>
+      <trans-unit id="963ae6068b8445589c369d7128bb5b07">
+        <source>Possible cron calls</source>
+        <target>Mögliche Cron-Aufrufe</target>
+      </trans-unit>
+      <trans-unit id="2baeb2d4d90e1cdb9182f4e229508b3b">
+        <source>Price per unit label</source>
+        <target>Label Grundpreis</target>
+      </trans-unit>
+      <trans-unit id="c5f29bb36f9158d2e00f5d4dc213a0ff">
+        <source>Privacy</source>
+        <target>Datenschutz</target>
+      </trans-unit>
+      <trans-unit id="cadebe42ec37a2654161a876bc11d52c">
+        <source>Proportionate tax for shipping and wrapping</source>
+        <target>Anteiliger Steuersatz auf Versand und Verpackung</target>
+      </trans-unit>
+      <trans-unit id="5fbc4dceb62361daaf8e2299ca551604">
+        <source>Reset SQL</source>
+        <target>SQL zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="be8d45836eec811e71cd741029ab49cd">
+        <source>Reset SQL failed! %error%</source>
+        <target>SQL-Reset fehlgeschlagen! %error%</target>
+      </trans-unit>
+      <trans-unit id="0ced31c8ace33128dac9f4337956b1fe">
+        <source>Reset failed on some hooks!</source>
+        <target>Das Zurücksetzen ist bei einigen Hooks fehlgeschlagen!</target>
+      </trans-unit>
+      <trans-unit id="9ace91987416775acafdb959292d856d">
+        <source>Reset failed on some tabs!</source>
+        <target>Das Zurücksetzen ist bei einigen Menüeinträgen fehlgeschlagen!</target>
+      </trans-unit>
+      <trans-unit id="a13aca68c7bbc575afcf339c5d730a5c">
+        <source>Reset missing hooks</source>
+        <target>Hooks zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="eca9090987d34f7db237dad2290c04db">
+        <source>Reset of controller failed!</source>
+        <target>Reset der Controller fehlgeschlagen!</target>
+      </trans-unit>
+      <trans-unit id="1683c9e2a38a432dac9b34886828b875">
+        <source>Reset of order states failed!</source>
+        <target>Zurücksetzen der Bestellstatus fehlgeschlagen!</target>
+      </trans-unit>
+      <trans-unit id="2e2108e4cc17f535d1e2d27fdf471447">
+        <source>Reset tabs</source>
+        <target>Menüeinträge zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="36351ad1d80323e91bdc6f69caee6775">
+        <source>Revocation Terms within ToS</source>
+        <target>Link Widerrufsbelehrung (AGB-Checkbox)</target>
+      </trans-unit>
+      <trans-unit id="f4ced086e850fc06ff4267366382f5d6">
+        <source>Revocation for virtual products</source>
+        <target>Widerrufsrecht für virtuelle Artikel</target>
+      </trans-unit>
+      <trans-unit id="01ed64f3ede93b663b4d78d2a0693f0a">
+        <source>Revocation form</source>
+        <target>Widerrufs-Formular</target>
+      </trans-unit>
+      <trans-unit id="93fb7e4d4616f108db46461360b7a6ae">
+        <source>Revocation terms</source>
+        <target>Widerrufsrecht</target>
+      </trans-unit>
+      <trans-unit id="a5cd3ed116608dac017f14c046ea56bf">
+        <source>Roles</source>
+        <target>Roles</target>
+      </trans-unit>
+      <trans-unit id="025b6852a51e9f57b4b686bf5291a9eb">
+        <source>Rows per run</source>
+        <target>Zeilen pro Lauf</target>
+      </trans-unit>
+      <trans-unit id="6592630e9c9af7131f492f42cb73dde7">
+        <source>Run cronjobs even maintenance mode is on.</source>
+        <target>Führen Sie Cronjobs aus, auch wenn der Wartungsmodus aktiviert ist.</target>
+      </trans-unit>
+      <trans-unit id="ab92b706928f6f07bee0102c7ea39b00">
+        <source>Runtime [s] (avg / min / max)</source>
+        <target>Laufzeit [s] (Durchschnitt / Min. / Max.)</target>
+      </trans-unit>
+      <trans-unit id="04b62052e52144a15f68c97ae26d4e5a">
+        <source>SQL queries has been executed successfully</source>
+        <target>SQL-Abfragen wurden erfolgreich ausgeführt</target>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
+        <source>Save</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="97996b3b04dbc3f5d0748b292ba48ac0">
+        <source>Save License and continue...</source>
+        <target>Lizenz speichern und weiter...</target>
+      </trans-unit>
+      <trans-unit id="f4f70727dc34561dfde1a3c529b6205c">
+        <source>Settings</source>
+        <target>Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="519928d26756f485aa6dde0b4023a003">
+        <source>Settings saved!</source>
+        <target>Einstellungen gespeichert!</target>
+      </trans-unit>
+      <trans-unit id="5fb4f05f62f9967052977077d783fc2d">
+        <source>Shipping and payment</source>
+        <target>Versand und Zahlung</target>
+      </trans-unit>
+      <trans-unit id="49187bdfe5658bf32e8d67a5e2f39e7d">
+        <source>Show Conditions Checkbox</source>
+        <target>AGB-Checkbox anzeigen</target>
+      </trans-unit>
+      <trans-unit id="36e802cbfb7959f4460894d672f179bf">
+        <source>Show Payment Logo</source>
+        <target>Zahlungslogo anzeigen</target>
+      </trans-unit>
+      <trans-unit id="9481e79bbb4bb1db3626055a14522326">
+        <source>Show a label placed next to the product-tax and links to the virtual products CMS-Infopage</source>
+        <target>Zeigt eine Beschriftung neben der Produktsteuer und Links zur CMS-Infoseite der virtuellen Produkte an</target>
+      </trans-unit>
+      <trans-unit id="2e135c64ae882cdebae8a7745c83f2eb">
+        <source>Show cronjob properties</source>
+        <target>Zeige Cronjob Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="285530fabf7aee0849eeda72657bc48f">
+        <source>Shows a checkbox to confirm conditions privacy and revocation (default: Yes)</source>
+        <target>Zeigt ein Kontrollkästchen zur Bestätigung der Datenschutz- und Widerrufsbedingungen an (Standard: Ja)</target>
+      </trans-unit>
+      <trans-unit id="6f6cb72d544962fa333e2e34ce64f719">
+        <source>Size</source>
+        <target>Größe</target>
+      </trans-unit>
+      <trans-unit id="ec53a8c4f07baed5d8825072c89799be">
+        <source>Status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="c2cbbd1334f282e8e5526d162816b8e2">
+        <source>Tab Name</source>
+        <target>Menü-Name</target>
+      </trans-unit>
+      <trans-unit id="8fa7b05ab45935bf4833909578a3a3e5">
+        <source>Table Name</source>
+        <target>Tabellenname</target>
+      </trans-unit>
+      <trans-unit id="7015777bcc86cd0c5e4819310d62b040">
+        <source>Tabs</source>
+        <target>Menüeinträge</target>
+      </trans-unit>
+      <trans-unit id="85a146ee20225afb6528729e67145cec">
+        <source>Take this cron url to prepare the cronjob for the action '%action_name%'</source>
+        <target>Verwenden Sie diese Cron-URL, um den Cronjob für die Aktion '%action_name%' vorzubereiten.</target>
+      </trans-unit>
+      <trans-unit id="91f7c813a787f39521bcf07a2421935d">
+        <source>Tax 'inc./excl.' label</source>
+        <target>Anzeige  MwSt.</target>
+      </trans-unit>
+      <trans-unit id="98664ee75f74254b622a52d86a798ae3">
+        <source>Terms of Service (ToS)</source>
+        <target>Allgemeine Geschäftsbedingungen (AGB)</target>
+      </trans-unit>
+      <trans-unit id="4fe4fee0d822d01f7d0b7b998f7c6573">
+        <source>Text for the label linked to the virtual products CMS-Infopage</source>
+        <target>Text für das Label, das mit der CMS-Infoseite der virtuellen Produkte verknüpft ist</target>
+      </trans-unit>
+      <trans-unit id="56a98e3806ba49b60a534872eb19d01a">
+        <source>The Legal Compliance module provides the means to indicate legally required informations to your customer, using static pages (some created on purpose by the module). It is your responsibility to fill in the corresponding pages with the required content.</source>
+        <target>Das Modul Rechtssicherheit ermöglicht es Ihnen, ihren Shop rechtskonform abzusichern, indem Sie hier die entsprechenden Information in Form von zusätzlichen Seiten Ihrem Shop hinzufügen (einige davon direkt von diesem Modul erstellt). Es liegt aber allein in der Verantwortung des Shopbetreibers, diese Seiten mit dem erforderlichen rechtskonformen Inhalt zu füllen. Unterstützung bei der Formulierung erhalten Sie beispielsweise von den Firmen IT-Recht Kanzlei München, Händlerbund, Protected Shops oder Trusted Shops.</target>
+      </trans-unit>
+      <trans-unit id="5d29c975eb484d3d5b80d0cec85f3b5f">
+        <source>The SQL schema and all differences to the current database are shown here.</source>
+        <target>Hier werden das SQL-Schema und alle Unterschiede zur aktuellen Datenbank angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="bb1a9ed46c931fad1da21728f30ecbd6">
+        <source>The order state after a customer placed an order.</source>
+        <target>Der Bestellstatus, der unmittelbar nach der Bestellaufgabe des Kunden im System erscheint. Üblicherweise verschickt dieser keine E-Mail und wird dem Kunden auch nicht angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="f20afed90eceea6221f507ea8aff3085">
+        <source>The order state after customer placed an order and waiting for payment.</source>
+        <target>Dies ist ein Folgestatus, der eine E-Mail mit weiteren Angaben an den Kunden schicken kann. Wird nur angewendet, wenn die Option \"Warten auf Zahlungseingang\" auf \"JA\" steht.</target>
+      </trans-unit>
+      <trans-unit id="936f904a3284c67ea7274c931809a283">
+        <source>There are %count% new email templates found:</source>
+        <target>Es wurden %count% neue E-Mail-Vorlagen gefunden:</target>
+      </trans-unit>
+      <trans-unit id="a9a2a79de5a35975f451622567c27c3b">
+        <source>There are no controllers for this module to install</source>
+        <target>Für dieses Modul müssen keine Controller installiert werden</target>
+      </trans-unit>
+      <trans-unit id="33beca8d591f74238fc5015259d05cd4">
+        <source>There are no hooks for this module to register</source>
+        <target>Es gibt keine Hooks für die Registrierung dieses Moduls</target>
+      </trans-unit>
+      <trans-unit id="a4aa14f65b7d13f94953ba10245f5456">
+        <source>There are no logfiles yet</source>
+        <target>Es gibt noch keine Logs</target>
+      </trans-unit>
+      <trans-unit id="f7e1eb2608ce76aca20980cdbf7f1185">
+        <source>There are no orderstates for this module to install</source>
+        <target>Es gibt keine Bestellstatus für dieses Modul zur Installation</target>
+      </trans-unit>
+      <trans-unit id="64dc4422a5a5ad3f2bc3e14c76bdd469">
+        <source>There are no tabs for this module to register</source>
+        <target>Für dieses Modul sind keine Menüeinträge zum Registrieren vorhanden</target>
+      </trans-unit>
+      <trans-unit id="ab82db9002a2ded54eed989a4277745e">
+        <source>There is no SQL to install for this module</source>
+        <target>Es gibt kein SQL für dieses Modul zu installieren.</target>
+      </trans-unit>
+      <trans-unit id="3b98c3ae710710c492ccb2d917049f55">
+        <source>There is no configuration for this module to install</source>
+        <target>Es gibt keine Konfiguration für die Installation dieses Moduls</target>
+      </trans-unit>
+      <trans-unit id="24e70577722f76a8245415c0a344b96c">
+        <source>This field is invalid</source>
+        <target>Dieses Feld ist ungültig</target>
+      </trans-unit>
+      <trans-unit id="9be0ed7142747d2fb5046255b767e79c">
+        <source>This license code seems not to be valid</source>
+        <target>Dieser Lizenzschlüssel scheint ungültig zu sein</target>
+      </trans-unit>
+      <trans-unit id="581ee648ccfc6dc8d4e57fffb20d4046">
+        <source>This list shows admin tabs that are no longer needed</source>
+        <target>Diese Liste zeigt alle Admin Tabs des Moduls, die nicht nicht benötigt werden</target>
+      </trans-unit>
+      <trans-unit id="794b6dc2e065a17ba6a0d751519faadd">
+        <source>This list shows all admin tabs of the module that should be registered. If not all tabs are registered, you can fix this with the button below.</source>
+        <target>In dieser Liste werden alle Menüeinträge des Moduls angezeigt, die registriert werden sollen. Sollten nicht alle Menüeinträge registriert sein, können Sie dies mit der Schaltfläche unten beheben.</target>
+      </trans-unit>
+      <trans-unit id="8890bdbd10d6ec6a3f7d66d6b02bfee3">
+        <source>This list shows all hooks used by the module. If not all hooks are registered, you can fix this with the button below.</source>
+        <target>Diese Liste zeigt alle vom Modul verwendeten Hooks. Sollten nicht alle Hooks registriert sein, können Sie dies mit der Schaltfläche unten beheben.</target>
+      </trans-unit>
+      <trans-unit id="8d074f66a0c6499cf1720c91d17bd54d">
+        <source>This list shows all order statuses that this module installs. If an order status is not installed correctly, you can reset it here.</source>
+        <target>In dieser Liste werden alle Bestellstatus angezeigt, die dieses Modul installiert. Sollte ein Bestellstatus nicht korrekt installiert sein, können Sie ihn hier zurücksetzen.</target>
+      </trans-unit>
+      <trans-unit id="43f5bf9039b19e7a330a86d2fd6d764c">
+        <source>This list shows the configuration that installs this module. If the configuration values are not installed correctly, you can reset them here.</source>
+        <target>Diese Liste zeigt die Konfiguration, die dieses Modul installiert. Sollten die Konfigurationswerte nicht korrekt installiert sein, können Sie diese hier zurücksetzen.</target>
+      </trans-unit>
+      <trans-unit id="56d4f2fa44b4083bfc1fe60ff6b78337">
+        <source>This list shows the controller that installs this module. If a controller values are not installed correctly, you can reset them here.</source>
+        <target>Diese Liste zeigt den Controller, der dieses Modul installiert. Sollten die Werte eines Controllers nicht korrekt installiert sein, können Sie diese hier zurücksetzen.</target>
+      </trans-unit>
+      <trans-unit id="db48242495babd891229136018ed5be4">
+        <source>This module is disabled. Please enable it.</source>
+        <target>Dieses Modul ist deaktiviert. Um es zu konfigurieren zu können, müssen Sie es aktivieren.</target>
+      </trans-unit>
+      <trans-unit id="124c44c55082e763c52819653560e925">
+        <source>This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop's emails.</source>
+        <target>Legen Sie hier fest, bei welchen E-Mails zusätzliche Informationen aus der Verwaltung rechtskonformer Inhalte oben angefügt werden sollen.</target>
+      </trans-unit>
+      <trans-unit id="bee423c6b151e76995ed05befc861409">
+        <source>This text will be displayed on the shopping cart page. Leave empty to disable.</source>
+        <target>Dieses Text wird auf der Bestellseite angezeigt. Zur Deaktivierung einfach freilassen.</target>
+      </trans-unit>
+      <trans-unit id="deccbe4e9083c3b5f7cd2632722765bb">
+        <source>Translate</source>
+        <target>Übersetzen</target>
+      </trans-unit>
+      <trans-unit id="a1fa27779242b4902f7ae3bdd5c6d508">
+        <source>Type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="b89ad4c4a68763f3497deedf2f3dbf68">
+        <source>Upload custom payment logo. The logo will appear on the checkout page</source>
+        <target>Laden Sie Ihr individuelles Zahlungslogo hoch. Das Logo wird auf der Checkout-Seite angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="689202409e48743b914713f96d93947c">
+        <source>Value</source>
+        <target>Wert</target>
+      </trans-unit>
+      <trans-unit id="c82a6100dace2b41087ba6cf99a5976a">
+        <source>Values</source>
+        <target>mögliche Werte</target>
+      </trans-unit>
+      <trans-unit id="4e4ad3bce81c7707fa899441c859245a">
+        <source>Virtual Products</source>
+        <target>Virtuelle Produkte</target>
+      </trans-unit>
+      <trans-unit id="5706de961fb376d701be6e7762d8b09c">
+        <source>Waiting</source>
+        <target>Wartend</target>
+      </trans-unit>
+      <trans-unit id="cf4e7929f6a8cafcba348d0889f7a452">
+        <source>When a product is on sale, displays a 'Our previous price' label before the original price crossed out, next to the price on the product page.</source>
+        <target>Beim reduzierten Artikeln, zeigt das Label 'Unser bisheriger Preis' vor den ursprünglichen Streichpreis an, welcher sich in der Nähe des aktuellen Preise auf der Artikelseite befindet.</target>
+      </trans-unit>
+      <trans-unit id="a2bfc699a0a4b724be41740c97c6b27b">
+        <source>When enabled, tax for shipping and wrapping costs will be calculated proportionate to taxes applying to the products in the cart.</source>
+        <target>MwSt. für Versand und Verpackung entsprechend der Steueranteile im Warenkorb berechnen.</target>
+      </trans-unit>
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+        <source>Yes</source>
+        <target>Ja</target>
+      </trans-unit>
+      <trans-unit id="7b1cc07c283826f9245b2cd606936ca6">
+        <source>Yes! I Accept the privacy policy.</source>
+        <target>Ja! ich akzeptiere die Datenschutzbestimmungen.</target>
+      </trans-unit>
+      <trans-unit id="d7045651974bcdbcec6b44c6d7e7ffd4">
+        <source>Your country's legislation may require you to communicate some specific legal information to your customers.</source>
+        <target>Die Rechtslage in Ihrem Land verpflichtet Sie unter Umständen zur Angabe besonderer rechtlicher Informationen gegenüber Ihren Kunden.</target>
+      </trans-unit>
+      <trans-unit id="716f6b30598ba30945d84485e61c1027">
+        <source>close</source>
+        <target>schließen</target>
+      </trans-unit>
+      <trans-unit id="099af53f601532dbd31e0ea99ffdeb64">
+        <source>delete</source>
+        <target>löschen</target>
+      </trans-unit>
+      <trans-unit id="f1eef360f0ed34e642661a9ff81a99f4">
+        <source>failure!</source>
+        <target>Fehler!</target>
+      </trans-unit>
+      <trans-unit id="f45ba9a3a1dd691449b3749e50da6514">
+        <source>missing!</source>
+        <target>fehlt!</target>
+      </trans-unit>
+      <trans-unit id="39f27d90e77dc11aacbfc6425cc6f466">
+        <source>not registered!</source>
+        <target>nicht eingetragen!</target>
+      </trans-unit>
+      <trans-unit id="444bcb3a3fcf8389296c49467f27e1d6">
+        <source>ok</source>
+        <target>ok</target>
+      </trans-unit>
+      <trans-unit id="1225a8735e5fd16cad37c5e051a4fc2c">
+        <source>registerd but unnecessary!</source>
+        <target>registriert aber unnötig</target>
+      </trans-unit>
+      <trans-unit id="42938ec493fb522f11713bdcfd062ebb">
+        <source>unecessary</source>
+        <target>unnötig</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

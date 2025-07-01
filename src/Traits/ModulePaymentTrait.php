@@ -36,7 +36,7 @@ trait ModulePaymentTrait
 
         $newPaymentOption = new PaymentOption();
         $newPaymentOption->setModuleName($this->name);
-        $newPaymentOption->setCallToActionText($this->trans('Pay by %module_name%', ['%module_name%' => $this->displayName], 'Modules.Pslegalcompliance.Shop'));
+        $newPaymentOption->setCallToActionText($this->trans('Pay by %module_name%', ['%module_name%' => $this->displayName], 'Modules.Legalcompliance.Shop'));
         $newPaymentOption->setAction($this->context->link->getModuleLink($this->name, 'payment', [], true));
         $newPaymentOption->setInputs([
             ['type' => 'hidden', 'name' => 'submitPayment', 'value' => '1'],
