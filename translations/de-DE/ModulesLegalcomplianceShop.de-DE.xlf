@@ -22,6 +22,10 @@
         <source>From</source>
         <target>Ab</target>
       </trans-unit>
+      <trans-unit id="ee52676c650ed54f543fe48670f0543a">
+        <source>I agree to the [terms of service] and [privacy terms] and will adhere to them unconditionally.</source>
+        <target>Ich habe die [Allgemeinen Geschäftsbedingungen] und die [Datenschutzerklärung] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
+      </trans-unit>
       <trans-unit id="cd18220ba24e07df2d859c30cb5809a9">
         <source>I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.</source>
         <target>Ich habe die [Allgemeinen Geschäftsbedingungen], mein [Widerrufsrecht] und die [Datenschutzerklärung] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>

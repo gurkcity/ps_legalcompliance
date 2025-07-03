@@ -186,10 +186,6 @@
         <source>Displays the tax informations in the footer.</source>
         <target>Zeigt die Steuerinformationen im Footer-Bereich an.</target>
       </trans-unit>
-      <trans-unit id="3acf85f0ce1d57facc75620d5b536c68">
-        <source>Displays whether the tax is included on the product page ('Tax incl./excl.' label) and adds a short mention in the footer of other pages.</source>
-        <target>Zeigt neben dem Preis einen Steuerzusatz (zzgl./inkl. MwSt). auf der Artikelseite an und in der Listenansicht einen mit einem Sternchen hinter dem Preis verknüpften Hinweis in der Fußzeile.</target>
-      </trans-unit>
       <trans-unit id="c0f7fb0de01d83f207df1eb47b415b75">
         <source>Do you really want to update the license code for this module?</source>
         <target>Möchten Sie den Lizenzcode für dieses Modul wirklich aktualisieren?</target>
@@ -601,10 +597,6 @@
       <trans-unit id="85a146ee20225afb6528729e67145cec">
         <source>Take this cron url to prepare the cronjob for the action '%action_name%'</source>
         <target>Verwenden Sie diese Cron-URL, um den Cronjob für die Aktion '%action_name%' vorzubereiten.</target>
-      </trans-unit>
-      <trans-unit id="91f7c813a787f39521bcf07a2421935d">
-        <source>Tax 'inc./excl.' label</source>
-        <target>Anzeige  MwSt.</target>
       </trans-unit>
       <trans-unit id="98664ee75f74254b622a52d86a798ae3">
         <source>Terms of Service (ToS)</source>

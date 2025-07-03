@@ -651,12 +651,20 @@ class PS_Legalcompliance extends Module
                     (bool) Configuration::get('PS_SSL_ENABLED')
                 );
 
-                $termsAndConditions->setText(
-                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
-                    $link_conditions,
-                    $link_revocation,
-                    $link_privacy
-                );
+                if (!Configuration::get('AEUC_LABEL_REVOCATION_TOS')) {
+                    $termsAndConditions->setText(
+                        $this->trans('I agree to the [terms of service] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
+                        $link_conditions,
+                        $link_privacy
+                    );
+                } else {
+                    $termsAndConditions->setText(
+                        $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
+                        $link_conditions,
+                        $link_revocation,
+                        $link_privacy
+                    );
+                }
             }
 
             $returnedTermsAndConditions[] = $termsAndConditions;
