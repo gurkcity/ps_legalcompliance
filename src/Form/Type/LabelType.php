@@ -39,11 +39,6 @@ class LabelType extends TranslatorAwareType
                 'help' => $this->trans('When a product is on sale, displays a \'Our previous price\' label before the original price crossed out, next to the price on the product page.', 'Modules.Legalcompliance.Admin'),
                 'required' => false,
             ])
-            ->add('AEUC_LABEL_TAX_INC_EXC', SwitchType::class, [
-                'label' => $this->trans('Tax \'inc./excl.\' label', 'Modules.Legalcompliance.Admin'),
-                'help' => $this->trans('Displays whether the tax is included on the product page (\'Tax incl./excl.\' label) and adds a short mention in the footer of other pages.', 'Modules.Legalcompliance.Admin'),
-                'required' => false,
-            ])
             ->add('AEUC_LABEL_UNIT_PRICE', SwitchType::class, [
                 'label' => $this->trans('Price per unit label', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('If available, displays the price per unit everywhere the product price is listed.', 'Modules.Legalcompliance.Admin'),

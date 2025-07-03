@@ -28,7 +28,6 @@ class Settings extends AbstractSettings
             new Config('AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL', 0, false, false, true, false),
             new Config('AEUC_LABEL_DELIVERY_ADDITIONAL', '', false, false, true, false),
             new Config('AEUC_LABEL_SPECIFIC_PRICE', true, false, false, true, false),
-            new Config('AEUC_LABEL_TAX_INC_EXC', true, false, false, true, false),
             new Config('AEUC_LABEL_UNIT_PRICE', true, false, false, true, false),
             new Config('AEUC_LABEL_SHIPPING_INC_EXC', true, false, false, true, false),
             new Config('AEUC_LABEL_COND_PRIVACY', true, false, false, true, false),

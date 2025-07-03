@@ -57,7 +57,6 @@ class LabelDataProvider implements FormDataProviderInterface
             'AEUC_LABEL_CUSTOM_CART_TEXT' => $customCartText,
             'AEUC_LABEL_SPECIFIC_PRICE' => (bool) $this->configuration->get('AEUC_LABEL_SPECIFIC_PRICE'),
             'AEUC_LABEL_UNIT_PRICE' => (bool) $this->configuration->get('AEUC_LABEL_UNIT_PRICE'),
-            'AEUC_LABEL_TAX_INC_EXC' => (bool) $this->configuration->get('AEUC_LABEL_TAX_INC_EXC'),
             'AEUC_LABEL_COND_PRIVACY' => (bool) $this->configuration->get('AEUC_LABEL_COND_PRIVACY'),
             'AEUC_LABEL_REVOCATION_TOS' => (bool) $this->configuration->get('AEUC_LABEL_REVOCATION_TOS'),
             'AEUC_LABEL_SHIPPING_INC_EXC' => (bool) $this->configuration->get('AEUC_LABEL_SHIPPING_INC_EXC'),
@@ -81,7 +80,6 @@ class LabelDataProvider implements FormDataProviderInterface
         $this->configuration->set('AEUC_LABEL_CUSTOM_CART_TEXT', $customCartText);
         $this->configuration->set('AEUC_LABEL_SPECIFIC_PRICE', (bool) $data['AEUC_LABEL_SPECIFIC_PRICE']);
         $this->configuration->set('AEUC_LABEL_UNIT_PRICE', (bool) $data['AEUC_LABEL_UNIT_PRICE']);
-        $this->configuration->set('AEUC_LABEL_TAX_INC_EXC', (bool) $data['AEUC_LABEL_TAX_INC_EXC']);
         $this->configuration->set('AEUC_LABEL_COND_PRIVACY', (bool) $data['AEUC_LABEL_COND_PRIVACY']);
         $this->configuration->set('AEUC_LABEL_REVOCATION_TOS', (bool) $data['AEUC_LABEL_REVOCATION_TOS']);
         $this->configuration->set('AEUC_LABEL_SHIPPING_INC_EXC', (bool) $data['AEUC_LABEL_SHIPPING_INC_EXC']);

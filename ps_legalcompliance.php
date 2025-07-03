@@ -746,7 +746,6 @@ class PS_Legalcompliance extends Module
                 'old_price',
                 'price',
                 'after_price',
-                'list_taxes',
                 'unit_price',
             ])
         ) {
@@ -874,29 +873,6 @@ class PS_Legalcompliance extends Module
                     $delivery_addtional_info = Configuration::get('AEUC_LABEL_DELIVERY_ADDITIONAL', (int) $this->context->language->id);
                     if (trim($delivery_addtional_info) !== '') {
                         $smartyVars['after_price']['delivery_str_i18n'] = '*';
-                    }
-                }
-            }
-
-            /* Handle Taxes Inc./Exc. */
-            if ($type == 'list_taxes') {
-                $smartyVars['list_taxes'] = [];
-
-                if (Configuration::get('AEUC_LABEL_TAX_INC_EXC')) {
-                    $customer_default_group_id = (int) $this->context->customer->id_default_group;
-                    $customer_default_group = new Group($customer_default_group_id);
-
-                    if (
-                        Configuration::get('PS_TAX')
-                        && $this->context->country->display_tax_label
-                        && !(
-                            Validate::isLoadedObject($customer_default_group)
-                            && $customer_default_group->price_display_method
-                        )
-                    ) {
-                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax included', [], 'Shop.Theme.Checkout');
-                    } else {
-                        $smartyVars['list_taxes']['tax_str_i18n'] = $this->trans('Tax excluded', [], 'Shop.Theme.Checkout');
                     }
                 }
             }
