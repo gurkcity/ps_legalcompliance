@@ -59,6 +59,11 @@ class LabelType extends TranslatorAwareType
                 'help' => $this->trans('Includes content from the Revocation Terms page within the Terms of Services (ToS).', 'Modules.Legalcompliance.Admin'),
                 'required' => false,
             ])
+            ->add('AEUC_LABEL_PRIVACY_TOS', SwitchType::class, [
+                'label' => $this->trans('Privacy Terms within ToS', 'Modules.Legalcompliance.Admin'),
+                'help' => $this->trans('Includes content from the Privacy Terms page within the Terms of Services (ToS).', 'Modules.Legalcompliance.Admin'),
+                'required' => false,
+            ])
             ->add('AEUC_LABEL_COMBINATION_FROM', SwitchType::class, [
                 'label' => $this->trans('\'From\' price label (when combinations)', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('Displays a \'From\' label before the price on products with combinations.', 'Modules.Legalcompliance.Admin'),

@@ -26,6 +26,14 @@
         <source>I agree to the [terms of service] and [privacy terms] and will adhere to them unconditionally.</source>
         <target>Ich habe die [Allgemeinen Geschäftsbedingungen] und die [Datenschutzerklärung] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
       </trans-unit>
+      <trans-unit id="60657eaf863277872e2c9a2d31423842">
+        <source>I agree to the [terms of service] and [revocation terms] and will adhere to them unconditionally.</source>
+        <target>Ich habe die [Allgemeinen Geschäftsbedingungen] und mein [Widerrufsrecht] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
+      </trans-unit>
+      <trans-unit id="ee86ec52efe7efae1e33fa9c56eafcd9">
+        <source>I agree to the [terms of service] and will adhere to it unconditionally.</source>
+        <target>Ich habe die [Allgemeinen Geschäftsbedingungen] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
+      </trans-unit>
       <trans-unit id="cd18220ba24e07df2d859c30cb5809a9">
         <source>I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.</source>
         <target>Ich habe die [Allgemeinen Geschäftsbedingungen], mein [Widerrufsrecht] und die [Datenschutzerklärung] gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis.</target>
@@ -69,10 +77,6 @@
       <trans-unit id="ba242afc28d084a94011536b466e0cf4">
         <source>Please confirm your order by clicking "Place my order"</source>
         <target>Bitte bestätigen Sie Ihre Bestellung, indem Sie auf "Kaufen" klicken.</target>
-      </trans-unit>
-      <trans-unit id="6a91d7d52c586b57ca8f2a425434b5c6">
-        <source>Please note our [%terms_and_conditions%] and [%revocation%]</source>
-        <target>Bitte beachten Sie unsere [%terms_and_conditions%] und [%revocation%]</target>
       </trans-unit>
       <trans-unit id="427e29628d9f5d9bfde0e58b32569619">
         <source>Print this page</source>

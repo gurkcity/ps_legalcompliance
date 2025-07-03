@@ -278,6 +278,10 @@
         <source>In Execution</source>
         <target>In Ausführung</target>
       </trans-unit>
+      <trans-unit id="7d821517f1d987621bda8534b4f89b7b">
+        <source>Includes content from the Privacy Terms page within the Terms of Services (ToS).</source>
+        <target>Link zum Datenschutz zur AGB-Bestätigung hinzufügen.</target>
+      </trans-unit>
       <trans-unit id="bdf4cbf3cdbf8a0e03aad7f4910c1b57">
         <source>Includes content from the Revocation Terms page within the Terms of Services (ToS).</source>
         <target>Link zur Widerrufsbelehrung zur AGB-Bestätigung hinzufügen.</target>
@@ -461,6 +465,10 @@
       <trans-unit id="c5f29bb36f9158d2e00f5d4dc213a0ff">
         <source>Privacy</source>
         <target>Datenschutz</target>
+      </trans-unit>
+      <trans-unit id="7dc372e58c5bf68e9b79251385d9b9c3">
+        <source>Privacy Terms within ToS</source>
+        <target>Link Datenschutz (AGB-Checkbox)</target>
       </trans-unit>
       <trans-unit id="cadebe42ec37a2654161a876bc11d52c">
         <source>Proportionate tax for shipping and wrapping</source>

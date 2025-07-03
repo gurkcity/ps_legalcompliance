@@ -584,8 +584,10 @@ class PS_Legalcompliance extends Module
         if (
             Configuration::get('PS_CONDITIONS')
             && $cmsPageConditionsAssoiciated->id_cms
-            && $cmsPageRevocationAssociated->id_cms
         ) {
+            $link_revocation = '';
+            $link_privacy = '';
+
             $cmsConditions = $cmsRepository->i10nFindOneById(
                 (int) $cmsPageConditionsAssoiciated->id_cms,
                 $idLang,
@@ -600,20 +602,54 @@ class PS_Legalcompliance extends Module
                 )
                 : null;
 
-            $cmsRevocation = $cmsRepository->i10nFindOneById(
-                (int) $cmsPageRevocationAssociated->id_cms,
-                $idLang,
-                $idShop
-            );
+            if ($cmsPageRevocationAssociated->id_cms) {
+                $cmsRevocation = $cmsRepository->i10nFindOneById(
+                    (int) $cmsPageRevocationAssociated->id_cms,
+                    $idLang,
+                    $idShop
+                );
 
-            $link_revocation = $this->context->link->getCMSLink(
-                $cmsRevocation,
-                $cmsRevocation->link_rewrite,
-                (bool) Configuration::get('PS_SSL_ENABLED')
-            );
+                $link_revocation = $this->context->link->getCMSLink(
+                    $cmsRevocation,
+                    $cmsRevocation->link_rewrite,
+                    (bool) Configuration::get('PS_SSL_ENABLED')
+                );
+            }
+
+            if ($cmsPagePrivacyAssociated->id_cms) {
+                $cms_privacy = $cmsRepository->i10nFindOneById(
+                    (int) $cmsPagePrivacyAssociated->id_cms,
+                    $idLang,
+                    $idShop
+                );
+
+                $link_privacy = $this->context->link->getCMSLink(
+                    $cms_privacy,
+                    $cms_privacy->link_rewrite,
+                    (bool) Configuration::get('PS_SSL_ENABLED')
+                );
+            }
 
             $termsAndConditions = new TermsAndConditions();
             $termsAndConditions->setIdentifier('terms-and-conditions');
+
+            $removeCheckboxScript = '';
+
+            $termsCollection = [];
+            $termsCollection['[terms of service]'] = $link_conditions;
+
+            if (
+                Configuration::get('AEUC_LABEL_REVOCATION_TOS')
+                && $link_revocation
+            ) {
+                $termsCollection['[revocation terms]'] = $link_revocation;
+            }
+
+            if (Configuration::get('AEUC_LABEL_PRIVACY_TOS')) {
+                $termsCollection['[privacy terms]'] = $link_privacy;
+            }
+
+            $countTermsCollection = count($termsCollection);
 
             if (!Configuration::get('AEUC_LABEL_COND_PRIVACY')) {
                 $tpl = $this->context->smarty->createTemplate(
@@ -626,45 +662,39 @@ class PS_Legalcompliance extends Module
                     'checkbox_identifier' => 'terms-and-conditions',
                 ]);
 
+                $removeCheckboxScript = $tpl->fetch();
+            }
+
+            if ($countTermsCollection === 1) {
                 $termsAndConditions->setText(
-                    $this->trans(
-                        'Please note our [%terms_and_conditions%] and [%revocation%]',
-                        [
-                            '%revocation%' => $cmsRevocation->meta_title,
-                            '%terms_and_conditions%' => $cmsConditions->meta_title,
-                        ],
-                        'Modules.Legalcompliance.Shop'
-                    ) . $tpl->fetch(),
+                    $this->trans('I agree to the [terms of service] and will adhere to it unconditionally.', [], 'Modules.Legalcompliance.Shop') . $removeCheckboxScript,
+                    $link_conditions
+                );
+            } elseif (
+                $countTermsCollection === 2
+                && Configuration::get('AEUC_LABEL_REVOCATION_TOS')
+            ) {
+                $termsAndConditions->setText(
+                    $this->trans('I agree to the [terms of service] and [revocation terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') . $removeCheckboxScript,
                     $link_conditions,
                     $link_revocation
                 );
+            } elseif (
+                $countTermsCollection === 2
+                && Configuration::get('AEUC_LABEL_PRIVACY_TOS')
+            ) {
+                $termsAndConditions->setText(
+                    $this->trans('I agree to the [terms of service] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') . $removeCheckboxScript,
+                    $link_conditions,
+                    $link_privacy
+                );
             } else {
-                $cms_privacy = $cmsRepository->i10nFindOneById(
-                    (int) $cmsPagePrivacyAssociated->id_cms,
-                    $idLang,
-                    $idShop
+                $termsAndConditions->setText(
+                    $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop') . $removeCheckboxScript,
+                    $link_conditions,
+                    $link_revocation,
+                    $link_privacy
                 );
-
-                $link_privacy = $this->context->link->getCMSLink(
-                    $cms_privacy,
-                    $cms_privacy->link_rewrite,
-                    (bool) Configuration::get('PS_SSL_ENABLED')
-                );
-
-                if (!Configuration::get('AEUC_LABEL_REVOCATION_TOS')) {
-                    $termsAndConditions->setText(
-                        $this->trans('I agree to the [terms of service] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
-                        $link_conditions,
-                        $link_privacy
-                    );
-                } else {
-                    $termsAndConditions->setText(
-                        $this->trans('I agree to the [terms of service], [revocation terms] and [privacy terms] and will adhere to them unconditionally.', [], 'Modules.Legalcompliance.Shop'),
-                        $link_conditions,
-                        $link_revocation,
-                        $link_privacy
-                    );
-                }
             }
 
             $returnedTermsAndConditions[] = $termsAndConditions;

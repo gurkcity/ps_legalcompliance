@@ -59,6 +59,7 @@ class LabelDataProvider implements FormDataProviderInterface
             'AEUC_LABEL_UNIT_PRICE' => (bool) $this->configuration->get('AEUC_LABEL_UNIT_PRICE'),
             'AEUC_LABEL_COND_PRIVACY' => (bool) $this->configuration->get('AEUC_LABEL_COND_PRIVACY'),
             'AEUC_LABEL_REVOCATION_TOS' => (bool) $this->configuration->get('AEUC_LABEL_REVOCATION_TOS'),
+            'AEUC_LABEL_PRIVACY_TOS' => (bool) $this->configuration->get('AEUC_LABEL_PRIVACY_TOS'),
             'AEUC_LABEL_SHIPPING_INC_EXC' => (bool) $this->configuration->get('AEUC_LABEL_SHIPPING_INC_EXC'),
             'AEUC_LABEL_COMBINATION_FROM' => (bool) $this->configuration->get('AEUC_LABEL_COMBINATION_FROM'),
             'AEUC_LABEL_TAX_FOOTER' => (bool) $this->configuration->get('AEUC_LABEL_TAX_FOOTER'),
@@ -82,6 +83,7 @@ class LabelDataProvider implements FormDataProviderInterface
         $this->configuration->set('AEUC_LABEL_UNIT_PRICE', (bool) $data['AEUC_LABEL_UNIT_PRICE']);
         $this->configuration->set('AEUC_LABEL_COND_PRIVACY', (bool) $data['AEUC_LABEL_COND_PRIVACY']);
         $this->configuration->set('AEUC_LABEL_REVOCATION_TOS', (bool) $data['AEUC_LABEL_REVOCATION_TOS']);
+        $this->configuration->set('AEUC_LABEL_PRIVACY_TOS', (bool) $data['AEUC_LABEL_PRIVACY_TOS']);
         $this->configuration->set('AEUC_LABEL_SHIPPING_INC_EXC', (bool) $data['AEUC_LABEL_SHIPPING_INC_EXC']);
         $this->configuration->set('AEUC_LABEL_COMBINATION_FROM', (bool) $data['AEUC_LABEL_COMBINATION_FROM']);
         $this->configuration->set('AEUC_LABEL_TAX_FOOTER', (bool) $data['AEUC_LABEL_TAX_FOOTER']);
