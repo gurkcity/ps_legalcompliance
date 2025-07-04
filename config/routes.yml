@@ -179,3 +179,19 @@ legalcompliance_email_save:
     _controller: 'Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::processEmailFormAction'
     _legacy_controller: PSLegalcomplianceConfigurationAdminController
     _legacy_link: PSLegalcomplianceConfigurationAdminController
+
+ps_legalcompliance_virtual:
+  path: ps_legalcompliance/virtual
+  methods: [GET, POST, PATCH]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::virtualAction
+    _legacy_controller: 'PsLegalcomplianceVirtualAdminController'
+    _legacy_link: 'PsLegalcomplianceVirtualAdminController'
+
+ps_legalcompliance_email:
+  path: ps_legalcompliance/email
+  methods: [GET, POST, PATCH]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\ConfigurationAdminController::emailAction
+    _legacy_controller: 'PsLegalcomplianceEmailAdminController'
+    _legacy_link: 'PsLegalcomplianceEmailAdminController'

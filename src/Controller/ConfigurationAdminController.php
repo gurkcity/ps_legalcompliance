@@ -35,30 +35,54 @@ class ConfigurationAdminController extends AdminController
         Request $request,
         #[Autowire(service: 'pslegalcompliance.form_handler.label')]
         FormHandlerInterface $labelFormHandler,
-        #[Autowire(service: 'pslegalcompliance.form_handler.virtual')]
-        FormHandlerInterface $virtualFormHandler,
         #[Autowire(service: 'pslegalcompliance.form_handler.general')]
         FormHandlerInterface $generalFormHandler,
         #[Autowire(service: 'pslegalcompliance.form_handler.cms')]
-        FormHandlerInterface $cmsFormHandler,
-        #[Autowire(service: 'pslegalcompliance.form_handler.email')]
-        FormHandlerInterface $emailFormHandler,
+        FormHandlerInterface $cmsFormHandler
     ): Response {
         if (!$this->module->isLicensed() && !$this->module->isDevMode()) {
             return $this->redirectToRoute('ps_legalcompliance_license');
         }
 
         $labelForm = $labelFormHandler->getForm();
-        $virtualForm = $virtualFormHandler->getForm();
         $generalForm = $generalFormHandler->getForm();
         $cmsForm = $cmsFormHandler->getForm();
-        $emailForm = $emailFormHandler->getForm();
 
         return $this->render('views/templates/admin/configuration.html.twig', [
             'labelForm' => $labelForm->createView(),
-            'virtualForm' => $virtualForm->createView(),
             'generalForm' => $generalForm->createView(),
             'cmsForm' => $cmsForm->createView(),
+        ]);
+    }
+
+    public function virtualAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.virtual')]
+        FormHandlerInterface $virtualFormHandler
+    ): Response {
+        if (!$this->module->isLicensed() && !$this->module->isDevMode()) {
+            return $this->redirectToRoute('ps_legalcompliance_license');
+        }
+
+        $virtualForm = $virtualFormHandler->getForm();
+
+        return $this->render('views/templates/admin/virtual.html.twig', [
+            'virtualForm' => $virtualForm->createView(),
+        ]);
+    }
+
+    public function emailAction(
+        Request $request,
+        #[Autowire(service: 'pslegalcompliance.form_handler.email')]
+        FormHandlerInterface $emailFormHandler
+    ): Response {
+        if (!$this->module->isLicensed() && !$this->module->isDevMode()) {
+            return $this->redirectToRoute('ps_legalcompliance_license');
+        }
+
+        $emailForm = $emailFormHandler->getForm();
+
+        return $this->render('views/templates/admin/email.html.twig', [
             'emailForm' => $emailForm->createView(),
             'emailTemplatesMissing' => $this->getNewEmailTemplates(),
         ]);

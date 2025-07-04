@@ -1,0 +1,66 @@
+{#**
+ * PS Legalcompliance
+ * Module for PrestaShop E-Commerce Software
+ *
+ * @author    Markus Engel <info@onlineshop-module.de>
+ * @copyright Copyright (c) 2025, Onlineshop-Module.de
+ * @license   commercial, see licence.txt
+ *#}
+
+{% extends '@Modules/ps_legalcompliance/views/templates/admin/header/moduleheader.html.twig' %}
+
+{% trans_default_domain "Modules.Legalcompliance.Admin" %}
+
+{% form_theme emailForm '@Modules/ps_legalcompliance/views/templates/admin/form_email.html.twig' %}
+
+{% block content %}
+  {{ form_start(emailForm, {action: path('legalcompliance_email_save'), 'attr': {'id': 'emailAttachementsManager'} }) }}
+  <div class="card" id="pslegalcompliance_email_form">
+    <h3 class="card-header">
+      <i class="material-icons">email</i>
+      {{ 'Labels'|trans }}
+    </h3>
+    <div class="card-body">
+      <div class="col-sm-6">
+        <p>{{ 'This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop\'s emails.'|trans }}</p>
+        <p>{{ 'For each type of email, you can define which content you would like to include.'|trans }}</p>
+      </div>
+      <div class="col-sm-6">
+        {% if emailTemplatesMissing %}
+        <div class="new_emails alert alert-info">
+          <p>{{ 'There are %count% new email templates found:'|trans({'%count%': emailTemplatesMissing|length})}}</p>
+          <ul>
+          {% for emailTemplate in emailTemplatesMissing %}
+            <li>{{ emailTemplate }}</li>
+          {% endfor %}
+          </ul>
+          <a href="{$check_new_templates_link}" class="btn btn-primary">{{ 'Insert new email templates'|trans }}</a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="form-wrapper">
+        {{ form_widget(emailForm) }}
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">{{ 'Save'|trans }}</button>
+      </div>
+    </div>
+  </div>
+  {{ form_end(emailForm) }}
+
+{% endblock %}
+
+{% block extra_javascripts %}
+  {{ parent() }}
+  <script>
+  $(() => {
+    window.prestashop.component.initComponents([
+      'TranslatableField',
+      'TinyMCEEditor',
+      'TranslatableInput',
+    ]);
+  });
+  </script>
+{% endblock %}

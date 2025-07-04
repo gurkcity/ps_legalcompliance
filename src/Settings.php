@@ -16,6 +16,7 @@ use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module\AbstractSettings;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Config;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Hook;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Sql;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Tab;
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Email\EmailLister;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityManager;
@@ -105,7 +106,34 @@ class Settings extends AbstractSettings
 
     public function tabs(): array
     {
-        return [];
+        return [
+            Tab::buildFromArray([
+                'class_name' => 'PsLegalcomplianceVirtualAdminController',
+                'route_name' => 'ps_legalcompliance_virtual',
+                'icon' => '',
+                'wording' => 'Virtual Settings',
+                'wording_domain' => 'Modules.Legalcompliance.Admin',
+                'visible' => true,
+                'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
+                'name' => [
+                    'en' => 'Virtual Settings',
+                    'de' => 'Virtual Einstellungen',
+                ],
+            ]),
+            Tab::buildFromArray([
+                'class_name' => 'PsLegalcomplianceEmailAdminController',
+                'route_name' => 'ps_legalcompliance_email',
+                'icon' => '',
+                'wording' => 'Email Settings',
+                'wording_domain' => 'Modules.Legalcompliance.Admin',
+                'visible' => true,
+                'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
+                'name' => [
+                    'en' => 'Email Settings',
+                    'de' => 'E-Mail Einstellungen',
+                ],
+            ]),
+        ];
     }
 
     public function translations(): array
