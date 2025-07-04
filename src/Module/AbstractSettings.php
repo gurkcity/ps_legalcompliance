@@ -304,12 +304,6 @@ abstract class AbstractSettings
             ],
         ]);
 
-        $tabs = $this->tabs();
-
-        if (!empty($tabs)) {
-            $defaultTabs = array_merge($defaultTabs, $tabs);
-        }
-
         $defaultTabs[] = Tab::buildFromArray([
             'class_name' => 'PsLegalcomplianceConfigurationAdminController',
             'route_name' => 'ps_legalcompliance_configuration',
@@ -323,6 +317,12 @@ abstract class AbstractSettings
                 'de' => 'Konfiguration',
             ],
         ]);
+
+        $tabs = $this->tabs();
+
+        if (!empty($tabs)) {
+            $defaultTabs = array_merge($defaultTabs, $tabs);
+        }
 
         if ($this->module->isPayment()) {
             $defaultTabs[] = Tab::buildFromArray([

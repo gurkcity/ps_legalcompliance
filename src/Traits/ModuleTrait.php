@@ -204,8 +204,14 @@ trait ModuleTrait
             $context->controller->addCss($this->getPathUri() . 'views/css/admin/module.css');
             $context->controller->addJs($this->getPathUri() . 'views/js/admin/module.js');
 
+            $tabs = $this->getSettings()->getTabs();
+            $tabClassnames = array_map(function ($tab) {
+                return $tab->getClassName();
+            }, $tabs);
+
             \Media::addJsDef([
                 'txtUpdateLicenseCode' => $this->trans('Do you really want to update the license code for this module?', [], 'Modules.Legalcompliance.Admin'),
+                'tabClassnames' => $tabClassnames,
             ]);
         }
 

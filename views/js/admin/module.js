@@ -103,10 +103,31 @@ const ps_legalcompliance = {
       $(rowSelector).hide();
     }
   },
+
+  rearrangeTabs: () => {
+    if (
+      typeof tabClassnames === 'undefined'
+      || tabClassnames.length === 0
+    ) {
+      return;
+    }
+
+    for (classname of tabClassnames) {
+      let id = 'subtab-' + classname;
+      let menuItem = $('#' + id).parent();
+
+      if (menuItem.length === 0) {
+        continue;
+      }
+
+      $('#head_tabs .nav').append(menuItem);
+    };
+  }
 }
 
 $(() => {
   ps_legalcompliance.init();
+  ps_legalcompliance.rearrangeTabs();
 
   $('input[name="label[AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL]"]').on('change', (e) => {
     ps_legalcompliance.toggleRow('input[name="label[AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL]"]', '.label_delivery_additional');
