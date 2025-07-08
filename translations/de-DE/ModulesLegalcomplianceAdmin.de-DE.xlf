@@ -96,7 +96,7 @@
       </trans-unit>
       <trans-unit id="9c0408c775a2b61052a2e700a89f396f">
         <source>Compliance</source>
-        <target>Compliance</target>
+        <target>Rechtssicherheit</target>
       </trans-unit>
       <trans-unit id="254f642527b45bc260048e30704edb39">
         <source>Configuration</source>
@@ -104,7 +104,7 @@
       </trans-unit>
       <trans-unit id="b41e135ac2d4c51310c7606965fbb402">
         <source>Continue to cultivate the growth of your business with a sense of calm and peace of mind. Expand your reach across the diverse markets of Europe, offering your products or services successfully in all regions. Simultaneously, maintain a steadfast commitment to adhering to all relevant e-commerce regulations, ensuring a solid and legally sound foundation for your expansion. This approach allows you to focus serenely on the ongoing development of your enterprise while providing a trustworthy and compliant shopping experience for your customers throughout Europe.</source>
-        <target>Fördern Sie das Wachstum Ihres Unternehmens mit Gelassenheit. Erweitern Sie Ihre Reichweite in den vielfältigen Märkten Europas und bieten Sie Ihre Produkte und Dienstleistungen erfolgreich in allen Regionen an. Halten Sie gleichzeitig alle relevanten E-Commerce-Vorschriften ein und schaffen Sie so eine solide und rechtlich abgesicherte Grundlage für Ihre Expansion. So können Sie sich beruhigt auf die Weiterentwicklung Ihres Unternehmens konzentrieren und Ihren Kunden in ganz Europa ein vertrauenswürdiges und konformes Einkaufserlebnis bieten.</target>
+        <target>Schützen Sie sich vor Abmahnungen, verkaufen Sie in ganz Europa und halten Sie sich dabei an die geltenden E-Commerce-Gesetze. Das Modul hilft europäischen Händlern, ihren Shop rechtssicher zu machen und ist damit ein Muss für jeden Shopbetreiber.</target>
       </trans-unit>
       <trans-unit id="9bbf373797bf7cf7ba62c80023682e25">
         <source>Controller</source>
@@ -308,7 +308,7 @@
       </trans-unit>
       <trans-unit id="fb7371d3a9751d20d1e07fe514a5c4ec">
         <source>Keep on growing your business serenely, sell all over Europe while complying with the applicable e-commerce laws.</source>
-        <target>Schützen Sie sich vor Abmahnungen, verkaufen Sie in ganz Europa und halten Sie sich dabei an die geltenden E-Commerce-Gesetze.</target>
+        <target>Das offizielle Modul zur Verbesserung der Rechtssicherheit in Deutschland und der Europäischen Union.</target>
       </trans-unit>
       <trans-unit id="5220edd36a6fc0fbdea5b7852f48879e">
         <source>Label "Virtual Product"</source>
@@ -328,7 +328,7 @@
       </trans-unit>
       <trans-unit id="a10a9bcd450087de1ce1f80b35f44883">
         <source>Legal</source>
-        <target>Rechtssicherheit</target>
+        <target>EU</target>
       </trans-unit>
       <trans-unit id="de2cd9f1dfad85516edd95679af377fd">
         <source>Legal Compliance</source>
