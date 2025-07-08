@@ -34,7 +34,7 @@ class PS_Legalcompliance extends Module
 
     public function __construct()
     {
-        $this->version = '9.0.3';
+        $this->version = '9.0.4';
 
         $this->name = 'ps_legalcompliance';
 

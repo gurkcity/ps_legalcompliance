@@ -71,3 +71,9 @@ Version	Datum     	Bemerkung
 9.0.0   01.01.2025  update to version 9.0
 9.0.2   23.06.2025  Optimized version for PS 9.0.0
 9.0.3   30.06.2025  fix: empty configuration for multilang input field
+9.0.4   08.07.2025  hide module configuration on switch operation
+					remove unused configuration
+					using the configuration AEUC_LABEL_REVOCATION_TOS
+					add configuration to TOS link privacy
+					rearrange admin tabs modules configuration
+					move configuration to separate tabs
