@@ -312,7 +312,7 @@
       </trans-unit>
       <trans-unit id="5220edd36a6fc0fbdea5b7852f48879e">
         <source>Label "Virtual Product"</source>
-        <target>Label „Virtuelles Produkt“</target>
+        <target>Label „Virtueller Artikel“</target>
       </trans-unit>
       <trans-unit id="d0d80ec46a2373752254b64dccf24ac8">
         <source>Label Options</source>
@@ -324,7 +324,7 @@
       </trans-unit>
       <trans-unit id="63e23474e2c348ba5125d9d2cd7c8e00">
         <source>Labeltext "Virtual Product"</source>
-        <target>Beschriftungstext „Virtuelles Produkt“</target>
+        <target>Beschriftungstext „Virtueller Artikel“</target>
       </trans-unit>
       <trans-unit id="a10a9bcd450087de1ce1f80b35f44883">
         <source>Legal</source>
@@ -572,7 +572,7 @@
       </trans-unit>
       <trans-unit id="9481e79bbb4bb1db3626055a14522326">
         <source>Show a label placed next to the product-tax and links to the virtual products CMS-Infopage</source>
-        <target>Zeigt eine Beschriftung neben der Produktsteuer und Links zur CMS-Infoseite der virtuellen Produkte an</target>
+        <target>Zeigt eine Beschriftung neben der Produktsteuer und Links zur CMS-Infoseite der virtuellen Artikel an</target>
       </trans-unit>
       <trans-unit id="2e135c64ae882cdebae8a7745c83f2eb">
         <source>Show cronjob properties</source>
@@ -612,7 +612,7 @@
       </trans-unit>
       <trans-unit id="4fe4fee0d822d01f7d0b7b998f7c6573">
         <source>Text for the label linked to the virtual products CMS-Infopage</source>
-        <target>Text für das Label, das mit der CMS-Infoseite der virtuellen Produkte verknüpft ist</target>
+        <target>Text für das Label, das mit der CMS-Infoseite der virtuellen Artikel verknüpft ist</target>
       </trans-unit>
       <trans-unit id="56a98e3806ba49b60a534872eb19d01a">
         <source>The Legal Compliance module provides the means to indicate legally required informations to your customer, using static pages (some created on purpose by the module). It is your responsibility to fill in the corresponding pages with the required content.</source>
@@ -728,7 +728,7 @@
       </trans-unit>
       <trans-unit id="4e4ad3bce81c7707fa899441c859245a">
         <source>Virtual Products</source>
-        <target>Virtuelle Produkte</target>
+        <target>Virtuelle Artikel</target>
       </trans-unit>
       <trans-unit id="5706de961fb376d701be6e7762d8b09c">
         <source>Waiting</source>
