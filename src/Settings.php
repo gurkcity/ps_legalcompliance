@@ -116,8 +116,8 @@ class Settings extends AbstractSettings
                 'visible' => true,
                 'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
                 'name' => [
-                    'en' => 'Virtual Settings',
-                    'de' => 'Virtual Einstellungen',
+                    'en' => 'Virtual Products',
+                    'de' => 'Virtuelle Artikel',
                 ],
             ]),
             Tab::buildFromArray([
@@ -129,8 +129,8 @@ class Settings extends AbstractSettings
                 'visible' => true,
                 'parent_class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
                 'name' => [
-                    'en' => 'Email Settings',
-                    'de' => 'E-Mail Einstellungen',
+                    'en' => 'Emails',
+                    'de' => 'E-Mails',
                 ],
             ]),
         ];
