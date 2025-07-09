@@ -18,26 +18,26 @@
   <div class="card" id="pslegalcompliance_email_form">
     <h3 class="card-header">
       <i class="material-icons">email</i>
-      {{ 'Labels'|trans }}
+      {{ 'Assignment Legal CMS to Emails'|trans }}
     </h3>
     <div class="card-body">
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <p>{{ 'This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop\'s emails.'|trans }}</p>
         <p>{{ 'For each type of email, you can define which content you would like to include.'|trans }}</p>
       </div>
-      <div class="col-sm-6">
-        {% if emailTemplatesMissing %}
-        <div class="new_emails alert alert-info">
-          <p>{{ 'There are %count% new email templates found:'|trans({'%count%': emailTemplatesMissing|length})}}</p>
-          <ul>
-          {% for emailTemplate in emailTemplatesMissing %}
-            <li>{{ emailTemplate }}</li>
-          {% endfor %}
-          </ul>
-          <a href="{$check_new_templates_link}" class="btn btn-primary">{{ 'Insert new email templates'|trans }}</a>
+      {% if emailTemplatesMissing %}
+        <div class="col-sm-12">
+          <div class="new_emails alert alert-info">
+            <p>{{ 'There are %count% new email templates found:'|trans({'%count%': emailTemplatesMissing|length})}}</p>
+            <ul>
+            {% for emailTemplate in emailTemplatesMissing %}
+              <li>{{ emailTemplate }}</li>
+            {% endfor %}
+            </ul>
+            <a href="{$check_new_templates_link}" class="btn btn-primary">{{ 'Insert new email templates'|trans }}</a>
+          </div>
         </div>
-        {% endif %}
-      </div>
+      {% endif %}
       <div class="form-wrapper">
         {{ form_widget(emailForm) }}
       </div>

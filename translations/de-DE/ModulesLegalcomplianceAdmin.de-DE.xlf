@@ -36,7 +36,7 @@
       </trans-unit>
       <trans-unit id="a2410748e3bc571307a8a8fcc3aa121b">
         <source>Additional HTML in Mail-Templates</source>
-        <target>Zusätzlicher HTML-Code in Mail-Templates</target>
+        <target>Mail Footer für Rechtsinformationen</target>
       </trans-unit>
       <trans-unit id="bdd4f0a0fbdc23d1d20e027c2f3050ee">
         <source>Additional information about delivery time</source>
@@ -80,7 +80,7 @@
       </trans-unit>
       <trans-unit id="71b16ec913e2b2febe4542160717aaeb">
         <source>CMS Pages</source>
-        <target>CMS Seiten</target>
+        <target>Verwaltung Rechtstexte (CMS-Seiten)</target>
       </trans-unit>
       <trans-unit id="c3755e61202abd74da5885d2e9c9160e">
         <source>Call</source>
@@ -212,7 +212,7 @@
       </trans-unit>
       <trans-unit id="98f770b0af18ca763421bac22b4b6805">
         <source>Features</source>
-        <target>Eigenschaften</target>
+        <target>Konfiguration</target>
       </trans-unit>
       <trans-unit id="0b27918290ff5323bea1e3b78a9cf04e">
         <source>File</source>
@@ -224,7 +224,7 @@
       </trans-unit>
       <trans-unit id="96103eb82bd7f00ef55fac85c2f0a410">
         <source>For each type of email, you can define which content you would like to include.</source>
-        <target>Sie können für jede Shop-Mail separat festlegen, welche zusätzlichen Informationen übermittelt werden sollen.</target>
+        <target>Sie können für jede Mail-Vorlage separat festlegen, welche zusätzlichen Rechtstexte und rechtliche Informationen übermittelt werden sollen.</target>
       </trans-unit>
       <trans-unit id="13d6aa5a5722145453f2f045a2030dfd">
         <source>Get more information from the links below.</source>
@@ -318,9 +318,9 @@
         <source>Label Options</source>
         <target>Label Optionen</target>
       </trans-unit>
-      <trans-unit id="3ad6cb6100190c8f81e99fd52debf7ef">
-        <source>Labels</source>
-        <target>Label-Optionen</target>
+      <trans-unit id="de25b5f0b8e454bfe83205dfaeb9bbc2">
+        <source>Assignment Legal CMS to Emails</source>
+        <target>Zuordnung Rechtstexte zu E-Mail-Vorlagen</target>
       </trans-unit>
       <trans-unit id="63e23474e2c348ba5125d9d2cd7c8e00">
         <source>Labeltext "Virtual Product"</source>
@@ -700,7 +700,7 @@
       </trans-unit>
       <trans-unit id="124c44c55082e763c52819653560e925">
         <source>This section allows you to include information from the "Legal Content Management" section above at the bottom of your shop's emails.</source>
-        <target>Legen Sie hier fest, bei welchen E-Mails zusätzliche Informationen aus der Verwaltung rechtskonformer Inhalte oben angefügt werden sollen.</target>
+        <target>Legen Sie hier fest, bei welchen E-Mails die Rechtstexte wie AGB, Impressum, etc. ergänzt werden sollen. Weisen Sie zuerst unter Konfiguration > "Verwaltung Rechtstexte (CMS-Seiten)" die entsprechenden Seiten zu.</target>
       </trans-unit>
       <trans-unit id="bee423c6b151e76995ed05befc861409">
         <source>This text will be displayed on the shopping cart page. Leave empty to disable.</source>
