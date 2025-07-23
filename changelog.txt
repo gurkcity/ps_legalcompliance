@@ -20,3 +20,5 @@ Version	Datum     	Bemerkung
 					Fix: syntax error
 					fix: rename link variable
 3.2.1	05.10.2023	Fix: escaping special chars in cms roles within mails
+3.2.2	23.07.2025	fix: Attempted to call an undefined method named "processAeucLabelRevoca…
+					fix: escape "&" in email template
