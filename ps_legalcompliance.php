@@ -230,7 +230,7 @@ class Ps_LegalCompliance extends Module
 
         /* Base settings */
         $this->processAeucFeatReorder(true);
-        $this->processAeucLabelRevocationTOS(false);
+        $this->processAeucLabelCondPrivacy(false);
         $this->processAeucLabelRevocationVP(false);
         $this->processAeucLabelSpecificPrice(true);
         $this->processAeucLabelUnitPrice(true);
@@ -908,7 +908,7 @@ class Ps_LegalCompliance extends Module
                     $link_privacy
                 );
             }
-            
+
             $returned_terms_and_conditions[] = $termsAndConditions;
         }
 
