@@ -6,8 +6,9 @@
  * @copyright Copyright (c) 2025, Onlineshop-Module.de
  * @license   commercial, see licence.txt
  */
+
 .info_panel {
-  margin: -1rem -0.9375rem 2rem -0.9375rem;
+  margin: calc(var(--cdk-size-16) * -1) calc(var(--cdk-size-16) * -1) 0;
   display: grid;
   grid-template-rows: auto 40px auto;
   background: white;
@@ -15,6 +16,12 @@
 
 .info_panel.closed {
   grid-template-rows: auto 8px auto;
+  height: 40px;
+}
+
+.info_panel.closed .panel-footer-logo {
+  visibility: hidden;
+  height: 0;
 }
 
 .info_panel .panel-body {
@@ -23,9 +30,19 @@
   padding: 1rem 1rem 0;
 }
 
+.info_panel .panel-body .wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .info_panel .panel-separator {
   background: url(../../img/bg_module.png) no-repeat #236c9a bottom;
   background-size: cover;
+}
+
+.info_panel .info_logo {
+  float: left;
+  margin: 0 20px 0 0;
 }
 
 .info_panel h1,
@@ -42,30 +59,26 @@
 }
 
 .info_panel h1 {
-  font-size: 2.5em
+  font-size: 2.5em;
+  line-height: 2.4rem;
 }
 
 .info_panel h1 span {
   color: #FAE20B
 }
-.info_panel .info_logo {
-  margin-bottom: 0.6rem;
-}
-.info_panel .info_logo h2 {
-  margin-bottom: 10px;
+
+.info_panel .info_text h2 {
   font-size: 14px;
+  margin-bottom: 10px;
 }
 
 .info_panel .info_logo img {
-  float: left;
-  display: block;
   background: white;
   border-radius: 52px;
   padding: 5px;
   width: 64px;
   height: 64px;
   box-sizing: content-box;
-  margin: 0 1rem 1rem 0;
 }
 
 .info_panel tbody > tr > td {
@@ -86,13 +99,17 @@
   color: #6CD7FF;
 }
 
-.info_panel .info_author {
-  border-left: 1px solid #ffffff25;
+.info_panel a.btn-primary {
+  color: white;
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 5px;
 }
 
 .info_panel .panel-footer {
   padding: 0 1rem 0.5rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: end;
 }
@@ -106,10 +123,15 @@
   display: none;
 }
 
-.info_panel .panel-footer img {
-  height: 28px;
-  width: auto;
-  padding-left: 115px;
+.info_panel .panel-footer .panel-footer-logo {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.info_panel .panel-footer .panel-footer-logo img {
+  margin: 5px 0;
+  width: 330px;
 }
 
 .cronjobs .wrap {
@@ -136,6 +158,50 @@
   padding: 0 0.1rem;
   margin: 0 0.1rem;
   border: 1px solid #ff000042;
+}
+
+.lang_id {
+  background: black;
+  color: white;
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  line-height: 1rem;
+  border-radius: 0.3rem;
+  margin: 0 0.2rem 0.2rem 0;
+}
+
+.lang_grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 0.3rem;
+}
+
+@media (min-width: 768px) {
+  .info_panel .info_text {
+    width: 66.66666667%;
+  }
+  .info_panel .info_author {
+    width: 33.33333333%;
+    border-left: 1px solid rgba(255, 255, 255, 0.145);
+    padding-left: 1rem;
+  }
+  .info_panel .panel-footer .panel-footer-logo {
+    display: block;
+    text-align: right;
+    width: auto;
+  }
+  .info_panel .panel-footer .panel-footer-logo img {
+    margin: 0;
+  }
+}
+
+@media (min-width: 1300px) {
+  .info_panel .info_text {
+    width: 50%;
+  }
+  .info_panel .info_author {
+    width: 50%;
+  }
 }
 
 /* Custom styles here: */

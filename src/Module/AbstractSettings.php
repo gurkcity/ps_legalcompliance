@@ -59,23 +59,45 @@ abstract class AbstractSettings
 
     abstract public function fixtures(): callable;
 
+    abstract public function help(): string;
+
     public function getConfig(): array
     {
-        $config = $this->config();
-
-        $config[] = new Config('LICENSE', '', true);
-        $config[] = new Config('PRIVACY', 0, true);
-        $config[] = new Config('LOG_LEVEL', Logger::WARNING, true);
+        $config['LICENSE'] = new Config('LICENSE', '', true);
+        $config['PRIVACY'] = new Config('PRIVACY', 0, true);
+        $config['LOG_LEVEL'] = new Config('LOG_LEVEL', Logger::WARNING, true);
 
         if ($this->module->isPayment()) {
-            $config[] = new Config('SHOW_PAYMENT_LOGO', true);
-            $config[] = new Config('PAYMENT_LOGO', '');
+            $paymentTitle = [];
+            $paymentText = [];
+
+            foreach (\Language::getLanguages() as $language) {
+                $paymentTitle[$language['iso_code']] = $this->translator->trans(
+                    'Pay by %module_name%',
+                    ['%module_name%' => $this->module->displayName],
+                    'Modules.Legalcompliance.Shop',
+                    $language['locale']
+                );
+                $paymentText[$language['iso_code']] = '<p>' . $this->translator->trans(
+                    'You pay with %module_name%',
+                    ['%module_name%' => $this->module->displayName],
+                    'Modules.Legalcompliance.Shop',
+                    $language['locale']
+                ) . '</p>';
+            }
+
+            $config['SHOW_PAYMENT_LOGO'] = new Config('SHOW_PAYMENT_LOGO', true);
+            $config['PAYMENT_LOGO'] = new Config('PAYMENT_LOGO', 'payment.png');
+            $config['PAYMENT_TITLE'] = new Config('PAYMENT_TITLE', $paymentTitle);
+            $config['PAYMENT_TEXT'] = new Config('PAYMENT_TEXT', $paymentText);
         }
 
         if ($this->module->hasCronjobs()) {
-            $config[] = new Config('CRON_MAINTENANCE', false);
-            $config[] = new Config('CRON_ROWS_PER_RUN', 1);
+            $config['CRON_MAINTENANCE'] = new Config('CRON_MAINTENANCE', false);
+            $config['CRON_ROWS_PER_RUN'] = new Config('CRON_ROWS_PER_RUN', 1);
         }
+
+        $config = array_merge($config, $this->config());
 
         return $config;
     }
@@ -294,20 +316,20 @@ abstract class AbstractSettings
             'class_name' => 'PsLegalcomplianceConfigurationAdminParentController',
             'route_name' => 'ps_legalcompliance',
             'icon' => '',
-            'wording' => 'Legalcompliance Module',
+            'wording' => 'PS Legalcompliance',
             'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => false,
             'parent_class_name' => 'AdminParentModulesSf',
             'name' => [
-                'en' => 'Legalcompliance Module',
-                'de' => 'Legalcompliance Modul',
+                'en' => 'PS Legalcompliance',
+                'de' => $this->translator->trans('PS Legalcompliance', [], 'Modules.Legalcompliance.Admin'),
             ],
         ]);
 
         $defaultTabs[] = Tab::buildFromArray([
             'class_name' => 'PsLegalcomplianceConfigurationAdminController',
             'route_name' => 'ps_legalcompliance_configuration',
-            'icon' => '',
+            'icon' => 'settings',
             'wording' => 'Configuration',
             'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => true,
@@ -328,7 +350,7 @@ abstract class AbstractSettings
             $defaultTabs[] = Tab::buildFromArray([
                 'class_name' => 'PsLegalcompliancePaymentAdminController',
                 'route_name' => 'ps_legalcompliance_payment',
-                'icon' => '',
+                'icon' => 'credit_card',
                 'wording' => 'Payment',
                 'wording_domain' => 'Modules.Legalcompliance.Admin',
                 'visible' => true,
@@ -344,7 +366,7 @@ abstract class AbstractSettings
             $defaultTabs[] = Tab::buildFromArray([
                 'class_name' => 'PsLegalcomplianceCronAdminController',
                 'route_name' => 'ps_legalcompliance_cron',
-                'icon' => '',
+                'icon' => 'alarm',
                 'wording' => 'Cron',
                 'wording_domain' => 'Modules.Legalcompliance.Admin',
                 'visible' => true,
@@ -359,7 +381,7 @@ abstract class AbstractSettings
         $defaultTabs[] = Tab::buildFromArray([
             'class_name' => 'PsLegalcomplianceLogsAdminController',
             'route_name' => 'ps_legalcompliance_logs',
-            'icon' => '',
+            'icon' => 'assignment',
             'wording' => 'Logs',
             'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => true,
@@ -373,7 +395,7 @@ abstract class AbstractSettings
         $defaultTabs[] = Tab::buildFromArray([
             'class_name' => 'PsLegalcomplianceMaintenanceAdminController',
             'route_name' => 'ps_legalcompliance_maintenance',
-            'icon' => '',
+            'icon' => 'handyman',
             'wording' => 'Maintenance',
             'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => true,
@@ -387,7 +409,7 @@ abstract class AbstractSettings
         $defaultTabs[] = Tab::buildFromArray([
             'class_name' => 'PsLegalcomplianceLicenseAdminController',
             'route_name' => 'ps_legalcompliance_license',
-            'icon' => '',
+            'icon' => 'contract',
             'wording' => 'License',
             'wording_domain' => 'Modules.Legalcompliance.Admin',
             'visible' => false,
@@ -429,6 +451,11 @@ abstract class AbstractSettings
         return $this->fixtures();
     }
 
+    public function getHelp(): string
+    {
+        return $this->help();
+    }
+
     public function getAll(): array
     {
         return [
@@ -441,6 +468,7 @@ abstract class AbstractSettings
             'sql' => $this->getSql(),
             'tabs' => $this->getTabs(),
             'translations' => $this->getTranslations(),
+            'help' => $this->getHelp(),
         ];
     }
 

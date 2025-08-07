@@ -20,20 +20,28 @@
       <table class="hooks_list table table-sm table-responsive">
         <thead>
           <tr>
+            {% if hooks.shops|length == 1 %}
             <th>{{ 'Status'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
+            {% else %}
+            {% for shop in hooks.shops %}
+            <th>{{ shop.name }}</th>
+            {% endfor %}
+            {% endif %}
             <th>{{ 'Hook Name'|trans({}, 'Modules.Legalcompliance.Admin') }}</th>
           </tr>
         </thead>
         <tbody>
           {% for hook in hooks.module %}
           <tr>
+            {% for registered in hook.registered %}
             <td>
-              {% if not hook.registered %}
+              {% if not registered %}
               <span class="badge badge-danger">{{ 'not registered!'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% else %}
               <span class="badge badge-success">{{ 'ok'|trans({}, 'Modules.Legalcompliance.Admin') }}</span>
               {% endif %}
             </td>
+            {% endfor %}
             <td>{{ hook.name }}</td>
           </tr>
           {% endfor %}

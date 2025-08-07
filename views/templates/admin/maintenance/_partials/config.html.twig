@@ -36,22 +36,25 @@
               {% endif %}
             </td>
             <td>{{ value.name }}</td>
-            <td>
-              {% if value.value is iterable %}
-                {% for id_lang, lang_value in value.value %}
-                  <b>{{ id_lang }}</b> =>
-                  {% if lang_value|length > 200 %}
-                    {{ lang_value|slice(0,200) }} ...
-                  {% else %}
-                    {{ lang_value }}
-                  {% endif %}
-                {% endfor %}
-              {% elseif value.value|length > 200 %}
-                {{ value.value|slice(0,200) }} ...
+            {% if value.value is null %}
+            <td class="text-muted font-italic">{{ 'Not set in this context'|trans({}, 'Modules.Legalcompliance.Admin') }}</td>
+            {% elseif value.value is iterable %}
+            <td class="lang_grid">
+              {% for id_lang, lang_value in value.value %}
+              <span class="lang_id">{{ id_lang }}</span>
+              {% if lang_value|length > 200 %}
+                {{ lang_value|slice(0,200) }} ...
               {% else %}
-                {{ value.value }}
+                {{ lang_value }}
               {% endif %}
+              {% if not loop.last %}<br>{% endif %}
+              {% endfor %}
             </td>
+            {% elseif value.value|length > 200 %}
+            <td>{{ value.value|slice(0,200) }} ...</td>
+            {% else %}
+            <td>{{ value.value }}</td>
+            {% endif %}
           </tr>
           {% endfor %}
         </tbody>

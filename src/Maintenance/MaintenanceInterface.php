@@ -20,6 +20,4 @@ interface MaintenanceInterface
     public function reset(): bool;
 
     public function remove(): bool;
-
-    public function isValid(SettingsInterface $setting): bool;
 }

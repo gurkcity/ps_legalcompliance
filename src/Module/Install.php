@@ -140,6 +140,8 @@ class Install
                 foreach ($languageMapping as $iso => $idLang) { // @phpstan-ignore foreach.emptyArray
                     if (!isset($value[$iso]) && isset($value['en'])) {
                         $mappedValue[$idLang] = $value['en'];
+                    } elseif (!isset($value[$iso]) && isset($value[$idLang])) {
+                        $mappedValue[$idLang] = $value[$idLang];
                     } elseif (!isset($value[$iso]) && isset($value[0])) {
                         $mappedValue[$idLang] = $value[0];
                     } else {

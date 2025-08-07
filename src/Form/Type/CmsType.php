@@ -59,6 +59,7 @@ class CmsType extends TranslatorAwareType
                     'choices' => $choices,
                     'placeholder' => $this->trans('-- Select a CMS page --', 'Modules.Legalcompliance.Admin'),
                     'required' => false,
+                    'multistore_configuration_key' => 'CMSROLE_' . $role->id,
                 ]);
         }
 
@@ -67,6 +68,7 @@ class CmsType extends TranslatorAwareType
                 'label' => $this->trans('Display Information block in footer', 'Modules.Legalcompliance.Admin'),
                 'help' => $this->trans('Displays the legal cms-pages links as a separate block in the footer (hook displayFooter). If you switch to no, please keep in mind to add your legal text in your own link blocks on every page.', 'Modules.Legalcompliance.Admin'),
                 'required' => false,
+                'multistore_configuration_key' => 'AEUC_LINKBLOCK_FOOTER',
             ])
         ;
     }

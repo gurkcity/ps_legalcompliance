@@ -17,6 +17,14 @@ ps_legalcompliance_license:
     _legacy_controller: 'PsLegalcomplianceLicenseAdminController'
     _legacy_link: 'PsLegalcomplianceLicenseAdminController'
 
+ps_legalcompliance_license_content:
+  path: ps_legalcompliance/license/content
+  methods: [GET, POST]
+  defaults:
+    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\LicenseAdminController::displayLicenseTextAction
+    _legacy_controller: 'PsLegalcomplianceLicenseAdminController'
+    _legacy_link: 'PsLegalcomplianceLicenseAdminController'
+
 # Configuration
 ps_legalcompliance_configuration:
   path: ps_legalcompliance/configuration
@@ -26,23 +34,7 @@ ps_legalcompliance_configuration:
     _legacy_controller: 'PsLegalcomplianceConfigurationAdminController'
     _legacy_link: 'PsLegalcomplianceConfigurationAdminController'
 
-# Payment
-ps_legalcompliance_payment:
-  path: ps_legalcompliance/payment
-  methods: [GET, POST, PATCH]
-  defaults:
-    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\PaymentAdminController::indexAction
-    _legacy_controller: 'PsLegalcompliancePaymentAdminController'
-    _legacy_link: 'PsLegalcompliancePaymentAdminController'
 
-# Cron
-ps_legalcompliance_cron:
-  path: ps_legalcompliance/cron
-  methods: [GET, POST]
-  defaults:
-    _controller: Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller\CronAdminController::cronAction
-    _legacy_controller: 'PsLegalcomplianceCronAdminController'
-    _legacy_link: 'PsLegalcomplianceCronAdminController'
 
 # Logs
 ps_legalcompliance_logs:

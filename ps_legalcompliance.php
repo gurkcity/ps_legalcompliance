@@ -12,7 +12,6 @@
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Roles;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleHelperTrait;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleLicenseTrait;
-use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModulePaymentTrait;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Traits\ModuleTrait;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\VirtualCart;
 use PrestaShop\PrestaShop\Adapter\ServiceLocator;
@@ -30,11 +29,10 @@ class PS_Legalcompliance extends Module
     use ModuleTrait;
     use ModuleHelperTrait;
     use ModuleLicenseTrait;
-    use ModulePaymentTrait;
 
     public function __construct()
     {
-        $this->version = '9.0.4';
+        $this->version = '9.0.5';
 
         $this->name = 'ps_legalcompliance';
 

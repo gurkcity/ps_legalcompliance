@@ -11,8 +11,9 @@ const ps_legalcompliance = {
     const info_panel = $('.info_panel');
     const cronjob_container = $('.cronjobs .job');
     const btn_change_license_code = $('#btn_change_license_code');
+    const help_link = $('.toolbar-icons .btn-help');
 
-    info_panel.find('.panel-footer a').on('click', (e) => {
+    info_panel.find('.panel-footer .expand_info').on('click', (e) => {
       e.preventDefault();
 
       const element = $(e.currentTarget);
@@ -37,7 +38,7 @@ const ps_legalcompliance = {
     if (toggle_gc_header == 'closed') {
       info_panel.addClass('closed');
 
-      info_panel.find('.panel-footer a i').text('expand_more');
+      info_panel.find('.panel-footer .expand_info i').text('expand_more');
     }
 
     cronjob_container.find('.job_open').on('click', (e) => {
@@ -80,6 +81,10 @@ const ps_legalcompliance = {
 
     ps_legalcompliance.togglePaymentRow();
     ps_legalcompliance.toggleLogoRow();
+
+    ps_legalcompliance.rearrangeTabs();
+
+    $(help_link).attr('target', '_blank');
   },
 
   togglePaymentRow: () => {
@@ -114,20 +119,19 @@ const ps_legalcompliance = {
 
     for (classname of tabClassnames) {
       let id = 'subtab-' + classname;
-      let menuItem = $('#' + id).parent();
+      let menuItem = $('#head_tabs #' + id).parent();
 
       if (menuItem.length === 0) {
         continue;
       }
 
-      $('#head_tabs .nav').append(menuItem);
+      $('#head_tabs .nav:first-child').append(menuItem);
     };
   }
 }
 
 $(() => {
   ps_legalcompliance.init();
-  ps_legalcompliance.rearrangeTabs();
 
   $('input[name="label[AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL]"]').on('change', (e) => {
     ps_legalcompliance.toggleRow('input[name="label[AEUC_LABEL_DISPLAY_DELIVERY_ADDITIONAL]"]', '.label_delivery_additional');

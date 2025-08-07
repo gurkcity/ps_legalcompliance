@@ -48,7 +48,10 @@ trait ModuleHelperTrait
     {
         if (
             !empty($_SERVER['SERVER_NAME'])
-            && $_SERVER['SERVER_NAME'] == 'localhost'
+            && (
+                $_SERVER['SERVER_NAME'] == 'localhost'
+                || strpos($_SERVER['SERVER_NAME'], 'shopbetreiber.info') !== false
+            )
         ) {
             return true;
         }

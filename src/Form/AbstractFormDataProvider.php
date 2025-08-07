@@ -42,7 +42,7 @@ abstract class AbstractFormDataProvider
         if (
             $this->multistoreFeature->isUsed()
             && !$this->shopContext->isAllShopContext()
-            && !isset($value[$multistoreFieldPrefix . $fieldName])
+            && empty($value[$multistoreFieldPrefix . $fieldName])
         ) {
             $this->configurationAdapter->deleteFromContext($key, $shopConstraint, $configPrefix);
         } else {

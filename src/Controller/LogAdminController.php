@@ -38,6 +38,8 @@ class LogAdminController extends AdminController
         LogLevel $logLevel,
         LogRepository $logRepository
     ) {
+        $this->setLayoutTitle($this->trans('Log Configuration', [], 'Modules.Legalcompliance.Admin'));
+
         return $this->processForm(
             $request,
             $configurationFormHandler,

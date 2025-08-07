@@ -21,6 +21,32 @@
   <div class="col-xl-6">
     <div class="card">
       <h3 class="card-header">
+        <i class="material-icons">extension</i> {{ 'Plugins'|trans({}, 'Modules.Legalcompliance.Admin') }}
+      </h3>
+      <div class="card-body">
+        {% for plugin in plugins %}
+          <div class="plugin-item">
+            <h4>{{ plugin.name }}</h4>
+            <p>{{ plugin.description }}</p>
+            <p>
+              {{ 'Hooks:'|trans({}, 'Modules.Legalcompliance.Admin') }}
+            </p>
+            <ul class="list-unstyled">
+              {% for hook in plugin.hooks %}
+              <li>{{ hook }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% else %}
+          <p class="alert alert-info">{{ 'There are no plugins available.'|trans({}, 'Modules.Legalcompliance.Admin') }}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-6">
+    <div class="card">
+      <h3 class="card-header">
         <i class="material-icons">settings</i> {{ 'Advanced Options'|trans({}, 'Modules.Legalcompliance.Admin') }}
       </h3>
       <div class="card-body">

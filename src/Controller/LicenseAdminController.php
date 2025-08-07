@@ -30,6 +30,8 @@ class LicenseAdminController extends AdminController
         #[Autowire(service: 'onlineshopmodule.module.legalcompliance.form.handler.license')]
         FormHandlerInterface $configurationFormHandler,
     ) {
+        $this->setLayoutTitle($this->trans('License', [], 'Modules.Legalcompliance.Admin'));
+
         return $this->processForm(
             $request,
             $configurationFormHandler,
@@ -70,6 +72,18 @@ class LicenseAdminController extends AdminController
             ]
         );
 
+        $this->setLayoutTitle($this->trans('License', [], 'Modules.Legalcompliance.Admin'));
+
         return $this->render($template, $templateParameters);
+    }
+
+    public function displayLicenseTextAction(Request $request)
+    {
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/plain; charset=UTF-8');
+
+        return $this->render('views/templates/admin/license/content.html.twig', [
+            'licenseText' => file_get_contents($this->module->getLocalPath() . 'licence.txt'),
+        ], $response);
     }
 }

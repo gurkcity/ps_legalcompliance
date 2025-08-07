@@ -23,6 +23,7 @@ use PrestaShop\PrestaShop\Adapter\Configuration as ConfigurationAdapterPrestaSho
 use PrestaShop\PrestaShop\Adapter\ContainerBuilder;
 use PrestaShop\PrestaShop\Adapter\ContainerFinder;
 use PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException;
+use PrestaShop\PrestaShop\Core\Language\LanguageInterface;
 use PrestaShop\PrestaShop\Core\MailTemplate\Layout\Layout;
 use PrestaShop\PrestaShop\Core\MailTemplate\ThemeCollectionInterface;
 use PrestaShop\PrestaShop\Core\MailTemplate\ThemeInterface;
@@ -31,8 +32,8 @@ use Symfony\Component\Finder\Finder;
 
 trait ModuleTrait
 {
-    const GC_VERSION = '9.0.2';
-    const GC_SUBVERSION = '46';
+    const GC_VERSION = '9.0.7';
+    const GC_SUBVERSION = '55';
 
     public $config;
     public $displayNamePre = '';
@@ -428,8 +429,8 @@ trait ModuleTrait
         $productListHtml = '';
 
         if (count($productVarTplList) > 0) {
-            $productListTxt = $this->renderPartialEmailTemplate('order_conf_product_list.txt', \Mail::TYPE_TEXT, ['list' => $productVarTplList]);
-            $productListHtml = $this->renderPartialEmailTemplate('order_conf_product_list.tpl', \Mail::TYPE_HTML, ['list' => $productVarTplList]);
+            $productListTxt = $this->renderPartialEmailTemplate('order_conf_product_list.txt', \Mail::TYPE_TEXT, ['list' => $productVarTplList], $language);
+            $productListHtml = $this->renderPartialEmailTemplate('order_conf_product_list.tpl', \Mail::TYPE_HTML, ['list' => $productVarTplList], $language);
         }
 
         $cartRulesList = [];
@@ -450,8 +451,8 @@ trait ModuleTrait
         $cartRulesListHtml = '';
 
         if (count($cartRulesList) > 0) {
-            $cartRulesListTxt = $this->renderPartialEmailTemplate('order_conf_cart_rules.txt', \Mail::TYPE_TEXT, ['list' => $cartRulesList]);
-            $cartRulesListHtml = $this->renderPartialEmailTemplate('order_conf_cart_rules.tpl', \Mail::TYPE_HTML, ['list' => $cartRulesList]);
+            $cartRulesListTxt = $this->renderPartialEmailTemplate('order_conf_cart_rules.txt', \Mail::TYPE_TEXT, ['list' => $cartRulesList], $language);
+            $cartRulesListHtml = $this->renderPartialEmailTemplate('order_conf_cart_rules.tpl', \Mail::TYPE_HTML, ['list' => $cartRulesList], $language);
         }
 
         $data = [
@@ -534,24 +535,29 @@ trait ModuleTrait
         return $data;
     }
 
-    public function renderPartialEmailTemplate($template_name, $mail_type, $var): string
-    {
+    public function renderPartialEmailTemplate(
+        $template_name,
+        $mail_type,
+        $var,
+        ?LanguageInterface $language = null
+    ): string {
         $email_configuration = \Configuration::get('PS_MAIL_TYPE');
+
         if ($email_configuration != $mail_type && $email_configuration != \Mail::TYPE_BOTH) {
             return '';
         }
 
-        $context = \Context::getContext();
+        if (empty($language)) {
+            $language = $this->context->language;
+        }
 
-        return $this->getMailPartialTemplateRenderer()->render($template_name, $context->language, $var);
+        return $this->getMailPartialTemplateRenderer()->render($template_name, $language, $var);
     }
 
     protected function getMailPartialTemplateRenderer(): MailPartialTemplateRenderer
     {
         if (!$this->mailPartialRenderer) {
-            $context = \Context::getContext();
-
-            $this->mailPartialRenderer = new MailPartialTemplateRenderer($this->name, $context->smarty);
+            $this->mailPartialRenderer = new MailPartialTemplateRenderer($this->name, $this->context->smarty);
         }
 
         return $this->mailPartialRenderer;

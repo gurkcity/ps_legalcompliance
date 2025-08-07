@@ -12,15 +12,17 @@
 {% block content_header %}
   <div class="info_panel" id="info_panel">
     <div class="panel-body">
-      <div class="row">
-        <div class="info_logo col-md-8 col-lg-6">
-          <img class="img-fluid" src="{{ module.path }}logo.png" alt="Logo {{ module.display_name }}" width="64" height="64" />
+      <div class="wrapper">
+        <div class="info_text">
+          <div class="info_logo">
+            <img src="{{ module.path }}logo.png" alt="Logo {{ module.display_name }}" width="64" height="64" />
+          </div>
           <h1>{{ module.display_name_pre }} <span>{{ module.display_name_post }}</span></h1>
           <h2>{{ module.description }} </h2>
           <p>{{ module.description_full }}</p>
         </div>
 
-        <div class="info_author col-md-4 col-lg-6">
+        <div class="info_author">
           <h2>{{ module.author }} </h2>
           <p>
             {{ 'Gurkcity creates professional and individual modules and addons for PrestaShop onlinestores since 2010.'|trans({}, 'Modules.Legalcompliance.Admin') }}
@@ -32,13 +34,20 @@
                 <tr>
                   <td><i class="material-icons">public</i></i></td>
                   <td>www</td>
-                  <td><a href="http://www.onlineshop-module.de">onlineshop-module.de</a></td>
+                  <td><a href="http://www.onlineshop-module.de" target="_blank">onlineshop-module.de</a></td>
                 </tr>
                 <tr>
                   <td><i class="material-icons">mail</i></td>
                   <td>E-Mail</td>
                   <td><a href="mailto:info@onlineshop-module.de">info@onlineshop-module.de</a></td>
                 </tr>
+                {% if help_link %}
+                <tr>
+                  <td><i class="material-icons">help</i></td>
+                  <td>{{ 'Help'|trans({}, 'Modules.Legalcompliance.Admin') }}</td>
+                  <td><a href="{{ help_link }}" target="_blank">{{ 'Documentation %module_name%'|trans({'%module_name%': module.display_name}, 'Modules.Legalcompliance.Admin') }}</a></td>
+                </tr>
+                {% endif %}
                 <tr>
                   <td><i class="material-icons">key</i></td>
                   <td>{{ 'License key'|trans({}, 'Modules.Legalcompliance.Admin') }}</td>
@@ -47,15 +56,39 @@
               </tbody>
             </table>
           </address>
-          <p><a href="{{ module.path }}licence.txt" target="_blank">{{ 'Please consider our license disclaimer.'|trans({}, 'Modules.Legalcompliance.Admin') }}</a></p>
+          <p><a href="{{ path('ps_legalcompliance_license_content') }}" target="_blank">{{ 'Please consider our license disclaimer.'|trans({}, 'Modules.Legalcompliance.Admin') }}</a></p>
         </div>
+        <ul class="info_buttons nav nav-pills">
+          <li class="nav-item">
+            <a
+              id="page-header-desc-configuration-hooks"
+              class="nav-link"
+              href="{{ layoutHeaderToolbarBtn.hooks.href }}"
+              title="{{ layoutHeaderToolbarBtn.hooks.desc }}"
+              target="_blank"
+            >
+              <i class="material-icons">{{ layoutHeaderToolbarBtn.hooks.icon }}</i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              id="page-header-desc-configuration-translation"
+              class="nav-link"
+              href="{{ layoutHeaderToolbarBtn.translation.href }}"
+              title="{{ layoutHeaderToolbarBtn.translation.desc }}"
+              target="_blank"
+            >
+              <i class="material-icons">{{ layoutHeaderToolbarBtn.translation.icon }}</i>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="panel-separator"></div>
     <div class="panel-footer">
       <span>{{ module.display_name }}  v{{ module.version }} / {{ module.gc_module_version }} {{ module.author }}  &copy; {{ "now"|date('Y') }}</span>
-      <a href="#"><i class="material-icons">expand_less</i> Info</a>
-      <img class="img-fluid" src="{{ module.path }}views/img/logo_shop_module.png" alt="{{ module.author }}" width="210" height="45">
+      <a href="#" class="expand_info"><i class="material-icons">expand_less</i> Info</a>
+      <a href="http://www.gurkcity.de/" target="_blank" class="panel-footer-logo"><img class="img-fluid" src="{{ module.path }}views/img/logo_shop_module.png" alt="{{ module.author }}" width="355" height="45"></a>
     </div>
   </div>
   {{ parent() }}
@@ -64,19 +97,60 @@
 {% block extra_javascripts %}
   {{ parent() }}
   <script>
+    let menuIcons = {{ menuIcons|json_encode|raw }};
+
+    $('#info_panel').before($('#header-multishop'));
     $('#info_panel').after($('#head_tabs'));
+    $('#head_tabs').append($('.info_buttons'));
+
+    for (const key in menuIcons) {
+      let menuItem = $('#head_tabs .nav a#subtab-' + key);
+
+      if (menuItem.length === 0) {
+        continue;
+      }
+
+      let icon = menuIcons[key];
+
+      menuItem.prepend('<i class="material-icons">' + icon + '</i> ');
+    }
   </script>
 {% endblock %}
 
 {% block extra_stylesheets %}
   {{ parent() }}
   <style type="text/css">
-    .info_panel {
-      margin-bottom: 0;
+    .header-toolbar {
+      display: none;
     }
 
     #head_tabs {
-      margin: 0 -0.9375rem 2rem -0.9375rem;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #ddd;
+      margin: 0 calc(var(--cdk-size-16) * -1) 2rem calc(var(--cdk-size-16) * -1);
+    }
+
+    #head_tabs ul {
+      border:none;
+    }
+
+    #head_tabs .info_buttons {
+      display: none;
+    }
+
+    #header-multishop {
+      margin: calc(var(--cdk-size-16) * -1) calc(var(--cdk-size-16) * -1) 1rem;
+    }
+
+    #header-multishop a.header-multishop-view-action {
+      text-decoration: none;
+    }
+
+    @media (min-width: 768px) {
+      #head_tabs .info_buttons {
+        display: flex;
+      }
     }
   </style>
 {% endblock %}

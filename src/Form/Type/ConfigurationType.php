@@ -19,15 +19,20 @@ use Symfony\Component\Form\FormBuilderInterface;
 class ConfigurationType extends TranslatorAwareType
 {
     protected $context;
+    protected $config;
+    protected $module;
 
     public function __construct(
         TranslatorInterface $translator,
         array $locales,
-        \Context $context
+        \Context $context,
+        \PS_Legalcompliance $module
     ) {
         parent::__construct($translator, $locales);
 
         $this->context = $context;
+        $this->module = $module;
+        $this->config = $this->module->config;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

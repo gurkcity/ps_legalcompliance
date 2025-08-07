@@ -124,6 +124,17 @@ class ConfigurationAdapter
         return true;
     }
 
+    public function has(
+        string $key,
+        ?ShopConstraint $shopConstraint = null,
+        bool $withPrefix = true
+    ): bool {
+        return $this->configuration->has(
+            ($withPrefix ? $this->prefix : '') . $key,
+            $shopConstraint ?: $this->shopConstraint ?: null
+        );
+    }
+
     public function getName(string $key, bool $withPrefix = true): string
     {
         return ($withPrefix ? $this->prefix : '') . $key;

@@ -19,19 +19,19 @@ use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\SettingsInterfac
 class HookMaintenance implements MaintenanceInterface
 {
     private $module;
-    private $idShop;
+    private $shopIds;
     private $connection;
     private $dbPrefix = '';
     private $hooks = [];
 
     public function __construct(
         \PS_Legalcompliance $module,
-        int $idShop,
+        array $shopIds,
         Connection $connection,
         string $dbPrefix
     ) {
         $this->module = $module;
-        $this->idShop = $idShop;
+        $this->shopIds = $shopIds;
         $this->connection = $connection;
         $this->dbPrefix = $dbPrefix;
 
@@ -46,9 +46,15 @@ class HookMaintenance implements MaintenanceInterface
         ];
 
         foreach ($this->hooks as $hook) {
+            $registeredInShop = [];
+
+            foreach ($this->shopIds as $shopId) {
+                $registeredInShop[$shopId] = $this->isValid($hook, $shopId);
+            }
+
             $hooks['module'][(string) $hook] = [
                 'name' => (string) $hook,
-                'registered' => $this->isValid($hook),
+                'registered' => $registeredInShop,
                 'alternatives' => $hook->getAlternatives(),
             ];
         }
@@ -58,6 +64,8 @@ class HookMaintenance implements MaintenanceInterface
         ksort($hooks['module']);
         sort($hooks['unnecessary']);
 
+        $hooks['shops'] = \Shop::getShops(false);
+
         return $hooks;
     }
 
@@ -65,12 +73,14 @@ class HookMaintenance implements MaintenanceInterface
     {
         $registered = true;
 
-        foreach ($this->hooks as $hook) {
-            if ($this->isValid($hook)) {
-                continue;
-            }
+        foreach ($this->shopIds as $shopId) {
+            foreach ($this->hooks as $hook) {
+                if ($this->isValid($hook, $shopId)) {
+                    continue;
+                }
 
-            $registered = $this->module->registerHook((string) $hook) && $registered;
+                $registered = $this->module->registerHook((string) $hook) && $registered;
+            }
         }
 
         foreach ($this->getUnnecassaryHooks() as $hooksUnnessesary) {
@@ -100,13 +110,13 @@ class HookMaintenance implements MaintenanceInterface
         return true;
     }
 
-    public function isValid(SettingsInterface $hook): bool
+    public function isValid(SettingsInterface $hook, int $shopId): bool
     {
         /** @var Hook $hook */
         if (PS_Hook::isModuleRegisteredOnHook(
             $this->module,
             (string) $hook,
-            $this->idShop
+            $shopId
         )) {
             return true;
         }
@@ -115,7 +125,7 @@ class HookMaintenance implements MaintenanceInterface
             if (PS_Hook::isModuleRegisteredOnHook(
                 $this->module,
                 (string) $alternative,
-                $this->idShop
+                $shopId
             )) {
                 return true;
             }

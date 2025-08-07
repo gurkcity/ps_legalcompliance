@@ -12,6 +12,7 @@
 namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance\Controller;
 
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Maintenance\Maintenance;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Plugin\PluginLoaderFactory;
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
 use PrestaShopBundle\Security\Annotation\ModuleActivated;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +30,8 @@ class MaintenanceAdminController extends AdminController
      */
     public function maintenanceAction(Request $request, Maintenance $maintenance)
     {
+        $this->setLayoutTitle($this->trans('Maintenance', [], 'Modules.Legalcompliance.Admin'));
+
         return $this->render('views/templates/admin/maintenance/maintenance.html.twig', [
             'hooks' => $maintenance->getHooks(),
             'tabs' => $maintenance->getTabs(),
@@ -36,6 +39,7 @@ class MaintenanceAdminController extends AdminController
             'config' => $maintenance->getConfig(),
             'controller' => $maintenance->getController(),
             'orderstates' => $maintenance->getOrderstates(),
+            'plugins' => $this->getPlugins(),
             'php_version' => PHP_VERSION,
             'module_version' => $this->module->version,
             'module_gcversion' => $this->module::GC_VERSION,
@@ -145,5 +149,10 @@ class MaintenanceAdminController extends AdminController
         }
 
         return $this->redirectToRoute('ps_legalcompliance_maintenance');
+    }
+
+    private function getPlugins(): array
+    {
+        return PluginLoaderFactory::getInstance()->getPluginsInformation();
     }
 }

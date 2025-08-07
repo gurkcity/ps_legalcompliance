@@ -22,6 +22,10 @@ class AdminController extends PrestaShopAdminController
     protected $logger;
     protected $module;
 
+    protected $layoutTitle = '';
+    protected $layoutSubTitle = '';
+    protected $helpLink = '';
+
     public function __construct(
         \PS_Legalcompliance $module
     ) {
@@ -82,7 +86,6 @@ class AdminController extends PrestaShopAdminController
                 'href' => $this->generateUrl('admin_modules_positions', ['show_modules' => (int) $this->module->id]),
                 'desc' => $this->trans('Manage hooks', [], 'Modules.Legalcompliance.Admin'),
                 'icon' => 'anchor',
-                'class' => 'btn-default',
             ],
             'translation' => [
                 'href' => $this->generateUrl(
@@ -91,12 +94,11 @@ class AdminController extends PrestaShopAdminController
                         'lang' => $languageContext->getIsocode(),
                         'type' => 'modules',
                         'locale' => $languageContext->getLocale(),
-                        'selected' => $this->module->name
+                        'selected' => $this->module->name,
                     ]
                 ),
                 'desc' => $this->trans('Translate', [], 'Modules.Legalcompliance.Admin'),
-                'icon' => 'flag',
-                'class' => 'btn-default',
+                'icon' => 'translate',
             ],
         ];
     }
@@ -125,7 +127,10 @@ class AdminController extends PrestaShopAdminController
                 'path' => $this->module->getPathUri(),
             ],
             'layoutHeaderToolbarBtn' => $this->getToolbarButtons(),
-            'help_link' => false,
+            'help_link' => $this->getHelpLink(),
+            'layoutTitle' => $this->getLayoutTitle(),
+            'layoutSubTitle' => $this->getLayoutSubTitle(),
+            'menuIcons' => $this->getMenuIcons()
         ];
     }
 
@@ -157,5 +162,63 @@ class AdminController extends PrestaShopAdminController
         }
 
         return false;
+    }
+
+    protected function getLayoutTitle(): string
+    {
+        if (!empty($this->layoutTitle)) {
+            return $this->layoutTitle;
+        }
+
+        return $this->module->displayName;
+    }
+
+    protected function setLayoutTitle(string $layoutTitle)
+    {
+        $this->layoutTitle = $layoutTitle;
+    }
+
+    protected function getLayoutSubTitle(): string
+    {
+        if (!empty($this->layoutSubTitle)) {
+            return $this->layoutSubTitle;
+        }
+
+        return '';
+    }
+
+    protected function setLayoutSubTitle(string $layoutSubTitle)
+    {
+        $this->layoutSubTitle = $layoutSubTitle;
+    }
+
+    protected function getHelpLink(): string
+    {
+        if (!empty($this->helpLink)) {
+            return $this->helpLink;
+        }
+
+        return $this->module->getSettings()->getHelp();
+    }
+
+    protected function setHelpLink(string $helpLink)
+    {
+        $this->helpLink = $helpLink;
+    }
+
+    protected function getMenuIcons(): array
+    {
+        $menuIcons = [];
+        $tabs = \Tab::getCollectionFromModule($this->module->name);
+
+        foreach ($tabs as $tab) {
+            if (empty($tab->icon)) {
+                continue;
+            }
+
+            $menuIcons[$tab->class_name] = $tab->icon;
+        }
+
+        return $menuIcons;
     }
 }

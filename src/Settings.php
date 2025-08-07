@@ -14,6 +14,7 @@ namespace Onlineshopmodule\PrestaShop\Module\Legalcompliance;
 use Doctrine\DBAL\Schema\Schema;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Module\AbstractSettings;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Config;
+use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Controller;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Hook;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Sql;
 use Onlineshopmodule\PrestaShop\Module\Legalcompliance\Settings\Tab;
@@ -142,14 +143,15 @@ class Settings extends AbstractSettings
             // Locale
             'de-DE' => [
                 // Original, Translation, Domain
-                ['Awaiting payment: Legalcompliance', 'Warten auf Zahlungsgeingang: Modul Template', 'ModulesPslegalcomplianceShop'],
-                ['Order placed', 'Bestellung eingegangen', 'ModulesPslegalcomplianceShop'],
-                ['Legalcompliance Module', 'Legalcompliance Modul', 'ModulesPslegalcomplianceShop'],
-                ['Configuration', 'Konfiguration', 'ModulesPslegalcomplianceShop'],
-                ['Cron', 'Cron', 'ModulesPslegalcomplianceShop'],
-                ['Logs', 'Logs', 'ModulesPslegalcomplianceShop'],
-                ['Maintenance', 'Wartung', 'ModulesPslegalcomplianceShop'],
-                ['License', 'Lizens', 'ModulesPslegalcomplianceShop'],
+                ['Awaiting payment: Legalcompliance', 'Warten auf Zahlungsgeingang: Rechtsicherheit', 'ModulesPslegalcomplianceAdmin'],
+                ['Order placed', 'Bestellung eingegangen', 'ModulesPslegalcomplianceAdmin'],
+                ['Legalcompliance Module', 'Legalcompliance Modul', 'ModulesPslegalcomplianceAdmin'],
+                ['Configuration', 'Konfiguration', 'ModulesPslegalcomplianceAdmin'],
+                ['Cron', 'Cron', 'ModulesPslegalcomplianceAdmin'],
+                ['Logs', 'Logs', 'ModulesPslegalcomplianceAdmin'],
+                ['Maintenance', 'Wartung', 'ModulesPslegalcomplianceAdmin'],
+                ['License', 'Lizenz', 'ModulesPslegalcomplianceAdmin'],
+                ['Payment', 'Status & Zahlung', 'ModulesPslegalcomplianceAdmin'],
             ],
         ];
     }
@@ -274,5 +276,10 @@ class Settings extends AbstractSettings
 
             return true;
         };
+    }
+
+    public function help(): string
+    {
+        return '';
     }
 }
